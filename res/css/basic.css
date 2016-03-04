@@ -1,0 +1,399 @@
+*
+{
+	font-size: 15px;
+	font-family: Verdana;
+}
+
+a:link, a:visited
+{
+    color: #555555;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.height_32
+{
+    height: 32px;
+}
+
+.width_32
+{
+    width: 32px;
+}
+
+.height_100
+{
+    height: 100px;
+}
+
+.width_100
+{
+    width: 100px;
+}
+
+.height_300
+{
+	height: 300px;
+}
+
+.width_300
+{
+	width: 300px;
+}
+
+.height_400
+{
+	height: 400px;
+}
+
+.width_400
+{
+	width: 400px;
+}
+
+.component-button
+{
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    margin: 5px;
+    outline: medium none;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.component-button:hover
+{
+    border: 1px solid #888888;
+}
+
+.component-button-image
+{
+    border: 0 none;
+    margin: 0 auto;
+	display: block;
+	width: 64px;
+	height: 64px;
+}
+
+.list
+{
+	background-image: url( "../images/list.png" );
+	background-position: 0% 0%;
+}
+
+.add-component-button
+{
+	background-image: url( "../images/add-64.png" );
+	background-position: 0% 0%;
+}
+
+.settings
+{
+	background-image: url( "../images/settings.png" );
+	background-position: 0% 0%;
+}
+
+.exit
+{
+	background-image: url( "../images/exit.png" );
+	background-position: 0% 0%;
+}
+
+.component-button-label
+{
+    display: block;
+    line-height: 10px;
+    margin-top: 7px;
+    text-align: center;
+	font-size: 12px;
+}
+
+li .ui-icon-close
+{ 
+	float: left; 
+	margin: 0.4em 0.2em 0 0; 
+	cursor: pointer;
+}
+
+.valign_child
+{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.jsdialogs-loading
+{
+    background: url("../images/loading.gif") no-repeat scroll center center rgba(0, 0, 0, 0);
+    float: left;
+    height: 32px;
+    margin-right: 10px;
+    width: 32px;
+}
+
+.valign_helper
+{
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    width: 0;
+}
+
+.toolbar-button
+{
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    margin: 2px 2px 2px 0;
+    outline: medium none;
+    padding: 2px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.toolbar-button:hover
+{
+    border: 1px solid #888888;
+}
+
+.ui-widget
+{
+	font-size: 0.7em;
+}
+
+.nice-table
+{
+    border: solid #ccc 1px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 1px #ccc; 
+    -moz-box-shadow: 0 1px 1px #ccc; 
+    box-shadow: 0 1px 1px #ccc;         
+}
+ 
+.nice-table tr:hover
+{
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;     
+}    
+ 
+.nice-table td, .nice-table th
+{
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;    
+}
+ 
+.nice-table th
+{
+    background-color: #dce9f9;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+    background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:     -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:      -o-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:         linear-gradient(top, #ebf3fc, #dce9f9);
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; 
+    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;  
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;        
+    border-top: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5); 
+}
+ 
+.nice-table td:first-child, .nice-table th:first-child
+{
+    border-left: none;
+}
+ 
+.nice-table th:first-child
+{
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+ 
+.nice-table th:last-child
+{
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+ 
+.nice-table th:only-child
+{
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+ 
+.nice-table tr:last-child td:first-child
+{
+    -moz-border-radius: 0 0 0 6px;
+    -webkit-border-radius: 0 0 0 6px;
+    border-radius: 0 0 0 6px;
+}
+ 
+.nice-table tr:last-child td:last-child
+{
+    -moz-border-radius: 0 0 6px 0;
+    -webkit-border-radius: 0 0 6px 0;
+    border-radius: 0 0 6px 0;
+}
+
+.action {
+	cursor: pointer;
+	margin-top: 4px;
+	display: block;
+	height: 48px;
+	width: 48px;
+	float: left;
+}
+
+.add
+{
+	background-image: url( "../images/add.png" );
+	background-position: 0% 0%;
+}
+
+.list
+{
+	background-image: url( "../images/list.png" );
+	background-position: 0% 0%;
+}
+
+.delete
+{
+	background-image: url( "../images/delete.png" );
+	background-position: 0% 0%;
+}
+
+.edit
+{
+	background-image: url( "../images/edit.png" );
+	background-position: 0% 0%;
+}
+
+.save
+{
+	background-image: url( "../images/save.png" );
+	background-position: 0% 0%;
+}
+
+.chart
+{
+	background-image: url( "../images/chart.png" );
+	background-position: 0% 0%;
+}
+
+.add:hover
+{
+	background-image: url( "../images/add.png" );
+	background-position: 0% 100%;
+}
+
+.list:hover
+{
+	background-image: url( "../images/list.png" );
+	background-position: 0% 100%;
+}
+
+.delete:hover
+{
+	background-image: url( "../images/delete.png" );
+	background-position: 0% 100%;
+}
+
+.edit:hover
+{
+	background-image: url( "../images/edit.png" );
+	background-position: 0% 100%;
+}
+
+.save:hover
+{
+	background-image: url( "../images/save.png" );
+	background-position: 0% 100%;
+}
+
+.chart:hover
+{
+	background-image: url( "../images/chart.png" );
+	background-position: 0% 100%;
+}
+
+.hidden
+{
+	display: none;
+}
+
+.toolbar-simple
+{
+	height: 48px;
+}
+
+.toolbar-1
+{
+	width: 48px;
+	height: 48px;
+	margin: 0 auto;
+}
+
+.toolbar-2
+{
+	width: 96px;
+	height: 48px;
+	margin: 0 auto;
+}
+
+.toolbar-3
+{
+	width: 144px;
+	height: 48px;
+	margin: 0 auto;
+}
+
+.toolbar-4
+{
+	width: 192px;
+	height: 48px;
+	margin: 0 auto;
+}
+
+.toolbar-5
+{
+	width: 240px;
+	height: 48px;
+	margin: 0 auto;
+}
+
+.margin-top-20
+{
+	margin-top: 20px;
+}
+
+.margin-bottom-20
+{
+	margin-bottom: 20px;
+}
+
+textarea
+{
+	padding: 1px;
+}
+
+.ct-chart .ct-label.ct-horizontal
+{
+  text-align: center;
+}
+
+.ct-line .ct-label.ct-horizontal
+{
+  text-align: center;
+}
