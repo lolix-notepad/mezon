@@ -4,6 +4,16 @@
 
     $MEZON_PATH = dirname( dirname( __FILE__ ) );
 
+    //TODO: make possible to add multiple css files or values to the setting
+    //example: set_config_value( 'res/images/[]' , '@mezon-http-path/res/images/favicon.ico' );
+    $AppConfig = array(
+        'res' => array(
+            'css' => array(
+                '@mezon-http-path/res/css/application.css'
+            )
+        )
+    );
+    
     function            expand_string( $String )
     {
         global          $AppConfig;
@@ -59,18 +69,9 @@
         set_config_value_rec( $AppConfig[ $Route[ 0 ] ] , array_slice( $Route , 1 ) , $Value );
     }
 
-    set_config_value( '@app-http-path' , 'http://'.$_SERVER[ 'HTTP_HOST' ] );
-    set_config_value( '@mezon-http-path' , 'http://'.$_SERVER[ 'HTTP_HOST' ] );
+    set_config_value( '@app-http-path' , 'http://'.$_SERVER[ 'HTTP_HOST' ].'/'.trim( $_SERVER[ 'REQUEST_URI' ] , '/' ) );
+    set_config_value( '@mezon-http-path' , 'http://'.$_SERVER[ 'HTTP_HOST' ].'/'.trim( $_SERVER[ 'REQUEST_URI' ] , '/' ) );
 
-    $AppConfig = array(
-        'res' => array(
-            'css' => array(
-                '@mezon-http-path/res/css/application.css'
-            ) , 
-            'images' => array(
-                'favicon' => '@framework-http-path/res/images/favicon.ico'
-            )
-        )
-    );
+    set_config_value( 'res/images/favicon' , '@mezon-http-path/res/images/favicon.ico' );
 
 ?>

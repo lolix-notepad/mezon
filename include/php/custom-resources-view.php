@@ -5,9 +5,15 @@
     */
     class           CustomResourcesView
     {
-        public static       $Instance = false;
+        /**
+        *   Single instance of the class.
+        */
+        private static       $Instance = false;
 
-        public static       $CSSFiles = false;
+        /**
+        *   Custom CSS files to be included.
+        */
+        private static       $CSSFiles = false;
 
         /**
         *   Construct singleton.
@@ -44,7 +50,7 @@
         /**
         *   Additing css file.
         */
-        static function     add_css_file( $CSSFile )
+        function            add_css_file( $CSSFile )
         {
             self::$CSSFiles [] = expand_string( $CSSFile );
         }

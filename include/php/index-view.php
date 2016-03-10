@@ -6,8 +6,9 @@
         {
             global          $MEZON_PATH;
 
-            Application::$Engine->set_default_page_vars();
-            Application::$Engine->set_page_var( 'title' , 'Главная' );
+            $Engine = new TemplateEngine();
+            $Engine->set_default_page_vars();
+            $Engine->set_page_var( 'title' , 'Главная' );
 
             if( @$_SESSION[ 'logged-in' ] )
             {

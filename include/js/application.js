@@ -1,5 +1,5 @@
 /**
-*	Замена создержимого блока на progress bar.
+*	Replace any DOM element with the progress bar.
 */
 function			progress_control( Selector )
 {
@@ -11,7 +11,7 @@ function			progress_control( Selector )
 }
 
 /**
-*	Аяксовый запрос с выгрузкой результата.
+*	AJAX request function.
 */
 function			ajax_request( URL , Data , Selector , Async , Success )
 {
@@ -38,9 +38,9 @@ function			ajax_request( URL , Data , Selector , Async , Success )
 }
 
 /**
-*	Добавление вкладки.
+*	Additing tab.
 */
-function			add_tab( TabTitle )
+function			add_empty_tab( TabTitle )
 {
 	var			label = TabTitle , 
 				id = "tabs-" + TabCounter , 
@@ -57,30 +57,28 @@ function			add_tab( TabTitle )
 }
 
 /**
-*	Создание вкладки с подтягиванием её содержимого через аякс.
+*	Creating tab with the AJAX content.
 */
-function			create_ajax_tab( URL , Data , Title )
+function            open_entity_list_in_tab( URL , Title )
 {
-	var			TabId = add_tab( Title );
+    add_empty_tab( Title );
 
-	progress_control( '#' + TabId );
-
-	ajax_request( URL , Data , '#' + TabId );
+    //progress_control( Selector );
 }
 
 /**
-*	Объекты и переменные для создания табового интерфейса.
+*	Global objects.
 */
 var					TabCounter = 2 , 
 					TabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Закрыть вкладку</span></li>";
 
 /**
-*	Функция подтверждения намеренья выполнить действие.
+*	Confirmation function.
 */
 var					ShureFunction = function(){};
 
 /**
-*	Функция открытия диалога подтверждения действия.
+*	Function shows confirmation dialog.
 */
 function			open_shure_dialog( Message , Function )
 {
@@ -91,76 +89,6 @@ function			open_shure_dialog( Message , Function )
 	{
 		Function();
 	}
-}
-
-/**
-*	Компиляция данных.
-*/
-function			dispatch_fields( GridGenerationData )
-{
-	var			Data = {};
-
-	for( var i = 0 ; i < GridGenerationData.length ; i++ )
-	{
-		var			ItemName = jQuery( GridGenerationData[ i ] ).attr( 'name' );
-
-		if( ItemName.indexOf( '[]' ) != -1  )
-		{
-			if( !Data[ ItemName.replace( '[]',  '' ) ] )
-			{
-				Data[ ItemName.replace( '[]',  '' ) ] = [];
-			}
-			Data[ ItemName.replace( '[]',  '' ) ].push( jQuery( GridGenerationData[ i ] ).val() );
-		}
-		else
-		{
-			Data[ ItemName ] = jQuery( GridGenerationData[ i ] ).val();
-		}
-	}
-
-	return( Data );
-}
-
-/**
-*	Компиляция данных.
-*/
-function			get_grid_generation_data()
-{
-	var			TabId = jQuery( "#tabs" ).find( 'div:visible.ui-tabs-panel' ).attr( 'id' );
-
-	var			GridGenerationData = jQuery( "#" + TabId ).find( 'input[type=hidden]' );
-
-	return( dispatch_fields( GridGenerationData ) );
-}
-
-/**
-*	Функция удаления сущности.
-*/
-function			delete_entity( HandlerURL , EntityId )
-{
-	var			Data = get_grid_generation_data();
-
-	return(
-		function()
-		{
-			var			TabId = jQuery( "#tabs" ).find( 'div:visible.ui-tabs-panel' ).attr( 'id' );
-			progress_control( '#' + TabId );
-
-			ajax_request( 
-				HandlerURL , 
-				{ 
-					'command' : 'delete' , 'id' : EntityId 
-				} , '' , true , 
-				function( Result )
-				{
-					jQuery( '#result-dialog' ).dialog( 'open' );
-					jQuery( '#result-dialog' ).html( Result );
-
-					ajax_request( HandlerURL , Data , '#' + TabId );
-				}
-			);
-		}
-	);
 }
 
 jQuery(

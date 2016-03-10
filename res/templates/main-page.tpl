@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>{title}</title>
+        <title></title>
         <script src="{conf/@mezon-http-path}/include/js/jquery-2.1.1.min.js"></script>
         <script src="{conf/@mezon-http-path}/include/js/jquery-ui.min.js"></script>
         <script src="{conf/@mezon-http-path}/include/js/application.js"></script>

@@ -8,10 +8,10 @@
     */
     class           Application
     {
-        public static           $Instance = false;
-
-        // TODO: make a template engine object with singleton
-        public static           $Engine = false;
+        /**
+        *   Single instance of the class.
+        */
+        private static           $Instance = false;
 
         /**
         *   Singleton сonstructor.
@@ -21,8 +21,6 @@
             if( self::$Instance === false )
             {
                 self::$Instance = $this;
-
-                self::$Engine = new TemplateEngine();
             }
         }
 
@@ -50,6 +48,12 @@
         private function        process_controller_call( $RoutePart , $Method = 'run' )
         {
             global          $MEZON_PATH;
+
+            if( file_exists( $MEZON_PATH.'/include/php/'.$RoutePart.'-controller.php' ) == false )
+            {
+                throw( new Exception( 'File '.$MEZON_PATH.'/include/php/'.$RoutePart.'-controller.php not found' ) );
+            }
+
             require_once( $MEZON_PATH.'/include/php/'.$RoutePart.'-controller.php' );
             $ControllerName = $this->get_class_name( $RoutePart , 'Controller' );
             $ControllerObject = new $ControllerName();
@@ -62,6 +66,12 @@
         private function        process_view_call( $RoutePart , $Method = 'run' )
         {
             global          $MEZON_PATH;
+
+            if( file_exists( $MEZON_PATH.'/include/php/'.$RoutePart.'-view.php' ) == false )
+            {
+                throw( new Exception( 'File '.$MEZON_PATH.'/include/php/'.$RoutePart.'-view.php not found' ) );
+            }
+
             require_once( $MEZON_PATH.'/include/php/'.$RoutePart.'-view.php' );
             $ViewName = $this->get_class_name( $RoutePart , 'View' );
             $ViewObject = new $ViewName();
@@ -77,17 +87,17 @@
         }
 
         /**
-        *   Обработка четырёхкомпонентных маршрутов. bundle-name - название папки в /include/php/
+        *   Processing four component routes. bundle-name - directory name в /include/php/
         *
         *   @example domain.com/bundle-name/[view|controller|route]/class-name/class-action
         */
         public function         parse_exact_route( $Route )
         {
-            // TODO: реализовать
+            // TODO: implement
         }
 
         /**
-        *   Обработка трёхкомпонентных маршрутов. bundle-name - название папки в /include/php/
+        *   Processing three component routes. bundle-name - directory name в /include/php/
         *
         *   @example domain.com/[view|controller|bundle-name|route]/class-name/class-action
         */
@@ -105,13 +115,13 @@
                 $Content = $this->process_view_call( $Route[ 1 ] , $Route[ 2 ] );
             }
 
-            // TODO: реализовать bundle-name/class-name/class-action
+            // TODO: implement bundle-name/class-name/class-action
 
             return( $Content );
         }
 
         /**
-        *   Обработка двухкомпонентных маршрутов.
+        *   Processing two component routes.
         *
         *   @example domain.com/[view|controller|bundle-name|route]/class-name
         */
@@ -125,7 +135,7 @@
         }
 
         /**
-        *   Обработка однокомпонентных маршрутов.
+        *   Processing one component routes.
         *
         *   @example domain.com/class-name/[will be defaulted to "run"]
         */
@@ -137,16 +147,16 @@
         }
 
         /**
-        *   Обработка видов и контроллеров.
+        *   Processing views and controllers.
         */
         private function        parse_controller_view_route( $Route )
         {
             switch( count( $Route ) )
             {
                 case( 1 ): 
-                    if( method_exists( $this , $Route[ 0 ] ) )
+                    if( method_exists( $this , 'action_'.$Route[ 0 ] ) )
                     {
-                        $MethodName = $Route[ 0 ];
+                        $MethodName = 'action_'.$Route[ 0 ];
                         return( $this->$MethodName() );
                     }
                     else
@@ -162,7 +172,7 @@
         }
 
         /**
-        *   Обрабатываем подготовленый роут.
+        *   Processing prepared route.
         */
         public function         parse_route( $Route )
         {
@@ -175,25 +185,33 @@
         }
 
         /**
-        *   Главная страница.
+        *   Main page.
         */
-        public function         index()
+        public function         action_index()
         {
             return( $this->parse_simple_route( array( 'index' ) ) );
         }
 
         /**
-        *   Обрабатываем роут.
+        *   Processing route.
         */
         public function         run()
         {
-            $Route = explode( '/' , trim( @$_GET[ 'r' ] , '/' ) );
+            try
+            {
+                $Route = explode( '/' , trim( @$_GET[ 'r' ] , '/' ) );
 
-            $Content = $this->parse_route( $Route );
+                $Content = $this->parse_route( $Route );
 
-            self::$Engine->compile_page_vars( $Content );
+                $Engine = new TemplateEngine();
+                $Engine->compile_page_vars( $Content );
 
-            print( $Content );
+                print( $Content );
+            }
+            catch( Exception $e )
+            {
+                print( '<pre>'.$e );
+            }
         }
     }
 

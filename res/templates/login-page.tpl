@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>{title}</title>
+        <title></title>
         <script src="{conf/@mezon-http-path}/include/js/jquery-2.1.1.min.js"></script>
         <script src="{conf/@mezon-http-path}/include/js/jquery-ui.min.js"></script>
         <link rel="stylesheet" href="{conf/@mezon-http-path}/res/css/jquery-ui.css">
@@ -41,7 +41,7 @@
     </head>
 
     <body>
-        <div id="dialog-modal" title="{title}" style="display: none;">
+        <div id="dialog-modal" title="" style="display: none;">
             <form id="login-form" method="post">
                 <table width="140">
                     <tr>
