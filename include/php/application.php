@@ -3,6 +3,10 @@
     global          $MEZON_PATH;
     require_once( $MEZON_PATH.'/include/php/template-engine.php' );
 
+    //TODO: implement /class_name/action routes and class lookup with name 'class_name' in %mezon-path%/vendor/ 
+    //TODO: implement class lookup with name 'class_name' in %mezon-path%/vendor/bundle-name for routes /bundle/class/action/
+    //TODO: illegal routes must return 404 code but not output exception description
+
     /**
     *   Base class of the application.
     */
@@ -43,113 +47,9 @@
         }
 
         /**
-        *   Processing controller.
-        */
-        private function        process_controller_call( $RoutePart , $Method = 'run' )
-        {
-            global          $MEZON_PATH;
-
-            if( file_exists( $MEZON_PATH.'/include/php/'.$RoutePart.'-controller.php' ) == false )
-            {
-                throw( new Exception( 'File '.$MEZON_PATH.'/include/php/'.$RoutePart.'-controller.php not found' ) );
-            }
-
-            require_once( $MEZON_PATH.'/include/php/'.$RoutePart.'-controller.php' );
-            $ControllerName = $this->get_class_name( $RoutePart , 'Controller' );
-            $ControllerObject = new $ControllerName();
-            $ControllerObject->run();
-        }
-
-        /**
-        *   Processing view.
-        */
-        private function        process_view_call( $RoutePart , $Method = 'run' )
-        {
-            global          $MEZON_PATH;
-
-            if( file_exists( $MEZON_PATH.'/include/php/'.$RoutePart.'-view.php' ) == false )
-            {
-                throw( new Exception( 'File '.$MEZON_PATH.'/include/php/'.$RoutePart.'-view.php not found' ) );
-            }
-
-            require_once( $MEZON_PATH.'/include/php/'.$RoutePart.'-view.php' );
-            $ViewName = $this->get_class_name( $RoutePart , 'View' );
-            $ViewObject = new $ViewName();
-
-            if( method_exists( $ViewObject , $Method ) )
-            {
-                return( $ViewObject->$Method() );
-            }
-            else
-            {
-                return( $ViewObject->virtual( $Method ) );
-            }
-        }
-
-        /**
-        *   Processing four component routes. bundle-name - directory name в /include/php/
-        *
-        *   @example domain.com/bundle-name/[view|controller|route]/class-name/class-action
-        */
-        public function         parse_exact_route( $Route )
-        {
-            // TODO: implement
-        }
-
-        /**
-        *   Processing three component routes. bundle-name - directory name в /include/php/
-        *
-        *   @example domain.com/[view|controller|bundle-name|route]/class-name/class-action
-        */
-        public function         parse_complex_route( $Route )
-        {
-            $Content = '';
-
-            if( $Route[ 0 ] == 'controller' )
-            {
-                $this->process_controller_call( $Route[ 1 ] , $Route[ 2 ] );
-            }
-
-            if( $Route[ 0 ] == 'view' )
-            {
-                $Content = $this->process_view_call( $Route[ 1 ] , $Route[ 2 ] );
-            }
-
-            // TODO: implement bundle-name/class-name/class-action
-
-            return( $Content );
-        }
-
-        /**
-        *   Processing two component routes.
-        *
-        *   @example domain.com/[view|controller|bundle-name|route]/class-name
-        */
-        public function         parse_common_route( $Route )
-        {
-            $Route [] = 'run';
-
-            // TODO: domain.com/class-name/action-name/
-
-            return( $this->parse_complex_route( $Route ) );
-        }
-
-        /**
-        *   Processing one component routes.
-        *
-        *   @example domain.com/class-name/[will be defaulted to "run"]
-        */
-        public function         parse_simple_route( $Route )
-        {
-            $this->process_controller_call( $Route[ 0 ] , 'run' );
-
-            return( $this->process_view_call( $Route[ 0 ] , 'run' ) );
-        }
-
-        /**
         *   Processing views and controllers.
         */
-        private function        parse_controller_view_route( $Route )
+        private function        call_route( $Route )
         {
             switch( count( $Route ) )
             {
@@ -161,12 +61,9 @@
                     }
                     else
                     {
-                        return( $this->parse_simple_route( $Route ) );
+                        throw( new Exception( 'Illegal route : '.$_GET[ 'r' ] ) );
                     }
                 break;
-                case( 2 ): return( $this->parse_common_route( $Route ) ); break;
-                case( 3 ): return( $this->parse_complex_route( $Route ) ); break;
-                case( 4 ): return( $this->parse_exact_route( $Route ) ); break;
                 default: throw( new Exception( 'Illegal route : '.$_GET[ 'r' ] ) ); break;
             }
         }
@@ -181,7 +78,7 @@
                 return( get_compiled_config_value( array_slice( $Route , 1 ) ) );
             }
 
-            return( $this->parse_controller_view_route( $Route ) );
+            return( $this->call_route( $Route ) );
         }
 
         /**

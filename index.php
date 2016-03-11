@@ -2,15 +2,8 @@
 
     require_once( './mezon.php' );
 
-    /*class           HelloWorldoApplication extends Application
-    {
-        public function action_index()
-        {
-            return( 'Hello world!' );
-        }
-    }
-
-    $App = new HelloWorldoApplication();
-    $App->run();/**/
+    /**
+    *   This the main file where you can place the code of your application.
+    */
 
 ?>
