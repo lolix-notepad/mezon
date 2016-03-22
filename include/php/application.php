@@ -3,7 +3,6 @@
     global          $MEZON_PATH;
     require_once( $MEZON_PATH.'/include/php/template-engine.php' );
 
-    //TODO: implement /class_name/action routes and class lookup with name 'class_name' in %mezon-path%/vendor/ 
     //TODO: implement class lookup with name 'class_name' in %mezon-path%/vendor/bundle-name for routes /bundle/class/action/
     //TODO: illegal routes must return 404 code but not output exception description
 
@@ -29,42 +28,87 @@
         }
 
         /**
-        *   Transfoming route in a class name.
+        *   Processing one component routes.
+        *
+        *   @example http://example.com/action-name/
         */
-        private function        get_class_name( $RoutePart , $Suffix )
+        private function        process_one_component_route( $Route )
         {
-            $Class = strtoupper( substr( $RoutePart , 0 , 1 ) ).substr( $RoutePart , 1 ).$Suffix;
-
-            while( strpos( $Class , '-' ) !== false )
+            if( method_exists( $this , 'action_'.$Route[ 0 ] ) )
             {
-                $Position = strpos( $Class , '-' );
-                $Class = substr( $Class , 0 , $Position ).
-                         strtoupper( substr( $Class , $Position + 1 , 1 ) ).
-                         substr( $Class , $Position + 2 );
+                $MethodName = 'action_'.$Route[ 0 ];
+                return( $this->$MethodName() );
             }
-
-            return( $Class );
+            else
+            {
+                throw( new Exception( 'Illegal route : '.$_GET[ 'r' ] ) );
+            }
         }
 
         /**
-        *   Processing views and controllers.
+        *   Transfoming the path of the route in the class name.
+        */
+        private function        get_class_name( $RoutePart )
+        {
+            $ClassName = strtoupper( substr( $RoutePart , 0 , 1 ) ).substr( $RoutePart , 1 );
+
+            while( strpos( $ClassName , '-' ) !== false )
+            {
+                $Position = strpos( $ClassName , '-' );
+                $ClassName = substr( $ClassName , 0 , $Position ).
+                         strtoupper( substr( $ClassName , $Position + 1 , 1 ) ).
+                         substr( $ClassName , $Position + 2 );
+            }
+
+            return( $ClassName );
+        }
+
+        /**
+        *   Processing one component routes.
+        *
+        *   @example http://example.com/class-name/action-name/
+        */
+        private function        process_two_component_route( $Route )
+        {
+            if( file_exists( $MEZON_PATH.'/vendor/'.$Route[ 0 ].'.php' ) )
+            {
+                require_once( $MEZON_PATH.'/vendor/'.$Route[ 0 ].'.php' );
+            }
+            else
+            {
+                throw( new Exception( 'File : '.$Route[ 0 ].' not found' ) );
+            }
+
+            $ClassName = $this->get_class_name( $Route[ 0 ] );
+            $Object = new $ClassName;
+
+            if( method_exists( $Object , 'action_'.$Route[ 1 ] ) )
+            {
+                $MethodName = 'action_'.$Route[ 1 ];
+                return( $Object->$MethodName() );
+            }
+            else
+            {
+                throw( new Exception( 'Method : '.$MethodName.' was not found in the class '.$ClassName ) );
+            }
+        }
+
+        /**
+        *   Processing all routes.
         */
         private function        call_route( $Route )
         {
             switch( count( $Route ) )
             {
                 case( 1 ): 
-                    if( method_exists( $this , 'action_'.$Route[ 0 ] ) )
-                    {
-                        $MethodName = 'action_'.$Route[ 0 ];
-                        return( $this->$MethodName() );
-                    }
-                    else
-                    {
-                        throw( new Exception( 'Illegal route : '.$_GET[ 'r' ] ) );
-                    }
+                    return( $this->process_one_component_route( $Route ) );
                 break;
-                default: throw( new Exception( 'Illegal route : '.$_GET[ 'r' ] ) ); break;
+                case( 2 ): 
+                    return( $this->process_two_component_route( $Route ) );
+                break;
+                default:
+                    throw( new Exception( 'Illegal route : '.$_GET[ 'r' ] ) );
+                break;
             }
         }
 
@@ -73,20 +117,13 @@
         */
         public function         parse_route( $Route )
         {
+            //TODO: implement in conf.php view class in /vendor/mezon-resources/
             if( count( $Route ) && $Route[ 0 ] == 'conf' )
             {
-                return( get_compiled_config_value( array_slice( $Route , 1 ) ) );
+                return( get_config_value( array_slice( $Route , 1 ) ) );
             }
 
             return( $this->call_route( $Route ) );
-        }
-
-        /**
-        *   Main page.
-        */
-        public function         action_index()
-        {
-            return( $this->parse_simple_route( array( 'index' ) ) );
         }
 
         /**

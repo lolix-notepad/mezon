@@ -1,5 +1,6 @@
 <?php
 
+    //TODO: move to vendor
     class           LoginController
     {
         public function         validate( $Login , $Password )
@@ -20,7 +21,7 @@
             }
             else
             {
-                // а тут что делаем???
+                // what should we do here?
             }
         }
     }

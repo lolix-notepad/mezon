@@ -1,5 +1,6 @@
 <?php
 
+    //TODO: move to vendor
     /**
     *   Class adds custom resources into the 'head' tag.
     */

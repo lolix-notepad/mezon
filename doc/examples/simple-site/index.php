@@ -9,7 +9,7 @@
         */
         public function action_index()
         {
-            return( 'This the main page of our simple site!' );
+            return( 'This is the main page of our simple site' );
         }
 
         /**
@@ -17,7 +17,7 @@
         */
         public function action_contacts()
         {
-            return( 'This the "Contacts" page' );
+            return( 'This is the "Contacts" page' );
         }
     }
 

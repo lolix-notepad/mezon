@@ -1,5 +1,6 @@
 <?php
 
+    //TODO: move to vendor
     class           LogoutController
     {
         public function         run()

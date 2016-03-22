@@ -1,5 +1,6 @@
 <?php
 
+    //TODO: move to vendor
     /**
     *   Class displays buttons on main page.
     */
@@ -26,7 +27,7 @@
         }
 
         /**
-        *   Компиляция простой кнопки.
+        *   Simple button compilation.
         */
         public function         compile_button( $ButtonName , $ButtonLabel )
         {
@@ -40,7 +41,7 @@
         }
 
         /**
-        *   Компиляция кнопки, которая открывает таб со списком сущностей.
+        *   Open entity tab button compilation.
         */
         public function         compile_entity_button( $Button )
         {
@@ -56,7 +57,7 @@
         }
 
         /**
-        *   Генерация тулбара для главной страницы.
+        *   Method generates toolbar.
         */
         public function         run()
         {

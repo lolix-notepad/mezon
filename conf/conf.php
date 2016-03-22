@@ -27,7 +27,7 @@
         return( $String );
     }
 
-    function            get_compiled_config_value( $Route )
+    function            get_config_value( $Route )
     {
         global          $AppConfig;
 
@@ -69,8 +69,8 @@
         set_config_value_rec( $AppConfig[ $Route[ 0 ] ] , array_slice( $Route , 1 ) , $Value );
     }
 
-    set_config_value( '@app-http-path' , 'http://'.$_SERVER[ 'HTTP_HOST' ].'/'.trim( $_SERVER[ 'REQUEST_URI' ] , '/' ) );
-    set_config_value( '@mezon-http-path' , 'http://'.$_SERVER[ 'HTTP_HOST' ].'/'.trim( $_SERVER[ 'REQUEST_URI' ] , '/' ) );
+    set_config_value( '@app-http-path' , 'http://'.@$_SERVER[ 'HTTP_HOST' ].'/'.trim( @$_SERVER[ 'REQUEST_URI' ] , '/' ) );
+    set_config_value( '@mezon-http-path' , 'http://'.@$_SERVER[ 'HTTP_HOST' ].'/'.trim( @$_SERVER[ 'REQUEST_URI' ] , '/' ) );
 
     set_config_value( 'res/images/favicon' , '@mezon-http-path/res/images/favicon.ico' );
 
