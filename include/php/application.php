@@ -3,9 +3,6 @@
     global          $MEZON_PATH;
     require_once( $MEZON_PATH.'/include/php/template-engine.php' );
 
-    //TODO: implement class lookup with name 'class_name' in %mezon-path%/vendor/bundle-name for routes /bundle/class/action/
-    //TODO: illegal routes must return 404 code but not output exception description
-
     /**
     *   Base class of the application.
     */

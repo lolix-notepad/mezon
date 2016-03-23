@@ -11,9 +11,7 @@
 
             $Content = file_get_contents( $URL.'/doc/examples/hello-world/' );
 
-            $this->expectOutputString( 'Hello world!' , 'Invalid index route' );
-
-            print( $Content );
+            $this->assertEquals( 'Hello world!' , $Content , 'Invalid index route' );
         }
 
         /**
@@ -25,9 +23,7 @@
 
             $Content = file_get_contents( $URL.'/doc/examples/simple-site/contacts/' );
 
-            $this->expectOutputString( 'This is the "Contacts" page' , 'Invalid contacts route' );
-
-            print( $Content );
+            $this->assertEquals( 'This is the "Contacts" page' , $Content , 'Invalid contacts route' );
         }
 
         /**
