@@ -4,17 +4,27 @@
 
     $MEZON_PATH = dirname( dirname( __FILE__ ) );
 
-    function            _expand_string( $String )
+    function            _expand_string( $Value )
     {
         global          $AppConfig;
 
-        $String = str_replace( 
-            array( '@app-http-path' , '@mezon-http-path' ) , 
-            array( @$AppConfig[ '@app-http-path' ] , @$AppConfig[ '@mezon-http-path' ] ) , 
-            $String
-        );
+        if( is_string( $Value ) )
+        {
+            $Value = str_replace( 
+                array( '@app-http-path' , '@mezon-http-path' ) , 
+                array( @$AppConfig[ '@app-http-path' ] , @$AppConfig[ '@mezon-http-path' ] ) , 
+                $Value
+            );
+        }
+        else
+        {
+            foreach( $Value as $FieldName => $FieldValue )
+            {
+                $Value[ $FieldName ] =  _expand_string( $FieldValue );
+            }
+        }
 
-        return( $String );
+        return( $Value );
     }
 
     /**
@@ -23,6 +33,11 @@
     function            get_config_value( $Route , $DefaultValue = false )
     {
         global          $AppConfig;
+
+        if( is_string( $Route ) )
+        {
+            $Route = explode( '/' , $Route );
+        }
 
         if( isset( $AppConfig[ $Route[ 0 ] ] ) === false )
         {
@@ -33,17 +48,15 @@
 
         for( $i = 1 ; $i < count( $Route ) ; $i++ )
         {
+            if( isset( $Value[ $Route[ $i ] ] ) === false )
+            {
+                return( false );
+            }
+
             $Value = $Value[ $Route[ $i ] ];
         }
 
-        if( is_array( $Value ) === false )
-        {
-            return( _expand_string( $Value ) );
-        }
-        else
-        {
-            return( false );
-        }
+        return( _expand_string( $Value ) );
     }
 
     function            _set_config_value_rec( &$Config , $Route , $Value )
@@ -74,7 +87,7 @@
 
         if( count( $Route ) > 1 )
         {
-            _set_config_value_rec( @$AppConfig[ $Route[ 0 ] ] , array_slice( $Route , 1 ) , $Value );
+            _set_config_value_rec( $AppConfig , $Route , $Value );
         }
         else
         {
@@ -84,20 +97,18 @@
 
     function            _add_config_value_rec( &$Config , $Route , $Value )
     {
-        if( count( $Route ) )
+        if( isset( $Config[ $Route[ 0 ] ] ) === false )
         {
-            _add_config_value_rec( @$Config[ $Route[ 0 ] ] , array_slice( $Route , 1 ) , $Value );
+            $Config[ $Route[ 0 ] ] = array();
         }
-        else
+
+        if( count( $Route ) > 1 )
         {
-            if( isset( $Config ) )
-            {
-                $Config = array();
-            }
-            if( is_array( $Config ) )
-            {
-                $Config [] = $Value;
-            }
+            _add_config_value_rec( $Config[ $Route[ 0 ] ] , array_slice( $Route , 1 ) , $Value );
+        }
+        elseif( count( $Route ) == 1 )
+        {
+            $Config[ $Route[ 0 ] ][] = $Value;
         }
     }
 
@@ -112,7 +123,7 @@
 
         if( count( $Route ) > 1 )
         {
-            _add_config_value_rec( @$AppConfig[ $Route[ 0 ] ] , array_slice( $Route , 1 ) , $Value );
+            _add_config_value_rec( $AppConfig , $Route , $Value );
         }
         else
         {
@@ -123,7 +134,8 @@
     set_config_value( '@app-http-path' , 'http://'.@$_SERVER[ 'HTTP_HOST' ].'/'.trim( @$_SERVER[ 'REQUEST_URI' ] , '/' ) );
     set_config_value( '@mezon-http-path' , 'http://'.@$_SERVER[ 'HTTP_HOST' ].'/'.trim( @$_SERVER[ 'REQUEST_URI' ] , '/' ) );
 
-    add_config_value( 'res/images/favicon' , '@mezon-http-path/res/images/favicon.ico' );
+    set_config_value( 'res/images/favicon' , '@mezon-http-path/res/images/favicon.ico' );
+
     add_config_value( 'res/css' , '@mezon-http-path/res/css/application.css' );
 
 ?>
