@@ -70,15 +70,9 @@ $App = new HelloWorldApplication();
 $App->run();
 ```
 
-##Routing##
+##More complex example of the 'Hello world' application##
 
-Now it is time to go deeper and find out how routes are working?
-
-###One component routes###
-
-Here and a little bit further we shall explore Mezon trying to create a simple web site.
-
-So here is our application (it can be found in %mezon-path%/doc/examples/simple-site/index.php):
+Lets imagine that we are creating a simple web site. So here is our application (it can be found in %mezon-path%/doc/examples/simple-site/index.php):
 
 ```PHP
 class           SiteApplication extends Application
@@ -109,6 +103,81 @@ In this example we can see the main page, wich is rendered by public function ac
 And the contacts page, wich is rendered by public function action_contacts(). It can be accessed by example.com/contacts/ URL.
 
 Quite simple, yeah? )
+
+##Routing##
+
+Now it is time to go deeper and find out how routes are working?
+
+###Simple routes###
+
+Example fot this paragraph can be found in %mezon-path%/doc/examples/router/index.php
+
+To be hounest you have already used it. But it was called implicitly.
+
+Router allows you to map URLs on your php code and call when ever it needs to be calld.
+
+Router supports simple routes like in the example above - example.com/contacts/
+
+Each Application object implicity creates routes for it's 'action_[action-name]' methods, where 'action-name' will be stored as a route. Here is small (au usual)) ) example:
+
+```PHP
+class           MySite
+{
+    /**
+    *   Main page.
+    */
+    public function action_index()
+    {
+        return( 'This is the main page of our simple site' );
+    }
+
+    /**
+    *   Contacts page.
+    */
+    public function action_contacts()
+    {
+        return( 'This is the "Contacts" page' );
+    }
+
+    /**
+    *   Some custom action handler.
+    */
+    public function some_other_page()
+    {
+        return( 'Some other page of our site' );
+    }
+}
+```
+
+And this code
+
+```PHP
+$Router = new Router();
+$Router->fetch_actions( $MySite = new MySite() );
+```
+
+will create router object and loads information about it's actions and create routes. Strictly it will create two routes, because the class MySite has only two methods wich start wth 'action_prefix'. Method 'some_other_page' will not be converted into route automatically.
+
+But we can still use this method as a route handler:
+
+```PHP
+$Router->add_route( 'some_any_other_route' , array( $MySite , 'some_other_page' ) );
+```
+
+We just need to create it explicitly.
+
+We can also use simple functions for route creation:
+
+```PHP
+function        sitemap()
+{
+    return( 'Some fake sitemap' );
+}
+
+$Router->add_route( 'sitemap' , 'sitemap' );
+```
+
+That's all for now.
 
 ##Configuration##
 

@@ -29,7 +29,9 @@
                 self::$Instance = $this;
             }
 
+            // getting application's actions
             $this->Router = new Router();
+            $this->Router->fetch_actions( $this );
         }
 
         /**
@@ -41,7 +43,7 @@
             {
                 $Route = explode( '/' , trim( @$_GET[ 'r' ] , '/' ) );
 
-                $Content = $this->Router->parse_route( $this , $Route );
+                $Content = $this->Router->call_route( $Route );
 
                 $Engine = new TemplateEngine();
                 $Engine->compile_page_vars( $Content );

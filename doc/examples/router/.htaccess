@@ -1,0 +1,8 @@
+# use mod_rewrite for pretty URL support
+RewriteEngine on
+
+RewriteRule ^res/css/(.*)$ res/css/$1 [L]
+RewriteRule ^res/js/(.*)$ res/js/$1 [L]
+RewriteRule ^res/images/(.*)$ res/images/$1 [L]
+RewriteRule ^([a-z0-9A-A_\/-]+)/?(.*)$ index.php?r=$1&%{QUERY_STRING} [L]
+RewriteRule ^/?(.*)$ index.php?r=index&%{QUERY_STRING} [L]

@@ -1,29 +1,44 @@
 <?php
 
+    require_once( dirname( __FILE__ ).'/../include/php/router.php' );
+
     class RouterTest extends PHPUnit_Framework_TestCase
     {
         /**
-        *   Testing simple default 'index' one component route.
+        *   Function simply returns string.
         */
-        public function testIndexRouter()
+        public function hello_world_output()
         {
-            $URL = 'http://gdzone.ru/mezon-mvc';
-
-            $Content = file_get_contents( $URL.'/doc/examples/hello-world/' );
-
-            $this->assertEquals( 'Hello world!' , $Content , 'Invalid index route' );
+            return( 'Hello world!' );
         }
 
         /**
-        *   Testing simple custom one component route.
+        *   Testing action #1.
         */
-        public function testCustomRoute()
+        public function action_a1()
         {
-            $URL = 'http://gdzone.ru/mezon-mvc';
+            return( 'action #1' );
+        }
 
-            $Content = file_get_contents( $URL.'/doc/examples/simple-site/contacts/' );
+        /**
+        *   Testing action #2.
+        */
+        public function action_a2()
+        {
+            return( 'action #2' );
+        }
 
-            $this->assertEquals( 'This is the "Contacts" page' , $Content , 'Invalid contacts route' );
+        /**
+        *   Testing one component router.
+        */
+        public function testOneComponentRouter()
+        {
+            $Router = new Router();
+            $Router->add_route( '/index/' , array( $this , 'hello_world_output' ) );
+
+            $Content = $Router->call_route( '/index/' );
+
+            $this->assertEquals( 'Hello world!' , $Content , 'Invalid index route' );
         }
 
         /**
@@ -31,11 +46,37 @@
         */
         public function testUnexistingRoute()
         {
-            $URL = 'http://gdzone.ru/mezon-mvc';
+            $Exception = '';
+            $Router = new Router();
+            $Router->add_route( '/index/' , array( $this , 'hello_world_output' ) );
 
-            $Content = file_get_contents( $URL.'/doc/examples/simple-site/unexisting-route/' );
+            try
+            {
+                $Router->call_route( '/unexisting-route/' );
+            }
+            catch( Exception $e )
+            {
+                $Exception = $e->getMessage();
+            }
 
-            $this->assertNotFalse( strpos( $Content , "exception 'Exception' with message 'Illegal route :" ) , 'Exception expected' );
+            $Msg = "The processor was not found for the route";
+
+            $this->assertNotFalse( strpos( $Exception , $Msg ) , 'Valid error handling expected' );
+        }
+
+        /**
+        *   Testing action fetching method.
+        */
+        public function testClassActions()
+        {
+            $Router = new Router();
+            $Router->fetch_actions( $this );
+
+            $Content = $Router->call_route( '/a1/' );
+            $this->assertEquals( 'action #1' , $Content , 'Invalid a1 route' );
+
+            $Content = $Router->call_route( '/a2/' );
+            $this->assertEquals( 'action #2' , $Content , 'Invalid a2 route' );
         }
     }
 

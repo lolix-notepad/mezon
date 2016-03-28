@@ -11,6 +11,11 @@
         private static           $Instance = false;
 
         /**
+        *   Mapping of routes to their execution functions.
+        */
+        private                  $Routes;
+
+        /**
         *   Singleton ñonstructor.
         */
         function __construct()
@@ -19,6 +24,8 @@
             {
                 self::$Instance = $this;
             }
+
+            $this->Routes = array();
         }
 
         /**
@@ -88,36 +95,53 @@
         }
 
         /**
-        *   Processing specified router.
+        *   Method fetches actions from the objects and creates routes for them.
         */
-        private function        call_route( $Object , $Route )
+        public function         fetch_actions( $Object )
         {
-            switch( count( $Route ) )
+            $Methods = get_class_methods( $Object );
+
+            foreach( $Methods as $i => $Method )
             {
-                case( 1 ): 
-                    return( $this->process_one_component_route( $Object , $Route ) );
-                break;
-                case( 2 ): 
-                    return( $this->process_two_component_route( $Route ) );
-                break;
-                default:
-                    throw( new Exception( 'Illegal route : '.$_GET[ 'r' ] ) );
-                break;
+                if( strpos( $Method , 'action_' ) === 0 )
+                {
+                    $Route = str_replace( array( 'action_' , '_' ) , array( '' , '-' ) , $Method );
+                    $this->Routes[ "/$Route/" ] = array( $Object , $Method );
+                }
             }
         }
 
         /**
-        *   Processing prepared route.
+        *   Method adds route and it's handler.
         */
-        public function         parse_route( $Object , $Route )
+        public function         add_route( $Route , $Callback )
         {
-            //TODO: implement in conf.php view class in /vendor/mezon-resources/
-            if( count( $Route ) && $Route[ 0 ] == 'conf' )
+            $Route = '/'.trim( $Route , '/' ).'/';
+
+            $this->Routes[ $Route ] = $Callback;
+        }
+
+        /**
+        *   Processing specified router.
+        */
+        public function        call_route( $Route )
+        {
+            if( is_array( $Route ) )
             {
-                return( get_config_value( array_slice( $Route , 1 ) ) );
+                $Route = implode( '/' , $Route );
             }
 
-            return( $this->call_route( $Object , $Route ) );
+            $Route = '/'.trim( $Route , '/' ).'/';
+
+            foreach( $this->Routes as $i => $Processor )
+            {
+                if( $i == $Route )
+                {
+                    return( call_user_func( $Processor ) );
+                }
+            }
+
+            throw( new Exception( 'The processor was not found for the route '.$Route ) );
         }
     }
 
