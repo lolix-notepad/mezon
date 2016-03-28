@@ -140,8 +140,6 @@
 
             $this->assertEquals( 'set-value-1' , $Value , 'Invalid unexisting-key value' );
         }
-
-        //TODO: create documentation for config manipulation routines
     }
 
 ?>
