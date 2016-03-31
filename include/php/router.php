@@ -135,9 +135,11 @@
 
             foreach( $this->Routes as $i => $Processor )
             {
-                if( $i == $Route )
+                // exact router or 'all router'
+                if( $i == $Route || $i == '/*/' )
                 {
-                    return( call_user_func( $Processor ) );
+                    // passing route path and parameters
+                    return( call_user_func( $Processor , $Route ) );
                 }
             }
 

@@ -13,6 +13,14 @@
         }
 
         /**
+        *   Function simply returns string.
+        */
+        static public function static_hello_world_output()
+        {
+            return( 'Hello static world!' );
+        }
+
+        /**
         *   Testing action #1.
         */
         public function action_a1()
@@ -31,7 +39,7 @@
         /**
         *   Testing one component router.
         */
-        public function testOneComponentRouter()
+        public function testOneComponentRouterClassMethod()
         {
             $Router = new Router();
             $Router->add_route( '/index/' , array( $this , 'hello_world_output' ) );
@@ -39,6 +47,32 @@
             $Content = $Router->call_route( '/index/' );
 
             $this->assertEquals( 'Hello world!' , $Content , 'Invalid index route' );
+        }
+
+        /**
+        *   Testing one component router.
+        */
+        public function testOneComponentRouterLambda()
+        {
+            $Router = new Router();
+            $Router->add_route( '/index/' , function(){return( 'Hello world!' );} );
+
+            $Content = $Router->call_route( '/index/' );
+
+            $this->assertEquals( 'Hello world!' , $Content , 'Invalid index route' );
+        }
+
+        /**
+        *   Testing one component router.
+        */
+        public function testOneComponentRouterStatic()
+        {
+            $Router = new Router();
+            $Router->add_route( '/index/' , 'RouterTest::static_hello_world_output' );
+
+            $Content = $Router->call_route( '/index/' );
+
+            $this->assertEquals( 'Hello static world!' , $Content , 'Invalid index route' );
         }
 
         /**
@@ -77,6 +111,75 @@
 
             $Content = $Router->call_route( '/a2/' );
             $this->assertEquals( 'action #2' , $Content , 'Invalid a2 route' );
+        }
+
+        /**
+        *   Testing one processor for all routes.
+        */
+        public function testSingleAllProcessor()
+        {
+            $Router = new Router();
+            $Router->add_route( '*' , array( $this , 'hello_world_output' ) );
+
+            $Content = $Router->call_route( '/some-route/' );
+
+            $this->assertEquals( 'Hello world!' , $Content , 'Invalid index route' );
+        }
+
+        /**
+        *   Testing one processor for all routes overlap.
+        */
+        public function testSingleAllProcessorOverlapUnexisting()
+        {
+            $Router = new Router();
+            $Router->add_route( '*' , array( $this , 'hello_world_output' ) );
+            $Router->add_route( '/index/' , 'RouterTest::static_hello_world_output' );
+
+            $Content = $Router->call_route( '/some-route/' );
+
+            $this->assertEquals( 'Hello world!' , $Content , 'Invalid index route' );
+        }
+
+        /**
+        *   Testing one processor for all routes overlap.
+        */
+        public function testSingleAllProcessorOverlapExisting()
+        {
+            $Router = new Router();
+            $Router->add_route( '*' , array( $this , 'hello_world_output' ) );
+            $Router->add_route( '/index/' , 'RouterTest::static_hello_world_output' );
+
+            $Content = $Router->call_route( '/index/' );
+
+            $this->assertEquals( 'Hello world!' , $Content , 'Invalid index route' );
+        }
+
+        /**
+        *   Testing one processor for all routes overlap.
+        */
+        public function testSingleAllProcessorExisting()
+        {
+            $Router = new Router();
+            $Router->add_route( '/index/' , 'RouterTest::static_hello_world_output' );
+            $Router->add_route( '*' , array( $this , 'hello_world_output' ) );
+
+            $Content = $Router->call_route( '/index/' );
+
+            $this->assertEquals( 'Hello static world!' , $Content , 'Invalid index route' );
+        }
+
+        /**
+        *   Testing one processor for all routes overlap.
+        */
+        public function testSingleAllProcessorUnexisting()
+        {
+            $Router = new Router();
+            $Router->add_route( '/index/' , 'RouterTest::static_hello_world_output' );
+            $Router->add_route( '*' , array( $this , 'hello_world_output' ) );
+
+            $Content = $Router->call_route( '/some-route/' );
+
+            $this->assertEquals( 'Hello world!' , $Content , 'Invalid index route' );
         }
     }
 

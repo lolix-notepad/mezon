@@ -177,7 +177,30 @@ function        sitemap()
 $Router->add_route( 'sitemap' , 'sitemap' );
 ```
 
-That's all for now.
+###One handler for all routes###
+
+You can specify one processor for all routes like this:
+
+```PHP
+$Router->add_route( '*' , function(){} );
+```
+
+Note that routing search will stops if the '*' handler will be found. For example:
+
+```PHP
+$Router->add_route( '*' , function(){} );
+$Router->add_route( '/index/' , function(){} );
+```
+
+In this example route /index/ will never be reached. All request will be passed to the '*' handler. But in this example:
+
+```PHP
+$Router->add_route( '/contacts/' , function(){} );
+$Router->add_route( '*' , function(){} );
+$Router->add_route( '/index/' , function(){} );
+```
+
+route /contacts/ will be processed by it's own handler, and all other routes (even /index/) will be processed by the '*' handler.
 
 ##Configuration##
 
