@@ -1,7 +1,9 @@
 <?php
 
-    //TODO: move to vendor
-    class           TemplateEngine
+    global          $MEZON_PATH;
+    require_once( $MEZON_PATH.'/vendor/singleton/singleton.php' );
+
+    class           TemplateEngine extends Singleton
     {
         /**
         *   Page variables.
@@ -25,7 +27,7 @@
         }
 
         /**
-        *   Place variables into the page.
+        *   Merge variables and template content.
         */
         private function        process_substitutions( &$Content )
         {

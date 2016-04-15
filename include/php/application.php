@@ -1,7 +1,7 @@
 <?php
 
     global          $MEZON_PATH;
-    require_once( $MEZON_PATH.'/include/php/template-engine.php' );
+    require_once( $MEZON_PATH.'/vendor/template-engine/template-engine.php' );
     require_once( $MEZON_PATH.'/include/php/router.php' );
 
     /**
