@@ -2,10 +2,13 @@
 
     require_once( dirname( __FILE__ ).'/conf/conf.php' );
 
-    require_once( $MEZON_PATH.'/include/php/application.php' );
     require_once( $MEZON_PATH.'/include/php/custom-resources-view.php' );
     require_once( $MEZON_PATH.'/include/php/main-page-buttons-view.php' );
     require_once( $MEZON_PATH.'/include/php/router.php' );
+
+	require_once( $MEZON_PATH.'/vendor/application/application.php' );
+	require_once( $MEZON_PATH.'/vendor/basic-application/basic-application.php' );
+	require_once( $MEZON_PATH.'/vendor/basic-template/basic-template.php' );
 
     //TODO: doc
     //TODO: virtual routes like in Klein router (or Yii)

@@ -3,6 +3,9 @@
     global          $MEZON_PATH;
     require_once( $MEZON_PATH.'/vendor/singleton/singleton.php' );
 
+	/**
+	*	Template engine class.
+	*/
     class           TemplateEngine extends Singleton
     {
         /**
@@ -19,36 +22,6 @@
         }
 
         /**
-        *   Setting default page variables.
-        */
-        public function         set_default_page_vars()
-        {
-            $this->PageVars[ 'title' ] = 'Page title';
-        }
-
-        /**
-        *   Merge variables and template content.
-        */
-        private function        process_substitutions( &$Content )
-        {
-            do
-            {
-                $Count = 0;
-                $Matches = array();
-                $Count = preg_match_all( "/\{([a-zA-Z_\-\/@]+)\}/" , $Content , $Matches );
-
-                for( $i = 0 ; $i < count( $Matches[ 1 ] ) ; $i++ )
-                {
-                    $Route = explode( '/' , $Matches[ 1 ][ $i ] );
-                    $Instance = new Application();
-                    $Subtitution = $Instance->parse_route( $Route );
-                    $Content = str_replace( '{'.$Matches[ 1 ][ $i ].'}' , $Subtitution , $Content );
-                }
-            }
-            while( $Count );
-        }
-
-        /**
         *   Compiling the page with it's variables.
         */
         public function         compile_page_vars( &$Content )
@@ -57,8 +30,6 @@
             {
                 $Content = str_replace( '{'.$Key.'}' , $Value , $Content );
             }
-
-            $this->process_substitutions( $Content );
         }
     }
 

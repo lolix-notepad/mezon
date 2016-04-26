@@ -10,45 +10,41 @@
     class           Application
     {
         /**
-        *   Single instance of the class.
-        */
-        private static          $Instance = false;
-
-        /**
         *   Router object.
         */
-        private                 $Router = false;
+        protected			$Router = false;
 
         /**
         *   Singleton сonstructor.
         */
-        function __construct()
+        function			__construct()
         {
-            if( self::$Instance === false )
-            {
-                self::$Instance = $this;
-            }
-
             // getting application's actions
             $this->Router = new Router();
+
             $this->Router->fetch_actions( $this );
         }
 
+		/**
+		*	Method calls route and returns it's content.
+		*/
+		protected function	call_route()
+		{
+			$Route = explode( '/' , trim( @$_GET[ 'r' ] , '/' ) );
+
+            $Content = $this->Router->call_route( $Route );
+
+			return( $Content );
+		}
+
         /**
-        *   Processing route.
+        *   Running application.
         */
-        public function         run()
+        public function		run()
         {
             try
             {
-                $Route = explode( '/' , trim( @$_GET[ 'r' ] , '/' ) );
-
-                $Content = $this->Router->call_route( $Route );
-
-                $Engine = new TemplateEngine();
-                $Engine->compile_page_vars( $Content );
-
-                print( $Content );
+                print( $this->call_route() );
             }
             catch( Exception $e )
             {

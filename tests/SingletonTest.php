@@ -103,14 +103,10 @@
         {
             $Object = hack();
 
-            //$this->expectOutputString( '' );
-
             $this->assertEquals( 1 , $Object->tmp , 'Params were not passed' );
 
-            //$Object->clear();
+            $Object->clear();
         }
-
-        // get_inctance function
     }
 
 ?>

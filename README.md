@@ -227,35 +227,3 @@ var_dump( get_config_value( 'res/value' ) ); // displays array( [0] => 'Value 1!
 ```
 
 That's all you need to know about config read/write.
-
-##Singletons rulezzzz##
-
-Almost all clases of the mezon works as common singletons. That's whu they require /vendor/singleton/singleton.php package.
-
-Include it like a common class and extend.
-
-```PHP
-global          $MEZON_PATH;
-require_once( $MEZON_PATH.'/vendor/singleton/singleton.php' );
-
-class           MyClass extends Singleton
-{
-    // your class
-}
-
-// creating new object
-$MyObject1 = MyClass::get_instance();
-
-// now $MyObject1 and $MyObject2 are links at the same object
-$MyObject2 = MyClass::get_instance();
-```
-
-It also cann not be cloned.
-
-```PHP
-// creating new object
-$MyObject1 = MyClass::get_instance();
-
-// Exception will be thrown
-$MyObject2 = clone $MyObject1;
-```

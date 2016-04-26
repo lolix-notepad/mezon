@@ -144,8 +144,15 @@
                 // exact router or 'all router'
                 if( $i == $Route || $i == '/*/' )
                 {
-                    // passing route path and parameters
-                    return( call_user_func( $Processor , $Route , array() ) );
+					if( is_callable( $Processor ) )
+					{
+						// passing route path and parameters
+						return( call_user_func( $Processor , $Route , array() ) );
+					}
+					else
+					{
+						throw( new Exception( "'$Processor' must be callable entity" ) );
+					}
                 }
             }
 
