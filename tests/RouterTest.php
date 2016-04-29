@@ -1,6 +1,6 @@
 <?php
 
-    require_once( dirname( __FILE__ ).'/../include/php/router.php' );
+    require_once( dirname( __FILE__ ).'/../vendor/router/router.php' );
 
     class RouterTest extends PHPUnit_Framework_TestCase
     {

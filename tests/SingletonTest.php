@@ -38,7 +38,7 @@
 
             $this->assertEquals( 'Default foo value' , $Object->tmp , 'Invalid object returned' );
 
-            $Object->clear();
+            $Object->destroy();
         }
 
         /**
@@ -54,7 +54,7 @@
             }
             catch( Exception $e )
             {
-                $Object->clear();
+                $Object->destroy();
                 return;
             }
 
@@ -72,8 +72,8 @@
             $this->assertEquals( 'Default foo value' , $Object1->tmp , 'Invalid object returned' );
             $this->assertEquals( 'Default bar value' , $Object2->tmp , 'Invalid object returned' );
 
-            $Object1->clear();
-            $Object2->clear();
+            $Object1->destroy();
+            $Object2->destroy();
         }
 
         /**
@@ -89,7 +89,7 @@
             }
             catch( Exception $e )
             {
-                $Object1->clear();
+                $Object1->destroy();
                 return;
             }
 
@@ -105,7 +105,7 @@
 
             $this->assertEquals( 1 , $Object->tmp , 'Params were not passed' );
 
-            $Object->clear();
+            $Object->destroy();
         }
     }
 

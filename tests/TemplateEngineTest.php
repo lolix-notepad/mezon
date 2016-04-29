@@ -18,6 +18,8 @@
 			$TemplateEngine->compile_page_vars( $Content );
 
 			$this->assertEquals( 1 , strpos( $Content , 'Value 1' ) , 'Substitution was not performed' );
+
+            $TemplateEngine->destroy();
         }
 
 		/**
@@ -36,6 +38,8 @@
 
 			$this->assertEquals( 1 , strpos( $Content , 'Value 1' ) , 'Substitution 1 was not performed' );
 			$this->assertEquals( 9 , strpos( $Content , 'Value 2' ) , 'Substitution 2 was not performed' );
+
+            $TemplateEngine->destroy();
         }
     }
 

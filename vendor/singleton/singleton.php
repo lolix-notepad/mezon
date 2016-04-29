@@ -55,9 +55,9 @@
         }
 
         /**
-        *   Clear object.
+        *   Destroy object.
         */
-        public function clear()
+        public function destroy()
         {
             $ClassName = get_called_class();
 
