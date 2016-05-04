@@ -227,3 +227,37 @@ var_dump( get_config_value( 'res/value' ) ); // displays array( [0] => 'Value 1!
 ```
 
 That's all you need to know about config read/write.
+
+##Database support##
+
+Mezon is using PDO PHP extension, so the following databases are supported:
+
+- CUBRID
+- MS SQL Server
+- Firebird
+- IBM
+- Informix
+- MySQL
+- MS SQL Server
+- Oracle
+- ODBC and DB2
+- PostgreSQL
+- SQLite
+- 4D
+
+PDO objects are wrapped with ProCrud class wich will help you to create simple CRUD routine.
+
+For example:
+
+```PHP
+$DataConnection = array(
+'dns' => 'mysql:host=localhost;dbname=testdb' , 
+'user' => 'user' ,
+'password' => 'password'
+);
+
+$CRUD = new PdoCrud();
+$CRUD->connect( $DataConnection );
+// fetching fields id and title from table test_table where ids are greater than 12
+$Records = $CRUD->select( 'id , title' , 'test_table' , 'id > 12' );
+```
