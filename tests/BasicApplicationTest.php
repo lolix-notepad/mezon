@@ -30,11 +30,18 @@
             $_GET[ 'r' ] = '/existing/';
 
             $this->expectOutputRegex( '/OK!!!/' );
-            $this->expectOutputRegex( '/head/' );
-            $this->expectOutputRegex( '/html/' );
-            $this->expectOutputRegex( '/title/' );
-            $this->expectOutputRegex( '/body/' );
+            $Application->run();
 
+            $this->expectOutputRegex( '/html/' );
+            $Application->run();
+
+            $this->expectOutputRegex( '/head/' );
+            $Application->run();
+
+            $this->expectOutputRegex( '/body/' );
+            $Application->run();
+
+            $this->expectOutputRegex( '/title/' );
             $Application->run();
         }
     }
