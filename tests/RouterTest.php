@@ -360,7 +360,6 @@
         */
         public function testValidExtractedParameter()
         {
-            $Exception = '';
             $Router = new Router();
             $Router->add_route( 
                 '/catalog/[a:cat_id]/' , function( $Route , $Parameters ){return($Parameters[ 'cat_id' ]);}
@@ -376,7 +375,6 @@
         */
         public function testValidExtractedParameters()
         {
-            $Exception = '';
             $Router = new Router();
             $Router->add_route( 
                 '/catalog/[a:cat_id]/[i:item_id]' , 
@@ -393,7 +391,6 @@
         */
         public function testValidRouteParameter()
         {
-            $Exception = '';
             $Router = new Router();
             $Router->add_route( 
                 '/catalog/' , 
@@ -411,6 +408,130 @@
             $Result = $Router->call_route( '/catalog/1024/' );
 
             $this->assertEquals( $Result , '/catalog/1024/' , 'Invalid extracted route' );
+        }
+
+        /**
+        *   Testing static routes for post requests.
+        */
+        public function testPostRequestForExistingStaticRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'POST';
+
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/' , 
+                function( $Route , $Parameters ){return($Route);} , 
+                'POST'
+            );
+
+            $Result = $Router->call_route( '/catalog/' );
+
+            $this->assertEquals( $Result , '/catalog/' , 'Invalid extracted route' );
+        }
+
+        /**
+        *   Testing dynamic routes for post requests.
+        */
+        public function testPostRequestForExistingDynamicRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'POST';
+
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/[i:cat_id]' , 
+                function( $Route , $Parameters ){return($Route);} , 
+                'POST'
+            );
+
+            $Result = $Router->call_route( '/catalog/1024/' );
+
+            $this->assertEquals( $Result , '/catalog/1024/' , 'Invalid extracted route' );
+        }
+
+        /**
+        *   Testing static routes for post requests.
+        */
+        public function testPostRequestForUnExistingStaticRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'POST';
+
+            $Exception = '';
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/' , array( $this , 'hello_world_output' )
+            );
+
+            try
+            {
+                $Router->call_route( '/catalog/' );
+            }
+            catch( Exception $e )
+            {
+                $Exception = $e->getMessage();
+            }
+
+            $Msg = "The processor was not found for the route /catalog/";
+
+            $this->assertNotFalse( strpos( $Exception , $Msg ) , 'Invalid error response' );
+        }
+
+        /**
+        *   Testing invalid alnum data types behaviour.
+        */
+        public function testPostRequestForUnExistingDynamicRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'POST';
+
+            $Exception = '';
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/[i:cat_id]' , array( $this , 'hello_world_output' )
+            );
+
+            try
+            {
+                $Router->call_route( '/catalog/1024/' );
+            }
+            catch( Exception $e )
+            {
+                $Exception = $e->getMessage();
+            }
+
+            $Msg = "The processor was not found for the route /catalog/1024/";
+
+            $this->assertNotFalse( strpos( $Exception , $Msg ) , 'Invalid error response' );
+        }
+
+        /**
+        *   Testing case when both GET and POST processors exists.
+        */
+        public function testGetPostRouteConcurrency()
+        {
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/' , function( $Route , $Parameters ){return('POST');} , 'POST'
+            );
+            $Router->add_route( 
+                '/catalog/' , function( $Route , $Parameters ){return('GET');} , 'GET'
+            );
+
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'POST';
+
+            $Result = $Router->call_route( '/catalog/' );
+
+            $this->assertEquals( $Result , 'POST' , 'Invalid selected route' );
+
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'GET';
+
+            $Result = $Router->call_route( '/catalog/' );
+
+            $this->assertEquals( $Result , 'GET' , 'Invalid selected route' );
         }
     }
 

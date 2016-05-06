@@ -202,6 +202,13 @@ $Router->add_route( '/index/' , function(){} );
 
 route /contacts/ will be processed by it's own handler, and all other routes (even /index/) will be processed by the '*' handler.
 
+You can bind handlers to different request types as shown bellow:
+
+```PHP
+$Router->add_route( '/contacts/' , function(){} , 'POST' ); // this handler will be called for POST requests
+$Router->add_route( '/contacts/' , function(){} , 'GET' );  // this handler will be called for GET requests
+```
+
 ##Configuration##
 
 Mezon has it's own config. It can be accesed with a set of functions, wich are described below.

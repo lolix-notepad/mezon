@@ -11,9 +11,14 @@
         private static           $Instance = false;
 
         /**
-        *   Mapping of routes to their execution functions.
+        *   Mapping of routes to their execution functions for GET requests.
         */
-        private                  $Routes;
+        private                  $GetRoutes;
+
+        /**
+        *   Mapping of routes to their execution functions for GET requests.
+        */
+        private                  $PostRoutes;
 
         /**
         *   Singleton ñonstructor.
@@ -25,7 +30,11 @@
                 self::$Instance = $this;
             }
 
-            $this->Routes = array();
+            $this->GetRoutes = array();
+
+            $this->PostRoutes = array();
+
+            $_SERVER[ 'REQUEST_METHOD' ] = isset( $_SERVER[ 'REQUEST_METHOD' ] ) ? $_SERVER[ 'REQUEST_METHOD' ] : 'GET';
         }
 
         /**
@@ -95,7 +104,7 @@
         }
 
         /**
-        *   Method fetches actions from the objects and creates routes for them.
+        *   Method fetches actions from the objects and creates GetRoutes for them.
         */
         public function         fetch_actions( $Object )
         {
@@ -106,7 +115,7 @@
                 if( strpos( $Method , 'action_' ) === 0 )
                 {
                     $Route = str_replace( array( 'action_' , '_' ) , array( '' , '-' ) , $Method );
-                    $this->Routes[ "/$Route/" ] = array( $Object , $Method );
+                    $this->GetRoutes[ "/$Route/" ] = array( $Object , $Method );
                 }
             }
         }
@@ -117,11 +126,18 @@
         *   $Callback function may have two parameters - $Route and $Parameters. Where $Route is a called route,
         *   and $Parameters is associative array (parameter name => parameter value) with URL parameters.
         */
-        public function         add_route( $Route , $Callback )
+        public function         add_route( $Route , $Callback , $Request = 'GET' )
         {
             $Route = '/'.trim( $Route , '/' ).'/';
 
-            $this->Routes[ $Route ] = $Callback;
+            switch( $Request )
+            {
+                case( 'GET' ) : $this->GetRoutes[ $Route ] = $Callback; break;
+
+                case( 'POST' ) : $this->PostRoutes[ $Route ] = $Callback; break;
+
+                default : throw( new Exception( 'Invalid request type '.$Request ) ); break;
+            }
         }
 
         /**
@@ -138,11 +154,11 @@
         }
 
         /**
-        *   Method tries to process static routes without any parameters.
+        *   Method searches route processor.
         */
-        private function        try_static_toutes( $Route )
+        private function        find_static_route_processor( &$Processors , $Route )
         {
-            foreach( $this->Routes as $i => $Processor )
+            foreach( $Processors as $i => $Processor )
             {
                 // exact router or 'all router'
                 if( $i == $Route || $i == '/*/' )
@@ -157,6 +173,21 @@
 						throw( new Exception( "'$Processor' must be callable entity" ) );
 					}
                 }
+            }
+
+            return( false );
+        }
+        
+        /**
+        *   Method tries to process static routes without any parameters.
+        */
+        private function        try_static_toutes( $Route )
+        {
+            switch( $_SERVER[ 'REQUEST_METHOD' ] )
+            {
+                case( 'GET' ) : return( $this->find_static_route_processor( $this->GetRoutes , $Route ) );
+
+                case( 'POST' ) : return( $this->find_static_route_processor( $this->PostRoutes , $Route ) );
             }
 
             return( false );
@@ -245,13 +276,13 @@
         }
 
         /**
-        *   Method tries to process dynamic routes with parameters.
+        *   Method searches dynamic route processor.
         */
-        private function        try_dynamic_toutes( $Route )
+        private function        find_dynamic_route_processor( &$Processors , $Route )
         {
             $CleanRoute = explode( '/' , trim( $Route , '/' ) );
 
-            foreach( $this->Routes as $i => $Processor )
+            foreach( $Processors as $i => $Processor )
             {
                 $CleanPattern = explode( '/' , trim( $i , '/' ) );
 
@@ -259,6 +290,21 @@
                 {
                     return( call_user_func( $Processor , $Route , $Parameters ) ); // return result of the router
                 }
+            }
+
+            return( false );
+        }
+
+        /**
+        *   Method tries to process dynamic routes with parameters.
+        */
+        private function        try_dynamic_toutes( $Route )
+        {
+            switch( $_SERVER[ 'REQUEST_METHOD' ] )
+            {
+                case( 'GET' ) : return( $this->find_dynamic_route_processor( $this->GetRoutes , $Route ) );
+
+                case( 'POST' ) : return( $this->find_dynamic_route_processor( $this->PostRoutes , $Route ) );
             }
 
             return( false );
