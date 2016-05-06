@@ -202,6 +202,8 @@ $Router->add_route( '/index/' , function(){} );
 
 route /contacts/ will be processed by it's own handler, and all other routes (even /index/) will be processed by the '*' handler.
 
+###Request types and first steps to the REST API###
+
 You can bind handlers to different request types as shown bellow:
 
 ```PHP
