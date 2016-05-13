@@ -6,7 +6,7 @@
 	require_once( $MEZON_PATH.'/vendor/basic-application/basic-application.php' );
 	require_once( $MEZON_PATH.'/vendor/basic-template/basic-template.php' );
 
-    //TODO: doc
+    //TODO: document BasicApplication
     //TODO: virtual routes like in Klein router (or Yii)
     //TODO: pass route parameters to the route processor
     //TODO: implement class lookup with name 'class_name' in %mezon-path%/vendor/bundle-name for routes /bundle/class/action/ + tests

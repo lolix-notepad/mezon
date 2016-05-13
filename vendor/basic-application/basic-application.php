@@ -5,6 +5,8 @@
 
 	/**
 	*	Basic application wich helps you to test yout ideas and create simple prototypes of your applications.
+    *
+    *   It is simply Application + BasicTemplate wich allows to construct applications with unified templates. And for all pages template will be the same.
 	*/
 	class			BasicApplication extends Application
 	{
@@ -30,7 +32,9 @@
 		{
 			try
             {
-				$this->Template->set_page_var( 'main' , $this->call_route() );
+                $Content = $this->call_route();
+
+				$this->Template->set_page_var( 'main' , $Content );
 
 				print( $this->Template );
             }
