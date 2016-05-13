@@ -411,7 +411,7 @@
         }
 
         /**
-        *   Testing static routes for post requests.
+        *   Testing static routes for POST requests.
         */
         public function testPostRequestForExistingStaticRoute()
         {
@@ -431,7 +431,7 @@
         }
 
         /**
-        *   Testing dynamic routes for post requests.
+        *   Testing dynamic routes for POST requests.
         */
         public function testPostRequestForExistingDynamicRoute()
         {
@@ -451,7 +451,7 @@
         }
 
         /**
-        *   Testing static routes for post requests.
+        *   Testing static routes for POST requests.
         */
         public function testPostRequestForUnExistingStaticRoute()
         {
@@ -479,7 +479,7 @@
         }
 
         /**
-        *   Testing invalid alnum data types behaviour.
+        *   Testing dynamic routes for POST requests.
         */
         public function testPostRequestForUnExistingDynamicRoute()
         {
@@ -507,9 +507,202 @@
         }
 
         /**
-        *   Testing case when both GET and POST processors exists.
+        *   Testing static routes for PUT requests.
         */
-        public function testGetPostRouteConcurrency()
+        public function testPutRequestForExistingStaticRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'PUT';
+
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/' , 
+                function( $Route , $Parameters ){return($Route);} , 
+                'PUT'
+            );
+
+            $Result = $Router->call_route( '/catalog/' );
+
+            $this->assertEquals( $Result , '/catalog/' , 'Invalid extracted route' );
+        }
+
+        /**
+        *   Testing dynamic routes for PUT requests.
+        */
+        public function testPutRequestForExistingDynamicRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'PUT';
+
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/[i:cat_id]' , 
+                function( $Route , $Parameters ){return($Route);} , 
+                'PUT'
+            );
+
+            $Result = $Router->call_route( '/catalog/1024/' );
+
+            $this->assertEquals( $Result , '/catalog/1024/' , 'Invalid extracted route' );
+        }
+
+        /**
+        *   Testing static routes for PUT requests.
+        */
+        public function testPutRequestForUnExistingStaticRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'PUT';
+
+            $Exception = '';
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/' , array( $this , 'hello_world_output' )
+            );
+
+            try
+            {
+                $Router->call_route( '/catalog/' );
+            }
+            catch( Exception $e )
+            {
+                $Exception = $e->getMessage();
+            }
+
+            $Msg = "The processor was not found for the route /catalog/";
+
+            $this->assertNotFalse( strpos( $Exception , $Msg ) , 'Invalid error response' );
+        }
+
+        /**
+        *   Testing dynamic routes for PUT requests.
+        */
+        public function testPutRequestForUnExistingDynamicRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'PUT';
+
+            $Exception = '';
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/[i:cat_id]' , array( $this , 'hello_world_output' )
+            );
+
+            try
+            {
+                $Router->call_route( '/catalog/1024/' );
+            }
+            catch( Exception $e )
+            {
+                $Exception = $e->getMessage();
+            }
+
+            $Msg = "The processor was not found for the route /catalog/1024/";
+
+            $this->assertNotFalse( strpos( $Exception , $Msg ) , 'Invalid error response' );
+        }
+
+        /**
+        *   Testing static routes for DELETE requests.
+        */
+        public function testDeleteRequestForExistingStaticRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'DELETE';
+
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/' , 
+                function( $Route , $Parameters ){return($Route);} , 
+                'DELETE'
+            );
+
+            $Result = $Router->call_route( '/catalog/' );
+
+            $this->assertEquals( $Result , '/catalog/' , 'Invalid extracted route' );
+        }
+
+        /**
+        *   Testing dynamic routes for DELETE requests.
+        */
+        public function testDeleteRequestForExistingDynamicRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'DELETE';
+
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/[i:cat_id]' , 
+                function( $Route , $Parameters ){return($Route);} , 
+                'DELETE'
+            );
+
+            $Result = $Router->call_route( '/catalog/1024/' );
+
+            $this->assertEquals( $Result , '/catalog/1024/' , 'Invalid extracted route' );
+        }
+
+        /**
+        *   Testing static routes for DELETE requests.
+        */
+        public function testDeleteRequestForUnExistingStaticRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'DELETE';
+
+            $Exception = '';
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/' , array( $this , 'hello_world_output' )
+            );
+
+            try
+            {
+                $Router->call_route( '/catalog/' );
+            }
+            catch( Exception $e )
+            {
+                $Exception = $e->getMessage();
+            }
+
+            $Msg = "The processor was not found for the route /catalog/";
+
+            $this->assertNotFalse( strpos( $Exception , $Msg ) , 'Invalid error response' );
+        }
+
+        /**
+        *   Testing dynamic routes for DELETE requests.
+        */
+        public function testDeleteRequestForUnExistingDynamicRoute()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'DELETE';
+
+            $Exception = '';
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/[i:cat_id]' , array( $this , 'hello_world_output' )
+            );
+
+            try
+            {
+                $Router->call_route( '/catalog/1024/' );
+            }
+            catch( Exception $e )
+            {
+                $Exception = $e->getMessage();
+            }
+
+            $Msg = "The processor was not found for the route /catalog/1024/";
+
+            $this->assertNotFalse( strpos( $Exception , $Msg ) , 'Invalid error response' );
+        }
+
+        /**
+        *   Testing case when both GET and POST processors exists.
+        *   
+        */
+        public function testGetPostPostDeleteRouteConcurrency()
         {
             $Router = new Router();
             $Router->add_route( 
@@ -517,6 +710,12 @@
             );
             $Router->add_route( 
                 '/catalog/' , function( $Route , $Parameters ){return('GET');} , 'GET'
+            );
+            $Router->add_route( 
+                '/catalog/' , function( $Route , $Parameters ){return('PUT');} , 'PUT'
+            );
+            $Router->add_route( 
+                '/catalog/' , function( $Route , $Parameters ){return('DELETE');} , 'DELETE'
             );
 
             global $_SERVER;
@@ -532,6 +731,20 @@
             $Result = $Router->call_route( '/catalog/' );
 
             $this->assertEquals( $Result , 'GET' , 'Invalid selected route' );
+
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'PUT';
+
+            $Result = $Router->call_route( '/catalog/' );
+
+            $this->assertEquals( $Result , 'PUT' , 'Invalid selected route' );
+
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'DELETE';
+
+            $Result = $Router->call_route( '/catalog/' );
+
+            $this->assertEquals( $Result , 'DELETE' , 'Invalid selected route' );
         }
     }
 

@@ -21,6 +21,16 @@
         private                  $PostRoutes;
 
         /**
+        *   Mapping of routes to their execution functions for PUT requests.
+        */
+        private                  $PutRoutes;
+
+        /**
+        *   Mapping of routes to their execution functions for DELETE requests.
+        */
+        private                  $DeleteRoutes;
+
+        /**
         *   Singleton ñonstructor.
         */
         function __construct()
@@ -33,6 +43,10 @@
             $this->GetRoutes = array();
 
             $this->PostRoutes = array();
+
+            $this->PutRoutes = array();
+
+            $this->DeleteRoutes = array();
 
             $_SERVER[ 'REQUEST_METHOD' ] = isset( $_SERVER[ 'REQUEST_METHOD' ] ) ? $_SERVER[ 'REQUEST_METHOD' ] : 'GET';
         }
@@ -136,6 +150,10 @@
 
                 case( 'POST' ) : $this->PostRoutes[ $Route ] = $Callback; break;
 
+                case( 'PUT' ) : $this->PutRoutes[ $Route ] = $Callback; break;
+
+                case( 'DELETE' ) : $this->DeleteRoutes[ $Route ] = $Callback; break;
+
                 default : throw( new Exception( 'Invalid request type '.$Request ) ); break;
             }
         }
@@ -188,6 +206,10 @@
                 case( 'GET' ) : return( $this->find_static_route_processor( $this->GetRoutes , $Route ) );
 
                 case( 'POST' ) : return( $this->find_static_route_processor( $this->PostRoutes , $Route ) );
+
+                case( 'PUT' ) : return( $this->find_static_route_processor( $this->PutRoutes , $Route ) );
+
+                case( 'DELETE' ) : return( $this->find_static_route_processor( $this->DeleteRoutes , $Route ) );
             }
 
             return( false );
@@ -305,6 +327,10 @@
                 case( 'GET' ) : return( $this->find_dynamic_route_processor( $this->GetRoutes , $Route ) );
 
                 case( 'POST' ) : return( $this->find_dynamic_route_processor( $this->PostRoutes , $Route ) );
+
+                case( 'PUT' ) : return( $this->find_dynamic_route_processor( $this->PutRoutes , $Route ) );
+
+                case( 'DELETE' ) : return( $this->find_dynamic_route_processor( $this->DeleteRoutes , $Route ) );
             }
 
             return( false );

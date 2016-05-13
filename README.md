@@ -209,6 +209,8 @@ You can bind handlers to different request types as shown bellow:
 ```PHP
 $Router->add_route( '/contacts/' , function(){} , 'POST' ); // this handler will be called for POST requests
 $Router->add_route( '/contacts/' , function(){} , 'GET' );  // this handler will be called for GET requests
+$Router->add_route( '/contacts/' , function(){} , 'PUT' );  // this handler will be called for PUT requests
+$Router->add_route( '/contacts/' , function(){} , 'DELETE' );  // this handler will be called for DELETE requests
 ```
 
 ##Configuration##
