@@ -262,13 +262,33 @@ For example:
 
 ```PHP
 $DataConnection = array(
-'dns' => 'mysql:host=localhost;dbname=testdb' , 
-'user' => 'user' ,
-'password' => 'password'
+    'dns' => 'mysql:host=localhost;dbname=testdb' , 
+    'user' => 'user' ,
+    'password' => 'password'
 );
 
 $CRUD = new PdoCrud();
 $CRUD->connect( $DataConnection );
 // fetching fields id and title from table test_table where ids are greater than 12
 $Records = $CRUD->select( 'id , title' , 'test_table' , 'id > 12' );
+```
+
+##Template engine##
+
+###Loading resources###
+
+Mezon has a simple storage wich stores CSS and JS files. When page is rendered, template engine accessing it and fetching files to put in the 'head' tag of the rendered page.
+
+Storage is globally accessed. So any componen can add it's own resources to the page.
+
+It can be done in this way:
+
+```PHP
+$TemplateResources = new TemplateResources(); // getting access to the global storage
+
+$TemplateResources->add_css_file( './res/test.css' ); // additing CSS file
+$TemplateResources->add_js_file( './include/js/test.js' ); // additing JS file
+
+$TemplateResources->add_css_files( array( './res/test1.css' , './res/test2.css' ) ); // additing CSS files
+$TemplateResources->add_js_files( array( './include/js/test1.js' , './include/js/test2.js' ) ); // additing JS files
 ```
