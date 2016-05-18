@@ -35,6 +35,26 @@
 
             $TemplateResources->clear();
         }
+
+        /**
+        *   Testing additing CSS files.
+        */
+        public function testDoublesExcluding()
+        {
+            $TemplateResources = new TemplateResources();
+
+            $this->assertEquals( 0 , count( $TemplateResources->get_css_files() ) , 'CSS files array must be empty' );
+
+			$TemplateResources->add_css_files( array( './res/test.css' , './res/test.css' ) );
+
+            $this->assertEquals( 1 , count( $TemplateResources->get_css_files() ) , 'CSS files array must be NOT empty' );
+
+			$TemplateResources->add_css_file( './res/test.css' );
+
+			$this->assertEquals( 1 , count( $TemplateResources->get_css_files() ) , 'CSS files array must be NOT empty' );
+
+            $TemplateResources->clear();
+        }
     }
 
 ?>

@@ -31,7 +31,11 @@
         */
         function        add_css_file( $CSSFile )
         {
-            self::$CSSFiles [] = _expand_string( $CSSFile );
+            // additing only unique paths
+            if( array_search( $CSSFile , self::$CSSFiles ) === false )
+            {
+                self::$CSSFiles [] = _expand_string( $CSSFile );
+            }
         }
 
         /**
@@ -39,7 +43,10 @@
         */
         function        add_css_files( $CSSFiles )
         {
-            self::$CSSFiles = array_merge( self::$CSSFiles , _expand_string( $CSSFiles ) );
+            foreach( $CSSFiles as $i => $CSSFile )
+            {
+                $this->add_css_file( $CSSFile );
+            }
         }
 
         /**

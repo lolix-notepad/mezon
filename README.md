@@ -289,6 +289,19 @@ $TemplateResources = new TemplateResources(); // getting access to the global st
 $TemplateResources->add_css_file( './res/test.css' ); // additing CSS file
 $TemplateResources->add_js_file( './include/js/test.js' ); // additing JS file
 
-$TemplateResources->add_css_files( array( './res/test1.css' , './res/test2.css' ) ); // additing CSS files
-$TemplateResources->add_js_files( array( './include/js/test1.js' , './include/js/test2.js' ) ); // additing JS files
+$TemplateResources->add_css_files( 
+    array( './res/test1.css' , './res/test2.css' )
+); // additing CSS files
+$TemplateResources->add_js_files(
+    array( './include/js/test1.js' , './include/js/test2.js' )
+); // additing JS files
+```
+
+Resource storage is quite intilligent so you can't add many files with the same paths.
+
+```PHP
+$TemplateResources = new TemplateResources(); // getting access to the global storage
+
+$TemplateResources->add_css_file( './res/test.css' ); // additing CSS file
+$TemplateResources->add_css_file( './res/test.css' ); // no file will be added
 ```
