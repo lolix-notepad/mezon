@@ -202,6 +202,22 @@ $Router->add_route( '/index/' , function(){} );
 
 route /contacts/ will be processed by it's own handler, and all other routes (even /index/) will be processed by the '*' handler.
 
+###Route variables###
+
+And now a little bit more complex routes:
+
+```PHP
+$Router->add_route( '/catalogue/[i:cat_id]/' , function( $Route , $Variables ){} );
+$Router->add_route( '/catalogue/[a:cat_name]/' , function( $Route , $Variables ){} );
+```
+
+Here:
+
+i - any integer number
+a - any [a-z0-9A-Z_\/-] string
+
+All this variables are passed as second function parameter wich is named in the example above - $Variales. All variables are passed as an associative array.
+
 ###Request types and first steps to the REST API###
 
 You can bind handlers to different request types as shown bellow:

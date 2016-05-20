@@ -240,7 +240,8 @@
                     }
                 break;
                 case( 'a' ):
-                    if( ctype_alnum( $Component ) )
+                    //if( ctype_alnum( $Component ) )
+                    if( preg_match( '/^([a-z0-9A-Z_\/-]+)$/' , $Component ) )
                     {
                         return( $ParameterData[ 1 ] );
                     }
