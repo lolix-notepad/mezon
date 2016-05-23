@@ -10,8 +10,6 @@
         {
             $MEZON_PATH = dirname( __FILE__ ).'/../';
             require_once( dirname( __FILE__ ).'/../mezon.php' );
-
-            //$this->expectOutputString( 'OK!' );
         }
     }
 

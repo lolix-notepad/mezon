@@ -36,7 +36,7 @@
 
 				$this->Template->set_page_var( 'main' , $Content );
 
-				print( $this->Template );
+				print( $this->Template->compile() );
             }
             catch( Exception $e )
             {
