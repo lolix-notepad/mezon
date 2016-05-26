@@ -1,0 +1,34 @@
+<?php
+
+    global          $MEZON_PATH;
+    require_once( $MEZON_PATH.'/vendor/template-resources/template-resources.php' );
+
+    /**
+    *   Base class of the assets.
+    */
+    class           Asset
+    {
+        /**
+        *   Array of CSS files.
+        */
+        protected $CSSFiles = false;
+
+        /**
+        *   Array of JS files.
+        */
+        protected $JSFiles = false;
+
+        /**
+        *   Including resources.
+        */
+        public function		include_files()
+        {
+            $TemplateResources = new TemplateResources();
+
+            $TemplateResources->add_css_files( $this->CSSFiles );
+
+            $TemplateResources->add_js_files( $this->JSFiles );
+        }
+    }
+
+?>

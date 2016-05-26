@@ -322,6 +322,8 @@ $TemplateResources->add_css_file( './res/test.css' ); // additing CSS file
 $TemplateResources->add_css_file( './res/test.css' ); // no file will be added
 ```
 
+But this way of additing resources is quite low level and it may be inconvinient for large number of resource files. So we have created assets. The documentation about it can be read [here](https://github.com/alexdodonov/mezon/tree/master/vendor/asset#assets-with-css-and-js-files)
+
 ###Basic template class###
 
 You can use BasicTemplate class to create your own templates. It provides functionality as described below:

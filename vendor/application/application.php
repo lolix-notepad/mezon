@@ -15,7 +15,7 @@
         protected			$Router = false;
 
         /**
-        *   Singleton сonstructor.
+        *   Constructor.
         */
         function			__construct()
         {

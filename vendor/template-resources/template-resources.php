@@ -16,6 +16,11 @@
         private static     $CSSFiles = false;
 
         /**
+        *   Custom JS files to be included.
+        */
+        private static     $JSFiles = false;
+
+        /**
         *   Constructor.
         */
         function __construct()
@@ -23,6 +28,10 @@
             if( self::$CSSFiles === false )
             {
                 self::$CSSFiles = array();
+            }
+            if( self::$JSFiles === false )
+            {
+                self::$JSFiles = array();
             }
         }
 
@@ -58,11 +67,44 @@
         }
 
         /**
+        *   Additing single CSS file.
+        */
+        function        add_js_file( $JSFile )
+        {
+            // additing only unique paths
+            if( array_search( $JSFile , self::$JSFiles ) === false )
+            {
+                self::$JSFiles [] = _expand_string( $JSFile );
+            }
+        }
+
+        /**
+        *   Additing multyple CSS files.
+        */
+        function        add_js_files( $JSFiles )
+        {
+            foreach( $JSFiles as $i => $JSFile )
+            {
+                $this->add_js_file( $JSFile );
+            }
+        }
+        
+        /**
+        *   Method returning added JS files.
+        */
+        function        get_js_files()
+        {
+            return( self::$JSFiles );
+        }
+
+        /**
         *   Method clears loaded resources.
         */
         function        clear()
         {
             self::$CSSFiles = array();
+
+            self::$JSFiles = array();
         }
     }
 
