@@ -11,13 +11,13 @@ git remote add mezon <your fork of the mezon project>
 ```
 
 ##First "Hello world" applications##
-- [First example of the simplies 'Hello world' application](https://github.com/alexdodonov/mezon/tree/master/doc/examples/hello-world/#hellow-world-example)
+- [First example of the simpliest 'Hello world' application](https://github.com/alexdodonov/mezon/tree/master/doc/examples/hello-world/#hellow-world-example)
 - [More compex example](https://github.com/alexdodonov/mezon/tree/master/doc/examples/simple-site/#simple-site-example)
 
 ##System level##
 - [Configuration](https://github.com/alexdodonov/mezon/tree/master/conf#configuration)
 - [Database support](https://github.com/alexdodonov/mezon/tree/master/vendor/pdo-crud#database-support)
-- [Routing](https://github.com/alexdodonov/mezon/tree/master/vendor/routing#routing)
+- [Routing](https://github.com/alexdodonov/mezon/tree/master/vendor/router#routing)
 
 ##Business level##
 - [HTTP Basic Authentication](https://github.com/alexdodonov/mezon/tree/master/vendor/basic-auth#http-basic-authentication)
