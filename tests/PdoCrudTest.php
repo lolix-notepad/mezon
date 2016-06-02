@@ -1,6 +1,8 @@
 <?php
 
-    require_once( dirname( __FILE__ ).'/../vendor/pdo-crud/pdo-crud.php' );
+    global          $MEZON_PATH;
+
+    require_once( $MEZON_PATH.'/vendor/pdo-crud/pdo-crud.php' );
 
     class ProCrudTest extends PHPUnit_Framework_TestCase
     {

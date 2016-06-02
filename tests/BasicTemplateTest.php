@@ -1,7 +1,6 @@
 <?php
 
     global          $MEZON_PATH;
-    $MEZON_PATH = dirname( dirname( __FILE__ ) );
 
     require_once( $MEZON_PATH.'/vendor/basic-application/basic-application.php' );
     require_once( $MEZON_PATH.'/vendor/basic-template/basic-template.php' );

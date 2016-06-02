@@ -1,6 +1,8 @@
 <?php
 
-    require_once( dirname( __FILE__ ).'/../vendor/template-resources/template-resources.php' );
+    global          $MEZON_PATH;
+
+    require_once( $MEZON_PATH.'/vendor/template-resources/template-resources.php' );
 
     class TemplateResourcesTest extends PHPUnit_Framework_TestCase
     {

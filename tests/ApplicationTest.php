@@ -1,8 +1,6 @@
 <?php
 
-    global          $MEZON_PATH;
-    $MEZON_PATH = dirname( dirname( __FILE__ ) );
-
+    require_once( dirname( dirname( __FILE__ ) ).'/conf/conf.php' );
     require_once( $MEZON_PATH.'/vendor/application/application.php' );
 
     /**

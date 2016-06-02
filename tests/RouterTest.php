@@ -1,6 +1,8 @@
 <?php
 
-    require_once( dirname( __FILE__ ).'/../vendor/router/router.php' );
+    global          $MEZON_PATH;
+
+    require_once( $MEZON_PATH.'/vendor/router/router.php' );
 
     class RouterTest extends PHPUnit_Framework_TestCase
     {

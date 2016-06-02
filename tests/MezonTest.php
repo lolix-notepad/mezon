@@ -1,5 +1,8 @@
 <?php
 
+    /**
+    *   Common test cases.
+    */
     class MezonTest extends PHPUnit_Framework_TestCase
     {
         /**

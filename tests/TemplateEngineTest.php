@@ -1,6 +1,7 @@
 <?php
 
-    require_once( dirname( __FILE__ ).'/../vendor/template-engine/template-engine.php' );
+    global          $MEZON_PATH;
+    require_once( $MEZON_PATH.'/vendor/template-engine/template-engine.php' );
 
     class TemplateEngineTest extends PHPUnit_Framework_TestCase
     {

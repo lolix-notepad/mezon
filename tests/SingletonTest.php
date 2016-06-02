@@ -1,6 +1,8 @@
 <?php
 
-    require_once( dirname( __FILE__ ).'/../vendor/singleton/singleton.php' );
+    global          $MEZON_PATH;
+
+    require_once( $MEZON_PATH.'/vendor/singleton/singleton.php' );
 
     class SingletonFoo extends Singleton
     {

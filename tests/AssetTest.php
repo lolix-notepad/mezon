@@ -1,6 +1,7 @@
 <?php
 
-    require_once( dirname( __FILE__ ).'/../vendor/asset/asset.php' );
+    global          $MEZON_PATH;
+    require_once( $MEZON_PATH.'/vendor/asset/asset.php' );
 
     class       TestingAsset extends Asset
     {
