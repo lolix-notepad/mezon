@@ -58,3 +58,5 @@ Then we create the instance of our application and running it.
 $App = new HelloWorldApplication();
 $App->run();
 ```
+
+Now you are ready for [more complex example](https://github.com/alexdodonov/mezon/tree/master/doc/examples/simple-site/#simple-site-example)
