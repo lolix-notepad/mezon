@@ -15,7 +15,7 @@ class   MyAsset extends Asset
 }
 ```
 
-Than you need to include resource files:
+Then you need to include resource files:
 
 ```PHP
 class   MyAsset extends Asset
