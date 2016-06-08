@@ -42,6 +42,41 @@
 
             $TemplateEngine->destroy();
         }
+
+        /**
+        *   This test validates singleton behavior.
+        */
+        public function testSingletonConstructorBehaviour()
+        {
+            $TemplateEngine = new TemplateEngine();
+
+            $Msg = '';
+
+            try
+            {
+                // Second instance.
+                new TemplateEngine();
+            }
+            catch( Exception $e )
+            {
+                $Msg = $e->getMessage();
+            }
+
+            $this->assertEquals( 'You can not create more than one copy of a singleton of type TemplateEngine' , $Msg , 'Invalid behavior' );
+
+            $TemplateEngine->destroy();
+
+            try
+            {
+                new TemplateEngine();
+            }
+            catch( Exception $e )
+            {
+                $this->assertFalse( true , 'Invalid behavior' );
+            }
+
+            $TemplateEngine->destroy();
+        }
     }
 
 ?>

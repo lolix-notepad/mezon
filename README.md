@@ -24,6 +24,7 @@ git remote add mezon <your fork of the mezon project>
 - [Configuration](https://github.com/alexdodonov/mezon/tree/master/conf#configuration)
 - [Database support](https://github.com/alexdodonov/mezon/tree/master/vendor/pdo-crud#database-support)
 - [Routing](https://github.com/alexdodonov/mezon/tree/master/vendor/router#routing)
+- [Singleton](https://github.com/alexdodonov/mezon/tree/master/vendor/singleton/#singleton)
 
 ##Business level##
 
