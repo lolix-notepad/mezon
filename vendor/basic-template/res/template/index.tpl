@@ -1,10 +1,10 @@
 <html>
-	<head>
+    <head>
         <meta http-equiv=Content-Type content="text/html; charset=UTF-8">
-		<title>{title}</title>{resources}
-	</head>
+        <title>{title}</title>{resources}
+    </head>
 
-	<body>
-		{main}
-	</body>
+    <body>
+        {main}
+    </body>
 </html>

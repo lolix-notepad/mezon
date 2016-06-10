@@ -25,4 +25,8 @@ $Resources->add_css_files( array( './res/css/file2.css' , './res/css/file3.css' 
 
 Quite simple.
 
-If you are using [Basic template](https://github.com/alexdodonov/mezon/tree/master/vendor/basic-template#basic-template-class) class or any other class derived from it, then you may operate with TemplateResources class and include resources anywere in your code.
+If you are using [BasicTemplate](https://github.com/alexdodonov/mezon/tree/master/vendor/basic-template#basic-template-class) class or any other class derived from it, then you may operate with TemplateResources class and include resources anywere in your code.
+
+##Advanced usage##
+
+You can group all css and js files. For more information see [assets](https://github.com/alexdodonov/mezon/tree/master/vendor/asset#assets-with-css-and-js-files) Using assets you can manipulate with sets of files.

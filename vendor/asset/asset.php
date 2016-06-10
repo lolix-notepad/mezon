@@ -11,12 +11,12 @@
         /**
         *   Array of CSS files.
         */
-        protected $CSSFiles = false;
+        protected $CSSFiles = [];
 
         /**
         *   Array of JS files.
         */
-        protected $JSFiles = false;
+        protected $JSFiles = [];
 
         /**
         *   Including resources.

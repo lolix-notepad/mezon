@@ -33,14 +33,20 @@
         */
         private function    get_resources()
         {
-            $CSSFiles = $this->Resources->get_css_files();
-
             $Content = '';
 
+            $CSSFiles = $this->Resources->get_css_files();
             foreach( $CSSFiles as $i => $CSSFile )
             {
                 $Content .= '
         <link href="'.$CSSFile.'" rel="stylesheet" type="text/css">';
+            }
+            
+            $JSFiles = $this->Resources->get_js_files();
+            foreach( $JSFiles as $i => $JSFile )
+            {
+                $Content .= '
+        <script src="'.$JSFile.'"></script>';
             }
 
             return( $Content );

@@ -2,8 +2,8 @@
 
     global          $MEZON_PATH;
 
-    require_once( $MEZON_PATH.'/vendor/basic-application/basic-application.php' );
     require_once( $MEZON_PATH.'/vendor/basic-template/basic-template.php' );
+    require_once( $MEZON_PATH.'/vendor/template-resources/template-resources.php' );
 
     class BasicTemplateTest extends PHPUnit_Framework_TestCase
     {
@@ -16,7 +16,7 @@
 
             $TestString = $Template->compile();
 
-            $this->assertFalse( strpos( $TestString , '{resources}' ) , 'Variable "resources" was not replaced' );
+            $this->assertFalse( strpos( $TestString , '{resources}' ) !== false , 'Variable "resources" was not replaced' );
         }
 
         /**
@@ -33,7 +33,7 @@
 
             $Resources->clear();
 
-            $this->assertFalse( strpos( $TestString , '="/res/css/testing-css-file"' ) , 'Variable "resources" was not replaced' );
+            $this->assertFalse( strpos( $TestString , '="./res/css/testing-css-file"' ) === false , 'Variable "resources" was not replaced' );
         }
     }
 

@@ -36,3 +36,4 @@ git remote add mezon <your fork of the mezon project>
 - [Assets](https://github.com/alexdodonov/mezon/tree/master/vendor/asset#assets-with-css-and-js-files)
 - [Basic template](https://github.com/alexdodonov/mezon/tree/master/vendor/basic-template#basic-template-class)
 - [Template Engine](https://github.com/alexdodonov/mezon/tree/master/vendor/template-engine#template-engine)
+- [Template Resources](https://github.com/alexdodonov/mezon/tree/master/vendor/template-resorces#template-resources-class)

@@ -1,5 +1,7 @@
 # Assets with CSS and JS files
+
 ##Intro##
+
 All html page resources can be composed in a single bundle wich is called 'asset'.
 
 ##Creating your own asset##
@@ -45,3 +47,9 @@ $Asset->include_files();
 ```
 
 Pretty simple eah? )
+
+##Libraries##
+
+We have already implemented some the most popular libraries:
+
+- [jQuery](https://github.com/alexdodonov/mezon/tree/master/vendor/jquery#jquery)
