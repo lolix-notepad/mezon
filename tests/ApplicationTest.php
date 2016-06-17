@@ -31,7 +31,7 @@
 
             $Application->run();
         }
-        
+
         /**
         *   Running with incorrect router.
         */
@@ -42,6 +42,22 @@
             $_GET[ 'r' ] = '/unexisting/';
 
             $this->expectOutputRegex( '/The processor was not found for the route/' );
+
+            $Application->run();
+        }
+
+        /**
+        *   Testing loading routes from config file.
+        */
+        public function testRoutesConfig()
+        {
+            $Application = new TestApplication();
+
+            $Application->load_routes_from_config( dirname( dirname( __FILE__ ) ).'/tests/test-routes.php' );
+
+            $_GET[ 'r' ] = '/existing/';
+
+            $this->expectOutputString( 'OK!' );
 
             $Application->run();
         }

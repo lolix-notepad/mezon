@@ -38,6 +38,19 @@
 		}
 
         /**
+        *   Method loads routes from config file.
+        */
+        public function     load_routes_from_config( $Path = './conf/routes.php' )
+        {
+            $Routes = ( include( $Path ) );
+
+            foreach( $Routes as $i => $Route )
+            {
+                $this->Router->add_route( $Route[ 'route' ] , array( $this , $Route[ 'callback' ] ) );
+            }
+        }
+
+        /**
         *   Running application.
         */
         public function		run()
