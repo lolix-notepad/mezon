@@ -25,11 +25,13 @@ return(
     array(
         array(
             'route' => '/news/' , // your route
-            'callback' => 'display_news_line' // this must be the method name of your Application derived class
+            'callback' => 'display_news_line' // this must be the method name of your 
+                                              // Application derived class
         ) , 
         array(
             'route' => '/news/[i:news_id]/' , // your route
-            'callback' => 'display_exact_news' // this must be the method name of your Application derived class
+            'callback' => 'display_exact_news' // this must be the method name of your 
+                                               // Application derived class
         )
     )
 );

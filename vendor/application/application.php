@@ -46,6 +46,14 @@
 
             foreach( $Routes as $i => $Route )
             {
+                if( isset( $Route[ 'route' ] ) == false )
+                {
+                    throw( new Exception( 'Field "route" must be set' ) );
+                }
+                if( isset( $Route[ 'callback' ] ) == false )
+                {
+                    throw( new Exception( 'Field "callback" must be set' ) );
+                }
                 $this->Router->add_route( $Route[ 'route' ] , array( $this , $Route[ 'callback' ] ) );
             }
         }

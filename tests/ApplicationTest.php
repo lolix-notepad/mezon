@@ -47,6 +47,48 @@
         }
 
         /**
+        *   Test config structure validators.
+        */
+        public function testConfigValidatorsRoute()
+        {
+            $Application = new TestApplication();
+
+            $Msg = '';
+
+            try
+            {
+                $Application->load_routes_from_config( dirname( dirname( __FILE__ ) ).'/tests/test-invalid-routes-1.php' );
+            }
+            catch( Exception $e )
+            {
+                $Msg = $e->getMessage();
+            }
+
+            $this->assertEquals( 'Field "route" must be set' , $Msg , 'Invalid behavior' );
+        }
+        
+        /**
+        *   Test config structure validators.
+        */
+        public function testConfigValidatorsCallback()
+        {
+            $Application = new TestApplication();
+
+            $Msg = '';
+
+            try
+            {
+                $Application->load_routes_from_config( dirname( dirname( __FILE__ ) ).'/tests/test-invalid-routes-2.php' );
+            }
+            catch( Exception $e )
+            {
+                $Msg = $e->getMessage();
+            }
+
+            $this->assertEquals( 'Field "callback" must be set' , $Msg , 'Invalid behavior' );
+        }
+
+        /**
         *   Testing loading routes from config file.
         */
         public function testRoutesConfig()
