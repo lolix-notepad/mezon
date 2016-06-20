@@ -721,32 +721,79 @@
             );
 
             global $_SERVER;
+
             $_SERVER[ 'REQUEST_METHOD' ] = 'POST';
-
             $Result = $Router->call_route( '/catalog/' );
-
             $this->assertEquals( $Result , 'POST' , 'Invalid selected route' );
 
-            global $_SERVER;
             $_SERVER[ 'REQUEST_METHOD' ] = 'GET';
-
             $Result = $Router->call_route( '/catalog/' );
-
             $this->assertEquals( $Result , 'GET' , 'Invalid selected route' );
 
-            global $_SERVER;
             $_SERVER[ 'REQUEST_METHOD' ] = 'PUT';
-
             $Result = $Router->call_route( '/catalog/' );
-
             $this->assertEquals( $Result , 'PUT' , 'Invalid selected route' );
 
-            global $_SERVER;
             $_SERVER[ 'REQUEST_METHOD' ] = 'DELETE';
-
             $Result = $Router->call_route( '/catalog/' );
-
             $this->assertEquals( $Result , 'DELETE' , 'Invalid selected route' );
+        }
+
+        /**
+        *   Testing 'clear' method.
+        */
+        public function testClearMethod()
+        {
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/' , function( $Route , $Parameters ){return('POST');} , 'POST'
+            );
+            $Router->add_route( 
+                '/catalog/' , function( $Route , $Parameters ){return('GET');} , 'GET'
+            );
+            $Router->add_route( 
+                '/catalog/' , function( $Route , $Parameters ){return('PUT');} , 'PUT'
+            );
+            $Router->add_route( 
+                '/catalog/' , function( $Route , $Parameters ){return('DELETE');} , 'DELETE'
+            );
+            $Router->clear();
+
+            try
+            {
+                $_SERVER[ 'REQUEST_METHOD' ] = 'POST';
+                $Result = $Router->call_route( '/catalog/' );
+                $Flag = 'not cleared';
+            }
+            catch( Exception $e ){$Flag='cleared';}
+            $this->assertEquals( $Flag , 'cleared' , 'Data was not cleared' );
+
+            try
+            {
+                $_SERVER[ 'REQUEST_METHOD' ] = 'GET';
+                $Result = $Router->call_route( '/catalog/' );
+                $Flag = 'not cleared';
+            }
+            catch( Exception $e ){$Flag='cleared';}
+            $this->assertEquals( $Flag , 'cleared' , 'Data was not cleared' );
+
+            try
+            {
+                $_SERVER[ 'REQUEST_METHOD' ] = 'PUT';
+                $Result = $Router->call_route( '/catalog/' );
+                $Flag = 'not cleared';
+            }
+            catch( Exception $e ){$Flag='cleared';}
+            $this->assertEquals( $Flag , 'cleared' , 'Data was not cleared' );
+
+            try
+            {
+                $_SERVER[ 'REQUEST_METHOD' ] = 'DELETE';
+                $Result = $Router->call_route( '/catalog/' );
+                $Flag = 'not cleared';
+            }
+            catch( Exception $e ){$Flag='cleared';}
+            $this->assertEquals( $Flag , 'cleared' , 'Data was not cleared' );
         }
     }
 

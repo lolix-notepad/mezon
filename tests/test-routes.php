@@ -3,8 +3,13 @@
     return(
         array(
             array(
-                'route' => '/test/' ,
-                'callback' => 'existing' 
+                'route' => '/get-route/' ,
+                'callback' => 'action_existing' 
+            ) , 
+            array(
+                'route' => '/post-route/' ,
+                'callback' => 'action_existing' ,
+                'method' => 'POST'
             )
         )
     );

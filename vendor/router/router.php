@@ -188,7 +188,12 @@
 					}
 					else
 					{
-						throw( new Exception( "'$Processor' must be callable entity" ) );
+						throw( 
+                            new Exception( 
+                                "'".( get_class( $Processor[ 0 ] ) !== false ? get_class( $Processor[ 0 ] ).'::'.
+                                    $Processor[ 1 ] : $Processor )."' must be callable entity"
+                            )
+                        );
 					}
                 }
             }
@@ -340,7 +345,7 @@
         /**
         *   Processing specified router.
         */
-        public function        call_route( $Route )
+        public function         call_route( $Route )
         {
             $Route = $this->prepare_route( $Route );
 
@@ -355,6 +360,20 @@
             }
 
             throw( new Exception( 'The processor was not found for the route '.$Route ) );
+        }
+
+        /**
+        *   Method clears router data.
+        */
+        public function         clear()
+        {
+            $this->GetRoutes = array();
+
+            $this->PostRoutes = array();
+
+            $this->PutRoutes = array();
+
+            $this->DeleteRoutes = array();
         }
     }
 

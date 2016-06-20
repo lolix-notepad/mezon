@@ -8,6 +8,16 @@
     */
     class           TestApplication extends Application
     {
+        function __construct()
+        {
+            if( is_object( $this->Router ) )
+            {
+                $this->Router->clear();
+            }
+
+            parent::__construct();
+        }
+
         function            action_existing()
         {
             /* existing action */
@@ -97,7 +107,26 @@
 
             $Application->load_routes_from_config( dirname( dirname( __FILE__ ) ).'/tests/test-routes.php' );
 
-            $_GET[ 'r' ] = '/existing/';
+            $_GET[ 'r' ] = '/get-route/';
+
+            $this->expectOutputString( 'OK!' );
+
+            $Application->run();
+        }
+
+        /**
+        *   Testing loading POST routes from config file.
+        */
+        public function testPostRoutesConfig()
+        {
+            global $_SERVER;
+            $_SERVER[ 'REQUEST_METHOD' ] = 'POST';
+
+            $Application = new TestApplication();
+
+            $Application->load_routes_from_config( dirname( dirname( __FILE__ ) ).'/tests/test-routes.php' );
+
+            $_GET[ 'r' ] = '/post-route/';
 
             $this->expectOutputString( 'OK!' );
 

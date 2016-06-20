@@ -54,7 +54,11 @@
                 {
                     throw( new Exception( 'Field "callback" must be set' ) );
                 }
-                $this->Router->add_route( $Route[ 'route' ] , array( $this , $Route[ 'callback' ] ) );
+                $this->Router->add_route( 
+                    $Route[ 'route' ] , 
+                    array( $this , $Route[ 'callback' ] ) , 
+                    isset( $Route[ 'method' ] ) ? $Route[ 'method' ] : 'GET'
+                );
             }
         }
 
