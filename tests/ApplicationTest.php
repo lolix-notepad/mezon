@@ -51,9 +51,12 @@
 
             $_GET[ 'r' ] = '/unexisting/';
 
-            $this->expectOutputRegex( '/The processor was not found for the route/' );
-
+            ob_start();
             $Application->run();
+            $Output = ob_get_contents();
+            ob_end_clean();
+            
+            $this->assertTrue( strpos( $Output , 'The processor was not found for the route' ) !== false , 'Invalid behavior' );
         }
 
         /**

@@ -15,6 +15,16 @@
 
             return( 'OK!!!' );
         }
+
+        function            action_array_result()
+        {
+            return(
+                array( 
+                    'title' => 'Route title' , 
+                    'main' => 'Route main'
+                )
+            );
+        }
     }
 
     class BasicApplicationTest extends PHPUnit_Framework_TestCase
@@ -28,20 +38,34 @@
 
             $_GET[ 'r' ] = '/existing/';
 
-            $this->expectOutputRegex( '/OK!!!/' );
+            ob_start();
             $Application->run();
+            $Output = ob_get_contents();
+            ob_end_clean();
 
-            $this->expectOutputRegex( '/html/' );
-            $Application->run();
+            $this->assertTrue( strpos( $Output , 'OK!!!' ) !== false , 'Template compilation failed (1)' );
+            $this->assertTrue( strpos( $Output , '<html>' ) !== false , 'Template compilation failed (2)' );
+            $this->assertTrue( strpos( $Output , '<head>' ) !== false , 'Template compilation failed (3)' );
+            $this->assertTrue( strpos( $Output , '<body>' ) !== false , 'Template compilation failed (4)' );
+            $this->assertTrue( strpos( $Output , '<title>' ) !== false , 'Template compilation failed (5)' );
+        }
 
-            $this->expectOutputRegex( '/head/' );
-            $Application->run();
+        /**
+        *   Running with complex router result.
+        */
+        public function testComplexRouteResult()
+        {
+            $Application = new TestBasicApplication();
 
-            $this->expectOutputRegex( '/body/' );
-            $Application->run();
+            $_GET[ 'r' ] = '/array-result/';
 
-            $this->expectOutputRegex( '/title/' );
+            ob_start();
             $Application->run();
+            $Output = ob_get_contents();
+            ob_end_clean();
+
+            $this->assertTrue( strpos( $Output , 'Route title' ) !== false , 'Template compilation failed (1)' );
+            $this->assertTrue( strpos( $Output , 'Route main' ) !== false , 'Template compilation failed (2)' );
         }
     }
 

@@ -32,9 +32,19 @@
 		{
 			try
             {
-                $Content = $this->call_route();
+                $Result = $this->call_route();
 
-				$this->Template->set_page_var( 'main' , $Content );
+                if( is_array( $Result ) )
+                {
+                    foreach( $Result as $Key => $Value )
+                    {
+                        $this->Template->set_page_var( $Key , $Value );
+                    }
+                }
+                else
+                {
+                    $this->Template->set_page_var( 'main' , $Result );
+                }
 
 				print( $this->Template->compile() );
             }
