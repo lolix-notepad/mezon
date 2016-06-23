@@ -34,3 +34,30 @@ $TemplateResources->add_css_file( './res/test.css' ); // no file will be added
 ```
 
 But this way of additing resources is quite low level and it may be inconvinient for large number of resource files. So we have created assets. The documentation about it can be read [here](https://github.com/alexdodonov/mezon/tree/master/vendor/asset#assets-with-css-and-js-files)
+
+##Page compilation##
+
+TemplateEngine class provides content compilation routine. This function is called TemplateEngine::print_record( $String , $Data ) wich replaces all variables {variable-name} with values from $Data.
+
+```PHP
+// outputs "v1 v2"
+print( TemplateEngine::print_record( 
+    '{var1} {var2}' , array( 'var1' => 'v1' , 'var2' => 'v2' ) 
+) );
+
+// or object
+$Object = new stdClass();
+$Object->var1 = 'v1';
+$Object->var2 = 'v2';
+
+// outputs "v1 v2"
+print( TemplateEngine::print_record( 
+    '{var1} {var2}' , $Object 
+) );
+
+// $Data may contain nested arrays or objects
+// outputs "v1 v2 v3"
+print( TemplateEngine::print_record( 
+    '{var1} {var2} {var3}' , array( $Object , array( 'var3' => 'v3' ) )
+) );
+```

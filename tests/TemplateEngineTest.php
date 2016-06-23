@@ -62,7 +62,10 @@
                 $Msg = $e->getMessage();
             }
 
-            $this->assertEquals( 'You can not create more than one copy of a singleton of type TemplateEngine' , $Msg , 'Invalid behavior' );
+            $this->assertEquals(
+                'You can not create more than one copy of a singleton '.
+                'of type TemplateEngine' , $Msg , 'Invalid behavior'
+            );
 
             $TemplateEngine->destroy();
 
@@ -77,6 +80,103 @@
 
             $TemplateEngine->destroy();
         }
+
+        /**
+        *   Simple vars.
+        */
+        public function testSimpleSubstitutionsArray()
+        {
+            $Data = array( 'var1' => 'v1' , 'var2' => 'v2' );
+            $String = '{var1} {var2}';
+
+            $String = TemplateEngine::print_record( $String , $Data );
+
+            $this->assertEquals( $String , 'v1 v2' , 'Invalid string processing' );
+        }
+        
+        /**
+        *   Simple vars.
+        */
+        public function testSimpleSubstitutionsObject()
+        {
+            $Data = new stdClass();
+            $Data->var1 = 'v1';
+            $Data->var2 = 'v2';
+            $String = '{var1} {var2}';
+
+            $String = TemplateEngine::print_record( $String , $Data );
+
+            $this->assertEquals( $String , 'v1 v2' , 'Invalid string processing' );
+        }
+
+        /**
+        *   Nested objects.
+        */
+        public function testSimpleSubstitutionsNestedArray()
+        {
+            $Data = array( 'var1' => 'v1' , 'var2' => 'v2' , 'field' => array( 'var3' => 'v3' ) );
+            $String = '{var1} {var2} {var3}';
+
+            $String = TemplateEngine::print_record( $String , $Data );
+
+            $this->assertEquals( $String , 'v1 v2 v3' , 'Invalid string processing' );
+        }
+        
+        /**
+        *   Invalid objects.
+        */
+        public function testSimpleSubstitutionsInvalidObjects()
+        {
+            try
+            {
+                $String = '';
+                $String = TemplateEngine::print_record( $String , false );
+            }
+            catch( Exception $e )
+            {
+                $Msg = $e->getMessage();
+            }
+
+            $this->assertEquals( 'Invalid record was passed' , $Msg , 'Invalid behavior' );
+            
+            try
+            {
+                $String = '';
+                $String = TemplateEngine::print_record( $String , null );
+            }
+            catch( Exception $e )
+            {
+                $Msg = $e->getMessage();
+            }
+
+            $this->assertEquals( 'Invalid record was passed' , $Msg , 'Invalid behavior' );
+            
+            try
+            {
+                $String = '';
+                $String = TemplateEngine::print_record( $String , 1234 );
+            }
+            catch( Exception $e )
+            {
+                $Msg = $e->getMessage();
+            }
+
+            $this->assertEquals( 'Invalid record was passed' , $Msg , 'Invalid behavior' );
+
+            try
+            {
+                $String = '';
+                $String = TemplateEngine::print_record( $String , 'string' );
+            }
+            catch( Exception $e )
+            {
+                $Msg = $e->getMessage();
+            }
+
+            $this->assertEquals( 'Invalid record was passed' , $Msg , 'Invalid behavior' );
+        }
+
+        // передаётся шит в виде null или false
     }
 
 ?>
