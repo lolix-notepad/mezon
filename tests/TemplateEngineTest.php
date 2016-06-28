@@ -3,6 +3,14 @@
     global          $MEZON_PATH;
     require_once( $MEZON_PATH.'/vendor/template-engine/template-engine.php' );
 
+    class TemplateEngineUtility extends TemplateEngine
+    {
+        public static function  get_possible_block_positions_test( &$Positions )
+        {
+            return( self::get_possible_block_positions( $Positions ) );
+        }
+    }
+
     class TemplateEngineTest extends PHPUnit_Framework_TestCase
     {
         /**
@@ -176,7 +184,44 @@
             $this->assertEquals( 'Invalid record was passed' , $Msg , 'Invalid behavior' );
         }
 
-        // передаётся шит в виде null или false
+        /**
+        *   Testing block's positions determination.
+        */
+        public function testGetBlockPositionsSimple()
+        {
+            $Positions = array( 1 => 's' , 3 => 'e' );
+
+            list( $Start , $End ) = TemplateEngineUtility::get_possible_block_positions_test( $Positions );
+
+            $this->assertEquals( $Start , 1 , 'Invalid positions parsing' );
+            $this->assertEquals( $End , 3 , 'Invalid positions parsing' );
+        }
+
+        /**
+        *   Testing block's positions determination.
+        */
+        public function testGetBlockPositionsNested()
+        {
+            $Positions = array( 0 => 's' , 1 => 's' , 3 => 'e' , 4 => 'e' );
+
+            list( $Start , $End ) = TemplateEngineUtility::get_possible_block_positions_test( $Positions );
+
+            $this->assertEquals( $Start , 0 , 'Invalid positions parsing' );
+            $this->assertEquals( $End , 4 , 'Invalid positions parsing' );
+        }
+
+        /**
+        *   Testing block's positions determination.
+        */
+        public function testGetBlockPositionsOneByOne()
+        {
+            $Positions = array( 0 => 's' , 1 => 'e' , 3 => 's' , 4 => 'e' );
+
+            list( $Start , $End ) = TemplateEngineUtility::get_possible_block_positions_test( $Positions );
+
+            $this->assertEquals( $Start , 0 , 'Invalid positions parsing' );
+            $this->assertEquals( $End , 1 , 'Invalid positions parsing' );
+        }
     }
 
 ?>

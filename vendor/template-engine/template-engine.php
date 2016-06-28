@@ -33,6 +33,35 @@
         }
 
         /**
+        *   Method returns starts and ends of the block.
+        */
+        protected static function  get_possible_block_positions( &$Positions )
+		{
+            $StartPos = $EndPos = false;
+            $c = 0;
+
+            foreach( $Positions as $Key => $Value )
+            {
+                if( $StartPos === false && $Value === 's' )
+                {
+                    $c++;
+                    $StartPos = $Key;
+                }
+                elseif( $EndPos === false && $Value === 'e' && $c === 1 )
+                {
+                    $EndPos = $Key;
+                    break;
+                }
+                elseif( $Value === 's' || $Value === 'e' && $c > 0 )
+                {
+                    $c += $Value === 's' ? 1 : -1;
+                }
+            }
+
+            return( array( $StartPos , $EndPos ) );
+		}
+
+        /**
         *   Method replaces all {var-name} placeholders in $String with fields from $Record.
         */
         public static function  print_record( $String , $Record )
