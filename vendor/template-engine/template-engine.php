@@ -62,6 +62,41 @@
 		}
 
         /**
+        *   Method returns block's start and end.
+        */
+        protected static function   get_all_block_positions( $Str , $BlockStart , $BlockEnd )
+		{
+			try
+			{
+				$Positions = array();
+				$StartPos = strpos( $Str , '{'.$BlockStart.'}' , 0 );
+				$EndPos = -1;
+
+				if( $StartPos !== false )
+				{
+					$Positions [ $StartPos ] = 's';
+					$BlockStart = explode( ':' , $BlockStart );
+					$BlockStart = $BlockStart[ 0 ];
+					for( ; ( $StartPos = strpos( $Str , '{'.$BlockStart.':' , $StartPos + 1 ) ) !== false ; )
+					{
+						$Positions [ $StartPos ] = 's';
+					}
+				}
+				for( ; $EndPos = strpos( $Str , '{'.$BlockEnd.'}' , $EndPos + 1 ) ; )
+				{
+					$Positions [ $EndPos ] = 'e';
+				}
+				ksort( $Positions );
+
+				return( $Positions );
+			}
+			catch( Exception $e )
+			{
+				$a = func_get_args();_throw_exception_object( __METHOD__ , $a , $e );
+			}
+		}
+
+        /**
         *   Method replaces all {var-name} placeholders in $String with fields from $Record.
         */
         public static function  print_record( $String , $Record )

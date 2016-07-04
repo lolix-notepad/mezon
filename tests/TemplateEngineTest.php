@@ -9,6 +9,11 @@
         {
             return( self::get_possible_block_positions( $Positions ) );
         }
+
+        public static function  get_all_block_positions_test( $Str , $BlockStart , $BlockEnd )
+        {
+            return( self::get_all_block_positions( $Str , $BlockStart , $BlockEnd ) );
+        }
     }
 
     class TemplateEngineTest extends PHPUnit_Framework_TestCase
@@ -221,6 +226,23 @@
 
             $this->assertEquals( $Start , 0 , 'Invalid positions parsing' );
             $this->assertEquals( $End , 1 , 'Invalid positions parsing' );
+        }
+
+        /**
+        *   Testing block's fetching starts and ends.
+        */
+        public function testFetchBlockStarts()
+        {
+            $Str = '{block:param1} {var:2} {~block} {block:param1} {~block}';
+
+            $Result = TemplateEngineUtility::get_all_block_positions_test( $Str , 'block:param1' , '~block' );
+
+            $Result = array_keys( $Result );
+            
+            $this->assertEquals( $Result[ 0 ] , 0 , 'Invalid blocks parsing' );
+            $this->assertEquals( $Result[ 1 ] , 23 , 'Invalid blocks parsing' );
+            $this->assertEquals( $Result[ 2 ] , 32 , 'Invalid blocks parsing' );
+            $this->assertEquals( $Result[ 3 ] , 47 , 'Invalid blocks parsing' );
         }
     }
 
