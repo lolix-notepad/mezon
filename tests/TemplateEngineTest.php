@@ -244,6 +244,19 @@
             $this->assertEquals( $Result[ 2 ] , 32 , 'Invalid blocks parsing' );
             $this->assertEquals( $Result[ 3 ] , 47 , 'Invalid blocks parsing' );
         }
+
+        /**
+        *   Testing block's fetching start and end.
+        */
+        public function testFetchBlockPosition()
+        {
+            $Str = '{block:param1} {var:2} {~block} {block:param2} {~block}';
+
+            list( $Start , $End ) = TemplateEngineUtility::get_block_positions( $Str , 'block:param2' , '~block' );
+
+            $this->assertEquals( $Start , 32 , 'Invalid blocks parsing' );
+            $this->assertEquals( $End , 47 , 'Invalid blocks parsing' );
+        }
     }
 
 ?>
