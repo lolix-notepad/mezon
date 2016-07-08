@@ -61,3 +61,30 @@ print( TemplateEngine::print_record(
     '{var1} {var2} {var3}' , array( $Object , array( 'var3' => 'v3' ) )
 ) );
 ```
+
+##Extended page compilation##
+
+You may also use loopes in your templates.
+
+For example:
+
+```PHP
+$Str = '{foreach:field}row : {content}<br>{~foreach}';
+$Data = array(
+    'field' => array(
+        array( 'content' => '1' ) , 
+        array( 'content' => '2' ) , 
+        array( 'content' => 'Last!' ) , 
+    )
+);
+
+print( TemplateEngineUtility::print_record( $Str , $Data ) );
+```
+
+And the output will be:
+
+```HTML
+row : 1<br>
+row : 2<br>
+row : Last<br>
+```

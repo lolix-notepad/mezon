@@ -14,6 +14,11 @@
         {
             return( self::get_all_block_positions( $Str , $BlockStart , $BlockEnd ) );
         }
+
+        public static function  get_block_positions_test( $Str , $BlockStart , $BlockEnd )
+        {
+            return( self::get_block_positions( $Str , $BlockStart , $BlockEnd ) );
+        }
     }
 
     class TemplateEngineTest extends PHPUnit_Framework_TestCase
@@ -252,10 +257,70 @@
         {
             $Str = '{block:param1} {var:2} {~block} {block:param2} {~block}';
 
-            list( $Start , $End ) = TemplateEngineUtility::get_block_positions( $Str , 'block:param2' , '~block' );
+            list( $Start , $End ) = TemplateEngineUtility::get_block_positions_test( $Str , 'block:param2' , '~block' );
 
             $this->assertEquals( $Start , 32 , 'Invalid blocks parsing' );
             $this->assertEquals( $End , 47 , 'Invalid blocks parsing' );
+        }
+
+        /**
+        *   Fetching block contents.
+        */
+        public function testFetchingBlockDatat()
+        {
+            $Str = '{block:param1} {var:2} {~block} {block:param2}content{~block}';
+
+            $Data = TemplateEngineUtility::get_block_data( $Str , 'block:param2' , '~block' );
+
+            $this->assertEquals( $Data , 'content' , 'Invalid blocks parsing' );
+        }
+
+        /**
+        *   Method fetches macro parameters.
+        */
+        public function testGetMacroParameters()
+        {
+            $Str = ' {foreach:field}{content}{~foreach}';
+
+            $Data = TemplateEngineUtility::get_macro_parameters( $Str , 'foreach' );
+
+            $this->assertEquals( $Data , 'field' , 'Invalid blocks parsing' );
+        }
+
+        /**
+        *   Method tests foreach macro.
+        */
+        public function testForeach()
+        {
+            $Str = '{foreach:field}{content}{~foreach}';
+            $Data = array(
+                'field' => array(
+                    array( 'content' => '1' ) , 
+                    array( 'content' => '2' ) , 
+                )
+            );
+
+            $Data = TemplateEngineUtility::compile_foreach( $Str , $Data );
+
+            $this->assertEquals( $Data , '12' , 'Invalid blocks parsing' );
+        }
+
+        /**
+        *   Method tests foreach macro.
+        */
+        public function testPrintRecord()
+        {
+            $Str = '{foreach:field}{content}{~foreach}';
+            $Data = array(
+                'field' => array(
+                    array( 'content' => '1' ) , 
+                    array( 'content' => '2' ) , 
+                )
+            );
+
+            $Data = TemplateEngineUtility::print_record( $Str , $Data );
+
+            $this->assertEquals( $Data , '12' , 'Invalid blocks parsing' );
         }
     }
 
