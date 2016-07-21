@@ -25,6 +25,16 @@
                 )
             );
         }
+
+        function            action_view_result()
+        {
+            return(
+                array( 
+                    'title' => 'Route title' , 
+                    'main' => new View( 'Test view result' )
+                )
+            );
+        }
     }
 
     class BasicApplicationTest extends PHPUnit_Framework_TestCase
@@ -64,8 +74,26 @@
             $Output = ob_get_contents();
             ob_end_clean();
 
-            $this->assertTrue( strpos( $Output , 'Route title' ) !== false , 'Template compilation failed (1)' );
-            $this->assertTrue( strpos( $Output , 'Route main' ) !== false , 'Template compilation failed (2)' );
+            $this->assertTrue( strpos( $Output , 'Route title' ) !== false , 'Template compilation failed (6)' );
+            $this->assertTrue( strpos( $Output , 'Route main' ) !== false , 'Template compilation failed (7)' );
+        }
+
+        /**
+        *   Compiling page with functional view.
+        */
+        public function testComplexViewRenderring()
+        {
+            $Application = new TestBasicApplication();
+
+            $_GET[ 'r' ] = '/view-result/';
+
+            ob_start();
+            $Application->run();
+            $Output = ob_get_contents();
+            ob_end_clean();
+
+            $this->assertTrue( strpos( $Output , 'Route title' ) !== false , 'Template compilation failed (8)' );
+            $this->assertTrue( strpos( $Output , 'Test view result' ) !== false , 'Template compilation failed (9)' );
         }
     }
 

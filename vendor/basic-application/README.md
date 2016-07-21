@@ -28,3 +28,22 @@ class           ExampleApplication extends BasicApplication
 ```
 
 Here route's handler generates two parts of the page /simple-page/ - 'title' and 'main'. These two part will be inserted into {title} and {main} placeholders respectively.
+
+More complex example:
+
+```PHP
+class           ExampleApplication extends BasicApplication
+{
+    function            action_simple_page()
+    {
+        return( 
+            array( 
+                'title' => 'Route title' , 
+                'main' => new View( 'Generated main content' )
+            )
+        );
+    }
+}
+```
+
+Here we pass instance of the class View (or any class derived from View) to the application page compilator. It will call View::render method wich must return compiled html content. See [here](https://github.com/alexdodonov/mezon/tree/master/vendor/view#base-view-class) more detatils about View class.

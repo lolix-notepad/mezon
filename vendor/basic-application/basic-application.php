@@ -2,6 +2,7 @@
 
 	require_once( dirname( __FILE__ ).'/../application/application.php' );
 	require_once( dirname( __FILE__ ).'/../basic-template/basic-template.php' );
+	require_once( dirname( __FILE__ ).'/../view/view.php' );
 
 	/**
 	*	Basic application wich helps you to test yout ideas and create simple prototypes of your applications.
@@ -38,7 +39,9 @@
                 {
                     foreach( $Result as $Key => $Value )
                     {
-                        $this->Template->set_page_var( $Key , $Value );
+                        $Content = $Value instanceof View ? $Value->render() : $Value;
+
+                        $this->Template->set_page_var( $Key , $Content );
                     }
                 }
                 else

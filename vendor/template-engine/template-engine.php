@@ -314,7 +314,7 @@
         /**
         *   Method replaces all {var-name} placeholders in $String with fields from $Record.
         */
-        public static function  print_record( $String , $Record )
+        public static function      print_record( $String , $Record )
         {
             if( is_array( $Record ) === false && is_object( $Record ) === false )
             {
