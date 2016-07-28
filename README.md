@@ -24,6 +24,7 @@ git remote add mezon <your fork of the mezon project>
 - [Cache](https://github.com/alexdodonov/mezon/tree/master/vendor/call-cache#function-calls-caching)
 - [Configuration](https://github.com/alexdodonov/mezon/tree/master/conf#configuration)
 - [Database support](https://github.com/alexdodonov/mezon/tree/master/vendor/pdo-crud#database-support)
+- [Functional programming](https://github.com/alexdodonov/mezon/tree/master/vendor/functional#functional-programming)
 - [Routing](https://github.com/alexdodonov/mezon/tree/master/vendor/router#routing)
 - [Singleton](https://github.com/alexdodonov/mezon/tree/master/vendor/singleton/#singleton)
 
