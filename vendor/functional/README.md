@@ -55,3 +55,32 @@ $Data = array( $obj1 , $obj2 , $obj3 );
 // will display value 6
 var_dump( Functional::sum_fields( $Data , 'foo' ) );
 ```
+
+We can also transform objects in arrays like this:
+
+```
+/**
+*   Transformation function multiplies 'foo' field.
+*/
+function  transform2x( $Object )
+{
+    $Object->foo *= 2;
+
+    return( $Object );
+}
+$obj1 = new stdClass();
+$obj1->foo = 1;
+
+$obj2 = new stdClass();
+$obj2->foo = 2;
+
+$obj3 = new stdClass();
+$obj3->foo = 3;
+
+$Data = array( $obj1 , $obj2 , $obj3 );
+
+Functional::transform( $Data , 'transform2x' );
+// will display 3 objects
+// with 2, 4 and 6 values in their 'foo' fields
+var_dump( $Data );
+```

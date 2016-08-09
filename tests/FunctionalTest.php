@@ -4,6 +4,16 @@
 
     require_once( $MEZON_PATH.'/vendor/functional/functional.php' );
 
+    /**
+    *   Transformation function multiplies 'foo' field.
+    */
+    function  transform2x( $Object )
+    {
+        $Object->foo *= 2;
+
+        return( $Object );
+    }
+
     class FunctionalTest extends PHPUnit_Framework_TestCase
     {
         /**
@@ -68,6 +78,29 @@
             $Data = array( $obj1 , $obj2 , $obj3 );
 
             $this->assertEquals( Functional::sum_fields( $Data , 'foo' ) , 6 , 'Invalid sum' );
+        }
+
+        /**
+        *   Method will test transformation function.
+        */
+        public function testTransform()
+        {
+            $obj1 = new stdClass();
+            $obj1->foo = 1;
+
+            $obj2 = new stdClass();
+            $obj2->foo = 2;
+
+            $obj3 = new stdClass();
+            $obj3->foo = 3;
+
+            $Data = array( $obj1 , $obj2 , $obj3 );
+
+            Functional::transform( $Data , 'transform2x' );
+
+            $this->assertEquals( $Data[ 0 ]->foo , 2 , 'Invalid value' );
+            $this->assertEquals( $Data[ 1 ]->foo , 4 , 'Invalid value' );
+            $this->assertEquals( $Data[ 2 ]->foo , 6 , 'Invalid value' );
         }
     }
 

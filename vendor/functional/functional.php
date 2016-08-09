@@ -45,10 +45,58 @@
 
             foreach( $Objects as $i => $Object )
             {
-                $Sum += $Object->$FieldName;
+                if( is_array( $Object ) )
+                {
+                    $Sum += self::sum_fields( $Object , $FieldName );
+                }
+                else
+                {
+                    $Sum += $Object->$FieldName;
+                }
             }
 
             return( $Sum );
+        }
+
+        /**
+        *   Method transforms objects in array.
+        */
+        public static function      transform( &$Objects , $Transformer )
+        {
+            foreach( $Objects as $i => $Object )
+            {
+                $Objects[ $i ] = call_user_func( $Transformer , $Object );
+            }
+        }
+
+        /**
+        *   Method filters objects in array.
+        */
+        public static function      filter( &$Objects , $Field , $Operation = '==' , $Value = false )
+        {
+            $Return = array();
+
+            foreach( $Objects as $i => $Object )
+            {
+                if( is_array( $Object ) )
+                {
+                    $Return = array_merge( $Return , self::filter( $Object , $Field , $Operation , $Value ) );
+                }
+                elseif( $Operation == '==' && $Object->$Field == $Value )
+                {
+                    $Return [] = $Object;
+                }
+                elseif( $Operation == '>' && $Object->$Field > $Value )
+                {
+                    $Return [] = $Object;
+                }
+                elseif( $Operation == '<' && $Object->$Field < $Value )
+                {
+                    $Return [] = $Object;
+                }
+            }
+
+            return( $Return );
         }
     }
 
