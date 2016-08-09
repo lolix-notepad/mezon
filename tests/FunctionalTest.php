@@ -102,6 +102,25 @@
             $this->assertEquals( $Data[ 1 ]->foo , 4 , 'Invalid value' );
             $this->assertEquals( $Data[ 2 ]->foo , 6 , 'Invalid value' );
         }
+
+        /**
+        *   Testing recursive fields summation.
+        */
+        public function testRecursiveSum()
+        {
+            $obj1 = new stdClass();
+            $obj1->foo = 1;
+
+            $obj2 = new stdClass();
+            $obj2->foo = 2;
+
+            $obj3 = new stdClass();
+            $obj3->foo = 3;
+
+            $Data = array( $obj1 , array( $obj2 , $obj3 ) );
+
+            $this->assertEquals( Functional::sum_fields( $Data , 'foo' ) , 6 , 'Invalid sum' );
+        }
     }
 
 ?>

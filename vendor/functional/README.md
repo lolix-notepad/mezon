@@ -56,9 +56,27 @@ $Data = array( $obj1 , $obj2 , $obj3 );
 var_dump( Functional::sum_fields( $Data , 'foo' ) );
 ```
 
+Note that you can recursively walk along the nested arrays:
+
+```PHP
+$obj1 = new stdClass();
+$obj1->foo = 1;
+
+$obj2 = new stdClass();
+$obj2->foo = 2;
+
+$obj3 = new stdClass();
+$obj3->foo = 3;
+
+$Data = array( $obj1 , array( $obj2 , $obj3 ) );
+
+// will display value 6
+$this->assertEquals( Functional::sum_fields( $Data , 'foo' ) , 6 , 'Invalid sum' );
+```
+
 We can also transform objects in arrays like this:
 
-```
+```PHP
 /**
 *   Transformation function multiplies 'foo' field.
 */
