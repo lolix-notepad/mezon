@@ -121,6 +121,44 @@
 
             $this->assertEquals( Functional::sum_fields( $Data , 'foo' ) , 6 , 'Invalid sum' );
         }
+
+        /**
+        *   This method is testing filtration function.
+        */
+        public function testFilterSimple()
+        {
+            $obj1 = new stdClass();
+            $obj1->foo = 1;
+
+            $obj2 = new stdClass();
+            $obj2->foo = 2;
+
+            $obj3 = new stdClass();
+            $obj3->foo = 1;
+
+            $Data = array( $obj1 , $obj2 , $obj3 );
+
+            $this->assertEquals( count( Functional::filter( $Data , 'foo' , '==' , 1 ) ) , 2 , 'Invalid filtration' );
+        }
+
+        /**
+        *   This method is testing filtration function in a recursive mode.
+        */
+        public function testFilterRecursive()
+        {
+            $obj1 = new stdClass();
+            $obj1->foo = 1;
+
+            $obj2 = new stdClass();
+            $obj2->foo = 2;
+
+            $obj3 = new stdClass();
+            $obj3->foo = 1;
+
+            $Data = array( $obj1 , array( $obj2 , $obj3 ) );
+
+            $this->assertEquals( count( Functional::filter( $Data , 'foo' , '==' , 1 ) ) , 2 , 'Invalid filtration' );
+        }
     }
 
 ?>
