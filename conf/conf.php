@@ -1,7 +1,5 @@
 <?php
 
-    @session_start();
-
     $MEZON_PATH = dirname( dirname( __FILE__ ) );
 
     function            _expand_string( $Value )
