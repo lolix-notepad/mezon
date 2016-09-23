@@ -30,7 +30,7 @@
         /**
         *   Function returns instance of the object.
         */
-        public function get_instance()
+        public static function get_instance()
         {
             $ClassName = get_called_class();
 
