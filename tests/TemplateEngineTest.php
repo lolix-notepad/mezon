@@ -21,7 +21,7 @@
         }
     }
 
-    class TemplateEngineTest extends PHPUnit_Framework_TestCase
+    class TemplateEngineTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Testing single var substitution.

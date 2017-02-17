@@ -4,7 +4,7 @@
 
     require_once( $MEZON_PATH.'/vendor/pdo-crud/pdo-crud.php' );
 
-    class ProCrudTest extends PHPUnit_Framework_TestCase
+    class ProCrudTest extends PHPUnit\Framework\TestCase
     {
         /**
         * Call protected/private method of a class.

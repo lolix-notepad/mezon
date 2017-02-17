@@ -4,7 +4,7 @@
 
     require_once( $MEZON_PATH.'/vendor/view/view.php' );
 
-    class ViewTest extends PHPUnit_Framework_TestCase
+    class ViewTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Testing additing CSS file.

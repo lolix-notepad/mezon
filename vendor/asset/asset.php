@@ -1,7 +1,7 @@
 <?php
 
-    global          $MEZON_PATH;
-    require_once( $MEZON_PATH.'/vendor/template-resources/template-resources.php' );
+    require_once( dirname( dirname( dirname( __FILE__ ) ) ).'/conf/conf.php' );
+    require_once( MEZON_PATH.'/vendor/template-resources/template-resources.php' );
 
     /**
     *   Base class of the assets.

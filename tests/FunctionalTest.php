@@ -14,7 +14,7 @@
         return( $Object );
     }
 
-    class FunctionalTest extends PHPUnit_Framework_TestCase
+    class FunctionalTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Testing fields fetching.

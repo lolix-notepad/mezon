@@ -1,6 +1,7 @@
 <?php
 
     $MEZON_PATH = dirname( dirname( __FILE__ ) );
+	define( 'MEZON_PATH' , dirname( dirname( __FILE__ ) ) );
 
     function            _expand_string( $Value )
     {
@@ -128,6 +129,80 @@
             $AppConfig[ $Route[ 0 ] ] = array( $Value );
         }
     }
+
+	/**
+	*	Validating key existance.
+	*/
+	function			config_key_exists( $Route )
+	{
+		global          $AppConfig;
+
+        if( is_string( $Route ) )
+        {
+            $Route = explode( '/' , $Route );
+        }
+
+		// validating route
+        $Value = $AppConfig[ $Route[ 0 ] ];
+
+        for( $i = 1 ; $i < count( $Route ) ; $i++ )
+        {
+            if( isset( $Value[ $Route[ $i ] ] ) === false )
+            {
+                return( false );
+            }
+
+            $Value = $Value[ $Route[ $i ] ];
+        }
+
+		return( true );
+	}
+
+	/**
+	*	Deleting config element.
+	*/
+	function			_delete_config( $RouteParts , &$ConfigPart )
+	{
+		if( count( $RouteParts ) == 1 )
+		{
+			// don't go deeper and delete the found staff
+			unset( $ConfigPart[ $RouteParts[ 0 ] ] );
+		}
+		else
+		{
+			// go deeper
+			_delete_config( array_splice( $RouteParts , 1 ) , $ConfigPart[ $RouteParts[ 0 ] ] );
+
+			if( count( $ConfigPart[ $RouteParts[ 0 ] ] ) == 0 )
+			{
+				// remove empty parents
+				unset( $ConfigPart[ $RouteParts[ 0 ] ] );
+			}
+		}
+	}
+
+	/**
+	*	Deleting config value.
+	*/
+	function			delete_config_value( $Route )
+	{
+		global          $AppConfig;
+
+		if( is_string( $Route ) )
+        {
+            $Route = explode( '/' , $Route );
+        }
+
+        if( config_key_exists( $Route ) === false )
+		{
+			return( false );
+		}
+
+		// route exists, so delete it
+		_delete_config( $Route , $AppConfig );
+
+		return( true );
+	}
 
     set_config_value( '@app-http-path' , 'http://'.@$_SERVER[ 'HTTP_HOST' ].'/'.trim( @$_SERVER[ 'REQUEST_URI' ] , '/' ) );
     set_config_value( '@mezon-http-path' , 'http://'.@$_SERVER[ 'HTTP_HOST' ].'/'.trim( @$_SERVER[ 'REQUEST_URI' ] , '/' ) );

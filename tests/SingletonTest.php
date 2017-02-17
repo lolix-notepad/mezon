@@ -29,7 +29,7 @@
         return( SingletonParams::get_instance( 1 ) );
     }
 
-    class SingletonTest extends PHPUnit_Framework_TestCase
+    class SingletonTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   This test checks common singleton's functionality
@@ -46,7 +46,7 @@
         /**
         *   Test checks that second object can't be created.
         */
-        public function testDirectSreationTest()
+        public function testDirectCreationTest()
         {
             $Object = new SingletonBar();
 
@@ -57,10 +57,11 @@
             catch( Exception $e )
             {
                 $Object->destroy();
+				$this->assertEquals( true , true , 'Invalid object creation' );
                 return;
             }
 
-            $this->assertFalse( false , 'Invalid object creation' );
+			$this->assertFalse( false , 'Invalid object creation' );
         }
 
         /**
@@ -92,6 +93,7 @@
             catch( Exception $e )
             {
                 $Object1->destroy();
+				$this->assertEquals( true , true , 'Invalid object cloning' );
                 return;
             }
 

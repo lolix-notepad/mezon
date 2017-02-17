@@ -26,7 +26,7 @@
         }
     }
 
-    class ApplicationTest extends PHPUnit_Framework_TestCase
+    class ApplicationTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Running with correct router.

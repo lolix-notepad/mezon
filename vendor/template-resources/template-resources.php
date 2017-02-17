@@ -1,7 +1,7 @@
 <?php
 
-    global          $MEZON_PATH;
-    require_once( $MEZON_PATH.'/conf/conf.php' );
+    require_once( dirname( dirname( dirname( __FILE__ ) ) ).'/conf/conf.php' );
+    require_once( MEZON_PATH.'/conf/conf.php' );
 
     /**
     *   Class collects resources for page.

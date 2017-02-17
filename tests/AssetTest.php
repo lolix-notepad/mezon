@@ -1,7 +1,7 @@
 <?php
 
-    global          $MEZON_PATH;
-    require_once( $MEZON_PATH.'/vendor/asset/asset.php' );
+    require_once( dirname( dirname( __FILE__ ) ).'/conf/conf.php' );
+    require_once( MEZON_PATH.'/vendor/asset/asset.php' );
 
     class       TestingAsset extends Asset
     {
@@ -22,7 +22,7 @@
         }
     }
     
-    class AssetTest extends PHPUnit_Framework_TestCase
+    class AssetTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Testing additing CSS file.

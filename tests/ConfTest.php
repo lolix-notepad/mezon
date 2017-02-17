@@ -2,7 +2,7 @@
 
     require_once( dirname( __FILE__ ).'/../conf/conf.php' );
 
-    class ConfTest extends PHPUnit_Framework_TestCase
+    class ConfTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Testing setup of the existing key. It's value must be overwritten.
@@ -89,6 +89,8 @@
         */
         public function testAddComplexUnExistingArray()
         {
+			delete_config_value( array( 'unexisting-key' ) );
+
             $Value = get_config_value( array( 'unexisting-key' ) );
 
             $this->assertEquals( false , $Value , 'Invalid unexisting-key processing' );
@@ -105,6 +107,8 @@
         */
         public function testAddUnExistingArray()
         {
+			delete_config_value( array( 'unexisting-key' ) );
+
             $Value = get_config_value( array( 'unexisting-key' ) );
 
             $this->assertEquals( false , $Value , 'Invalid unexisting-key processing' );
@@ -140,6 +144,93 @@
 
             $this->assertEquals( 'set-value-1' , $Value , 'Invalid unexisting-key value' );
         }
+
+		/**
+        *   Deleting simple key.
+        */
+        public function testDeleteFirstValue()
+        {
+            set_config_value( 'key-1' , 'value' );
+
+            $Value = get_config_value( 'key-1' );
+
+            $this->assertEquals( 'value' , $Value , 'Invalid setting value' );
+
+			delete_config_value( 'key-1' );
+
+			$Value = get_config_value( 'key-1' , false );
+
+            $this->assertEquals( false , $Value , 'Key was not deleted' );
+        }
+
+		/**
+        *   Deleting deep key.
+        */
+        public function testDeleteNextValue()
+        {
+            set_config_value( 'key-2/key-3' , 'value' );
+
+            $Value = get_config_value( 'key-2/key-3' );
+
+            $this->assertEquals( 'value' , $Value , 'Invalid setting value' );
+
+			delete_config_value( 'key-2/key-3' );
+
+			$Value = get_config_value( 'key-2/key-3' , false );
+
+            $this->assertEquals( false , $Value , 'Key was not deleted' );
+        }
+
+		/**
+        *   Deleting empty keys.
+        */
+        public function testDeleteEmptyKeys()
+        {
+            set_config_value( 'key-4/key-5' , 'value' );
+
+			delete_config_value( 'key-4/key-5' );
+
+			$Value = get_config_value( 'key-4' , false );
+
+            $this->assertEquals( false , $Value , 'Key was not deleted' );
+        }
+
+		/**
+        *   No deleting not empty keys.
+        */
+        public function testNoDeleteNotEmptyKeys()
+        {
+            set_config_value( 'key-6/key-7' , 'value' );
+            set_config_value( 'key-6/key-8' , 'value' );
+
+			delete_config_value( 'key-6/key-7' );
+
+			$Value = get_config_value( 'key-6' , false );
+
+            $this->assertEquals( true , is_array( $Value ) , 'Key was deleted' );
+
+			$Value = get_config_value( 'key-6/key-8' , false );
+
+            $this->assertEquals( 'value' , $Value , 'Key was deleted' );
+        }
+
+		/**
+		*	Testing delete results.
+		*/
+		public function	testDeleteResult()
+		{
+			set_config_value( 'key-9/key-10' , 'value' );
+
+			// deleting unexisting value
+			$Result = delete_config_value( 'key-9/key-unexisting' );
+
+			$this->assertEquals( false , $Result , 'Invalid deleting result' );
+
+			// deleting existing value
+			$Result = delete_config_value( 'key-9/key-10' );
+
+			$this->assertEquals( true , $Result , 'Invalid deleting result' );
+		}
     }
 
 ?>

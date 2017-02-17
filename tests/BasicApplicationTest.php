@@ -1,8 +1,7 @@
 <?php
 
-    global          $MEZON_PATH;
-
-    require_once( $MEZON_PATH.'/vendor/basic-application/basic-application.php' );
+    require_once( dirname( dirname( __FILE__ ) ).'/conf/conf.php' );
+    require_once( MEZON_PATH.'/vendor/basic-application/basic-application.php' );
 
     /**
     *   Application for testing purposes.
@@ -37,7 +36,7 @@
         }
     }
 
-    class BasicApplicationTest extends PHPUnit_Framework_TestCase
+    class BasicApplicationTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Running with incorrect router.
@@ -46,6 +45,7 @@
         {
             $Application = new TestBasicApplication();
 
+			$_SERVER[ 'REQUEST_METHOD' ] = 'GET';
             $_GET[ 'r' ] = '/existing/';
 
             ob_start();
@@ -67,6 +67,7 @@
         {
             $Application = new TestBasicApplication();
 
+			$_SERVER[ 'REQUEST_METHOD' ] = 'GET';
             $_GET[ 'r' ] = '/array-result/';
 
             ob_start();
@@ -85,6 +86,7 @@
         {
             $Application = new TestBasicApplication();
 
+			$_SERVER[ 'REQUEST_METHOD' ] = 'GET';
             $_GET[ 'r' ] = '/view-result/';
 
             ob_start();

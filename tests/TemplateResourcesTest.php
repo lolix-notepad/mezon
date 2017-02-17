@@ -4,7 +4,7 @@
 
     require_once( $MEZON_PATH.'/vendor/template-resources/template-resources.php' );
 
-    class TemplateResourcesTest extends PHPUnit_Framework_TestCase
+    class TemplateResourcesTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Testing additing CSS file.

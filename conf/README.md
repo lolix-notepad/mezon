@@ -21,5 +21,23 @@ add_config_value( 'res/value' , 'Value 2!' );
 var_dump( get_config_value( 'res/value' ) ); // displays array( [0] => 'Value 1!' , [1] => 'Value 2!' ) array
 ```
 
-That's all you need to know about config read/write.
+If you are not shure that the key exists, then you can check it:
+
+```PHP
+set_config_value( 'res/value' , 'Value!' );
+
+var_dump( config_key_exists( 'res' ) ); // true
+var_dump( config_key_exists( 'res2' ) ); // false
+var_dump( config_key_exists( 'res/value' ) ); // true
 ```
+
+You can also able to delete config key
+
+```PHP
+set_config_value( 'res/value' , 'Value!' );
+delete_config_value( 'res/value' );
+var_dump( config_key_exists( 'res/value' ) ); // false
+var_dump( config_key_exists( 'res' ) ); // also false
+```
+
+That's all you need to know about config read/write.

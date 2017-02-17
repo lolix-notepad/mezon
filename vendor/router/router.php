@@ -215,6 +215,8 @@
                 case( 'PUT' ) : return( $this->find_static_route_processor( $this->PutRoutes , $Route ) );
 
                 case( 'DELETE' ) : return( $this->find_static_route_processor( $this->DeleteRoutes , $Route ) );
+				
+				default : throw( new Exception( 'Unsupported request method' ) );
             }
 
             return( false );
@@ -337,10 +339,25 @@
                 case( 'PUT' ) : return( $this->find_dynamic_route_processor( $this->PutRoutes , $Route ) );
 
                 case( 'DELETE' ) : return( $this->find_dynamic_route_processor( $this->DeleteRoutes , $Route ) );
+
+				default : throw( new Exception( 'Unsupported request method' ) );
             }
 
             return( false );
         }
+
+		/**
+		*	Method rturns all available routes.
+		*/
+		private function		get_all_routes_trace()
+		{
+			return(
+				( count( $this->GetRoutes ) ? 'GET:'.implode( ', ' , array_keys( $this->GetRoutes ) ).'; ' : '' ).
+				( count( $this->PostRoutes ) ? 'POST:'.implode( ', ' , array_keys( $this->PostRoutes ) ).'; ' : '' ).
+				( count( $this->PutRoutes ) ? 'PUT:'.implode( ', ' , array_keys( $this->PutRoutes ) ).'; ' : '' ).
+				( count( $this->DeleteRoutes ) ? 'DELETE:'.implode( ', ' , array_keys( $this->DeleteRoutes ) ) : '' )
+			);
+		}
 
         /**
         *   Processing specified router.
@@ -359,7 +376,12 @@
                 return( $Result );
             }
 
-            throw( new Exception( 'The processor was not found for the route '.$Route ) );
+            throw( 
+				new Exception( 
+					'The processor was not found for the route '.$Route.' in '.
+						$this->get_all_routes_trace()
+				)
+			);
         }
 
         /**

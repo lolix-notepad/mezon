@@ -5,7 +5,7 @@
     require_once( $MEZON_PATH.'/vendor/basic-template/basic-template.php' );
     require_once( $MEZON_PATH.'/vendor/jquery/jquery.php' );
 
-    class jQueryTest extends PHPUnit_Framework_TestCase
+    class jQueryTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Including uncompressed JS.

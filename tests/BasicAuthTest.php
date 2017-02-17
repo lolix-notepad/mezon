@@ -21,7 +21,7 @@
         }
     }
  
-    class BasicAuthTest extends PHPUnit_Framework_TestCase
+    class BasicAuthTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Testing user validation.

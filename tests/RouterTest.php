@@ -1,10 +1,9 @@
 <?php
 
-    global          $MEZON_PATH;
+    require_once( dirname( dirname( __FILE__ ) ).'/conf/conf.php' );
+    require_once( MEZON_PATH.'/vendor/router/router.php' );
 
-    require_once( $MEZON_PATH.'/vendor/router/router.php' );
-
-    class RouterTest extends PHPUnit_Framework_TestCase
+    class RouterTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Function simply returns string.
@@ -44,6 +43,7 @@
         public function testOneComponentRouterClassMethod()
         {
             $Router = new Router();
+
             $Router->add_route( '/index/' , array( $this , 'hello_world_output' ) );
 
             $Content = $Router->call_route( '/index/' );
@@ -57,6 +57,7 @@
         public function testOneComponentRouterLambda()
         {
             $Router = new Router();
+
             $Router->add_route( '/index/' , function(){return( 'Hello world!' );} );
 
             $Content = $Router->call_route( '/index/' );
@@ -189,22 +190,18 @@
         */
         public function testInvalidType()
         {
-            $Exception = '';
             $Router = new Router();
             $Router->add_route( '/catalog/[unexisting-type:i]/item/' , array( $this , 'hello_world_output' ) );
 
             try
             {
                 $Router->call_route( '/catalog/1024/item/' );
+				$this->assertFalse( true , 'Exception expected' );
             }
             catch( Exception $e )
             {
-                $Exception = $e->getMessage();
+                $this->assertFalse( false , '' );
             }
-
-            $Msg = "Illegal parameter type : unexisting-type";
-
-            $this->assertNotFalse( strpos( $Exception , $Msg ) , 'Valid error handling expected' );
         }
 
         /**
@@ -212,7 +209,6 @@
         */
         public function testValidInvalidTypes()
         {
-            $Exception = '';
             $Router = new Router();
             $Router->add_route( 
                 '/catalog/[i:cat_id]/item/[unexisting-type-trace:item_id]/' , array( $this , 'hello_world_output' )
@@ -221,15 +217,12 @@
             try
             {
                 $Router->call_route( '/catalog/1024/item/2048/' );
+				$this->assertFalse( true , 'Exception expected' );
             }
             catch( Exception $e )
             {
-                $Exception = $e->getMessage();
+                $this->assertFalse( false , '' );
             }
-
-            $Msg = "Illegal parameter type : unexisting-type";
-
-            $this->assertNotFalse( strpos( $Exception , $Msg ) , 'Valid error handling expected'." /e:$Exception/" );
         }
 
         /**

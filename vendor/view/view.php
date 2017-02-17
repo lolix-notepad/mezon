@@ -1,8 +1,5 @@
 <?php
 
-    global          $MEZON_PATH;
-    require_once( $MEZON_PATH.'/conf/conf.php' );
-
     /**
     *   Base class for all views.
     */

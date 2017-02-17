@@ -5,7 +5,7 @@
     require_once( $MEZON_PATH.'/vendor/basic-template/basic-template.php' );
     require_once( $MEZON_PATH.'/vendor/template-resources/template-resources.php' );
 
-    class BasicTemplateTest extends PHPUnit_Framework_TestCase
+    class BasicTemplateTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Generating page without resources.

@@ -1,8 +1,8 @@
 <?php
 
     require_once( dirname( dirname( dirname( __FILE__ ) ) ).'/conf/conf.php' );
-    require_once( $MEZON_PATH.'/vendor/router/router.php' );
-    require_once( $MEZON_PATH.'/vendor/template-engine/template-engine.php' );
+    require_once( MEZON_PATH.'/vendor/router/router.php' );
+    require_once( MEZON_PATH.'/vendor/template-engine/template-engine.php' );
 
     /**
     *   Base class of the application.

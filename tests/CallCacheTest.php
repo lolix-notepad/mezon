@@ -4,7 +4,7 @@
 
     require_once( $MEZON_PATH.'/vendor/call-cache/call-cache.php' );
 
-    class CallCacheTest extends PHPUnit_Framework_TestCase
+    class CallCacheTest extends PHPUnit\Framework\TestCase
     {
         /**
         *   Testing successfull cache put.
