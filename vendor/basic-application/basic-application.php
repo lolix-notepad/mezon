@@ -1,7 +1,7 @@
 <?php
 
-	require_once( dirname( __FILE__ ).'/../application/application.php' );
 	require_once( dirname( __FILE__ ).'/../basic-template/basic-template.php' );
+	require_once( dirname( __FILE__ ).'/../common-application/common-application.php' );
 	require_once( dirname( __FILE__ ).'/../view/view.php' );
 
 	/**
@@ -9,52 +9,14 @@
     *
     *   It is simply Application + BasicTemplate wich allows to construct applications with unified templates. And for all pages template will be the same.
 	*/
-	class			BasicApplication extends Application
+	class			BasicApplication extends CommonApplication
 	{
-		/**
-		*	Application's template.
-		*/
-		protected 			$Template = false;
-
 		/**
 		*	Constructor.
 		*/
 		function			__construct()
 		{
-			parent::__construct();
-
-			$this->Template = new BasicTemplate();
-		}
-
-		/**
-        *   Running application.
-        */
-		function			run()
-		{
-			try
-            {
-                $Result = $this->call_route();
-
-                if( is_array( $Result ) )
-                {
-                    foreach( $Result as $Key => $Value )
-                    {
-                        $Content = $Value instanceof View ? $Value->render() : $Value;
-
-                        $this->Template->set_page_var( $Key , $Content );
-                    }
-                }
-                else
-                {
-                    $this->Template->set_page_var( 'main' , $Result );
-                }
-
-				print( $this->Template->compile() );
-            }
-            catch( Exception $e )
-            {
-                print( '<pre>'.$e );
-            }
+			parent::__construct( new BasicTemplate() );
 		}
 	}
 

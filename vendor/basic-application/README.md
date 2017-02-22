@@ -8,7 +8,7 @@ It can be simply used for prototyping.
 
 ##Extended routes processing##
 
-In [Application](https://github.com/alexdodonov/mezon/tree/master/vendor/application#base-application-class) class routes may return only strings. But BasicApplication class allows you to return arrays of string wich will be placed in the template placeholders.
+In [Application](https://github.com/alexdodonov/mezon/tree/master/vendor/common-application#common-application-class) class routes may return only strings. But BasicApplication class allows you to return arrays of string wich will be placed in the template placeholders.
 
 Simple example:
 

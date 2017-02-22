@@ -4,6 +4,7 @@
 
 	require_once( $MEZON_PATH.'/vendor/application/application.php' );
 	require_once( $MEZON_PATH.'/vendor/basic-application/basic-application.php' );
+	require_once( $MEZON_PATH.'/vendor/basic-auth/basic-auth.php' );
 	require_once( $MEZON_PATH.'/vendor/basic-template/basic-template.php' );
 	require_once( $MEZON_PATH.'/vendor/call-cache/call-cache.php' );
 	require_once( $MEZON_PATH.'/vendor/functional/functional.php' );
