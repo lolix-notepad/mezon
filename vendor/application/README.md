@@ -14,7 +14,7 @@ This class provieds:
 
 ###Loading routes from config file###
 
-With time your application will grow and number of routes will increase. So we have provided convinient way to store all routes in a standalone confi file. So it is not necessary to initialize all routes in an Application (or any derived class) object's constructor.
+With time your application will grow and number of routes will increase. So we have provided convinient way to store all routes in a standalone config file. So it is not necessary to initialize all routes in an Application (or any derived class) object's constructor.
 
 Let's find out how you can use it.
 
@@ -29,13 +29,15 @@ return(
                                               // Application derived class
         ) , 
         array(
-            'route' => '/news/[i:news_id]/' , // your route
-            'callback' => 'display_exact_news' // this must be the method name of your 
-                                               // Application derived class
+            'route' => '/news/[i:news_id]/' ,    // your route
+            'callback' => 'display_exact_news' , // this must be the method name of your 
+            'method' => 'POST'                   // Application derived class
         )
     )
 );
 ```
+
+Note that the 'method' field is not set then it will be defaulted to GET.
 
 Then just call Application::load_routes_from_config() method and it will load your ./conf/routes.php config.
 

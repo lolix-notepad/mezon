@@ -28,7 +28,7 @@
 		*
 		*	@param $UserSet - entity wich provides access to the set if users.
 		*/
-		public function			__construct( $Realm , $UserSet )
+		public function			__construct( $Realm , $UserSet = [] )
 		{
 			$this->Realm = $Realm;
 
@@ -46,6 +46,26 @@
 			header( 'WWW-Authenticate: Basic realm="'.$this->Realm.$RealmSuffix.'"' );
 			header( 'HTTP/1.0 401 Unauthorized' );
 			exit;
+		}
+
+		/**
+		*	Method returns full object of the logged in user.
+		*/
+		public function			get_logged_in_user()
+		{
+			if( is_array( $this->UserSet ) && isset( $this->UserSet[ 'login' ] ) )
+			{
+				return( $this->UserSet );
+			}
+			foreach( $this->UserSet as $i => $User )
+			{
+				if( $User[ 'login' ] == $_SERVER[ 'PHP_AUTH_USER' ] )
+				{
+					return( $User );
+				}
+			}
+
+			return( false );
 		}
 
 		/**
@@ -120,13 +140,20 @@
 		/**
 		*	Logout method.
 		*/
-		public function			logout()
+		public function			logout( $RealmSuffix = '' )
 		{
 			header( 'HTTP/1.0 401 Unauthorized' );
+			header( 'WWW-Authenticate: Basic realm="'.$this->Realm.$RealmSuffix.'"' );
 			exit;
 		}
-	}
 
-	//$Auth = new BasicAuth( 'Admin console' , array( array( 'login' =>'admin' , 'password' => '1234567' ) ) );
+		/**
+		*	Getting logge in user login.
+		*/
+		public function			get_login()
+		{
+			return( $_SERVER[ 'PHP_AUTH_USER' ] );
+		}
+	}
 
 ?>

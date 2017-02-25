@@ -35,8 +35,9 @@
         /**
         *   Getting records.
         */
-        function            select( $Fields , $TableName , $Where = '1 = 1' , $From = 0 , $Limit = 1000000 )
+        function            select( $Fields , $TableNames , $Where = '1 = 1' , $From = 0 , $Limit = 1000000 )
         {
+			var_dump( $this->select_query( $Fields , $TableNames , $Where , $From , $Limit ) );
             $Result = $this->PDO->query( $this->select_query( $Fields , $TableNames , $Where , $From , $Limit ) );
 
             return( $Result->fetchAll() );

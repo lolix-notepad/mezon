@@ -23,7 +23,6 @@
         */
         public function render()
         {
-            // TODO: add macro and blocks compilation here
             return( $this->Content );
         }
     }

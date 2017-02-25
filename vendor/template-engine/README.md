@@ -62,6 +62,12 @@ print( TemplateEngine::print_record(
 ) );
 ```
 
+##Template variables##
+
+You can use template variables bounded by '{' and '}' symbols.
+
+For example:
+
 ##Extended page compilation##
 
 You may also use loopes in your templates.
@@ -69,16 +75,12 @@ You may also use loopes in your templates.
 For example:
 
 ```PHP
-$Str = '{foreach:field}row : {content}<br>{~foreach}';
-$Data = array(
-    'field' => array(
-        array( 'content' => '1' ) , 
-        array( 'content' => '2' ) , 
-        array( 'content' => 'Last!' ) , 
-    )
-);
+$Engine = new TemplateEngine();
+$Engine->set_page_var( 'var1' , 'value1' );
+$Engine->set_page_var( 'var2' , 'value2' );
 
-print( TemplateEngineUtility::print_record( $Str , $Data ) );
+$Content = '{var1} & {var2}';
+print( $Engine->compile_page_vars( $Content ) ); // outputs "value1 value2"
 ```
 
 And the output will be:
