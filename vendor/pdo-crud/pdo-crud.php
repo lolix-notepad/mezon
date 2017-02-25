@@ -26,8 +26,8 @@
         */
         protected function  select_query( $Fields , $TableNames , $Where , $From , $Limit )
         {
-            $Query = 'SELECT '.htmlspecialchars( $Fields ).' FROM '.htmlspecialchars( $TableNames ).' WHERE '.
-                htmlspecialchars( $Where ).' LIMIT '.intval( $From ).' , '.intval( $Limit );
+            $Query = 'SELECT '.$Fields.' FROM '.$TableNames.' WHERE '.
+                $Where.' LIMIT '.intval( $From ).' , '.intval( $Limit );
 
             return( $Query );
         }
@@ -37,8 +37,18 @@
         */
         function            select( $Fields , $TableNames , $Where = '1 = 1' , $From = 0 , $Limit = 1000000 )
         {
-			var_dump( $this->select_query( $Fields , $TableNames , $Where , $From , $Limit ) );
             $Result = $this->PDO->query( $this->select_query( $Fields , $TableNames , $Where , $From , $Limit ) );
+
+			if( $Result === false )
+			{
+				$ErrorInfo = $this->PDO->errorInfo();
+				throw( 
+					new Exception( 
+						$ErrorInfo[ 2 ].' in statement '.
+							$this->select_query( $Fields , $TableNames , $Where , $From , $Limit ) 
+					) 
+				);
+			}
 
             return( $Result->fetchAll() );
         }
