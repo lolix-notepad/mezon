@@ -62,6 +62,26 @@
         }
 
 		/**
+        *   Method builds delete query.
+        */
+        protected function  delete_query( $TableName , $Where , $Limit )
+        {
+            $Query = 'DELETE FROM '.$TableName.' WHERE '.$Where.' LIMIT '.intval( $Limit );
+
+            return( $Query );
+        }
+
+		/**
+		*	Deleting records.
+		*/
+		function			delete( $TableName , $Where , $Limit = 10000000 )
+		{
+			$Result = $this->PDO->query( $this->delete_query( $TableName , $Where , $Limit ) );
+
+			$this->process_query_error( $Result );
+		}
+
+		/**
 		*	Method compiles lock queries.
 		*/
 		protected function	lock_query( $Tables , $Modes )

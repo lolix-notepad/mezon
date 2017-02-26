@@ -35,6 +35,18 @@ $CRUD->connect( $DataConnection );
 $Records = $CRUD->select( 'id , title' , 'test_table' , 'id > 12' );
 ```
 
+##Deleting records##
+
+Deleting routine is quite simple:
+
+```PHP
+$CRUD->delete( 
+	'table_name' , // table name
+	'id > 10' ,    // WHERE statement
+	10             // number of records to delete
+);
+```
+
 ##Transaction and thread safety##
 
 You can lock tables and work with transactions.

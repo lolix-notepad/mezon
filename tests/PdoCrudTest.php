@@ -37,6 +37,18 @@
         }
 
 		/**
+        *   Testing delete query.
+        */
+        public function testDeleteQuery()
+        {
+            $Object = new PdoCrud();
+
+            $Result = $this->invokeMethod( $Object , 'delete_query' , array( 'table' , 'id=1' , 10 ) );
+
+            $this->assertEquals( 'DELETE FROM table WHERE id=1 LIMIT 10' , $Result , 'Invalid query' );
+        }
+
+		/**
         *   Testing lock query.
         */
         public function testLockQuery()
