@@ -47,6 +47,18 @@ $CRUD->delete(
 );
 ```
 
+##Updating records##
+
+Updating routine is also very simple:
+
+```PHP
+$CRUD->update( 
+	'table_name' ,                   // table name
+	array( 'f1' => 1 , f2 => '2' ) , // new values for fields f1 and f2
+	'id > 10'                        // WHERE statement
+);
+```
+
 ##Transaction and thread safety##
 
 You can lock tables and work with transactions.

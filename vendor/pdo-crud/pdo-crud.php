@@ -62,6 +62,40 @@
         }
 
 		/**
+        *   Method builds update query.
+        */
+        protected function  update_query( $TableName , $Record , $Where )
+        {
+			$SetFieldsStatement = [];
+
+			foreach( $Record as $Field => $Value )
+			{
+				if( is_string( $Value ) )
+				{
+					$SetFieldsStatement [] = $Field.' = "'.$Value.'"';
+				}
+				else
+				{
+					$SetFieldsStatement [] = $Field.' = '.$Value;
+				}
+			}
+
+            $Query = 'UPDATE '.$TableName.' SET '.implode( ' , ' , $SetFieldsStatement ).' WHERE '.$Where;
+
+            return( $Query );
+        }
+
+		/**
+		*	Updating records.
+		*/
+		function			update( $TableName , $Record , $Where )
+		{
+			$Result = $this->PDO->query( $this->update_query( $TableName , $Record , $Where ) );
+
+			$this->process_query_error( $Result );
+		}
+
+		/**
         *   Method builds delete query.
         */
         protected function  delete_query( $TableName , $Where , $Limit )
@@ -93,7 +127,7 @@
 				$Query [] = $Table.' '.$Modes[ $i ];
 			}
 
-			$Query = 'LOCK TABLES '.implode( ', ' , $Query );
+			$Query = 'LOCK TABLES '.implode( ' , ' , $Query );
 
 			return( $Query );
 		}
