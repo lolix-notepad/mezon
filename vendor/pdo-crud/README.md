@@ -34,3 +34,22 @@ $CRUD->connect( $DataConnection );
 // fetching fields id and title from table test_table where ids are greater than 12
 $Records = $CRUD->select( 'id , title' , 'test_table' , 'id > 12' );
 ```
+
+##Transaction and thread safety##
+
+You can lock tables and work with transactions.
+
+```PHP
+$CRUD->lock_tables( array( 'table1' , 'table2' ) , array( 'READ' , 'WRITE' ) );
+$CRUD->start_transaction();
+
+// perform some changes in database
+
+// then commit these changes
+$CRUD->commit();
+
+// or rollback them
+// $CRUD->commit();
+
+$CRUD->unlock_tables();
+```

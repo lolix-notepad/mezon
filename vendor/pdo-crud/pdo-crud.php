@@ -32,13 +32,11 @@
             return( $Query );
         }
 
-        /**
-        *   Getting records.
-        */
-        function            select( $Fields , $TableNames , $Where = '1 = 1' , $From = 0 , $Limit = 1000000 )
-        {
-            $Result = $this->PDO->query( $this->select_query( $Fields , $TableNames , $Where , $From , $Limit ) );
-
+		/**
+		*	Method handles request errors.
+		*/
+		protected function	process_query_error( $Result )
+		{
 			if( $Result === false )
 			{
 				$ErrorInfo = $this->PDO->errorInfo();
@@ -49,9 +47,94 @@
 					) 
 				);
 			}
+		}
+
+        /**
+        *   Getting records.
+        */
+        function            select( $Fields , $TableNames , $Where = '1 = 1' , $From = 0 , $Limit = 1000000 )
+        {
+            $Result = $this->PDO->query( $this->select_query( $Fields , $TableNames , $Where , $From , $Limit ) );
+
+			$this->process_query_error( $Result );
 
             return( $Result->fetchAll() );
         }
+
+		/**
+		*	Method compiles lock queries.
+		*/
+		protected function	lock_query( $Tables , $Modes )
+		{
+			$Query = [];
+
+			foreach( $Tables as $i => $Table )
+			{
+				$Query [] = $Table.' '.$Modes[ $i ];
+			}
+
+			$Query = 'LOCK TABLES '.implode( ', ' , $Query );
+
+			return( $Query );
+		}
+
+		/**
+		*	Method locks tables
+		*/
+		function			lock( $Tables , $Modes )
+		{
+			$Result = $this->PDO->query( $rhis->lock_query() );
+
+			$this->process_query_error( $Result );
+		}
+
+		/**
+		*	Method unlocks locked tables.
+		*/
+		function			unlock()
+		{
+			$Result = $this->PDO->query( 'UNLOCK TABLES' );
+
+			$this->process_query_error( $Result );
+		}
+
+		/**
+		*	Method starts transaction.
+		*/
+		function			start_transaction()
+		{
+			// setting autocommit off
+			$Result = $this->PDO->query( 'SET AUTOCOMMIT = 0' );
+
+			$this->process_query_error( $Result );
+
+			// starting transaction
+			$Result = $this->PDO->query( 'START TRANSACTION' );
+
+			$this->process_query_error( $Result );
+		}
+
+		/**
+		*	Commiting transaction.
+		*/
+		function			commit()
+		{
+			// commit transaction
+			$Result = $this->PDO->query( 'COMMIT' );
+
+			$this->process_query_error( $Result );
+		}
+
+		/**
+		*	Rollback transaction.
+		*/
+		function			rollback()
+		{
+			// rollback transaction
+			$Result = $this->PDO->query( 'ROLLBACK' );
+
+			$this->process_query_error( $Result );
+		}
     }
 
 ?>

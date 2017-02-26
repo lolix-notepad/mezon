@@ -15,7 +15,7 @@
         *
         * @return mixed Method return.
         */
-        public function invokeMethod( &$Object , $MethodName , array $Parameters = array())
+        public function invokeMethod( &$Object , $MethodName , array $Parameters = array() )
         {
             $reflection = new \ReflectionClass( get_class( $Object ) );
             $method = $reflection->getMethod( $MethodName );
@@ -25,15 +25,27 @@
         }
 
         /**
-        *   Testing one component router.
+        *   Testing select query.
         */
-        public function testOneComponentRouterClassMethod()
+        public function testSelectQuery()
         {
             $Object = new PdoCrud();
 
             $Result = $this->invokeMethod( $Object , 'select_query' , array( 'field1,field2' , 'table' , 'id=1' , 1 , 10 ) );
 
             $this->assertEquals( 'SELECT field1,field2 FROM table WHERE id=1 LIMIT 1 , 10' , $Result , 'Invalid query' );
+        }
+
+		/**
+        *   Testing lock query.
+        */
+        public function testLockQuery()
+        {
+            $Object = new PdoCrud();
+
+            $Result = $this->invokeMethod( $Object , 'lock_query' , array( array( 'table1' , 'table2' ) , array( 'READ' , 'WRITE' ) ) );
+
+            $this->assertEquals( 'LOCK TABLES table1 READ, table2 WRITE' , $Result , 'Invalid query' );
         }
     }
 
