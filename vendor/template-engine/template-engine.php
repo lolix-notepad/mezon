@@ -178,8 +178,7 @@
 
             if( $TmpStartPos === false && $TmpEndPos === false )
             {
-                /* ничего не найдено, поэтому внешний цикл закончен, да и внутренний тоже
-                   $StartPos = strlen( $StringData ); */
+                /* nothing was found, so $StartPos = strlen( $StringData ); */
                 $StartPos = $MacroStartPos;
             }
 		}

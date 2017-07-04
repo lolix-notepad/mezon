@@ -19,6 +19,8 @@
             $this->PDO = new PDO( 
                 $ConnnectionData[ 'dsn' ] , $ConnnectionData[ 'user' ] , $ConnnectionData[ 'password' ]
             );
+
+			$this->PDO->query( 'SET NAMES utf8' );
         }
 
         /**
@@ -35,17 +37,13 @@
 		/**
 		*	Method handles request errors.
 		*/
-		protected function	process_query_error( $Result )
+		protected function	process_query_error( $Result , $Query )
 		{
 			if( $Result === false )
 			{
 				$ErrorInfo = $this->PDO->errorInfo();
-				throw( 
-					new Exception( 
-						$ErrorInfo[ 2 ].' in statement '.
-							$this->select_query( $Fields , $TableNames , $Where , $From , $Limit ) 
-					) 
-				);
+
+				throw( new Exception( $ErrorInfo[ 2 ].' in statement '.$Query ) );
 			}
 		}
 
@@ -54,18 +52,20 @@
         */
         function            select( $Fields , $TableNames , $Where = '1 = 1' , $From = 0 , $Limit = 1000000 )
         {
-            $Result = $this->PDO->query( $this->select_query( $Fields , $TableNames , $Where , $From , $Limit ) );
+			$Query = $this->select_query( $Fields , $TableNames , $Where , $From , $Limit );
 
-			$this->process_query_error( $Result );
+			$Result = $this->PDO->query( $Query );
 
-            return( $Result->fetchAll() );
+			$this->process_query_error( $Result , $Query );
+
+            return( $Result->fetchAll( PDO::FETCH_ASSOC ) );
         }
 
 		/**
-        *   Method builds update query.
-        */
-        protected function  update_query( $TableName , $Record , $Where )
-        {
+		*	Method compiles set-query.
+		*/
+		protected function	set_query( $Record )
+		{
 			$SetFieldsStatement = [];
 
 			foreach( $Record as $Field => $Value )
@@ -80,7 +80,16 @@
 				}
 			}
 
-            $Query = 'UPDATE '.$TableName.' SET '.implode( ' , ' , $SetFieldsStatement ).' WHERE '.$Where;
+			return( implode( ' , ' , $SetFieldsStatement ) );
+		}
+
+		/**
+        *   Method builds update query.
+        */
+        protected function  update_query( $TableName , $Record , $Where , $Limit )
+        {
+            $Query = 'UPDATE '.$TableName.' SET '.$this->set_query( $Record ).
+				' WHERE '.$Where.' LIMIT '.$Limit;
 
             return( $Query );
         }
@@ -88,11 +97,15 @@
 		/**
 		*	Updating records.
 		*/
-		function			update( $TableName , $Record , $Where )
+		function			update( $TableName , $Record , $Where , $Limit = 10000000 )
 		{
-			$Result = $this->PDO->query( $this->update_query( $TableName , $Record , $Where ) );
+			$Query = $this->update_query( $TableName , $Record , $Where , $Limit );
 
-			$this->process_query_error( $Result );
+			$Result = $this->PDO->query( $Query );
+
+			$this->process_query_error( $Result , $Query );
+
+			return( $Result->rowCount() );
 		}
 
 		/**
@@ -110,9 +123,13 @@
 		*/
 		function			delete( $TableName , $Where , $Limit = 10000000 )
 		{
-			$Result = $this->PDO->query( $this->delete_query( $TableName , $Where , $Limit ) );
+			$Query = $this->delete_query( $TableName , $Where , $Limit );
 
-			$this->process_query_error( $Result );
+			$Result = $this->PDO->query( $Query );
+
+			$this->process_query_error( $Result , $Query );
+
+			return( $Result->rowCount() );
 		}
 
 		/**
@@ -137,9 +154,11 @@
 		*/
 		function			lock( $Tables , $Modes )
 		{
-			$Result = $this->PDO->query( $rhis->lock_query() );
+			$Query = $this->lock_query( $Tables , $Modes );
 
-			$this->process_query_error( $Result );
+			$Result = $this->PDO->query( $Query );
+
+			$this->process_query_error( $Result , $Query );
 		}
 
 		/**
@@ -149,7 +168,7 @@
 		{
 			$Result = $this->PDO->query( 'UNLOCK TABLES' );
 
-			$this->process_query_error( $Result );
+			$this->process_query_error( $Result , 'UNLOCK TABLES' );
 		}
 
 		/**
@@ -160,12 +179,12 @@
 			// setting autocommit off
 			$Result = $this->PDO->query( 'SET AUTOCOMMIT = 0' );
 
-			$this->process_query_error( $Result );
+			$this->process_query_error( $Result , 'SET AUTOCOMMIT = 0' );
 
 			// starting transaction
 			$Result = $this->PDO->query( 'START TRANSACTION' );
 
-			$this->process_query_error( $Result );
+			$this->process_query_error( $Result , 'START TRANSACTION' );
 		}
 
 		/**
@@ -176,7 +195,12 @@
 			// commit transaction
 			$Result = $this->PDO->query( 'COMMIT' );
 
-			$this->process_query_error( $Result );
+			$this->process_query_error( $Result , 'COMMIT' );
+
+			// setting autocommit on
+			$Result = $this->PDO->query( 'SET AUTOCOMMIT = 1' );
+
+			$this->process_query_error( $Result , 'SET AUTOCOMMIT = 1' );
 		}
 
 		/**
@@ -187,7 +211,31 @@
 			// rollback transaction
 			$Result = $this->PDO->query( 'ROLLBACK' );
 
-			$this->process_query_error( $Result );
+			$this->process_query_error( $Result , 'ROLLBACK' );
+		}
+
+		/**
+        *   Method builds insert query.
+        */
+        protected function	insert_query( $TableName , $Record )
+        {
+            $Query = 'INSERT '.$TableName.' SET '.$this->set_query( $Record );
+
+            return( $Query );
+        }
+
+		/**
+		*	Method inserts record.
+		*/
+		function			insert( $TableName , $Record )
+		{
+			$Query = $this->insert_query( $TableName , $Record );
+
+			$Result = $this->PDO->query( $Query );
+
+			$this->process_query_error( $Result , $Query );
+
+			return( $this->PDO->lastInsertId() );
 		}
     }
 

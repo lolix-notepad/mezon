@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/ico" href="{favicon-path}">
 
     <title>{title}</title>
 
@@ -17,7 +18,7 @@
     <link href="{mezon-http-path}/vendor/gentella-template/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="{mezon-http-path}/vendor/gentella-template/iCheck/skins/flat/green.css" rel="stylesheet">
-	
+
     <!-- bootstrap-progressbar -->
     <link href="{mezon-http-path}/vendor/gentella-template/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- JQVMap -->
@@ -34,16 +35,16 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="./" class="site_title"><i class="fa fa-paw"></i> <span>Админка</span></a>
+              <a href="{service-http-path}" class="site_title"><div class="logo"></div> <span>{system-title}</span></a>
             </div>
 
             <div class="clearfix"></div>
 
             <!-- menu profile quick info -->
             <div class="profile clearfix">
-              <div class="profile_pic">
+              <!--div class="profile_pic">
                 <img src="{mezon-http-path}/vendor/gentella-template/gentella-template/images/img.jpg" alt="..." class="img-circle profile_img">
-              </div>
+              </div-->
               <div class="profile_info">
                 <span>Добро пожаловать,</span>
                 <h2>{session-user-login}</h2>
@@ -62,7 +63,7 @@
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
+            <!--div class="sidebar-footer hidden-small">
               <a data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
@@ -75,7 +76,7 @@
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="{mezon-http-path}/vendor/gentella-template/gentella-template/login.html">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
-            </div>
+            </div-->
             <!-- /menu footer buttons -->
           </div>
         </div>
@@ -91,20 +92,19 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{mezon-http-path}/vendor/gentella-template/gentella-template/images/img.jpg" alt="">{session-user-login} ({session-user-available-gifts} подарков доступно)
-                    <span class=" fa fa-angle-down"></span>
+                    <img src="{mezon-http-path}/vendor/gentella-template/gentella-template/images/img.jpg" alt="">{session-user-login} ({extended-user-info})
+                    <!--span class=" fa fa-angle-down"></span-->
                   </a>
-                  <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Профиль</a></li>
-                    <li><a href="/admin/?logout"><i class="fa fa-sign-out pull-right"></i> Выход</a></li>
-                  </ul>
+                  <!--ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="{service-http-path}?logout"><i class="fa fa-sign-out pull-right"></i> Выход</a></li>
+                  </ul-->
                 </li>
 
                 <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                  <!--a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
                     <span class="badge bg-green">6</span>
-                  </a>
+                  </a-->
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <li>
                       <a>
@@ -210,13 +210,14 @@
     <!-- JQVMap -->
     <script src="{mezon-http-path}/vendor/gentella-template/jqvmap/dist/jquery.vmap.js"></script>
     <script src="{mezon-http-path}/vendor/gentella-template/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script src="{mezon-http-path}/vendor/gentella-template/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
     <!-- bootstrap-daterangepicker -->
     <script src="{mezon-http-path}/vendor/gentella-template/moment/min/moment.min.js"></script>
     <script src="{mezon-http-path}/vendor/gentella-template/bootstrap-daterangepicker/daterangepicker.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="{mezon-http-path}/vendor/gentella-template/build/js/custom.js"></script>
+	<!-- Application Scipts -->
+    <script src="{service-http-path}/include/js/app.js"></script>
 
   </body>
 </html>

@@ -171,6 +171,25 @@
             return( '/'.trim( $Route , '/' ).'/' );
         }
 
+		/**
+		*	Method compiles callable description.
+		*/
+		private function		get_callable_description( $Processor )
+		{
+			if( is_string( $Processor ) )
+			{
+				return( $Processor );
+			}
+			elseif( is_object( $Processor[ 0 ] ) )
+			{
+				return( get_class( $Processor[ 0 ] ).'::'.$Processor[ 1 ] );
+			}
+			else
+			{
+				return( $Processor[ 0 ].'::'.$Processor[ 1 ] );
+			}
+		}
+
         /**
         *   Method searches route processor.
         */
@@ -188,11 +207,10 @@
 					}
 					else
 					{
+						$CallableDescription = $this->get_callable_description( $Processor );
+
 						throw( 
-                            new Exception( 
-                                "'".( get_class( $Processor[ 0 ] ) !== false ? get_class( $Processor[ 0 ] ).'::'.
-                                    $Processor[ 1 ] : $Processor )."' must be callable entity"
-                            )
+                            new Exception( "'$CallableDescription' must be callable entity" )
                         );
 					}
                 }

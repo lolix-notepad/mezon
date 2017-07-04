@@ -19,9 +19,9 @@
         private $Resources =  false;
 
 		/**
-        *   Template �onstructor.
+        *   Template сonstructor.
         */
-        function			__construct()
+        function				__construct()
         {
             $this->Template = file_get_contents( dirname( __FILE__ ).'/gentella-template/index.html' );
 
@@ -31,7 +31,7 @@
         /**
         *   Method returns compiled page resources.
         */
-        private function    get_resources()
+        private function    	get_resources()
         {
             $Content = '';
 
@@ -55,7 +55,7 @@
         /**
         *   Compile template.
         */
-        function            compile()
+        function            	compile()
         {
             $this->set_page_var( 'resources' , $this->get_resources() );
             $this->set_page_var( 'mezon-http-path' , get_config_value( '@mezon-http-path' ) );
@@ -64,6 +64,58 @@
 
             return( $this->Template );
         }
+
+		/**
+		*	Method compiles success message content.
+		*/
+		public static function	success_message_content( $Message )
+		{
+			return(
+				'<div class="x_content" style="margin: 0; padding: 0;">'.
+				'<div class="alert alert-success alert-dismissible fade in" role="alert">'.
+				'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'.
+				'<span aria-hidden="true">×</span></button>'.$Message.'</div></div>'
+			);
+		}
+
+		/**
+		*	Method compiles info message content.
+		*/
+		public static function	info_message_content( $Message )
+		{
+			return(
+				'<div class="x_content" style="margin: 0; padding: 0;">'.
+				'<div class="alert alert-info alert-dismissible fade in" role="alert">'.
+				'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'.
+				'<span aria-hidden="true">×</span></button>'.$Message.'</div></div>'
+			);
+		}
+
+		/**
+		*	Method compiles warning message content.
+		*/
+		public static function	warning_message_content( $Message )
+		{
+			return(
+				'<div class="x_content" style="margin: 0; padding: 0;">'.
+				'<div class="alert alert-warning alert-dismissible fade in" role="alert">'.
+				'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'.
+				'<span aria-hidden="true">×</span></button>'.$Message.'</div></div>'
+			);
+		}
+
+		/**
+		*	Method compiles danger message content.
+		*/
+		public static function	danger_message_content( $Message )
+		{
+			return(
+				'<div class="x_content" style="margin: 0; padding: 0;">'.
+				'<div class="alert alert-danger alert-dismissible fade in" role="alert">'.
+				'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'.
+				'<span aria-hidden="true">×</span></button>'.$Message.'</div></div>'
+			);
+		}
 	}
 
 ?>

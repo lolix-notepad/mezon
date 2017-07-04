@@ -96,6 +96,7 @@
 		*/
 		protected function		validate_password()
 		{
+			
 			if( is_array( $this->UserSet ) && isset( $this->UserSet[ 'password' ] ) )
 			{
 				return( $this->UserSet[ 'login' ] == $_SERVER[ 'PHP_AUTH_USER' ] && 
@@ -148,9 +149,9 @@
 		}
 
 		/**
-		*	Getting logge in user login.
+		*	Getting logged in user login.
 		*/
-		public function			get_login()
+		public static function	get_login()
 		{
 			return( $_SERVER[ 'PHP_AUTH_USER' ] );
 		}

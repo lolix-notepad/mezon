@@ -47,6 +47,17 @@ $CRUD->delete(
 );
 ```
 
+##Inserting records##
+
+Inserting routine is also very simple:
+
+```PHP
+$CRUD->insert( 
+	'table_name' ,                 // table name
+	array( 'f1' => 1 , f2 => '2' ) // new values for fields f1 and f2
+);
+```
+
 ##Updating records##
 
 Updating routine is also very simple:

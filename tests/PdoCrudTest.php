@@ -43,9 +43,9 @@
         {
             $Object = new PdoCrud();
 
-            $Result = $this->invokeMethod( $Object , 'update_query' , array( 'table' , array( 'f1' => 'value' , 'f2' => 1 ) , 'id=1' ) );
+            $Result = $this->invokeMethod( $Object , 'update_query' , array( 'table' , array( 'f1' => 'value' , 'f2' => 1 ) , 'id=1' , 3 ) );
 
-            $this->assertEquals( 'UPDATE table SET f1 = "value" , f2 = 1 WHERE id=1' , $Result , 'Invalid query' );
+            $this->assertEquals( 'UPDATE table SET f1 = "value" , f2 = 1 WHERE id=1 LIMIT 3' , $Result , 'Invalid query' );
         }
 
 		/**

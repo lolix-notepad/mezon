@@ -21,7 +21,7 @@
         /**
         *   Method renders content from view.
         */
-        public function render()
+        public function render( $Params )
         {
             return( $this->Content );
         }

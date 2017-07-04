@@ -6,7 +6,7 @@
     class           Functional
     {
         /**
-        *   MEthod fetches all fields from objects of an array.
+        *   Method fetches all fields from objects/arrays of an array.
         */
         public static function     get_fields( $Data , $Field )
         {
@@ -14,7 +14,14 @@
 
             foreach( $Data as $i => $Record )
             {
-                $Return [] = $Record->$Field;
+				if( is_object( $Record ) )
+				{
+					$Return [] = $Record->$Field;
+				}
+				else
+				{
+					$Return [] = $Record[ $Field ];
+				}
             }
 
             return( $Return );
