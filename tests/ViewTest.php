@@ -13,7 +13,7 @@
         {
             $View = new View( 'test' );
 
-            $this->assertEquals( $View->render() , 'test' , 'Invalid output' );
+            $this->assertEquals( $View->render( array() ) , 'test' , 'Invalid output' );
         }
     }
 
