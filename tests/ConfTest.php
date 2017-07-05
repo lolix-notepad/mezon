@@ -231,6 +231,23 @@
 
 			$this->assertEquals( true , $Result , 'Invalid deleting result' );
 		}
+
+		/**
+		*	Testing fas BD setup.
+		*/
+		public function testFastBDSetup()
+		{
+			add_connection_to_config( 'connection' , 'dsn' , 'user' , 'password' );
+
+			$Value = get_config_value( 'connection/dsn' , false );
+            $this->assertEquals( 'dsn' , $Value , 'Key connection/dsn was not found' );
+
+			$Value = get_config_value( 'connection/user' , false );
+            $this->assertEquals( 'user' , $Value , 'Key connection/user was not found' );
+
+			$Value = get_config_value( 'connection/password' , false );
+            $this->assertEquals( 'password' , $Value , 'Key connection/password was not found' );
+		}
     }
 
 ?>

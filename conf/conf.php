@@ -204,6 +204,16 @@
 		return( true );
 	}
 
+	/**
+	*	Method sets connection details to config.
+	*/
+	function			add_connection_to_config( $Name , $DSN , $User , $Password )
+	{
+		set_config_value( $Name.'/dsn' , $DSN );
+		set_config_value( $Name.'/user' , $User );
+		set_config_value( $Name.'/password' , $Password );
+	}
+
     set_config_value( '@app-http-path' , 'http://'.@$_SERVER[ 'HTTP_HOST' ].'/'.trim( @$_SERVER[ 'REQUEST_URI' ] , '/' ) );
     set_config_value( '@mezon-http-path' , 'http://'.@$_SERVER[ 'HTTP_HOST' ].'/'.trim( @$_SERVER[ 'REQUEST_URI' ] , '/' ) );
 
