@@ -14,7 +14,7 @@
 		public static function	select_control( $Name , $Records , $id = 'id' , 
 														$Title = 'title' , $SelectedValue = false )
 		{
-			$Control .= '<select class="form-control" name="'.$Name.'">';
+			$Control = '<select class="form-control" name="'.$Name.'">';
 
 			foreach( $Records as $i => $Record )
 			{
