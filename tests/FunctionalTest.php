@@ -16,6 +16,57 @@
 
     class FunctionalTest extends PHPUnit\Framework\TestCase
     {
+		/**
+		*	Testing getting field function.
+		*/
+		public function testGetFieldArray()
+		{
+			$Arr = array( 'foo' => 'bar' );
+			
+			$Result = Functional::get_field( $Arr , 'foo' );
+
+            $this->assertEquals( $Result , 'bar' , 'Invalid value' );
+		}
+
+		/**
+		*	Testing getting field function.
+		*/
+		public function testGetField2Array()
+		{
+			$Arr = array( 'foo' => 'bar', 'foo2' => 'bar2' );
+			
+			$Result = Functional::get_field( $Arr , 'foo2' );
+
+            $this->assertEquals( $Result , 'bar2' , 'Invalid value' );
+		}
+		
+		/**
+		*	Testing getting field function.
+		*/
+		public function testGetFieldObject()
+		{
+			$obj = new stdClass();
+            $obj->foo = 'bar';
+			
+			$Result = Functional::get_field( $obj , 'foo' );
+
+            $this->assertEquals( $Result , 'bar' , 'Invalid value' );
+		}
+
+		/**
+		*	Testing getting field function.
+		*/
+		public function testGetField2Object()
+		{
+			$obj = new stdClass();
+            $obj->foo = 'bar';
+            $obj->foo2 = 'bar2';
+			
+			$Result = Functional::get_field( $obj , 'foo2' );
+
+            $this->assertEquals( $Result , 'bar2' , 'Invalid value' );
+		}
+
         /**
         *   Testing fields fetching.
         */
@@ -138,7 +189,9 @@
 
             $Data = array( $obj1 , $obj2 , $obj3 );
 
-            $this->assertEquals( count( Functional::filter( $Data , 'foo' , '==' , 1 ) ) , 2 , 'Invalid filtration' );
+            $this->assertEquals(
+				count( Functional::filter( $Data , 'foo' , '==' , 1 ) ) , 2 , 'Invalid filtration'
+			);
         }
 
         /**
@@ -157,7 +210,28 @@
 
             $Data = array( $obj1 , array( $obj2 , $obj3 ) );
 
-            $this->assertEquals( count( Functional::filter( $Data , 'foo' , '==' , 1 ) ) , 2 , 'Invalid filtration' );
+            $this->assertEquals( 
+				count( Functional::filter( $Data , 'foo' , '==' , 1 ) ) , 2 , 'Invalid filtration'
+			);
+        }
+
+		/**
+        *   This method is testing filtration function in a recursive mode.
+        */
+        public function testGetFieldRecursive()
+        {
+            $obj1 = new stdClass();
+            $obj1->foo = 1;
+
+            $obj2 = new stdClass();
+            $obj2->bar = 2;
+			$obj1->obj2 = $obj2;
+
+            $obj3 = new stdClass();
+            $obj3->eak = 3;
+			$obj1->obj3 = $obj3;
+
+            $this->assertEquals( Functional::get_field( $obj1 , 'eak' ) , 3 , 'Invalid getting' );
         }
     }
 

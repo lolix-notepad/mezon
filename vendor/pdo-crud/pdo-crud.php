@@ -237,6 +237,14 @@
 
 			return( $this->PDO->lastInsertId() );
 		}
+
+		/**
+		*	Method destroys connection.
+		*/
+		function			__destruct()
+		{
+			unset( $this->PDO );
+		}
     }
 
 ?>

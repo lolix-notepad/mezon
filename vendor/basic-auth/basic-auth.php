@@ -1,5 +1,7 @@
 <?php
 
+	require_once( dirname( __FILE__ ).'/../functional/functional.php' );
+
     /**
     *   Class for basic http authentication.
     */
@@ -59,7 +61,7 @@
 			}
 			foreach( $this->UserSet as $i => $User )
 			{
-				if( $User[ 'login' ] == $_SERVER[ 'PHP_AUTH_USER' ] )
+				if( Functional::get_field( $User , 'login' ) == $_SERVER[ 'PHP_AUTH_USER' ] )
 				{
 					return( $User );
 				}
@@ -81,7 +83,7 @@
 			{
 				foreach( $this->UserSet as $i => $User )
 				{
-					if( $User[ 'login' ] == $_SERVER[ 'PHP_AUTH_USER' ] )
+					if( Functional::get_field( $User , 'login' ) == $_SERVER[ 'PHP_AUTH_USER' ] )
 					{
 						return( true );
 					}
@@ -100,14 +102,16 @@
 			if( is_array( $this->UserSet ) && isset( $this->UserSet[ 'password' ] ) )
 			{
 				return( $this->UserSet[ 'login' ] == $_SERVER[ 'PHP_AUTH_USER' ] && 
-                        $this->UserSet[ 'password' ] == $_SERVER[ 'PHP_AUTH_PW' ] );
+                        ( $this->UserSet[ 'password' ] == md5( $_SERVER[ 'PHP_AUTH_PW' ] ) || 
+						  $this->UserSet[ 'password' ] == $_SERVER[ 'PHP_AUTH_PW' ] ) );
 			}
 			elseif( is_array( $this->UserSet ) )
 			{
 				foreach( $this->UserSet as $i => $User )
 				{
-					if( $User[ 'login' ] == $_SERVER[ 'PHP_AUTH_USER' ] && 
-                        $User[ 'password' ] == $_SERVER[ 'PHP_AUTH_PW' ] )
+					if( Functional::get_field( $User , 'login' ) == $_SERVER[ 'PHP_AUTH_USER' ] && 
+                        ( Functional::get_field( $User , 'password' ) == md5( $_SERVER[ 'PHP_AUTH_PW' ] ) || 
+						  Functional::get_field( $User , 'password' ) == $_SERVER[ 'PHP_AUTH_PW' ] ) )
 					{
 						return( true );
 					}
@@ -154,6 +158,22 @@
 		public static function	get_login()
 		{
 			return( $_SERVER[ 'PHP_AUTH_USER' ] );
+		}
+
+		/**
+		*	Setting user login.
+		*/
+		public static function	set_login( $Login )
+		{
+			$_SERVER[ 'PHP_AUTH_USER' ] = $Login;
+		}
+
+		/**
+		*	Setting user password.
+		*/
+		public static function	set_password( $Password )
+		{
+			$_SERVER[ 'PHP_AUTH_PW' ] = $Password;
 		}
 	}
 

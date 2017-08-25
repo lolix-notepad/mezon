@@ -28,7 +28,9 @@
         */
         public function testValidateValidLoginSingleUser()
         {
-            $Auth = new BasicAuthPublic( 'Admin console' , array( 'login' =>'admin' , 'password' => '1234567' ) );
+            $Auth = new BasicAuthPublic(
+				'Admin console' , array( 'login' =>'admin' , 'password' => '1234567' )
+			);
 
             $_SERVER[ 'PHP_AUTH_USER' ] = 'admin';
 
@@ -40,7 +42,9 @@
         */
         public function testValidateInValidLoginSingleUser()
         {
-            $Auth = new BasicAuthPublic( 'Admin console' , array( 'login' =>'admin' , 'password' => '1234567' ) );
+            $Auth = new BasicAuthPublic(
+				'Admin console' , array( 'login' =>'admin' , 'password' => '1234567' )
+			);
 
             $_SERVER[ 'PHP_AUTH_USER' ] = 'admin2';
 
@@ -88,12 +92,16 @@
         */
         public function testValidateValidPasswordSingleUser()
         {
-            $Auth = new BasicAuthPublic( 'Admin console' , array( 'login' =>'admin' , 'password' => '1234567' ) );
+            $Auth = new BasicAuthPublic(
+				'Admin console' , array( 'login' =>'admin' , 'password' => '1234567' )
+			);
 
             $_SERVER[ 'PHP_AUTH_USER' ] = 'admin';
             $_SERVER[ 'PHP_AUTH_PW' ] = '1234567';
 
-            $this->assertEquals( $Auth->validate_password_pub() , true , 'Invalid password validation' );
+            $this->assertEquals(
+				$Auth->validate_password_pub() , true , 'Invalid password validation'
+			);
         }
 
         /**
@@ -101,12 +109,16 @@
         */
         public function testValidateInValidPasswordSingleUser()
         {
-            $Auth = new BasicAuthPublic( 'Admin console' , array( 'login' =>'admin' , 'password' => '1234567' ) );
+            $Auth = new BasicAuthPublic(
+				'Admin console' , array( 'login' =>'admin' , 'password' => '1234567' )
+			);
 
             $_SERVER[ 'PHP_AUTH_USER' ] = 'admin';
             $_SERVER[ 'PHP_AUTH_PW' ] = '7654321';
 
-            $this->assertEquals( $Auth->validate_password_pub() , false , 'Invalid password validation' );
+            $this->assertEquals(
+				$Auth->validate_password_pub() , false , 'Invalid password validation'
+			);
         }
 
         /**
@@ -125,7 +137,9 @@
             $_SERVER[ 'PHP_AUTH_USER' ] = 'manager';
             $_SERVER[ 'PHP_AUTH_PW' ] = '7654321';
 
-            $this->assertEquals( $Auth->validate_password_pub() , true , 'Invalid password validation' );
+            $this->assertEquals(
+				$Auth->validate_password_pub() , true , 'Invalid password validation'
+			);
         }
 
         /**
@@ -144,7 +158,48 @@
             $_SERVER[ 'PHP_AUTH_USER' ] = 'manager';
             $_SERVER[ 'PHP_AUTH_PW' ] = '0000000';
 
-            $this->assertEquals( $Auth->validate_password_pub() , false , 'Invalid password validation' );
+            $this->assertEquals( 
+				$Auth->validate_password_pub() , false , 'Invalid password validation'
+			);
+        }
+
+		/**
+        *   Testing md5 password hash validation.
+        */
+        public function testValidatemd5Password()
+        {
+            $Auth = new BasicAuthPublic( 
+				'Admin console' , array(
+					'login' =>'admin' , 'password' => '63a9f0ea7bb98050796b649e85481845'
+				)
+			);
+
+            $_SERVER[ 'PHP_AUTH_USER' ] = 'admin';
+            $_SERVER[ 'PHP_AUTH_PW' ] = 'root';
+
+            $this->assertEquals(
+				$Auth->validate_password_pub() , true , 'Invalid password validation'
+			);
+        }
+		
+		/**
+        *   Testing md5 password hash validation.
+        */
+        public function testValidatemd5PasswordManyUsers()
+        {
+            $Auth = new BasicAuthPublic( 
+				'Admin console' , array(
+					array( 'login' =>'foo' , 'password' => '63a9f0ea7bb98050796b649e85481845' ) , 
+					array( 'login' =>'admin' , 'password' => '63a9f0ea7bb98050796b649e85481845' )
+				)
+			);
+
+            $_SERVER[ 'PHP_AUTH_USER' ] = 'admin';
+            $_SERVER[ 'PHP_AUTH_PW' ] = 'root';
+
+            $this->assertEquals(
+				$Auth->validate_password_pub() , true , 'Invalid password validation'
+			);
         }
     }
 

@@ -5,6 +5,34 @@
     */
     class           Functional
     {
+		/**
+		*	Method returns field of the object/array.
+		*/
+		public static function     get_field( $Record , $Field )
+		{
+			foreach( $Record as $i => $v )
+			{
+				if( is_array( $v ) || is_object( $v ) )
+				{
+					$Result = self::get_field( $v , $Field );
+
+					if( $Result !== null )
+					{
+						return( $Result );
+					}
+				}
+			}
+
+			if( is_object( $Record ) )
+			{
+				return( isset( $Record->$Field ) ? $Record->$Field : null );
+			}
+			else
+			{
+				return( isset( $Record[ $Field ] ) ? $Record[ $Field ] : null );
+			}
+		}
+
         /**
         *   Method fetches all fields from objects/arrays of an array.
         */
@@ -14,14 +42,7 @@
 
             foreach( $Data as $i => $Record )
             {
-				if( is_object( $Record ) )
-				{
-					$Return [] = $Record->$Field;
-				}
-				else
-				{
-					$Return [] = $Record[ $Field ];
-				}
+				$Return [] = self::get_field( $Record , $Field );
             }
 
             return( $Return );

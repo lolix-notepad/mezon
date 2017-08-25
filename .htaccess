@@ -8,7 +8,7 @@ RewriteRule ^res/images/(.*)$ res/images/$1 [L]
 RewriteRule ^res/fonts/(.*)$ res/fonts/$1 [L]
 
 RewriteRule ^/?(.*)$ index.php?r=index&%{QUERY_STRING} [L]
-RewriteRule ^([a-z0-9A-Z_\/-]+)/?(.*)$ index.php?r=$1&%{QUERY_STRING} [L
+RewriteRule ^([a-z0-9A-A_\/\.\-\@,]+)/?(.*)$ index.php?r=$1&%{QUERY_STRING} [L]
 
 <ifModule mod_headers.c>
 Header set Access-Control-Allow-Origin "http://admin.angift.ru/"

@@ -108,7 +108,9 @@ $Router->add_route( '/catalogue/[a:cat_name]/' , function( $Route , $Variables )
 Here:
 
 i - any integer number
-a - any [a-z0-9A-Z_\/-] string
+a - any [a-z0-9A-Z_\/\-\.\@]+ string
+il - comma separated list of integer ids
+s - any string
 
 All this variables are passed as second function parameter wich is named in the example above - $Variales. All variables are passed as an associative array.
 

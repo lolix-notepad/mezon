@@ -11,6 +11,8 @@
 	require_once( $MEZON_PATH.'/vendor/functional/functional.php' );
 	require_once( $MEZON_PATH.'/vendor/gui/gui.php' );
 	require_once( $MEZON_PATH.'/vendor/mezon/mezon.php' );
+	require_once( $MEZON_PATH.'/vendor/rest-server/rest-server.php' );
+	require_once( $MEZON_PATH.'/vendor/rest-template/rest-template.php' );
 	require_once( $MEZON_PATH.'/vendor/users/users.php' );
 	require_once( $MEZON_PATH.'/vendor/users/vendor/users-action/users-action.php' );
 	require_once( $MEZON_PATH.'/vendor/users/vendor/users-view/users-view.php' );

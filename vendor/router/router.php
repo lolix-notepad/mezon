@@ -6,40 +6,35 @@
     class           Router
     {
         /**
-        *   Single instance of the class.
+        *   Mapping of routes to their execution functions for GET requests.
         */
-        private static           $Instance = false;
+        private                 $GetRoutes;
 
         /**
         *   Mapping of routes to their execution functions for GET requests.
         */
-        private                  $GetRoutes;
-
-        /**
-        *   Mapping of routes to their execution functions for GET requests.
-        */
-        private                  $PostRoutes;
+        private                 $PostRoutes;
 
         /**
         *   Mapping of routes to their execution functions for PUT requests.
         */
-        private                  $PutRoutes;
+        private                 $PutRoutes;
 
         /**
         *   Mapping of routes to their execution functions for DELETE requests.
         */
-        private                  $DeleteRoutes;
+        private                 $DeleteRoutes;
+
+		/**
+		*	Method wich handles invalid route error.
+		*/
+		private					$InvalidRouteErrorHandler;
 
         /**
         *   Singleton ñonstructor.
         */
         function __construct()
         {
-            if( self::$Instance === false )
-            {
-                self::$Instance = $this;
-            }
-
             $this->GetRoutes = array();
 
             $this->PostRoutes = array();
@@ -48,7 +43,10 @@
 
             $this->DeleteRoutes = array();
 
-            $_SERVER[ 'REQUEST_METHOD' ] = isset( $_SERVER[ 'REQUEST_METHOD' ] ) ? $_SERVER[ 'REQUEST_METHOD' ] : 'GET';
+            $_SERVER[ 'REQUEST_METHOD' ] = isset( $_SERVER[ 'REQUEST_METHOD' ] ) ? 
+												$_SERVER[ 'REQUEST_METHOD' ] : 'GET';
+
+			$this->InvalidRouteErrorHandler = array( $this , 'no_processor_found_error_handler' );
         }
 
         /**
@@ -130,6 +128,7 @@
                 {
                     $Route = str_replace( array( 'action_' , '_' ) , array( '' , '-' ) , $Method );
                     $this->GetRoutes[ "/$Route/" ] = array( $Object , $Method );
+                    $this->PostRoutes[ "/$Route/" ] = array( $Object , $Method );
                 }
             }
         }
@@ -251,7 +250,7 @@
         /**
         *   Matching parameter and component.
         */
-        private function        match_parameter_and_component( $Component , $Parameter )
+        private function        match_parameter_and_component( &$Component , $Parameter )
         {
             // [i:some_id]
             $ParameterData = explode( ':' , trim( $Parameter , '[]' ) );
@@ -265,13 +264,22 @@
                     }
                 break;
                 case( 'a' ):
-                    //if( ctype_alnum( $Component ) )
-                    if( preg_match( '/^([a-z0-9A-Z_\/-]+)$/' , $Component ) )
+                    if( preg_match( '/^([a-z0-9A-Z_\/\-\.\@]+)$/' , $Component ) )
                     {
                         return( $ParameterData[ 1 ] );
                     }
                 break;
-                default : throw( new Exception( 'Illegal parameter type : '.$ParameterData[ 0 ] ) ); break;
+				case( 'il' ):
+                    if( preg_match( '/^([0-9,]+)$/' , $Component ) )
+                    {
+                        return( $ParameterData[ 1 ] );
+                    }
+                break;
+				case( 's' ):
+					$Component = htmlspecialchars( $Component , ENT_QUOTES );
+                    return( $ParameterData[ 1 ] );
+                break;
+                default : throw( new Exception( 'Illegal parameter type/value : '.$ParameterData[ 0 ] ) ); break;
             }
 
             return( false );
@@ -377,6 +385,31 @@
 			);
 		}
 
+		/**
+		*	Method processes no processor found error.
+		*/
+		public function			no_processor_found_error_handler( $Route )
+		{
+			throw( 
+				new Exception( 
+					'The processor was not found for the route '.$Route.' in '.
+						$this->get_all_routes_trace()
+				)
+			);
+		}
+
+		/**
+		*	Method sets InvalidRouteErrorHandler function.
+		*/
+		public function			set_no_processor_found_error_handler( $Function )
+		{
+			$OldErrorHandler = $this->InvalidRouteErrorHandler;
+
+			$this->InvalidRouteErrorHandler = $Function;
+
+			return( $OldErrorHandler );
+		}
+
         /**
         *   Processing specified router.
         */
@@ -394,12 +427,7 @@
                 return( $Result );
             }
 
-            throw( 
-				new Exception( 
-					'The processor was not found for the route '.$Route.' in '.
-						$this->get_all_routes_trace()
-				)
-			);
+            call_user_func( $this->InvalidRouteErrorHandler , $Route );
         }
 
         /**

@@ -3,6 +3,30 @@
     require_once( dirname( dirname( __FILE__ ) ).'/conf/conf.php' );
     require_once( MEZON_PATH.'/vendor/router/router.php' );
 
+	/**
+	*	Mockup router class.
+	*/
+	class MockRouter extends Router
+	{
+		public $ErrorVar = 0;
+
+		/**
+        *   Constructor.
+        */
+        function			__construct()
+        {
+			parent::__construct();
+        }
+
+		/**
+		*	Mock error handler.
+		*/
+		public function set_error_var()
+		{
+			$this->ErrorVar = 7;
+		}
+	}
+
     class RouterTest extends PHPUnit\Framework\TestCase
     {
         /**
@@ -12,6 +36,14 @@
         {
             return( 'Hello world!' );
         }
+
+		/**
+		*	Method for checking id list.
+		*/
+		public function il_test( $Route , $Params )
+		{
+			return( $Params[ 'ids' ] );
+		}
 
         /**
         *   Function simply returns string.
@@ -116,6 +148,21 @@
             $this->assertEquals( 'action #2' , $Content , 'Invalid a2 route' );
         }
 
+		/**
+		*	Method tests POST actions
+		*/
+		public function testPostClassAction()
+		{
+			global $_SERVER;
+			$_SERVER[ 'REQUEST_METHOD' ] = "POST";
+
+			$Router = new Router();
+			$Router->fetch_actions( $this );
+			$Content = $Router->call_route( '/a1/' );
+            $this->assertEquals( 'action #1' , $Content , 'Invalid a1 route' );
+			$_SERVER[ 'REQUEST_METHOD' ] = "GET";
+		}
+
         /**
         *   Testing one processor for all routes.
         */
@@ -191,7 +238,8 @@
         public function testInvalidType()
         {
             $Router = new Router();
-            $Router->add_route( '/catalog/[unexisting-type:i]/item/' , array( $this , 'hello_world_output' ) );
+            $Router->add_route( '/catalog/[unexisting-type:i]/item/' , 
+			array( $this , 'hello_world_output' ) );
 
             try
             {
@@ -211,7 +259,8 @@
         {
             $Router = new Router();
             $Router->add_route( 
-                '/catalog/[i:cat_id]/item/[unexisting-type-trace:item_id]/' , array( $this , 'hello_world_output' )
+                '/catalog/[i:cat_id]/item/[unexisting-type-trace:item_id]/' , 
+				array( $this , 'hello_world_output' )
             );
 
             try
@@ -357,7 +406,8 @@
         {
             $Router = new Router();
             $Router->add_route( 
-                '/catalog/[a:cat_id]/' , function( $Route , $Parameters ){return($Parameters[ 'cat_id' ]);}
+                '/catalog/[a:cat_id]/' , 
+				function( $Route , $Parameters ){return($Parameters[ 'cat_id' ]);}
             );
 
             $Result = $Router->call_route( '/catalog/foo/' );
@@ -373,7 +423,8 @@
             $Router = new Router();
             $Router->add_route( 
                 '/catalog/[a:cat_id]/[i:item_id]' , 
-                function( $Route , $Parameters ){return($Parameters[ 'cat_id' ].$Parameters[ 'item_id' ]);}
+                function( $Route , $Parameters ){
+					return($Parameters[ 'cat_id' ].$Parameters[ 'item_id' ]);}
             );
 
             $Result = $Router->call_route( '/catalog/foo/1024/' );
@@ -787,6 +838,118 @@
             }
             catch( Exception $e ){$Flag='cleared';}
             $this->assertEquals( $Flag , 'cleared' , 'Data was not cleared' );
+        }
+
+		/**
+		*	Test validate custom error handlers.
+		*/
+		public function testSetErrorHandler()
+		{
+			$Router = new MockRouter();
+			$Current = $Router->set_no_processor_found_error_handler( 
+				array( $Router , 'set_error_var' )
+			);
+
+			$_SERVER[ 'REQUEST_METHOD' ] = 'POST';
+			$Router->call_route( '/unexisting/' );
+
+			$Router->set_no_processor_found_error_handler( $Current );
+
+			$this->assertEquals( $Router->ErrorVar , 7 , 'Handler was not set' );
+		}
+
+		/**
+		*	Testing command special chars.
+		*/
+		public function testCommandSpecialChars()
+		{
+			$Router = new Router();
+
+            $Router->add_route( 
+                '/[a:url]/' , function( $Route , $Parameters ){return('GET');} , 'GET'
+            );
+
+			global $_SERVER;
+
+            $_SERVER[ 'REQUEST_METHOD' ] = 'GET';
+            $Result = $Router->call_route( '/.-@/' );
+            $this->assertEquals( $Result , 'GET' , 'Invalid selected route' );
+		}
+
+		/**
+		*	Testing strings.
+		*/
+		public function testStringSpecialChars()
+		{
+			$Router = new Router();
+
+            $Router->add_route( 
+                '/[s:url]/' , function( $Route , $Parameters ){return('GET');} , 'GET'
+            );
+
+			global $_SERVER;
+
+            $_SERVER[ 'REQUEST_METHOD' ] = 'GET';
+            $Result = $Router->call_route( '/, ;:/' );
+            $this->assertEquals( $Result , 'GET' , 'Invalid selected route' );
+		}
+
+		/**
+        *   Testing invalid id list data types behaviour.
+        */
+        public function testInValidIdListParams()
+        {
+            $Exception = '';
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/[il:cat_id]/' , array( $this , 'hello_world_output' )
+            );
+
+            try
+            {
+                $Router->call_route( '/catalog/12345./' );
+            }
+            catch( Exception $e )
+            {
+                $Exception = $e->getMessage();
+            }
+
+            $Msg = "The processor was not found for the route /catalog/12345./";
+
+            $this->assertNotFalse( strpos( $Exception , $Msg ) , 'Invalid error response' );
+        }
+
+		/**
+        *   Testing valid id list data types behaviour.
+        */
+        public function testValidIdListParams()
+        {
+            $Exception = '';
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/[il:ids]/' , array( $this , 'il_test' )
+            );
+
+            $Result = $Router->call_route( '/catalog/123,456,789/' );
+
+            $this->assertEquals( $Result , '123,456,789' , 'Invalid router response' );
+        }
+
+		/**
+        *   Testing valid id list data types behaviour.
+        */
+        public function testStringParamSecurity()
+        {
+            $Exception = '';
+            $Router = new Router();
+            $Router->add_route( 
+                '/catalog/[s:foo]/' , 
+				function( $Route , $Parameters ){;return($Parameters[ 'foo' ]);}
+            );
+
+            $Result = $Router->call_route( '/catalog/123&456/' );
+
+            $this->assertEquals( $Result , '123&amp;456' , 'Security data violation' );
         }
     }
 
