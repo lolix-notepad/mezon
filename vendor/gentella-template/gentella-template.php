@@ -1,121 +1,106 @@
 <?php
+/**
+ * Class GentellaTemplate
+ *
+ * @package     Mezon
+ * @subpackage  GentellaTemplate
+ * @author      Dodonov A.A.
+ * @version     v.1.0 (2019/08/17)
+ * @copyright   Copyright (c) 2019, aeon.org
+ */
+require_once (__DIR__ . '/../html-template/html-template.php');
+require_once (__DIR__ . '/../template-engine/template-engine.php');
+require_once (__DIR__ . '/../template-resources/template-resources.php');
 
-	require_once( dirname( __FILE__ ).'/../template-engine/template-engine.php' );
-	require_once( dirname( __FILE__ ).'/../template-resources/template-resources.php' );
+/**
+ * Template class
+ */
+class GentellaTemplate extends HTMLTemplate
+{
 
-	/**
-	*	Template engine class.
-	*/
-	class			GentellaTemplate extends TemplateEngine
-	{
-		/**
-		*	Loaded template content.
-		*/
-		private	$Template = false;
+    /**
+     * Template сonstructor
+     *
+     * @param string $Template
+     *            Page layout
+     */
+    public function __construct(string $Template = 'index')
+    {
+        parent::__construct(dirname(__FILE__), $Template);
 
-        /**
-        *   Loaded resources.
-        */
-        private $Resources =  false;
+        $this->set_page_var('action', '');
+    }
 
-		/**
-        *   Template сonstructor.
-        */
-        function				__construct()
-        {
-            $this->Template = file_get_contents( dirname( __FILE__ ).'/gentella-template/index.html' );
+    /**
+     * Get close button markup
+     *
+     * @return string Close button markup
+     */
+    protected static function get_close_button(): string
+    {
+        return ('<button type="button" class="close" data-dismiss="alert" aria-label="Close">' . '<span aria-hidden="true">×</span></button>');
+    }
 
-            $this->Resources = new TemplateResources();
-        }
+    /**
+     * Compilation of the message 
+     * 
+     * @param string $MsgType Type of the message
+     * @param string $Message Message
+     * @return string Message block markup
+     */
+    protected static function get_message_content(string $MsgType, string $Message): string
+    {
+        $Content  = '<div class="x_content" style="margin: 0; padding: 0;">';
+        $Content .= '<div class="alert ' . $MsgType . ' alert-dismissible fade in" role="alert">';
+        $Content .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+        $Content .= '<span aria-hidden="true">×</span></button>' . $Message . '</div></div>';
 
-        /**
-        *   Method returns compiled page resources.
-        */
-        private function    	get_resources()
-        {
-            $Content = '';
+        return ($Content);
+    }
 
-            $CSSFiles = $this->Resources->get_css_files();
-            foreach( $CSSFiles as $i => $CSSFile )
-            {
-                $Content .= '
-        <link href="'.$CSSFile.'" rel="stylesheet" type="text/css">';
-            }
+    /**
+     * Method compiles success message content
+     *
+     * @param string $Message
+     *            Message to be compiled
+     */
+    public static function success_message_content(string $Message): string
+    {
+        return(self::get_message_content('alert-success', $Message));
+    }
 
-            $JSFiles = $this->Resources->get_js_files();
-            foreach( $JSFiles as $i => $JSFile )
-            {
-                $Content .= '
-        <script src="'.$JSFile.'"></script>';
-            }
+    /**
+     * Method compiles info message content
+     *
+     * @param string $Message
+     *            Message to be compiled
+     */
+    public static function info_message_content(string $Message): string
+    {
+        return(self::get_message_content('alert-info', $Message));
+    }
 
-            return( $Content );
-        }
+    /**
+     * Method compiles warning message content
+     *
+     * @param string $Message
+     *            Message to be compiled
+     */
+    public static function warning_message_content(string $Message): string
+    {
+        return(self::get_message_content('alert-warning', $Message));
+    }
 
-        /**
-        *   Compile template.
-        */
-        function            	compile()
-        {
-            $this->set_page_var( 'resources' , $this->get_resources() );
-            $this->set_page_var( 'mezon-http-path' , get_config_value( '@mezon-http-path' ) );
-
-			$this->compile_page_vars( $this->Template );
-
-            return( $this->Template );
-        }
-
-		/**
-		*	Method compiles success message content.
-		*/
-		public static function	success_message_content( $Message )
-		{
-			return(
-				'<div class="x_content" style="margin: 0; padding: 0;">'.
-				'<div class="alert alert-success alert-dismissible fade in" role="alert">'.
-				'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'.
-				'<span aria-hidden="true">×</span></button>'.$Message.'</div></div>'
-			);
-		}
-
-		/**
-		*	Method compiles info message content.
-		*/
-		public static function	info_message_content( $Message )
-		{
-			return(
-				'<div class="x_content" style="margin: 0; padding: 0;">'.
-				'<div class="alert alert-info alert-dismissible fade in" role="alert">'.
-				'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'.
-				'<span aria-hidden="true">×</span></button>'.$Message.'</div></div>'
-			);
-		}
-
-		/**
-		*	Method compiles warning message content.
-		*/
-		public static function	warning_message_content( $Message )
-		{
-			return(
-				'<div class="x_content" style="margin: 0; padding: 0;">'.
-				'<div class="alert alert-warning alert-dismissible fade in" role="alert">'.
-				'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'.
-				'<span aria-hidden="true">×</span></button>'.$Message.'</div></div>'
-			);
-		}
-
-		/**
-		*	Method compiles danger message content.
-		*/
-		public static function	danger_message_content( $Message )
-		{
-			return(
-				'<div class="x_content" style="margin: 0; padding: 0;">'.
-				'<div class="alert alert-danger alert-dismissible fade in" role="alert">'.
-				'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'.
-				'<span aria-hidden="true">×</span></button>'.$Message.'</div></div>'
-			);
-		}
-	}
+    /**
+     * Method compiles danger message content
+     *
+     * @param string $Message
+     *            Message to be compiled
+     */
+    public static function danger_message_content(string $Message): string
+    {
+        return(self::get_message_content('alert-danger', $Message));
+    }
+}
 
 ?>

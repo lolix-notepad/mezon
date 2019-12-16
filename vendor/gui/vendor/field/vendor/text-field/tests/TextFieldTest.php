@@ -1,0 +1,25 @@
+<?php
+require_once (__DIR__ . '/../text-field.php');
+
+class TextFieldTest extends PHPUnit\Framework\TestCase
+{
+
+    /**
+     * Testing constructor
+     */
+    public function test_constructor()
+    {
+        // setup
+        $Field = new TextField([
+            'text' => 'name'
+        ]);
+
+        // test body
+        $Content = $Field->html();
+
+        // assertions
+        $this->assertEquals('name', $Content, 'Text was not fetched');
+    }
+}
+
+?>
