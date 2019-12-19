@@ -10,7 +10,7 @@ class RowsFieldTest extends PHPUnit\Framework\TestCase
     public function test_constructor()
     {
         // setup
-        $Field = new RowsField([
+        $Field = new \Mezon\GUI\FormBuilder\RowsField([
             'text' => 'name'
         ], 'author');
 

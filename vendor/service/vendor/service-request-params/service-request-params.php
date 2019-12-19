@@ -1,15 +1,17 @@
 <?php
+namespace Mezon\Service;
 
 /**
  * Class ServiceRequestParams
  *
- * @package     Service
- * @subpackage  ServiceRequestParams
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/10/31)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage ServiceRequestParams
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/10/31)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Request params fetcher
  */

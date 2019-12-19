@@ -1,4 +1,5 @@
 <?php
+namespace Mezon\Service\ServiceConsoleTransport;
 /**
  * Class ConsoleRequestParams
  *
@@ -11,26 +12,27 @@
 
 require_once(__DIR__.'/../../../service-request-params/service-request-params.php');
 
+// TODO add camel-case
 /**
  * Request params fetcher.
  */
-class ConsoleRequestParams implements ServiceRequestParams
+class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParams
 {
 
     /**
      * Router of the transport.
      *
-     * @var Router
+     * @var \Mezon\Router
      */
     protected $Router = false;
 
     /**
      * Constructor.
      *
-     * @param Router $Router
+     * @param \Mezon\Router $Router
      *            - Router object.
      */
-    public function __construct(Router &$Router)
+    public function __construct(\Mezon\Router &$Router)
     {
         $this->Router = $Router;
     }

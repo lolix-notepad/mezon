@@ -1,12 +1,14 @@
 <?php
+namespace Mezon\GUI;
+
 /**
  * Class FieldsAlgorithms
  *
- * @package     CRUDService
- * @subpackage  FieldsAlgorithms
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/08)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package CRUDService
+ * @subpackage FieldsAlgorithms
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/08)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../security/security.php');
 
@@ -23,6 +25,7 @@ require_once (__DIR__ . '/../field/vendor/textarea/textarea.php');
 
 require_once (__DIR__ . '/../form-builder/vendor/rows-field/rows-field.php');
 
+// TODO add camel-case
 /**
  * Class constructs forms
  */
@@ -140,11 +143,11 @@ class FieldsAlgorithms
                 break;
 
             case ('string'):
-                $Result = Security::get_string_value($Value);
+                $Result = \Mezon\Security::get_string_value($Value);
                 break;
 
             case ('file'):
-                $Result = Security::get_file_value($Value, $StoreFiles);
+                $Result = \Mezon\Security::get_file_value($Value, $StoreFiles);
                 break;
 
             case ('date'):
@@ -156,7 +159,7 @@ class FieldsAlgorithms
                 break;
 
             default:
-                throw (new Exception('Undefined type "' . $Type . '"'));
+                throw (new \Exception('Undefined type "' . $Type . '"'));
         }
 
         return ($Result);
@@ -171,7 +174,7 @@ class FieldsAlgorithms
     public function validate_field_existance(string $Field)
     {
         if (! isset($this->FieldObjects[$Field])) {
-            throw (new Exception('Field "' . $Field . '" was not found'));
+            throw (new \Exception('Field "' . $Field . '" was not found'));
         }
     }
 
@@ -307,34 +310,34 @@ class FieldsAlgorithms
     protected function init_object(array $Field)
     {
         if (isset($Field['items'])) {
-            $Control = new Select($Field);
+            $Control = new \Mezon\GUI\Field\Select($Field);
         } elseif (isset($Field['control']) && $Field['control'] == 'textarea') {
-            $Control = new Textarea($Field);
+            $Control = new \Mezon\GUI\Field\Textarea($Field);
         } elseif ($Field['type'] == 'external') {
             $Field['session-id'] = $this->SessionId;
-            $Control = new CheckboxesField($Field);
+            $Control = new \Mezon\GUI\Field\CheckboxesField($Field);
         } elseif ($Field['type'] == 'records') {
             $Field['session-id'] = $this->SessionId;
-            $Control = new RecordField($Field);
+            $Control = new \Mezon\GUI\Field\RecordField($Field);
         } elseif ($Field['type'] == 'file') {
-            $Control = new InputFile($Field);
+            $Control = new \Mezon\GUI\Field\InputFile($Field);
         } elseif ($Field['type'] == 'date') {
-            $Control = new InputDate($Field);
+            $Control = new \Mezon\GUI\Field\InputDate($Field);
         } elseif ($Field['type'] == 'custom') {
-            $Control = new CustomField($Field);
+            $Control = new \Mezon\GUI\Field\CustomField($Field);
         } elseif ($Field['type'] == 'header') {
-            $Control = new FormHeader($Field);
+            $Control = new \Mezon\GUI\Field\FormHeader($Field);
         } elseif ($Field['type'] == 'label') {
-            $Control = new LabelField($Field);
+            $Control = new \Mezon\GUI\Field\LabelField($Field);
         } elseif ($Field['type'] == 'rows') {
             $ControlHTML = '';
             foreach ($Field['type']['rows'] as $RowFieldName) {
                 $Control = $this->get_object($RowFieldName);
                 $ControlHTML .= $Control->html();
             }
-            $Control = new RowsField($Field, $ControlHTML);
+            $Control = new \Mezon\GUI\FormBuilder\RowsField($Field, $ControlHTML);
         } else {
-            $Control = new InputText($Field);
+            $Control = new \Mezon\GUI\Field\InputText($Field);
         }
 
         return ($Control);
@@ -345,7 +348,7 @@ class FieldsAlgorithms
      *
      * @param string $Name
      *            Field name
-     * @return Field Field object
+     * @return \Mezon\GUI\Field Field object
      */
     public function get_object(string $Name): Field
     {
@@ -408,7 +411,7 @@ class FieldsAlgorithms
     {
         return (array_keys($this->FieldObjects));
     }
-    
+
     /**
      * Method returns true if the field exists
      *

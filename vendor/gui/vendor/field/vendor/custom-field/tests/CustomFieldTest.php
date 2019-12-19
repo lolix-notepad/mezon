@@ -11,7 +11,7 @@ class CustomFieldTest extends PHPUnit\Framework\TestCase
      */
     protected function get_field_mock(): object
     {
-        $Mock = $this->getMockBuilder('CustomField')
+        $Mock = $this->getMockBuilder('\Mezon\GUI\Field\CustomField')
             ->setConstructorArgs([
             [
                 'name' => 'name',

@@ -11,7 +11,7 @@ class CheckboxesFieldTest extends PHPUnit\Framework\TestCase
      */
     protected function get_field_mock(): object
     {
-        $Mock = $this->getMockBuilder('CheckboxesField')
+        $Mock = $this->getMockBuilder('\Mezon\GUI\Field\CheckboxesField')
             ->setConstructorArgs([
             [
                 'name' => 'name',

@@ -11,7 +11,7 @@
 require_once (__DIR__ . '/../../service-client.php');
 
 require_once (__DIR__ . '/dns.php');
-
+//TODO replace fast-auth service
 /**
  * Basic tests for service client
  */
@@ -29,7 +29,7 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
      * @param string $ClientClassName
      *            Service client class name
      */
-    public function __construct(string $ClientClassName = 'ServiceClient')
+    public function __construct(string $ClientClassName = '\Mezon\Service\ServiceClient')
     {
         parent::__construct();
 

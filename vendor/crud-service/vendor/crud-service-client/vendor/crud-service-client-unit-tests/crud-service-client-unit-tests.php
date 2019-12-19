@@ -27,7 +27,7 @@ class CRUDServiceClientUnitTests extends ServiceClientUnitTests
      */
     protected function get_crud_service_client_mock()
     {
-        $Mock = $this->getMockBuilder('CRUDServiceClient')
+        $Mock = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceClient')
             ->setMethods([
             'get_request',
             'post_request'
@@ -170,7 +170,7 @@ class CRUDServiceClientUnitTests extends ServiceClientUnitTests
     public function test_instance()
     {
         // setup and test body
-        $Client = CRUDServiceClient::instance('http://auth', 'token');
+        $Client = \Mezon\CRUDService\CRUDServiceClient::instance('http://auth', 'token');
 
         // assertions
         $this->assertEquals('token', $Client->get_token());

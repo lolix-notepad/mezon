@@ -1,20 +1,22 @@
 <?php
+namespace Mezon\GUI\Field;
 
 /**
  * Class InputFile
  *
- * @package     Field
- * @subpackage  InputFile
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/04)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Field
+ * @subpackage InputFile
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/04)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../field.php');
 
+// TODO add camel-case
 /**
  * Input field control
  */
-class InputFile extends Field
+class InputFile extends \Mezon\GUI\Field
 {
 
     /**

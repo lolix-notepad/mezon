@@ -10,7 +10,7 @@ class InputTextTest extends PHPUnit\Framework\TestCase
     public function test_constructor()
     {
         // setup
-        $Field = new InputText([
+        $Field = new \Mezon\GUI\Field\InputText([
             'name' => 'name',
             'required' => 1,
             'disabled' => 1,

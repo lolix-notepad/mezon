@@ -1,5 +1,5 @@
 <?php
-
+namespace Mezon\GUI\Field;
 /**
  * Class Textarea
  *
@@ -11,10 +11,12 @@
  */
 require_once (__DIR__ . '/../../field.php');
 
+// TODO add camel-case
+
 /**
  * Text area control
  */
-class Textarea extends Field
+class Textarea extends \Mezon\GUI\Field
 {
 
     /**

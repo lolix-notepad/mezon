@@ -9,7 +9,8 @@
  * @version     v.1.0 (2019/09/20)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-
+// TODO add namespace
+// TODO add camel-case
 /**
  * Utilities
  */

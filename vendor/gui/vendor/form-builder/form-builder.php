@@ -1,15 +1,17 @@
 <?php
+namespace Mezon\GUI;
 
 /**
  * Class FormBuilder
  *
- * @package     CRUDService
- * @subpackage  FormBuilder
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/13)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package CRUDService
+ * @subpackage FormBuilder
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/13)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Form builder class
  */

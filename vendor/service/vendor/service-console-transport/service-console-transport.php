@@ -1,4 +1,5 @@
 <?php
+namespace Mezon\Service;
 /**
  * Class ServiceConsoleTransport
  *
@@ -10,6 +11,7 @@
  */
 require_once (__DIR__ . '/../service-transport/service-transport.php');
 
+// TODO add camel-case
 /**
  * Console transport for all services
  */
@@ -27,7 +29,7 @@ class ServiceConsoleTransport extends ServiceTransport implements ServiceTranspo
      * @param mixed $SecurityProvider
      *            Security provider
      */
-    public function __construct($SecurityProvider = 'ServiceMockSecurityProvider')
+    public function __construct($SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider')
     {
         parent::__construct();
 
@@ -45,7 +47,7 @@ class ServiceConsoleTransport extends ServiceTransport implements ServiceTranspo
      */
     public function create_fetcher(): ServiceRequestParams
     {
-        return(new ConsoleRequestParams($this->Router));
+        return(new \Mezon\Service\ServiceConsoleTransport\ConsoleRequestParams($this->Router));
     }
 
     /**

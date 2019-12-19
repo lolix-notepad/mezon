@@ -9,9 +9,9 @@ class CRUDServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_constructor_valid()
     {
-        $Collection = new CRUDServiceCollection('http://auth', 'some token');
+        $Collection = new \Mezon\CRUDService\CRUDServiceCollection('http://auth', 'some token');
 
-        $this->assertInstanceOf(CRUDServiceClient::class, $Collection->Connector, 'Connector was not setup');
+        $this->assertInstanceOf(\Mezon\CRUDService\CRUDServiceClient::class, $Collection->Connector, 'Connector was not setup');
     }
 
     /**
@@ -42,7 +42,7 @@ class CRUDServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
             []
         ]);
 
-        $Collection = new CRUDServiceCollection();
+        $Collection = new \Mezon\CRUDService\CRUDServiceCollection();
         $Collection->set_connector($Connector);
 
         // test body
@@ -64,7 +64,7 @@ class CRUDServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
             []
         ]);
 
-        $Collection = new CRUDServiceCollection();
+        $Collection = new \Mezon\CRUDService\CRUDServiceCollection();
         $Collection->set_connector($Connector);
 
         // test body

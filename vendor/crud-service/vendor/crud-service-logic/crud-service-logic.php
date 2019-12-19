@@ -1,12 +1,14 @@
 <?php
+namespace Mezon\CRUDService;
+
 /**
  * Class CRUDServiceLogic
  *
- * @package     CRUDService
- * @subpackage  CRUDServiceLogic
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/13)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package CRUDService
+ * @subpackage CRUDServiceLogic
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/13)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../gui/vendor/fields-algorithms/vendor/filter/filter.php');
 require_once (__DIR__ . '/../../../gui/vendor/form-builder/form-builder.php');
@@ -25,12 +27,13 @@ define('ITEMS_FIELD_NAME', 'items');
 define('ENTITY_FIELD_NAME', 'entity');
 define('FIELDS_FIELD_NAME', 'fields');
 
+// TODO add camel-case
 /**
  * Class handles CRUD logic.
  *
  * @author Dodonov A.A.
  */
-class CRUDServiceLogic extends ServiceLogic
+class CRUDServiceLogic extends \Mezon\Service\ServiceLogic
 {
 
     /**
@@ -46,7 +49,7 @@ class CRUDServiceLogic extends ServiceLogic
     public function delete_record()
     {
         $DomainId = $this->get_domain_id();
-        $Where = Filter::add_filter_condition([
+        $Where = \Mezon\GUI\FieldsAlgorithms\Filter::add_filter_condition([
             'id = ' . intval($this->ParamsFetcher->get_param('id'))
         ]);
 
@@ -59,7 +62,7 @@ class CRUDServiceLogic extends ServiceLogic
     public function delete_filtered()
     {
         $DomainId = $this->get_domain_id();
-        $Where = Filter::add_filter_condition([]);
+        $Where = \Mezon\GUI\FieldsAlgorithms\Filter::add_filter_condition([]);
 
         return ($this->Model->delete_filtered($DomainId, $Where));
     }
@@ -79,7 +82,7 @@ class CRUDServiceLogic extends ServiceLogic
      */
     public function get_records($DomainId, $Order, $From, $Limit): array
     {
-        $Records = $this->Model->get_simple_records($DomainId, $From, $Limit, Filter::add_filter_condition([]), $Order);
+        $Records = $this->Model->get_simple_records($DomainId, $From, $Limit, \Mezon\GUI\FieldsAlgorithms\Filter::add_filter_condition([]), $Order);
 
         return ($Records);
     }
@@ -100,7 +103,7 @@ class CRUDServiceLogic extends ServiceLogic
             if ($this->has_permit($this->Model->get_entity_name() . '-manager')) {
                 $DomainId = false;
             } else {
-                throw (new Exception('User "' . $this->get_self_login_value() . '" has no permit "' . $this->Model->get_entity_name() . '-manager"'));
+                throw (new \Exception('User "' . $this->get_self_login_value() . '" has no permit "' . $this->Model->get_entity_name() . '-manager"'));
             }
         } else {
             $DomainId = $this->get_self_id_value();
@@ -155,7 +158,7 @@ class CRUDServiceLogic extends ServiceLogic
         $Date = $this->ParamsFetcher->get_param('date');
 
         if ($this->Model->has_field(CREATION_DATE_FIELD_NAME) === false) {
-            throw (new Exception('Field "creation_date" was not found'));
+            throw (new \Exception('Field "creation_date" was not found'));
         }
 
         return ($this->Model->new_records_since($DomainId, $Date));
@@ -182,7 +185,7 @@ class CRUDServiceLogic extends ServiceLogic
     {
         $DomainId = $this->get_domain_id();
         $Count = $this->ParamsFetcher->get_param('count');
-        $Filter = Filter::add_filter_condition([
+        $Filter = \Mezon\GUI\FieldsAlgorithms\Filter::add_filter_condition([
             '1 = 1'
         ]);
 
@@ -321,9 +324,9 @@ class CRUDServiceLogic extends ServiceLogic
 
         $this->Model->validate_field_existance($this->ParamsFetcher->get_param(FIELD_FIELD_NAME));
 
-        $Field = Security::get_string_value($this->ParamsFetcher->get_param(FIELD_FIELD_NAME));
+        $Field = \Mezon\Security::get_string_value($this->ParamsFetcher->get_param(FIELD_FIELD_NAME));
 
-        $Where = Filter::add_filter_condition([]);
+        $Where = \Mezon\GUI\FieldsAlgorithms\Filter::add_filter_condition([]);
 
         return ($this->Model->records_count_by_field($DomainId, $Field, $Where));
     }

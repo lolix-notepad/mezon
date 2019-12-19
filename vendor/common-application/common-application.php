@@ -1,4 +1,5 @@
 <?php
+namespace Mezon;
 /**
  * Class CommonApplication
  *
@@ -14,6 +15,7 @@ require_once (__DIR__ . '/../router/router.php');
 require_once (__DIR__ . '/../service/vendor/service-rest-transport/vendor/rest-exception/rest-exception.php');
 require_once (__DIR__ . '/../view/view.php');
 
+// TODO add camel-case
 /**
  * Common application with any available template
  *
@@ -38,17 +40,19 @@ class CommonApplication extends Application
 {
 
     /**
-     * Application's template.
+     * Application's template
+     * 
+     * @var \Mezon\HTMLTemplate
      */
     protected $Template = false;
 
     /**
      * Constructor
      *
-     * @param mixed $Template
+     * @param HTMLTemplate $Template
      *            Template
      */
-    public function __construct($Template)
+    public function __construct(HTMLTemplate $Template)
     {
         parent::__construct();
 
@@ -101,13 +105,13 @@ class CommonApplication extends Application
     /**
      * Method formats exception object
      *
-     * @param Exception $e
+     * @param \Exception $e
      *            Exception
      * @return object Formatted exception object
      */
-    protected function base_formatter(Exception $e): object
+    protected function base_formatter(\Exception $e): object
     {
-        $Error = new stdClass();
+        $Error = new \stdClass();
         $Error->message = $e->getMessage();
         $Error->code = $e->getCode();
         $Error->call_stack = $this->format_call_stack($e);
@@ -122,10 +126,10 @@ class CommonApplication extends Application
     /**
      * Method processes exception.
      *
-     * @param RESTException $e
+     * @param \Mezon\Service\ServiceRESTTransport\RESTException $e
      *            RESTException object.
      */
-    public function handle_rest_exception(RESTException $e): void
+    public function handle_rest_exception(\Mezon\Service\ServiceRESTTransport\RESTException $e): void
     {
         $Error = $this->base_formatter($e);
 
@@ -137,10 +141,10 @@ class CommonApplication extends Application
     /**
      * Method processes exception.
      *
-     * @param Exception $e
+     * @param \Exception $e
      *            Exception object.
      */
-    public function handle_exception(Exception $e): void
+    public function handle_exception(\Exception $e): void
     {
         $Error = $this->base_formatter($e);
 
@@ -155,23 +159,23 @@ class CommonApplication extends Application
         try {
             $CallRouteResult = $this->call_route();
             if (is_array($CallRouteResult) === false) {
-                throw (new Exception('Route was not called properly'));
+                throw (new \Exception('Route was not called properly'));
             }
 
             $Result = array_merge($CallRouteResult, $this->cross_render());
 
             if (is_array($Result)) {
                 foreach ($Result as $Key => $Value) {
-                    $Content = $Value instanceof View ? $Value->render() : $Value;
+                    $Content = $Value instanceof \Mezon\View ? $Value->render() : $Value;
 
                     $this->Template->set_page_var($Key, $Content);
                 }
             }
 
             print($this->Template->compile());
-        } catch (RESTException $e) {
+        } catch (\Mezon\Service\ServiceRESTTransport\RESTException $e) {
             $this->handle_rest_exception($e);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->handle_exception($e);
         }
     }

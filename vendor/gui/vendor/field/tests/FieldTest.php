@@ -11,7 +11,7 @@ class FieldTest extends PHPUnit\Framework\TestCase
 	{
 		try {
 			// test body
-			$Field = new Field([],'');
+			$Field = new \Mezon\GUI\Field([],'');
 
 			$this->fail('Exception was not thrown ' . serialize($Field));
 		} catch (Exception $e) {
@@ -25,7 +25,7 @@ class FieldTest extends PHPUnit\Framework\TestCase
 	public function test_name_setter()
 	{
 		// test body
-		$Field = new Field(json_decode(file_get_contents(__DIR__ . '/conf/name-setter.json'), true),'');
+	    $Field = new \Mezon\GUI\Field(json_decode(file_get_contents(__DIR__ . '/conf/name-setter.json'), true),'');
 
 		// assertions
 		$this->assertContains('prefixfield-name000', $Field->html(), 'Invalid field "name" value');
@@ -37,7 +37,7 @@ class FieldTest extends PHPUnit\Framework\TestCase
 	public function test_required_setter()
 	{
 		// test body
-		$Field = new Field(json_decode(file_get_contents(__DIR__ . '/conf/required-setter.json'), true),'');
+	    $Field = new \Mezon\GUI\Field(json_decode(file_get_contents(__DIR__ . '/conf/required-setter.json'), true),'');
 
 		// assertions
 		$this->assertContains('prefixfield-name1111select2', $Field->html(), 'Invalid field "name" value');

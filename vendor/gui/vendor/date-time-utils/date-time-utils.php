@@ -1,15 +1,18 @@
 <?php
+namespace Mezon\GUI;
+
 /**
  * Class DateTimeUtils
  *
- * @package     GUI
- * @subpackage  DateTimeUtils
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/18)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package GUI
+ * @subpackage DateTimeUtils
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/18)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 define('DEFAULT_DATE_MASK', 'Y-m-d');
 
+// TODO add camel-case
 /**
  * Class provides dati-time routines
  */
@@ -49,7 +52,7 @@ class DateTimeUtils
 
     /**
      * Getting localized dictionary
-     * 
+     *
      * @return array Dictionary
      */
     protected static function get_dictionary(): array

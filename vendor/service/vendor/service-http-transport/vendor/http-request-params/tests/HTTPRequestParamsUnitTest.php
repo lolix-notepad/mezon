@@ -30,9 +30,9 @@ class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 	 */
 	protected function get_request_params_mock()
 	{
-		$Router = new Router();
+		$Router = new \Mezon\Router();
 
-		return (new HTTPRequestParams($Router));
+		return (new \Mezon\Service\ServiceHTTPTransport\HTTPRequestParams($Router));
 	}
 
 	/**

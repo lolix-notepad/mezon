@@ -1,20 +1,22 @@
 <?php
+namespace Mezon\GUI\Field;
 
 /**
  * Class Select
  *
- * @package     Field
- * @subpackage  Select
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/04)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Field
+ * @subpackage Select
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/04)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../field.php');
 
+// TODO add camel-case
 /**
  * Text area control
  */
-class Select extends Field
+class Select extends \Mezon\GUI\Field
 {
 
     /**
@@ -41,8 +43,7 @@ class Select extends Field
         if (is_string($ItemsSource) && function_exists($ItemsSource)) {
             // callback function forms a list of items
             $this->Items = $ItemsSource();
-        }
-        else{
+        } else {
             $this->Items = $ItemsSource;
         }
     }

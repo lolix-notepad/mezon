@@ -1,12 +1,13 @@
 <?php
+
 /**
- * 	Service logic utin tests
+ * Service logic utin tests
  *
- * @package     ServiceLogic
- * @subpackage  ServiceBaseLogicUnitTests
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package ServiceLogic
+ * @subpackage ServiceBaseLogicUnitTests
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../service-security-provider/service-security-provider.php');
 require_once (__DIR__ . '/../../../service-logic/service-logic.php');
@@ -17,7 +18,7 @@ require_once (__DIR__ . '/../../../service-mock-security-provider/service-mock-s
  *
  * @author Dodonov A.A.
  */
-class MockParamsFetcher implements ServiceRequestParams
+class MockParamsFetcher implements \Mezon\Service\ServiceRequestParams
 {
 
     /**
@@ -120,7 +121,17 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
      *
      * @var string
      */
-    var $ClassName = 'ServiceLogic';
+    var $ClassName;
+
+    /**
+     * Constructor
+     */
+    public function __construct(string $ClassName = '\Mezon\Service\ServiceBaseLogic')
+    {
+        parent::__construct();
+
+        $this->ClassName = $ClassName;
+    }
 
     /**
      * Method tests creation of the logis's parts
@@ -130,7 +141,7 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
      * @param string $Msg
      *            Error message
      */
-    protected function check_logic_parts(object $Logic, string $Msg)
+    protected function check_logic_parts(object $Logic, string $Msg): void
     {
         $this->assertInstanceOf('MockParamsFetcher', $Logic->ParamsFetcher, $Msg);
         $this->assertInstanceOf('MockSecurityProvider', $Logic->SecurityProvider, $Msg);
@@ -140,7 +151,7 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing connect method
      */
-    public function test_construct_1()
+    public function test_construct_1(): void
     {
         $ServiceLogicClassName = $this->ClassName;
 
@@ -156,7 +167,7 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing connect method
      */
-    public function test_construct_2()
+    public function test_construct_2(): void
     {
         $ServiceLogicClassName = $this->ClassName;
 
@@ -170,7 +181,7 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing connect method
      */
-    public function test_construct_3()
+    public function test_construct_3(): void
     {
         $ServiceLogicClassName = $this->ClassName;
 

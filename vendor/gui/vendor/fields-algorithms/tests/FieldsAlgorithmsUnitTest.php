@@ -59,7 +59,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_constructor()
     {
         // setup and test body
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
 
         // assertions
         $this->assertEquals(ENTITY_NAME, $FieldsAlgorithms->EntityName, 'EntityName was not set');
@@ -72,7 +72,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_has_not_custom_fields()
     {
         // setup and test body
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_2(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_2(), ENTITY_NAME);
 
         // assertions
         $_GET[FIELDS_FIELD_NAME] = TITLE_FIELD_NAME;
@@ -85,7 +85,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_has_custom_fields()
     {
         // setup and test body
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
 
         // assertions
         $this->assertTrue($FieldsAlgorithms->has_custom_fields(), 'Custom fields are in the model');
@@ -97,7 +97,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_get_typed_value()
     {
         // setup and test body
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
 
         // assertions int
         $this->assertEquals(1, $FieldsAlgorithms->get_typed_value(INTEGER_TYPE_NAME, '1'), 'Type was not casted properly for integer');
@@ -149,7 +149,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_validate_field_existance()
     {
         // setup and test body
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
 
         // test body and assertions
         try {
@@ -172,7 +172,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_get_secure_value()
     {
         // setup and test body
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
 
         // test body and assertions
         $id = $FieldsAlgorithms->get_secure_value('id', '1');
@@ -188,7 +188,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_get_secure_values()
     {
         // setup and test body
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
 
         // test body and assertions
         $id = $FieldsAlgorithms->get_secure_values('id', [
@@ -210,7 +210,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_get_values_for_prefix()
     {
         // setup and test body
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
         $_POST['prefix-id'] = '1';
         $_POST['prefix-title'] = 'some string';
 
@@ -231,7 +231,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_remove_field()
     {
         // setup
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
 
         // test body
         $FieldsAlgorithms->remove_field('extensions');
@@ -246,7 +246,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_fetch_custom_field_unexisting_field()
     {
         // setup
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
         $Record = [];
 
         // test body
@@ -262,7 +262,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_fetch_custom_field()
     {
         // setup
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
         $Record = [];
         $_POST[ENTITY_NAME . '-balance'] = '11';
 
@@ -279,7 +279,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_fetch_field()
     {
         // setup
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
         $Record = [];
         $_POST[ENTITY_NAME . '-id'] = '11';
         $_FILES[ENTITY_NAME . '-avatar'] = [
@@ -307,13 +307,13 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_get_object()
     {
         // setup
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
 
         // test body
         $Object = $FieldsAlgorithms->get_object('title');
 
         // assertions
-        $this->assertInstanceOf(InputText::class, $Object);
+        $this->assertInstanceOf(\Mezon\GUI\Field\InputText::class, $Object);
     }
 
     /**
@@ -322,7 +322,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
     public function test_get_fields_names()
     {
         // setup
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
 
         // test body
         $Fields = $FieldsAlgorithms->get_fields_names();
@@ -346,7 +346,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_get_compiled_field():void{
         // setup
-        $FieldsAlgorithms = new FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($this->get_fields_1(), ENTITY_NAME);
 
         // test body
         $InputField = $FieldsAlgorithms->get_compiled_field('title');

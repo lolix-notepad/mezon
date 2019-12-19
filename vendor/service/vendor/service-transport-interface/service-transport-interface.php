@@ -1,5 +1,5 @@
 <?php
-
+namespace Mezon\Service;
 /**
  * Interface ServiceTransportInterface
  *
@@ -12,6 +12,7 @@
 
 require_once(__DIR__.'/../service-request-params/service-request-params.php');
 
+// TODO add camel-case
 /**
  * Interface for all transports
  *

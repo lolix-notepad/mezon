@@ -10,7 +10,7 @@ class FormHeaderTest extends PHPUnit\Framework\TestCase
     public function test_constructor()
     {
         // setup
-        $Field = new FormHeader([
+        $Field = new \Mezon\GUI\Field\FormHeader([
             'text' => 'name'
         ]);
 

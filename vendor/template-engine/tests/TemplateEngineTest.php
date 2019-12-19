@@ -17,7 +17,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
         );
         $String = '{var1} {var2}';
 
-        $String = TemplateEngine::print_record($String, $Data);
+        $String = \Mezon\TemplateEngine::print_record($String, $Data);
 
         $this->assertEquals($String, 'v1 v2', 'Invalid string processing');
     }
@@ -32,7 +32,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
         $Data->var2 = 'v2';
         $String = '{var1} {var2}';
 
-        $String = TemplateEngine::print_record($String, $Data);
+        $String = \Mezon\TemplateEngine::print_record($String, $Data);
 
         $this->assertEquals($String, 'v1 v2', 'Invalid string processing');
     }
@@ -46,7 +46,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
 
         try {
             $String = '';
-            $String = TemplateEngine::print_record($String, false);
+            $String = \Mezon\TemplateEngine::print_record($String, false);
         } catch (Exception $e) {
             $Msg = $e->getMessage();
         }
@@ -55,7 +55,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
 
         try {
             $String = '';
-            $String = TemplateEngine::print_record($String, null);
+            $String = \Mezon\TemplateEngine::print_record($String, null);
         } catch (Exception $e) {
             $Msg = $e->getMessage();
         }
@@ -64,7 +64,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
 
         try {
             $String = '';
-            $String = TemplateEngine::print_record($String, 1234);
+            $String = \Mezon\TemplateEngine::print_record($String, 1234);
         } catch (Exception $e) {
             $Msg = $e->getMessage();
         }
@@ -73,7 +73,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
 
         try {
             $String = '';
-            $String = TemplateEngine::print_record($String, 'string');
+            $String = \Mezon\TemplateEngine::print_record($String, 'string');
         } catch (Exception $e) {
             $Msg = $e->getMessage();
         }
@@ -99,7 +99,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
     public function test_switch_macro(string $Str, array $Data, string $Result)
     {
         // test body
-        $Data = TemplateEngine::print_record($Str, $Data);
+        $Data = \Mezon\TemplateEngine::print_record($Str, $Data);
 
         // assertions
         $this->assertEquals($Result, $Data, 'Invalid blocks parsing');

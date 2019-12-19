@@ -1,22 +1,25 @@
 <?php
+namespace Mezon\CRUDService;
+
 /**
  * Class CRUDServiceClient
  *
- * @package     CRUDService
- * @subpackage  CRUDServiceClient
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/13)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package CRUDService
+ * @subpackage CRUDServiceClient
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/13)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../cache/cache.php');
 require_once (__DIR__ . '/../../../service/vendor/service-client/service-client.php');
 
+// TODO add camel-case
 /**
  * Class for basic CRUD API client.
  *
  * @author Dodonov A.A.
  */
-class CRUDServiceClient extends ServiceClient
+class CRUDServiceClient extends \Mezon\Service\ServiceClient
 {
 
     /**
@@ -110,9 +113,9 @@ class CRUDServiceClient extends ServiceClient
      */
     public function get_by_ids_array($ids, $CrossDomain = 0)
     {
-        $Cache = Cache::get_instance();
+        $Cache = \Mezon\Cache::get_instance();
 
-        $Key = $this->Service . '/get_by_ids_array/' . ($CrossDomain ? 1 : 0).implode('.',$ids);
+        $Key = $this->Service . '/get_by_ids_array/' . ($CrossDomain ? 1 : 0) . implode('.', $ids);
 
         if ($Cache->exists($Key)) {
             return ($Cache->get($Key));
@@ -162,6 +165,7 @@ class CRUDServiceClient extends ServiceClient
 
     /**
      * Method returns creation form's fields in JSON format
+     *
      * @codeCoverageIgnore
      */
     public function fields()
@@ -179,7 +183,7 @@ class CRUDServiceClient extends ServiceClient
     /**
      * Method returns all records created since $Date
      *
-     * @param datetime $Date
+     * @param \datetime $Date
      *            Start of the period
      * @return array List of records created since $Date
      * @codeCoverageIgnore
@@ -243,7 +247,7 @@ class CRUDServiceClient extends ServiceClient
      */
     public function records_count_by_field(string $Field, $Filter = false): array
     {
-        $Cache = Cache::get_instance();
+        $Cache = \Mezon\Cache::get_instance();
 
         $Filter = $this->get_compiled_filter($Filter);
 
@@ -297,11 +301,16 @@ class CRUDServiceClient extends ServiceClient
     /**
      * Method returns some records of the user's domain
      *
-     * @param integer $From The beginnig of the fetching sequence
-     * @param integer $Limit Size of the fetching sequence
-     * @param integer $CrossDomain Cross domain security settings
-     * @param array $Filter Filtering settings
-     * @param array $Order Sorting settings
+     * @param integer $From
+     *            The beginnig of the fetching sequence
+     * @param integer $Limit
+     *            Size of the fetching sequence
+     * @param integer $CrossDomain
+     *            Cross domain security settings
+     * @param array $Filter
+     *            Filtering settings
+     * @param array $Order
+     *            Sorting settings
      * @return array List of records
      */
     public function get_list(int $From = 0, int $Limit = 1000000000, $CrossDomain = 0, $Filter = false, $Order = false): array
@@ -317,9 +326,9 @@ class CRUDServiceClient extends ServiceClient
      * Method compiles file field
      *
      * @param string $Path
-     *        	Path to file
+     *            Path to file
      * @param string $Name
-     *        	Field name
+     *            Field name
      * @return array Field data
      */
     protected function create_file_field(string $Path, string $Name): array
@@ -334,7 +343,7 @@ class CRUDServiceClient extends ServiceClient
      * Checking if we are uploading a file
      *
      * @param mixed $Value
-     *        	Uploading data
+     *            Uploading data
      * @return boolean True if the $Value is the uploading file. False otherwise
      */
     protected function is_file($Value)
@@ -344,7 +353,7 @@ class CRUDServiceClient extends ServiceClient
             return (false);
         }
 
-        if (Functional::get_field($Value, 'name') !== null && Functional::get_field($Value, 'size') !== null && Functional::get_field($Value, 'type') !== null && Functional::get_field($Value, 'tmp_name') !== null) {
+        if (\Mezon\Functional::get_field($Value, 'name') !== null && \Mezon\Functional::get_field($Value, 'size') !== null && \Mezon\Functional::get_field($Value, 'type') !== null && \Mezon\Functional::get_field($Value, 'tmp_name') !== null) {
             return (true);
         }
 
@@ -355,7 +364,7 @@ class CRUDServiceClient extends ServiceClient
      * Transforming data before sending to service
      *
      * @param string $Data
-     *        	Data to be transformed
+     *            Data to be transformed
      * @return string Transformed data
      */
     protected function pretransform_data($Data)

@@ -1,15 +1,18 @@
 <?php
+namespace Mezon\Service;
+
 /**
  * Class Service
  *
- * @package     Mezon
- * @subpackage  ServiceBase
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/12/09)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage ServiceBase
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/12/09)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../service-rest-transport/service-rest-transport.php');
 
+// TODO add camel-case
 /**
  * Base service class
  *
@@ -30,7 +33,7 @@ class ServiceBase
     /**
      * Service's logic
      *
-     * @var ServiceLogic object
+     * @var \Mezon\Service\ServiceLogic object
      */
     var $ServiceLogic = false;
 
@@ -93,7 +96,7 @@ class ServiceBase
      *            Service logic class name of object itself
      * @param mixed $ServiceModel
      *            Service model class name of object itself
-     * @return Service logic object
+     * @return \Mezon\Service\ServiceLogic logic object
      */
     protected function construct_service_logic($ServiceLogic, $ServiceModel)
     {
@@ -134,7 +137,7 @@ class ServiceBase
      */
     protected function init_custom_routes()
     {
-        $Reflector = new ReflectionClass(get_class($this));
+        $Reflector = new \ReflectionClass(get_class($this));
         $ClassPath = dirname($Reflector->getFileName());
 
         if (file_exists($ClassPath . '/conf/routes.php')) {

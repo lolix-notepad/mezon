@@ -10,7 +10,7 @@ class InputFileTest extends PHPUnit\Framework\TestCase
     public function test_constructor()
     {
         // setup
-        $Field = new InputFile([
+        $Field = new \Mezon\GUI\Field\InputFile([
             'name' => 'name',
             'required' => 1,
             'disabled' => 1,

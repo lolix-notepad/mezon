@@ -15,7 +15,7 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
     {
         parent::__construct();
 
-        add_connection_to_config('default-db-connection', 'mysql:host=localhost;dbname=record', 'root', '');
+        \Mezon\add_connection_to_config('default-db-connection', 'mysql:host=localhost;dbname=record', 'root', '');
     }
 
     /**
@@ -27,7 +27,7 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
      */
     protected function get_model_mock($Connection)
     {
-        $Mock = $this->getMockBuilder('CRUDServiceModel')
+        $Mock = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceModel')
             ->setMethods(array(
             'get_connection'
         ))
@@ -47,7 +47,7 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
      */
     protected function get_connection()
     {
-        $Connection = new PdoCrud();
+        $Connection = new \Mezon\PdoCrud();
         $Connection->connect([
             "dsn" => "mysql:host=localhost;dbname=record",
             "user" => "root",
@@ -128,7 +128,7 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
      */
     public function test_get_simple_records()
     {
-        $Model = new CRUDServiceModel('id', 'records');
+        $Model = new \Mezon\CRUDService\CRUDServiceModel('id', 'records');
         $Records = $Model->get_simple_records(false, 0, 1, [], [
             'field' => 'id',
             'order' => 'asc'

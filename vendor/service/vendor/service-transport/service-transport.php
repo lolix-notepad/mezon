@@ -1,17 +1,20 @@
 <?php
+namespace Mezon\Service;
+
 /**
  * Base class for all transports
  *
- * @package     Service
- * @subpackage  ServiceTransport
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage ServiceTransport
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../router/router.php');
 require_once (__DIR__ . '/../service-logic/service-logic.php');
 require_once (__DIR__ . '/../service-transport-interface/service-transport-interface.php');
 
+// TODO add camel-case
 /**
  * Base class for all transports
  *
@@ -23,7 +26,7 @@ class ServiceTransport
     /**
      * Request params fetcher
      *
-     * @var HTTPRequestParams
+     * @var ServiceRequestParams
      */
     var $ParamsFetcher = false;
 
@@ -37,7 +40,7 @@ class ServiceTransport
     /**
      * Router
      *
-     * @var Router
+     * @var \Mezon\Router
      */
     var $Router = false;
 
@@ -53,7 +56,7 @@ class ServiceTransport
      */
     public function __construct()
     {
-        $this->Router = new Router();
+        $this->Router = new \Mezon\Router();
     }
 
     /**
@@ -69,7 +72,7 @@ class ServiceTransport
             if (method_exists($this->ServiceLogic, $Method)) {
                 return ($this->ServiceLogic);
             } else {
-                throw (new Exception('The method "' . $Method . '" was not found in the "' . get_class($this->ServiceLogic) . '"', - 1));
+                throw (new \Exception('The method "' . $Method . '" was not found in the "' . get_class($this->ServiceLogic) . '"', - 1));
             }
         } elseif (is_array($this->ServiceLogic)) {
             foreach ($this->ServiceLogic as $Logic) {
@@ -78,11 +81,12 @@ class ServiceTransport
                 }
             }
         } else {
-            throw (new Exception('Logic was not found', - 2));
+            throw (new \Exception('Logic was not found', - 2));
         }
-        //@codeCoverageIgnoreStart
+        // @codeCoverageIgnoreStart
     }
-    //@codeCoverageIgnoreEnd
+
+    // @codeCoverageIgnoreEnd
 
     /**
      * Method creates session
@@ -132,10 +136,10 @@ class ServiceTransport
     public function load_route(array $Route): void
     {
         if (! isset($Route['route'])) {
-            throw (new Exception('Field "route" must be set'));
+            throw (new \Exception('Field "route" must be set'));
         }
         if (! isset($Route['callback'])) {
-            throw (new Exception('Field "callback" must be set'));
+            throw (new \Exception('Field "callback" must be set'));
         }
         $Method = isset($Route['method']) ? $Route['method'] : 'GET';
         $CallType = isset($Route['call_type']) ? $Route['call_type'] : 'call_logic';
@@ -169,7 +173,7 @@ class ServiceTransport
 
             $this->load_routes($Routes);
         } else {
-            throw (new Exception('Route ' . $Path . ' was not found', 1));
+            throw (new \Exception('Route ' . $Path . ' was not found', 1));
         }
     }
 
@@ -193,7 +197,7 @@ class ServiceTransport
                 $ServiceLogic,
                 $Method
             ], $Params));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return ($this->error_response($e));
         }
     }
@@ -216,7 +220,7 @@ class ServiceTransport
                 $ServiceLogic,
                 $Method
             ], $Params));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return ($this->error_response($e));
         }
     }
@@ -284,7 +288,7 @@ class ServiceTransport
     /**
      * Method processes exception
      *
-     * @param Exception $e
+     * @param \Exception $e
      *            Exception object
      * @codeCoverageIgnore
      */

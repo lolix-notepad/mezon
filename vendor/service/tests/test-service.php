@@ -7,7 +7,7 @@
 /**
  * @author Dodonov A.A.
  */
-class TestLogic extends ServiceLogic
+class TestLogic extends \Mezon\Service\ServiceLogic
 {
 
 	public function test()
@@ -24,7 +24,7 @@ class TestLogic extends ServiceLogic
 /**
  * @author Dodonov A.A.
  */
-class TestService extends Service
+class TestService extends Mezon\Service
 {
 }
 

@@ -1,22 +1,25 @@
 <?php
+namespace Mezon\CRUDService;
+
 /**
  * Class CRUDServiceModel
  *
- * @package     CRUDService
- * @subpackage  CRUDServiceModel
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package CRUDService
+ * @subpackage CRUDServiceModel
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../functional/functional.php');
 require_once (__DIR__ . '/../../../service/vendor/db-service-model/db-service-model.php');
 
+// TODO add camel-case
 /**
  * CRUD service's default model
  *
  * @author Dodonov A.A.
  */
-class CRUDServiceModel extends DBServiceModel
+class CRUDServiceModel extends \Mezon\Service\DBServiceModel
 {
 
     /**
@@ -72,7 +75,7 @@ class CRUDServiceModel extends DBServiceModel
      *
      * @param int|bool $DomainId
      *            Do we have domain limitations
-     * @param datetime $Date
+     * @param \datetime $Date
      *            Start of the period
      * @return array List of records created since $Date
      */
@@ -112,7 +115,7 @@ class CRUDServiceModel extends DBServiceModel
             return (0);
         }
 
-        return (Functional::get_field($Records[0], 'records_count'));
+        return (\Mezon\Functional::get_field($Records[0], 'records_count'));
     }
 
     /**
@@ -246,7 +249,7 @@ class CRUDServiceModel extends DBServiceModel
         $Records = $this->get_connection()->select($this->get_fields_names(), $this->TableName, $Where);
 
         if (count($Records) == 0) {
-            throw (new Exception('Record with id in ' . $ids . ' and domain = ' . ($DomainId === false ? 'false' : $DomainId) . ' was not found', - 1));
+            throw (new \Exception('Record with id in ' . $ids . ' and domain = ' . ($DomainId === false ? 'false' : $DomainId) . ' was not found', - 1));
         }
 
         $this->fetch_records_by_ids_transformer($Records);
@@ -365,7 +368,7 @@ class CRUDServiceModel extends DBServiceModel
         if (count($Record) === 0) {
             $Msg = 'Trying to create empty record. Be shure that you have passed at least one of these fields : ';
 
-            throw (new Exception($Msg . $this->get_fields_names()));
+            throw (new \Exception($Msg . $this->get_fields_names()));
         }
 
         $Record['id'] = $this->get_connection()->insert($this->TableName, $Record);

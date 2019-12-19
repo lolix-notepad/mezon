@@ -9,7 +9,7 @@ class FakeSecurityProvider
 {
 }
 
-class TestingServiceLogic extends ServiceLogic
+class TestingServiceLogic extends \Mezon\Service\ServiceLogic
 {
 
     public function private_method()
@@ -33,7 +33,7 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function get_transport_mock(): object
     {
-        $Mock = $this->getMockBuilder('ServiceConsoleTransport')
+        $Mock = $this->getMockBuilder(\Mezon\Service\ServiceConsoleTransport::class)
             ->setMethods([
             'create_session'
         ])
@@ -64,7 +64,7 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_constructor(): void
     {
-        $Transport = new ServiceConsoleTransport();
+        $Transport = new \Mezon\Service\ServiceConsoleTransport();
 
         $this->assertNotEquals(null, $Transport->SecurityProvider, 'Security provide was not setup');
     }
@@ -74,8 +74,8 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_security_provider_init_default(): void
     {
-        $Transport = new ServiceConsoleTransport();
-        $this->assertInstanceOf('ServiceMockSecurityProvider', $Transport->SecurityProvider);
+        $Transport = new \Mezon\Service\ServiceConsoleTransport();
+        $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $Transport->SecurityProvider);
     }
 
     /**
@@ -83,7 +83,7 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_security_provider_init_string(): void
     {
-        $Transport = new ServiceConsoleTransport(FakeSecurityProvider::class);
+        $Transport = new \Mezon\Service\ServiceConsoleTransport(FakeSecurityProvider::class);
         $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
     }
 
@@ -92,7 +92,7 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_security_provider_init_object(): void
     {
-        $Transport = new ServiceConsoleTransport(new FakeSecurityProvider());
+        $Transport = new \Mezon\Service\ServiceConsoleTransport(new FakeSecurityProvider());
         $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
     }
 

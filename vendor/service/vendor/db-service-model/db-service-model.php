@@ -1,18 +1,21 @@
 <?php
+namespace Mezon\Service;
+
 /**
  * Class DBServiceModel
  *
- * @package     Service
- * @subpackage  DBServiceModel
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/10/18)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage DBServiceModel
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/10/18)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../functional/functional.php');
 require_once (__DIR__ . '/../../../gui/vendor/fields-algorithms/fields-algorithms.php');
 require_once (__DIR__ . '/../../../mezon/mezon.php');
 require_once (__DIR__ . '/../../../service/vendor/service-model/service-model.php');
 
+// TODO add camel-case
 /**
  * CRUD service's default model
  *
@@ -53,18 +56,18 @@ class DBServiceModel extends ServiceModel
         $this->EntityName = $EntityName;
 
         if (is_string($Fields)) {
-            $this->FieldsAlgorithms = new FieldsAlgorithms([
+            $this->FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms([
                 '*' => [
                     'type' => 'string',
                     'title' => 'All fields'
                 ]
             ], $TableName);
         } elseif (is_array($Fields)) {
-            $this->FieldsAlgorithms = new FieldsAlgorithms($Fields, $TableName);
-        } elseif ($Fields instanceof FieldsAlgorithms) {
+            $this->FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($Fields, $TableName);
+        } elseif ($Fields instanceof \Mezon\GUI\FieldsAlgorithms) {
             $this->FieldsAlgorithms = $Fields;
         } else {
-            throw (new Exception('Invalid fields description', - 1));
+            throw (new \Exception('Invalid fields description', - 1));
         }
     }
 
@@ -85,12 +88,12 @@ class DBServiceModel extends ServiceModel
     /**
      * Method returns connection to the DB
      *
-     * @return PDOCrud - PDO DB connection
+     * @return \Mezon\PdoCrud - PDO DB connection
      */
-    protected function get_connection():PdoCrud
+    protected function get_connection(): \Mezon\PdoCrud
     {
         // @codeCoverageIgnoreStart
-        return (Mezon::get_db_connection());
+        return (\Mezon\Mezon::get_db_connection());
         // @codeCoverageIgnoreEnd
     }
 

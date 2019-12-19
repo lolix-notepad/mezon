@@ -1,15 +1,17 @@
 <?php
+namespace Mezon;
 
 /**
  * Class Functional
  *
- * @package     Mezon
- * @subpackage  Functional
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/07)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage Functional
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/07)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Functional algorithms.
  */
@@ -149,7 +151,7 @@ class Functional
     {
         foreach ($Values as $i => $Value) {
             if (isset($Objects[$i]) === false) {
-                $Objects[$i] = new stdClass();
+                $Objects[$i] = new \stdClass();
             }
 
             $Objects[$i]->$FieldName = $Value;
@@ -254,7 +256,7 @@ class Functional
                 $Object->$FieldTo = $Value;
             }
         } else {
-            throw (new Exception('Unknown entyty type for ' . serialize($Object)));
+            throw (new \Exception('Unknown entyty type for ' . serialize($Object)));
         }
     }
 

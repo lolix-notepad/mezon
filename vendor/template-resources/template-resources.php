@@ -1,4 +1,5 @@
 <?php
+namespace Mezon;
 /**
  * Class TemplateResources
  *
@@ -9,6 +10,10 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../conf/conf.php');
+
+// TODO add camel-case
+// TODO do we need this class?
+// TODO may be we should move it somewhere?
 
 /**
  * Class collects resources for page.

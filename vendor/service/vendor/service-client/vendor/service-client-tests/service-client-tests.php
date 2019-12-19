@@ -9,6 +9,9 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
+// TODO add namespace
+// TODO add camel-case
+// TODO remove this constant
 define('EXISTING_LOGIN','alexey@dodonov.pro');
 
 /**

@@ -1,5 +1,5 @@
 <?php
-
+namespace Mezon\GUI\FormBuilder;
 /**
  * Class RowsField
  *
@@ -11,10 +11,11 @@
  */
 require_once (__DIR__ . '/../../../field/field.php');
 
+// TODO add camel-case
 /**
  * Rows field control
  */
-class RowsField extends Field
+class RowsField extends \Mezon\GUI\Field
 {
 
     /**

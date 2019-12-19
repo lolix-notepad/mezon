@@ -1,4 +1,5 @@
 <?php
+namespace Mezon;
 /**
  * Class HTMLTemplate
  *
@@ -11,6 +12,7 @@
 require_once (__DIR__ . '/../template-engine/template-engine.php');
 require_once (__DIR__ . '/../template-resources/template-resources.php');
 
+// TODO add camel-case
 /**
  * Template class
  *
@@ -60,7 +62,7 @@ class HTMLTemplate
 
         $this->reset_layout($Template);
 
-        $this->Resources = new TemplateResources();
+        $this->Resources = new \Mezon\TemplateResources();
 
         $this->Blocks = [];
 
@@ -134,7 +136,7 @@ class HTMLTemplate
         } elseif (file_exists($this->Path . '/res/templates/' . $Template)) {
             $this->Template = file_get_contents($this->Path . '/res/templates/' . $Template);
         } else {
-            throw (new Exception('Template file on the path ' . $this->Path . ' was not found', - 1));
+            throw (new \Exception('Template file on the path ' . $this->Path . ' was not found', - 1));
         }
     }
 
@@ -200,7 +202,7 @@ class HTMLTemplate
         } elseif (file_exists($this->Path . '/blocks/' . $BlockName . '.tpl')) {
             $BlockContent = file_get_contents($this->Path . '/blocks/' . $BlockName . '.tpl');
         } else {
-            throw (new Exception('Block ' . $BlockName . ' was not found', - 1));
+            throw (new \Exception('Block ' . $BlockName . ' was not found', - 1));
         }
 
         return ($BlockContent);

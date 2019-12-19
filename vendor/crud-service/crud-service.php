@@ -1,18 +1,21 @@
 <?php
+namespace Mezon;
+
 /**
  * Class CRUDService
  *
- * @package     Mezon
- * @subpackage  CRUDService
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage CRUDService
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../gui/vendor/fields-algorithms/fields-algorithms.php');
 require_once (__DIR__ . '/../gui/vendor/form-builder/form-builder.php');
 
 require_once (__DIR__ . '/vendor/crud-service-client/crud-service-client.php');
 
+// TODO add camel-case
 /**
  * Class for custom crud service.
  *
@@ -35,11 +38,11 @@ class CRUDService extends Service
      * @param mixed $ServiceModel
      *            Service's model
      */
-    public function __construct(array $Entity, $ServiceTransport = 'ServiceRESTTransport', $SecurityProvider = 'ServiceMockSecurityProvider', $ServiceLogic = 'CRUDServiceLogic', $ServiceModel = 'CRUDServiceModel')
+    public function __construct(array $Entity, $ServiceTransport = '\Mezon\Service\ServiceRESTTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\CRUDService\CRUDServiceLogic', $ServiceModel = '\Mezon\CRUDService\CRUDServiceModel')
     {
         try {
             parent::__construct($ServiceTransport, $SecurityProvider, $ServiceLogic, $this->init_model($Entity, $ServiceModel));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->ServiceTransport->handle_exception($e);
         }
     }
@@ -49,7 +52,7 @@ class CRUDService extends Service
      *
      * @param array $Entity
      *            Entity description
-     * @param string|CRUDServiceModel $ServiceModel
+     * @param string|\Mezon\CRUDService\CRUDServiceModel $ServiceModel
      *            Service's model
      */
     protected function init_model(array $Entity, $ServiceModel)
@@ -76,7 +79,7 @@ class CRUDService extends Service
             return (json_decode(file_get_contents('./conf/fields.json'), true));
         }
 
-        throw (new Exception('fields.json was not found'));
+        throw (new \Exception('fields.json was not found'));
     }
 
     /**

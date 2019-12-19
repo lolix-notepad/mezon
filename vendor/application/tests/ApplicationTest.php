@@ -6,7 +6,7 @@ require_once (__DIR__ . '/../../router/router.php');
 /**
  * Application for testing purposes.
  */
-class TestApplication extends Application
+class TestApplication extends \Mezon\Application
 {
 
 	function __construct()
@@ -171,7 +171,7 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	 */
 	protected function get_mock()
 	{
-		$Mock = $this->getMockBuilder('Application')
+		$Mock = $this->getMockBuilder('\Mezon\Application')
 			->disableOriginalConstructor()
 			->setMethods([
 			'handle_exception'
@@ -202,7 +202,7 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	 */
 	public function test_on_the_fly_method()
 	{
-		$Application = new Application();
+		$Application = new \Mezon\Application();
 
 		$Application->fly = function () {
 			return ('OK!');
@@ -226,7 +226,7 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	 */
 	public function test_on_the_fly_unexisting_method()
 	{
-		$Application = new Application();
+		$Application = new \Mezon\Application();
 
 		$Application->unexisting = function () {
 			return ('OK!');

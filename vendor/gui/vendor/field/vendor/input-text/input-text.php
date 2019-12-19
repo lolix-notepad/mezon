@@ -1,5 +1,5 @@
 <?php
-
+namespace Mezon\GUI\Field;
 /**
  * Class InputText
  *
@@ -11,10 +11,11 @@
  */
 require_once (__DIR__ . '/../../field.php');
 
+// TODO add camel-case
 /**
  * Input field control
  */
-class InputText extends Field
+class InputText extends \Mezon\GUI\Field
 {
 
     /**

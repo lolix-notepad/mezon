@@ -10,7 +10,7 @@ class BootstrapWidgetsTest extends PHPUnit\Framework\TestCase
 	public function test_get_template()
 	{
 		// setup
-		$BootstrapWidgets = new BootstrapWidgets();
+		$BootstrapWidgets = new \Mezon\WidgetsRegistry\BootstrapWidgets();
 
 		// test body
 		$Widget = $BootstrapWidgets->get_widget('table-cell-start');

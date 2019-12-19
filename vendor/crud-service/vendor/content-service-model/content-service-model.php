@@ -9,7 +9,8 @@
  * @version     v.1.0 (2019/11/06)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-
+// TODO add namespace
+// TODO add camel-case
 require_once (__DIR__ . '/../../../service/vendor/db-service-model/db-service-model.php');
 /**
  * Model for content entities

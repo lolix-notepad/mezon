@@ -1,4 +1,5 @@
 <?php
+namespace Mezon\Application;
 /**
  * Class AjaxApplication
  *
@@ -10,10 +11,11 @@
  */
 require_once (__DIR__ . '/../../application.php');
 
+// TODO add camel-case
 /**
  * Base class of the ajax-application
  */
-class AjaxApplication extends Application
+class AjaxApplication extends \Mezon\Application
 {
 
     /**
@@ -67,12 +69,12 @@ class AjaxApplication extends Application
     /**
      * Method processes exception.
      *
-     * @param Exception $e
+     * @param \Exception $e
      *            Exception object.
      */
-    public function handle_exception(Exception $e)
+    public function handle_exception(\Exception $e)
     {
-        $Error = new stdClass();
+        $Error = new \stdClass();
         $Error->message = $e->getMessage();
         $Error->code = $e->getCode();
         if (isset($e->HTTPBody)) {

@@ -10,7 +10,7 @@ class SelectTest extends PHPUnit\Framework\TestCase
     public function test_constructor()
     {
         // setup
-        $Field = new Select([
+        $Field = new \Mezon\GUI\Field\Select([
             'name' => 'name',
             'required' => 1,
             'disabled' => 1,

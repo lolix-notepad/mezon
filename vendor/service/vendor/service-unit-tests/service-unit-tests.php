@@ -25,7 +25,7 @@ require_once (__DIR__ . '/../../service.php');
 define('AS_STRING', 1);
 define('AS_OBJECT', 2);
 
-class FakeRequestParams implements ServiceRequestParams
+class FakeRequestParams implements \Mezon\Service\ServiceRequestParams
 {
 
     /**
@@ -56,7 +56,7 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
      *
      * @var string
      */
-    var $ClassName = 'Service';
+    var $ClassName = 'Mezon\Service';
 
     /**
      * Constructor
@@ -64,7 +64,7 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
      * @param string $ClassName
      *            - Class name to be tested
      */
-    public function __construct(string $ClassName = 'Service')
+    public function __construct(string $ClassName = '\Mezon\Service')
     {
         parent::__construct();
 
@@ -79,10 +79,10 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
         $Service = new $this->ClassName($this->get_transport(AS_STRING));
         $this->assertInstanceOf($this->get_security_provider(AS_STRING), $Service->ServiceTransport->SecurityProvider);
 
-        $Service = new $this->ClassName(new ServiceRESTTransport(), $this->get_security_provider(AS_STRING));
+        $Service = new $this->ClassName(new \Mezon\Service\ServiceRESTTransport(), $this->get_security_provider(AS_STRING));
         $this->assertInstanceOf($this->get_security_provider(AS_STRING), $Service->ServiceTransport->SecurityProvider);
 
-        $Service = new $this->ClassName(new ServiceRESTTransport(), $this->get_security_provider(AS_OBJECT));
+        $Service = new $this->ClassName(new \Mezon\Service\ServiceRESTTransport(), $this->get_security_provider(AS_OBJECT));
         $this->assertInstanceOf($this->get_security_provider(AS_STRING), $Service->ServiceTransport->SecurityProvider);
     }
 
@@ -91,13 +91,13 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
      */
     public function test_init_service_model()
     {
-        $Service = new $this->ClassName(new ServiceRESTTransport(), new ServiceMockSecurityProvider(), $this->get_logic(AS_STRING));
+        $Service = new $this->ClassName(new \Mezon\Service\ServiceRESTTransport(), new \Mezon\Service\ServiceMockSecurityProvider(), $this->get_logic(AS_STRING));
         $this->assertInstanceOf($this->get_model(AS_STRING), $Service->ServiceLogic->Model);
 
-        $Service = new $this->ClassName(new ServiceRESTTransport(), new ServiceMockSecurityProvider(), $this->get_logic(AS_OBJECT), 'ServiceModel');
+        $Service = new $this->ClassName(new \Mezon\Service\ServiceRESTTransport(), new \Mezon\Service\ServiceMockSecurityProvider(), $this->get_logic(AS_OBJECT), 'ServiceModel');
         $this->assertInstanceOf($this->get_model(AS_STRING), $Service->ServiceLogic->Model);
 
-        $Service = new $this->ClassName(new ServiceRESTTransport(), new ServiceMockSecurityProvider(), $this->get_logic(AS_OBJECT), new ServiceModel());
+        $Service = new $this->ClassName(new \Mezon\Service\ServiceRESTTransport(), new \Mezon\Service\ServiceMockSecurityProvider(), $this->get_logic(AS_OBJECT), new \Mezon\Service\ServiceModel());
         $this->assertInstanceOf($this->get_model(AS_STRING), $Service->ServiceLogic->Model);
     }
 
@@ -121,15 +121,15 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
      *
      * @param int $Mode
      *            - Creation mode
-     * @return ServiceLogic|string Service logic object
+     * @return \Mezon\Service\ServiceLogic|string Service logic object
      */
     protected function get_logic(int $Mode)
     {
         if ($Mode == AS_STRING) {
-            return ('ServiceLogic');
+            return ('\Mezon\Service\ServiceLogic');
         }
         if ($Mode == AS_OBJECT) {
-            return (new ServiceLogic(new FakeRequestParams(), new stdClass(), $this->get_model(AS_OBJECT)));
+            return (new \Mezon\Service\ServiceLogic(new FakeRequestParams(), new stdClass(), $this->get_model(AS_OBJECT)));
         }
         return (null);
     }
@@ -139,15 +139,15 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
      *
      * @param int $Mode
      *            - Creation mode
-     * @return ServiceModel|string Service model object
+     * @return \Mezon\Service\ServiceModel|string Service model object
      */
     protected function get_model(int $Mode)
     {
         if ($Mode == AS_STRING) {
-            return ('ServiceModel');
+            return ('\Mezon\Service\ServiceModel');
         }
         if ($Mode == AS_OBJECT) {
-            return (new ServiceModel());
+            return (new \Mezon\Service\ServiceModel());
         }
         return (null);
     }
@@ -157,15 +157,15 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
      *
      * @param int $Mode
      *            - Creation mode
-     * @return ServiceTransport|string Service transport object
+     * @return \Mezon\Service\ServiceTransport|string Service transport object
      */
     protected function get_transport(int $Mode)
     {
         if ($Mode == AS_STRING) {
-            return ('ServiceRESTTransport');
+            return ('\Mezon\Service\ServiceRESTTransport');
         }
         if ($Mode == AS_OBJECT) {
-            return (new ServiceRESTTransport());
+            return (new \Mezon\Service\ServiceRESTTransport());
         }
         return (null);
     }
@@ -175,15 +175,15 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
      *
      * @param int $Mode
      *            - Creation mode
-     * @return ServiceSecurityProvider|string Service security provider object
+     * @return \Mezon\Service\ServiceSecurityProvider|string Service security provider object
      */
     protected function get_security_provider(int $Mode)
     {
         if ($Mode == AS_STRING) {
-            return ('ServiceMockSecurityProvider');
+            return ('\Mezon\Service\ServiceMockSecurityProvider');
         }
         if ($Mode == AS_OBJECT) {
-            return (new ServiceMockSecurityProvider());
+            return (new \Mezon\Service\ServiceMockSecurityProvider());
         }
         return (null);
     }
@@ -191,7 +191,7 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing launcher with transport
      *
-     * @see Service::launch
+     * @see Mezon\Service::launch
      */
     public function test_launch_with_transport()
     {
@@ -214,7 +214,7 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing launcher with security provider
      *
-     * @see Service::launch
+     * @see Mezon\Service::launch
      */
     public function test_launch_with_security_provider()
     {
@@ -249,24 +249,24 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
         $_GET['r'] = 'connect';
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $Service = $LocalClassName::launch($this->ClassName, 'ServiceConsoleTransport', $this->get_security_provider(AS_STRING), [
+        $Service = $LocalClassName::launch($this->ClassName, '\Mezon\Service\ServiceConsoleTransport', $this->get_security_provider(AS_STRING), [
             $this->get_logic(AS_STRING)
         ], $this->get_model(AS_STRING), false);
 
         $Service->run();
         $this->addToAssertionCount(1);
     }
-    
+
     /**
      * Testing launcher with transport
      *
-     * @see Service::start
+     * @see Mezon\Service::start
      */
     public function test_start_with_transport()
     {
         $LocalClassName = $this->ClassName;
         $Mock = $this->get_mock();
-        
+
         // implicit
         $Service = $LocalClassName::start(get_class($Mock));
         $this->assertInstanceOf($this->get_transport(AS_STRING), $Service->ServiceTransport);

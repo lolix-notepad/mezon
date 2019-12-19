@@ -10,14 +10,14 @@ class CustomClientUnitTest extends PHPUnit\Framework\TestCase
     public function test_constructor_invalid(): void
     {
         try {
-            $Client = new CustomClient(false);
+            $Client = new \Mezon\CustomClient(false);
             $this->fail('Exception was not thrown ' . serialize($Client));
         } catch (Exception $e) {
             $this->addToAssertionCount(1);
         }
 
         try {
-            $Client = new CustomClient('');
+            $Client = new \Mezon\CustomClient('');
             $this->fail('Exception was not thrown ' . serialize($Client));
         } catch (Exception $e) {
             $this->addToAssertionCount(1);
@@ -29,7 +29,7 @@ class CustomClientUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_constructor_valid(): void
     {
-        $Client = new CustomClient('http://yandex.ru/', [
+        $Client = new \Mezon\CustomClient('http://yandex.ru/', [
             'header'
         ]);
 
@@ -43,7 +43,7 @@ class CustomClientUnitTest extends PHPUnit\Framework\TestCase
     public function test_idempotency_get_set(): void
     {
         // setup
-        $Client = new CustomClient('some url', []);
+        $Client = new \Mezon\CustomClient('some url', []);
 
         // test bodyand assertions
         $Client->set_idempotency_key('i-key');
@@ -56,7 +56,7 @@ class CustomClientUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function get_mock(): object
     {
-        $Mock = $this->getMockBuilder('CustomClient')
+        $Mock = $this->getMockBuilder('\Mezon\CustomClient')
             ->setMethods([
             'send_request'
         ])

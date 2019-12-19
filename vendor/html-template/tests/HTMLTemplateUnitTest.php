@@ -10,7 +10,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     public function test_constructor_1()
     {
         // setup and test body
-        $Template = new HTMLTemplate(__DIR__ . '/test-data/', 'index', [
+        $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/', 'index', [
             'main'
         ]);
 
@@ -27,7 +27,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     public function test_constructor_2()
     {
         // setup and test body
-        $Template = new HTMLTemplate(__DIR__ . '/test-data/res/', 'index2', [
+        $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/res/', 'index2', [
             'main'
         ]);
 
@@ -45,7 +45,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     {
         try {
             // setup and test body
-            $Template = new HTMLTemplate(__DIR__, 'index2', [
+            $Template = new \Mezon\HTMLTemplate(__DIR__, 'index2', [
                 'main'
             ]);
             $this->fail('Exception must be thrown ' . serialize($Template));
@@ -60,7 +60,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     public function test_compile()
     {
         // setup
-        $Template = new HTMLTemplate(__DIR__ . '/test-data/res/', 'index2', [
+        $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/res/', 'index2', [
             'main'
         ]);
         $_SERVER['HTTP_HOST'] = 'host';
@@ -78,7 +78,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     public function test_get_unexisting_block()
     {
         // setup and test body
-        $Template = new HTMLTemplate(__DIR__ . '/test-data/', 'index', [
+        $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/', 'index', [
             'main'
         ]);
 

@@ -19,7 +19,7 @@ class DnsClientUnitTest extends PHPUnit\Framework\TestCase
 	public function test_get_services()
 	{
 		// setup and test body
-		$Services = DNS::get_services();
+		$Services = \Mezon\DNS::get_services();
 
 		// assertions
 		$this->assertEquals('auth, author, invalid', $Services);
@@ -30,9 +30,9 @@ class DnsClientUnitTest extends PHPUnit\Framework\TestCase
 	 */
 	public function test_service_exists()
 	{
-		$this->assertTrue(DNS::service_exists('auth'), 'Existing service was not found');
+	    $this->assertTrue(\Mezon\DNS::service_exists('auth'), 'Existing service was not found');
 
-		$this->assertFalse(DNS::service_exists('unexisting'), 'Unexisting service was found');
+	    $this->assertFalse(\Mezon\DNS::service_exists('unexisting'), 'Unexisting service was found');
 	}
 
 	/**
@@ -42,7 +42,7 @@ class DnsClientUnitTest extends PHPUnit\Framework\TestCase
 	{
 		// test body and assertions
 		try {
-			DNS::resolve_host('unexisting');
+		    \Mezon\DNS::resolve_host('unexisting');
 			$this->fails('Exception must be thrown');
 		} catch (Exception $e) {
 			$this->addToAssertionCount(1);
@@ -55,7 +55,7 @@ class DnsClientUnitTest extends PHPUnit\Framework\TestCase
 	public function test_resolve_host()
 	{
 		// test body and assertions
-		$URL = DNS::resolve_host('auth');
+	    $URL = \Mezon\DNS::resolve_host('auth');
 		$this->assertEquals('auth.local', $URL, 'Invalid URL was fetched');
 	}
 
@@ -66,7 +66,7 @@ class DnsClientUnitTest extends PHPUnit\Framework\TestCase
 	{
 		// test body and assertions
 		try {
-			DNS::resolve_host('invalid');
+		    \Mezon\DNS::resolve_host('invalid');
 			$this->fails('Exception must be thrown');
 		} catch (Exception $e) {
 			$this->addToAssertionCount(1);

@@ -1,4 +1,5 @@
 <?php
+namespace Mezon\Service;
 /**
  * Class ServiceHTTPTransport
  *
@@ -12,6 +13,7 @@ require_once (__DIR__ . '/vendor/http-request-params/http-request-params.php');
 require_once (__DIR__ . '/../service-transport/service-transport.php');
 require_once (__DIR__ . '/../service-mock-security-provider/service-mock-security-provider.php');
 
+// TODO add camel-case
 /**
  * HTTP transport for all services
  *
@@ -26,7 +28,7 @@ class ServiceHTTPTransport extends ServiceTransport implements ServiceTransportI
      * @param mixed $SecurityProvider
      *            Security provider
      */
-    public function __construct($SecurityProvider = 'ServiceMockSecurityProvider')
+    public function __construct($SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider')
     {
         parent::__construct();
 
@@ -56,7 +58,7 @@ class ServiceHTTPTransport extends ServiceTransport implements ServiceTransportI
      */
     public function create_fetcher(): ServiceRequestParams
     {
-        return(new HTTPRequestParams($this->Router));
+        return(new \Mezon\Service\ServiceHTTPTransport\HTTPRequestParams($this->Router));
     }
 
     /**

@@ -35,14 +35,17 @@ function get_dns_str($Service, $Key1 = false)
  *
  * @author Dodonov A.A.
  */
-class TestApplication extends CommonApplication
+class TestApplication extends \Mezon\CommonApplication
 {
+    public function __construct(){
+        parent::__construct( new \Mezon\HTMLTemplate(__DIR__) );
+    }
 
     public function redirect_to($URL)
     {}
 }
 
-class TestApplicationActions extends ApplicationActions
+class TestApplicationActions extends \Mezon\CRUDService\ApplicationActions
 {
 
     public function get_self_id(): string
@@ -63,7 +66,7 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
     {
         $Object = new TestApplicationActions(ENTITY_NAME);
 
-        $Object->CRUDServiceClient = $this->getMockBuilder('CRUDServiceClient')
+        $Object->CRUDServiceClient = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceClient')
             ->setMethods([
             'get_list',
             'delete',
@@ -113,7 +116,7 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
         // setup
         $Object = $this->get_application_actions();
 
-        $Application = new TestApplication(false);
+        $Application = new TestApplication();
 
         // test body
         try {
@@ -134,7 +137,7 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
         // setup
         $Object = $this->get_application_actions();
 
-        $Application = new TestApplication(false);
+        $Application = new TestApplication();
 
         // test body
         $Object->attach_list_page($Application, [
@@ -156,7 +159,7 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
     {
         // setup
         $Object = $this->get_application_actions();
-        $Application = new TestApplication(false);
+        $Application = new TestApplication();
 
         // test body
         $Object->attach_simple_list_page($Application, [
@@ -175,7 +178,7 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
     {
         // setup
         $Object = $this->get_application_actions();
-        $Application = new TestApplication(false);
+        $Application = new TestApplication();
 
         // test body
         $Object->attach_delete_record($Application, []);
@@ -195,7 +198,7 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
     {
         // setup
         $Object = $this->get_application_actions();
-        $Application = new TestApplication(false);
+        $Application = new TestApplication();
 
         // test body
         $Object->attach_create_record($Application, []);
@@ -212,7 +215,7 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
     {
         // setup
         $Object = $this->get_application_actions();
-        $Application = new TestApplication(false);
+        $Application = new TestApplication();
 
         // test body
         $Object->attach_update_record($Application, []);

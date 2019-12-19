@@ -42,7 +42,7 @@
 	"rows-field" : {"component-dir":"./vendor/gui/vendor/form-builder/vendor/rows-field","tests-dir":"./tests"} , 
 	"security" : {"component-dir":"./vendor/security","tests-dir":"./tests"} , 
 	"select" : {"component-dir":"./vendor/gui/vendor/field/vendor/select","tests-dir":"./tests"} , 
-	"service" : {"component-dir":"./vendor/service/vendor/service","tests-dir":"./tests"} , 
+	"service" : {"component-dir":"./vendor/service","tests-dir":"./tests"} , 
 	"service-client" : {"component-dir":"./vendor/service/vendor/service-client","tests-dir":"--filter ServiceClientUnitTest ./tests"} , 
 	"service-logic" : {"component-dir":"./vendor/service/vendor/service-logic","tests-dir":"./tests"} , 
 	"service-http-transport" : {"component-dir":"./vendor/service/vendor/service-http-transport","tests-dir":"./tests"} , 

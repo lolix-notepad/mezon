@@ -6,7 +6,7 @@ require_once (__DIR__ . '/../view.php');
  *
  * @author Dodonov A.A.
  */
-class TestingView extends View
+class TestingView extends \Mezon\View
 {
 
     public function view_test(): string

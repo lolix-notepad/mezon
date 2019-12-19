@@ -1,4 +1,5 @@
 <?php
+namespace Mezon;
 /**
  * Class Mezon
  *
@@ -10,6 +11,9 @@
  */
 require_once (__DIR__ . '/../conf/conf.php');
 require_once (__DIR__ . '/../pdo-crud/pdo-crud.php');
+
+
+// TODO add camel-case
 
 /**
  * Mezon's main class.
@@ -30,15 +34,15 @@ class Mezon
     protected static function validate_dsn(string $ConnectionName)
     {
         if (get_config_value($ConnectionName . '/dsn') === false) {
-            throw (new Exception($ConnectionName . '/dsn not set'));
+            throw (new \Exception($ConnectionName . '/dsn not set'));
         }
 
         if (get_config_value($ConnectionName . '/user') === false) {
-            throw (new Exception($ConnectionName . '/user not set'));
+            throw (new \Exception($ConnectionName . '/user not set'));
         }
 
         if (get_config_value($ConnectionName . '/password') === false) {
-            throw (new Exception($ConnectionName . '/password not set'));
+            throw (new \Exception($ConnectionName . '/password not set'));
         }
     }
 

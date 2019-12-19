@@ -1,4 +1,5 @@
 <?php
+namespace MEzon\GUI;
 /**
  * Class ListBuilder
  *
@@ -16,6 +17,7 @@ require_once (__DIR__ . '/vendor/crud-service-client-adapter/crud-service-client
 
 define('DESCRIPTION_FIELD_NAME', 'description');
 
+// TODO add camel-case
 /**
  * Class constructs grids.
  */
@@ -32,7 +34,7 @@ class ListBuilder
     /**
      * Service logic adapter
      *
-     * @var ListBuilderAdapter
+     * @var \Mezon\GUI\ListBuilder\ListBuilderAdapter
      */
     var $ListBuilderAdapter = false;
 
@@ -48,10 +50,10 @@ class ListBuilder
      *
      * @param array $Fields
      *            List of fields
-     * @param ListBuilderAdapter $ListBuilderAdapter
+     * @param \Mezon\GUI\ListBuilder\ListBuilderAdapter $ListBuilderAdapter
      *            Adapter for the data source
      */
-    public function __construct(array $Fields, ListBuilderAdapter $ListBuilderAdapter)
+    public function __construct(array $Fields, \Mezon\GUI\ListBuilder\ListBuilderAdapter $ListBuilderAdapter)
     {
         $this->Fields = $Fields;
 
@@ -79,7 +81,7 @@ class ListBuilder
      */
     protected function listing_no_items(): string
     {
-        $Content = BootstrapWidgets::get('listing-no-items');
+        $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-no-items');
 
         $Content = str_replace('{create-page-endpoint}', $this->get_create_page_endpoint(), $Content);
 
@@ -95,7 +97,7 @@ class ListBuilder
      */
     protected function list_of_buttons(int $id): string
     {
-        $Content = BootstrapWidgets::get('list-of-buttons');
+        $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('list-of-buttons');
 
         return (str_replace('{id}', $id, $Content));
     }
@@ -130,15 +132,15 @@ class ListBuilder
                 continue;
             }
             if ($Name == 'id') {
-                $Content .= BootstrapWidgets::get('listing-row-centered-cell');
+                $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-row-centered-cell');
             } else {
-                $Content .= BootstrapWidgets::get('listing-row-cell');
+                $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-row-cell');
             }
             $Content = str_replace('{name}', '{' . $Name . '}', $Content);
         }
 
         if ($AddActions && $this->need_actions()) {
-            $Content .= BootstrapWidgets::get('listing-actions');
+            $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-actions');
         }
 
         return ($Content);
@@ -175,16 +177,16 @@ class ListBuilder
         $Content = '';
 
         foreach ($Records as $Record) {
-            $Record['actions'] = $this->list_of_buttons(Functional::get_field($Record, 'id'));
+            $Record['actions'] = $this->list_of_buttons(\Mezon\Functional::get_field($Record, 'id'));
 
-            $Content .= BootstrapWidgets::get('listing-row');
+            $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-row');
             $Content = str_replace('{items}', $this->listing_items_cells(), $Content);
 
             $Record = $this->transform_record($Record);
 
             $Record = $this->ListBuilderAdapter->preprocess_list_item($Record);
 
-            $Content = TemplateEngine::print_record($Content, $Record);
+            $Content = \Mezon\TemplateEngine::print_record($Content, $Record);
         }
 
         return ($Content);
@@ -209,7 +211,7 @@ class ListBuilder
             $IdClass = $Name == 'id' ? ' col-md-1' : '';
             $IdStyle = $Name == 'id' ? 'style="text-align: center;"' : '';
 
-            $Content .= BootstrapWidgets::get('listing-header-cell');
+            $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-header-cell');
             $Content = str_replace([
                 '{id-class}',
                 '{id-style}',
@@ -222,7 +224,7 @@ class ListBuilder
         }
 
         if ($AddActions && $this->need_actions()) {
-            $Content .= BootstrapWidgets::get('listing-header-actions');
+            $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-header-actions');
         }
 
         return ($Content);
@@ -237,11 +239,11 @@ class ListBuilder
     protected function listing_header_content(): string
     {
         if (@$_GET['create_button'] == 1) {
-            $Content = BootstrapWidgets::get('listing-header');
+            $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-header');
 
             $Content = str_replace('{create-page-endpoint}', $this->get_create_page_endpoint(), $Content);
         } else {
-            $Content = BootstrapWidgets::get('simple-listing-header');
+            $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('simple-listing-header');
         }
 
         return ($Content);
@@ -270,7 +272,7 @@ class ListBuilder
      */
     protected function simple_listing_header(): string
     {
-        $Content = BootstrapWidgets::get('simple-listing-header');
+        $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('simple-listing-header');
 
         $Content = str_replace('{description}', isset($_GET[DESCRIPTION_FIELD_NAME]) ? $_GET[DESCRIPTION_FIELD_NAME] : 'Выберите необходимое действие', $Content);
 
@@ -291,11 +293,11 @@ class ListBuilder
         $Content = '';
 
         foreach ($Records as $Record) {
-            $Content .= str_replace('{items}', $this->listing_items_cells(false), BootstrapWidgets::get('listing-row'));
+            $Content .= str_replace('{items}', $this->listing_items_cells(false), \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-row'));
 
             $Record = $this->transform_record($Record);
 
-            $Content = TemplateEngine::print_record($Content, $Record);
+            $Content = \Mezon\TemplateEngine::print_record($Content, $Record);
         }
 
         return ($Content);
@@ -318,7 +320,7 @@ class ListBuilder
 
             $Items = $this->listing_items($Records);
 
-            $Footer = BootstrapWidgets::get('listing-footer');
+            $Footer = \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-footer');
 
             return ($Header . $Items . $Footer);
         } else {
@@ -341,11 +343,11 @@ class ListBuilder
             $Items = $this->simple_listing_items($Records);
 
             // they are the same with full feature listing
-            $Footer = BootstrapWidgets::get('listing-footer');
+            $Footer = \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-footer');
 
             return ($Header . $Items . $Footer);
         } else {
-            return (BootstrapWidgets::get('listing-no-items'));
+            return (\Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-no-items'));
         }
     }
 }

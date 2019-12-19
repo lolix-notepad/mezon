@@ -9,7 +9,7 @@ class CurlWrapperTest extends PHPUnit\Framework\TestCase
 	 */
 	public function test_get_request()
 	{
-		list ($Body, $Code) = CurlWrapper::send_request('http://google.com', [], 'GET');
+		list ($Body, $Code) = \Mezon\CustomClient\CurlWrapper::send_request('http://google.com', [], 'GET');
 
 		$this->assertContains('', $Body, 'Invalid HTML was returned');
 		$this->assertEquals(301, $Code, 'Invalid HTTP code');
@@ -20,7 +20,7 @@ class CurlWrapperTest extends PHPUnit\Framework\TestCase
 	 */
 	public function test_post_request()
 	{
-		list ($Body, $Code) = CurlWrapper::send_request('http://google.com', [], 'POST', [
+	    list ($Body, $Code) = \Mezon\CustomClient\CurlWrapper::send_request('http://google.com', [], 'POST', [
 			'data' => 1
 		]);
 

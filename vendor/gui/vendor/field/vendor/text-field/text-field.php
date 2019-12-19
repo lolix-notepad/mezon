@@ -1,20 +1,22 @@
 <?php
+namespace Mezon\GUI\Field;
 
 /**
  * Class TextField
  *
- * @package     Field
- * @subpackage  TextField
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/04)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Field
+ * @subpackage TextField
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/04)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../control/control.php');
 
+// TODO add camel-case
 /**
  * Text field control
  */
-class TextField implements Control
+class TextField implements \Mezon\GUI\Control
 {
 
     /**

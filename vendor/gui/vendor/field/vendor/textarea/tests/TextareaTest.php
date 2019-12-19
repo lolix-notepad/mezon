@@ -10,7 +10,7 @@ class TextareaTest extends PHPUnit\Framework\TestCase
     public function test_constructor()
     {
         // setup
-        $Field = new Textarea([
+        $Field = new \Mezon\GUI\Field\Textarea([
             'name' => 'name',
             'required' => 1,
             'disabled' => 1,

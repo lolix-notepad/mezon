@@ -1,4 +1,5 @@
 <?php
+namespace Mezon;
 /**
  * Class Singleton
  *
@@ -9,6 +10,7 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  *   Singleton class
  */
@@ -28,7 +30,7 @@ class Singleton
         $ClassName = get_class($this);
 
         if (isset(self::$Instances[$ClassName])) {
-            throw (new Exception("You can not create more than one copy of a singleton of type $ClassName"));
+            throw (new \Exception("You can not create more than one copy of a singleton of type $ClassName"));
         } else {
             self::$Instances[$ClassName] = $this;
         }
@@ -44,7 +46,7 @@ class Singleton
         if (! isset(self::$Instances[$ClassName])) {
             $Args = func_get_args();
 
-            $ReflectionObject = new ReflectionClass($ClassName);
+            $ReflectionObject = new \ReflectionClass($ClassName);
 
             self::$Instances[$ClassName] = $ReflectionObject->newInstanceArgs($Args);
         }
@@ -57,7 +59,7 @@ class Singleton
      */
     public function __clone()
     {
-        throw (new Exception('You can not clone a singleton.'));
+        throw (new \Exception('You can not clone a singleton.'));
     }
 
     /**

@@ -1,15 +1,17 @@
 <?php
+namespace Mezon\GUI;
 
 /**
  * Class Field
  *
- * @package     GUI
- * @subpackage  Field
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/20)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package GUI
+ * @subpackage Field
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/20)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Base class for all other fields
  */
@@ -118,7 +120,7 @@ class Field
         if (isset($FieldDescription['name'])) {
             $this->Name = $FieldDescription['name'];
         } else {
-            throw (new Exception('Name of the field is not defined', - 1));
+            throw (new \Exception('Name of the field is not defined', - 1));
         }
     }
 

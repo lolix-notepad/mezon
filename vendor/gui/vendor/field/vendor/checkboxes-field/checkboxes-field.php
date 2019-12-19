@@ -1,13 +1,14 @@
 <?php
+namespace Mezon\GUI\Field;
 
 /**
  * Class CheckboxesField
  *
- * @package     Field
- * @subpackage  CheckboxesField
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/13)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Field
+ * @subpackage CheckboxesField
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/13)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../../../crud-service/vendor/crud-service-client/crud-service-client.php');
 require_once (__DIR__ . '/../../../fields-algorithms/fields-algorithms.php');
@@ -17,6 +18,7 @@ require_once (__DIR__ . '/../../../../../template-engine/template-engine.php');
 
 require_once (__DIR__ . '/../remote-field/remote-field.php');
 
+// TODO add camel-case
 /**
  * Checkboxes field control
  */
@@ -44,10 +46,10 @@ class CheckboxesField extends RemoteField
      */
     protected function get_external_title(array $Record): string
     {
-        if (Functional::get_field($Record, 'title') !== null) {
-            return (Functional::get_field($Record, 'title'));
+        if (\Mezon\Functional::get_field($Record, 'title') !== null) {
+            return (\Mezon\Functional::get_field($Record, 'title'));
         } else {
-            return ('id : ' . Functional::get_field($Record, 'id'));
+            return ('id : ' . \Mezon\Functional::get_field($Record, 'id'));
         }
     }
 
@@ -63,7 +65,7 @@ class CheckboxesField extends RemoteField
         $Records = $this->get_external_records();
 
         foreach ($Records as $Item) {
-            $id = Functional::get_field($Item, 'id');
+            $id = \Mezon\Functional::get_field($Item, 'id');
 
             $Content .= '<label>
                 <input type="checkbox" class="js-switch" name="' . $this->NamePrefix . '-' . $this->Name . '[]" value="' . $id . '" /> ' . $this->get_external_title($Item) . '

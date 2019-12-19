@@ -1,15 +1,17 @@
 <?php
+namespace Mezon;
 
 /**
  * Class PdoCrud
  *
- * @package     Mezon
- * @subpackage  PdoCrud
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/16)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage PdoCrud
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/16)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Class provides simple CRUD operations
  */
@@ -31,7 +33,7 @@ class PdoCrud
     public function connect(array $ConnnectionData)
     {
         // no need to test this single string. assume that PDO developers did it
-        $this->PDO = new PDO($ConnnectionData['dsn'], $ConnnectionData['user'], $ConnnectionData['password']);
+        $this->PDO = new \PDO($ConnnectionData['dsn'], $ConnnectionData['user'], $ConnnectionData['password']);
 
         $this->query('SET NAMES utf8');
     }
@@ -49,7 +51,7 @@ class PdoCrud
         if ($Result === false) {
             $ErrorInfo = $this->PDO->errorInfo();
 
-            throw (new Exception($ErrorInfo[2] . ' in statement ' . $Query));
+            throw (new \Exception($ErrorInfo[2] . ' in statement ' . $Query));
         }
     }
 
@@ -76,7 +78,7 @@ class PdoCrud
 
         $this->process_query_error($Result, $Query);
 
-        return ($Result->fetchAll(PDO::FETCH_ASSOC));
+        return ($Result->fetchAll(\PDO::FETCH_ASSOC));
     }
 
     /**

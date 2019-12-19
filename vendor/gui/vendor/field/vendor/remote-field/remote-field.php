@@ -1,22 +1,24 @@
 <?php
+namespace Mezon\GUI\Field;
 
 /**
  * Class RemoteField
  *
- * @package     Field
- * @subpackage  RemoteField
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/13)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Field
+ * @subpackage RemoteField
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/13)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../../../crud-service/vendor/crud-service-client/crud-service-client.php');
 
 require_once (__DIR__ . '/../../field.php');
 
+// TODO add camel-case
 /**
  * Remote field control
  */
-class RemoteField extends Field
+class RemoteField extends \Mezon\GUI\Field
 {
 
     /**
@@ -44,7 +46,7 @@ class RemoteField extends Field
         if (isset($FieldDescription['session-id'])) {
             $this->SessionId = $FieldDescription['session-id'];
         } else {
-            throw (new Exception('Session id is not defined', - 1));
+            throw (new \Exception('Session id is not defined', - 1));
         }
     }
 
@@ -59,7 +61,7 @@ class RemoteField extends Field
         if (isset($FieldDescription['remote-source'])) {
             $this->RemoteSource = $FieldDescription['remote-source'];
         } else {
-            throw (new Exception('Remote source of records is not defined', - 1));
+            throw (new \Exception('Remote source of records is not defined', - 1));
         }
     }
 
@@ -83,12 +85,12 @@ class RemoteField extends Field
     /**
      * Getting service client
      *
-     * @return CRUDServiceClient Service client
+     * @return \Mezon\CRUDService\CRUDServiceClient Service client
      */
-    protected function get_client(): CRUDServiceClient
+    protected function get_client(): \Mezon\CRUDService\CRUDServiceClient
     {
         // @codeCoverageIgnoreStart
-        $ExternalRecords = new CRUDServiceClient($this->RemoteSource);
+        $ExternalRecords = new \Mezon\CRUDService\CRUDServiceClient($this->RemoteSource);
         $ExternalRecords->set_token($this->SessionId);
         return ($ExternalRecords);
         // @codeCoverageIgnoreEnd

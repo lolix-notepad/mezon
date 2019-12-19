@@ -25,11 +25,11 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Method constructs FieldsAlgorithms object
      *
-     * @return FieldsAlgorithms Fields algorithms object
+     * @return \Mezon\GUI\FieldsAlgorithms Fields algorithms object
      */
     protected function get_fields_algorithms()
     {
-        return (new FieldsAlgorithms($this->get_json('setup'), 'entity'));
+        return (new \Mezon\GUI\FieldsAlgorithms($this->get_json('setup'), 'entity'));
     }
 
     /**
@@ -53,7 +53,7 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function get_form_builder(bool $HasLayout = true): object
     {
-        $FormBuilder = $this->getMockBuilder('FormBuilder')
+        $FormBuilder = $this->getMockBuilder('\Mezon\GUI\FormBuilder')
             ->setMethods([
             'get_external_records'
         ])

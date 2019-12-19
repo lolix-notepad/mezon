@@ -9,7 +9,7 @@ class FakeSecurityProvider
 {
 }
 
-class TestingServiceLogic extends ServiceLogic
+class TestingServiceLogic extends \Mezon\Service\ServiceLogic
 {
 
     public function private_method()
@@ -25,7 +25,7 @@ class TestingServiceLogic extends ServiceLogic
 
     public function method_rest_exception()
     {
-        throw (new RESTException('Msg', 0, 1, 1));
+        throw (new \Mezon\Service\ServiceRESTTransport\RESTException('Msg', 0, 1, 1));
     }
 }
 
@@ -39,7 +39,7 @@ class ServiceRESTTransportTest extends PHPUnit\Framework\TestCase
      */
     protected function get_transport_mock()
     {
-        $Mock = $this->getMockBuilder('ServiceRESTTransport')
+        $Mock = $this->getMockBuilder('\Mezon\Service\ServiceRESTTransport')
             ->setMethods([
             'header',
             'create_session'
@@ -74,7 +74,7 @@ class ServiceRESTTransportTest extends PHPUnit\Framework\TestCase
      */
     public function test_constructor()
     {
-        $Transport = new ServiceRESTTransport();
+        $Transport = new \Mezon\Service\ServiceRESTTransport();
 
         $this->assertNotEquals(null, $Transport->SecurityProvider, 'Security provide was not setup');
     }
@@ -84,8 +84,8 @@ class ServiceRESTTransportTest extends PHPUnit\Framework\TestCase
      */
     public function test_security_provider_init_default()
     {
-        $Transport = new ServiceRESTTransport();
-        $this->assertInstanceOf('ServiceMockSecurityProvider', $Transport->SecurityProvider);
+        $Transport = new \Mezon\Service\ServiceRESTTransport();
+        $this->assertInstanceOf('\Mezon\Service\ServiceMockSecurityProvider', $Transport->SecurityProvider);
     }
 
     /**
@@ -93,7 +93,7 @@ class ServiceRESTTransportTest extends PHPUnit\Framework\TestCase
      */
     public function test_security_provider_init_string()
     {
-        $Transport = new ServiceRESTTransport(FakeSecurityProvider::class);
+        $Transport = new \Mezon\Service\ServiceRESTTransport(FakeSecurityProvider::class);
         $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
     }
 
@@ -102,7 +102,7 @@ class ServiceRESTTransportTest extends PHPUnit\Framework\TestCase
      */
     public function test_security_provider_init_object()
     {
-        $Transport = new ServiceRESTTransport(new FakeSecurityProvider());
+        $Transport = new \Mezon\Service\ServiceRESTTransport(new FakeSecurityProvider());
         $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
     }
 
@@ -231,7 +231,7 @@ class ServiceRESTTransportTest extends PHPUnit\Framework\TestCase
             // test body and assertions
             $Mock->Router->call_route('/public-method/');
             $this->fail();
-        } catch (RESTException $e) {
+        } catch (\Mezon\Service\ServiceRESTTransport\RESTException $e) {
             $this->addToAssertionCount(1);
         } catch (Exception $e) {
             $this->addToAssertionCount(0);
@@ -267,7 +267,7 @@ class ServiceRESTTransportTest extends PHPUnit\Framework\TestCase
             // test body and assertions
             $Mock->Router->call_route('/private-method/');
             $this->fail();
-        } catch (RESTException $e) {
+        } catch (\Mezon\Service\ServiceRESTTransport\RESTException $e) {
             $this->addToAssertionCount(1);
         } catch (Exception $e) {
             $this->addToAssertionCount(0);

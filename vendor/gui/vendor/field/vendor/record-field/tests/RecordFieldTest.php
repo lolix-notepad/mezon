@@ -11,7 +11,7 @@ class RecordFieldTest extends PHPUnit\Framework\TestCase
      */
     protected function get_field_mock(): object
     {
-        $Mock = $this->getMockBuilder('RecordField')
+        $Mock = $this->getMockBuilder('\Mezon\GUI\Field\RecordField')
             ->setConstructorArgs([
             [
                 'name' => 'name',

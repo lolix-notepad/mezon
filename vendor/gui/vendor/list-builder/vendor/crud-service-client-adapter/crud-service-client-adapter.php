@@ -1,16 +1,18 @@
 <?php
+namespace Mezon\GUI\ListBuilder;
 
 /**
  * Class CRUDServiceClientAdapter
  *
- * @package     ListBuilder
- * @subpackage  CRUDServiceClientAdapter
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/11)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package ListBuilder
+ * @subpackage CRUDServiceClientAdapter
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/11)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../list-builder-adapter/list-builder-adapter.php');
 
+// TODO add camel-case
 /**
  * Logic adapter for list builder
  */
@@ -20,7 +22,7 @@ class CRUDServiceClientAdapter implements ListBuilderAdapter
     /**
      * CRUD Service Client object
      *
-     * @var CRUDServiceClient
+     * @var \Mezon\CRUDService\CRUDServiceClient
      */
     var $CRUDServiceClient = null;
 
@@ -67,12 +69,12 @@ class CRUDServiceClientAdapter implements ListBuilderAdapter
     /**
      * Method returns client to service
      *
-     * @return CRUDServiceClient Client
+     * @return \Mezon\CRUDService\CRUDServiceClient Client
      */
-    protected function get_client(): CRUDServiceClient
+    protected function get_client(): \Mezon\CRUDService\CRUDServiceClient
     {
         if ($this->CRUDServiceClient === null) {
-            $this->CRUDServiceClient = new CRUDServiceClient($this->Service, $this->Login, $this->Password);
+            $this->CRUDServiceClient = new \Mezon\CRUDService\CRUDServiceClient($this->Service, $this->Login, $this->Password);
         }
 
         return ($this->CRUDServiceClient);
@@ -81,10 +83,10 @@ class CRUDServiceClientAdapter implements ListBuilderAdapter
     /**
      * Method sets service client
      *
-     * @param CRUDServiceClient $CRUDServiceClient
+     * @param \Mezon\CRUDService\CRUDServiceClient $CRUDServiceClient
      *            Service client
      */
-    public function set_client(CRUDServiceClient $CRUDServiceClient)
+    public function set_client(\Mezon\CRUDService\CRUDServiceClient $CRUDServiceClient)
     {
         $this->CRUDServiceClient = $CRUDServiceClient;
     }

@@ -10,7 +10,7 @@ class FilterUnitTest extends PHPUnit\Framework\TestCase
     function test_add_filter_condition_from_arr()
     {
         // setup and test body
-        $Result = Filter::add_filter_condition_from_arr([
+        $Result = \Mezon\GUI\FieldsAlgorithms\Filter::add_filter_condition_from_arr([
             [
                 'arg1' => '$id',
                 'op' => '>',
@@ -28,7 +28,7 @@ class FilterUnitTest extends PHPUnit\Framework\TestCase
     function test_add_filter_condition_from_arr_simple()
     {
         // setup and test body
-        $Result = Filter::add_filter_condition_from_arr([
+        $Result = \Mezon\GUI\FieldsAlgorithms\Filter::add_filter_condition_from_arr([
             'field1' => 1 ,
             'field2'=> 'null',
             'field3'=>'not null',

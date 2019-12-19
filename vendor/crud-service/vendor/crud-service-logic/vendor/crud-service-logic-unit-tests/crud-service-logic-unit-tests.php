@@ -25,7 +25,7 @@ class FakeSecurityProvider
 /**
  * Fake patrameters fetched
  */
-class FakeParametersFetcher implements ServiceRequestParams
+class FakeParametersFetcher implements \Mezon\Service\ServiceRequestParams
 {
 
     /**
@@ -46,7 +46,7 @@ class FakeParametersFetcher implements ServiceRequestParams
 /**
  * Fake service model
  */
-class FakeServiceModel extends CRUDServiceModel
+class FakeServiceModel extends \Mezon\CRUDService\CRUDServiceModel
 {
 
     /**
@@ -112,6 +112,14 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
 {
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct('\Mezon\CRUDService\CRUDServiceLogic');
+    }
+
+    /**
      * Method returns service model
      *
      * @param array $Methods
@@ -120,7 +128,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
      */
     protected function get_service_model_mock(array $Methods = [])
     {
-        $Model = $this->getMockBuilder('CRUDServiceModel')
+        $Model = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceModel')
             ->setConstructorArgs([
             [
                 'id' => [
@@ -158,13 +166,13 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
      *
      * @param mixed $Model
      *            List of models or single model
-     * @return CRUDServiceLogic object
+     * @return \Mezon\CRUDService\CRUDServiceLogic object
      */
-    protected function get_service_logic($Model): CRUDServiceLogic
+    protected function get_service_logic($Model): \Mezon\CRUDService\CRUDServiceLogic
     {
-        $Transport = new ServiceConsoleTransport();
+        $Transport = new \Mezon\Service\ServiceConsoleTransport();
 
-        $Logic = new CRUDServiceLogic($Transport->ParamsFetcher, new ServiceMockSecurityProvider(), $Model);
+        $Logic = new \Mezon\CRUDService\CRUDServiceLogic($Transport->ParamsFetcher, new \Mezon\Service\ServiceMockSecurityProvider(), $Model);
 
         return ($Logic);
     }
@@ -174,7 +182,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
      */
     protected function setup_logic_for_list_methods_testing()
     {
-        $Connection = $this->getMockBuilder('PDOCRUD')
+        $Connection = $this->getMockBuilder('\Mezon\PDOCRUD')
             ->disableOriginalConstructor()
             ->setMethods([
             'select'
@@ -302,7 +310,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
      */
     public function test_construct()
     {
-        $ServiceLogic = new CRUDServiceLogic(new FakeParametersFetcher(), new FakeSecurityProvider());
+        $ServiceLogic = new \Mezon\CRUDService\CRUDServiceLogic(new FakeParametersFetcher(), new FakeSecurityProvider());
 
         $this->assertInstanceOf('FakeParametersFetcher', $ServiceLogic->ParamsFetcher);
         $this->assertInstanceOf('FakeSecurityProvider', $ServiceLogic->SecurityProvider);

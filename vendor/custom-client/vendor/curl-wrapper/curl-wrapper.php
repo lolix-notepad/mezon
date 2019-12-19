@@ -1,5 +1,5 @@
 <?php
-
+namespace Mezon\CustomClient;
 /**
  * Class CurlWrapper
  *
@@ -10,6 +10,7 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Wrapper for CURL routines
  */

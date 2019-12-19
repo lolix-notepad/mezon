@@ -10,7 +10,7 @@ class InputDateTest extends PHPUnit\Framework\TestCase
     public function test_constructor()
     {
         // setup
-        $Field = new InputDate([
+        $Field = new \Mezon\GUI\Field\InputDate([
             'name' => 'name',
             'required' => 1,
             'disabled' => 1,

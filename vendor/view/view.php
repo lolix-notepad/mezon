@@ -1,5 +1,5 @@
 <?php
-
+namespace Mezon;
 /**
  * Class View
  *
@@ -10,6 +10,7 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Base class for all views
  */
@@ -58,7 +59,7 @@ class View
             ]));
         }
 
-        throw (new Exception('View ' . $ViewName . ' was not found'));
+        throw (new \Exception('View ' . $ViewName . ' was not found'));
     }
 }
 

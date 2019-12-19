@@ -1,22 +1,25 @@
 <?php
+namespace Mezon\Service;
+
 /**
  * Class ServiceLogic
  *
- * @package     Service
- * @subpackage  ServiceLogic
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage ServiceLogic
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../service-base-logic/service-base-logic.php');
 require_once (__DIR__ . '/../service-model/service-model.php');
 
+// TODO add camel-case
 /**
  * Class stores all service's logic
  *
  * @author Dodonov A.A.
  */
-class ServiceLogic extends ServiceBaseLogic
+class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
 {
 
     /**
@@ -30,7 +33,7 @@ class ServiceLogic extends ServiceBaseLogic
         $Password = $this->get_param('password', false);
 
         if ($Login === false || $Password === false) {
-            throw (new Exception('Fields login and/or password were not set', - 1));
+            throw (new \Exception('Fields login and/or password were not set', - 1));
         }
 
         return ([
@@ -79,9 +82,9 @@ class ServiceLogic extends ServiceBaseLogic
      *
      * @return string Session id
      */
-    protected function get_session_id():string
+    protected function get_session_id(): string
     {
-    	return($this->get_param($this->SecurityProvider->get_session_id_field_name()));
+        return ($this->get_param($this->SecurityProvider->get_session_id_field_name()));
     }
 
     /**
@@ -95,16 +98,15 @@ class ServiceLogic extends ServiceBaseLogic
 
         // we can login using either user's login or id
         if (($LoginOrId = $this->get_param($LoginFieldName, '')) !== '') {
-        	// we are log in using login
-        	$LoginFieldName = 'login';
-        }
-        elseif(($LoginOrId = $this->get_param('id', '')) !== '') {
-        	// we are log in using id
-        	$LoginFieldName = 'id';
+            // we are log in using login
+            $LoginFieldName = 'login';
+        } elseif (($LoginOrId = $this->get_param('id', '')) !== '') {
+            // we are log in using id
+            $LoginFieldName = 'id';
         }
 
         return ([
-        	$this->SecurityProvider->get_session_id_field_name() => $this->SecurityProvider->login_as($this->get_session_id(), $LoginOrId, $LoginFieldName)
+            $this->SecurityProvider->get_session_id_field_name() => $this->SecurityProvider->login_as($this->get_session_id(), $LoginOrId, $LoginFieldName)
         ]);
     }
 
@@ -115,7 +117,7 @@ class ServiceLogic extends ServiceBaseLogic
      */
     public function get_self_id_value(): int
     {
-    	return ($this->SecurityProvider->get_self_id($this->get_session_id()));
+        return ($this->SecurityProvider->get_self_id($this->get_session_id()));
     }
 
     /**

@@ -20,7 +20,7 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
      */
     protected function get_unsetup_pdo_mock(): object
     {
-        $Mock = $this->getMockBuilder('PdoCrud')
+        $Mock = $this->getMockBuilder('\Mezon\PdoCrud')
             ->setMethods([
             'query',
             'process_query_error',

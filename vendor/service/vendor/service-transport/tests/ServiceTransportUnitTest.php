@@ -7,7 +7,7 @@ require_once (__DIR__ . '/../../service-base-logic-interface/service-base-logic-
 require_once (__DIR__ . '/../../service-http-transport/vendor/http-request-params/http-request-params.php');
 require_once (__DIR__ . '/../../service-mock-security-provider/service-mock-security-provider.php');
 
-class FakeService implements ServiceBaseLogicInterface
+class FakeService implements \Mezon\Service\ServiceBaseLogicInterface
 {
 
     public function action_hello_world()
@@ -21,12 +21,12 @@ class FakeService implements ServiceBaseLogicInterface
  *
  * @author Dodonov A.A.
  */
-class FakeServiceLogic extends ServiceLogic
+class FakeServiceLogic extends \Mezon\Service\ServiceLogic
 {
 
-    public function __construct(Router &$Router)
+    public function __construct(\Mezon\Router &$Router)
     {
-        parent::__construct(new HTTPRequestParams($Router), new ServiceMockSecurityProvider());
+        parent::__construct(new \Mezon\Service\ServiceHTTPTransport\HTTPRequestParams($Router), new \Mezon\Service\ServiceMockSecurityProvider());
     }
 
     public function test()
@@ -47,9 +47,9 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_constructor(): void
     {
-        $ServiceTransport = new ServiceTransport();
+        $ServiceTransport = new \Mezon\Service\ServiceTransport();
 
-        $this->assertInstanceOf('Router', $ServiceTransport->Router, 'Router was not created');
+        $this->assertInstanceOf('\Mezon\Router', $ServiceTransport->Router, 'Router was not created');
     }
 
     /**
@@ -57,7 +57,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_get_service_logic(): void
     {
-        $ServiceTransport = new ServiceTransport();
+        $ServiceTransport = new \Mezon\Service\ServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
         $ServiceTransport->add_route('test', 'test', 'GET');
 
@@ -71,7 +71,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_get_service_logic_public(): void
     {
-        $ServiceTransport = new ServiceTransport();
+        $ServiceTransport = new \Mezon\Service\ServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
         $ServiceTransport->add_route('test', 'test', 'GET', 'public_call');
 
@@ -85,7 +85,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_get_service_logic_from_array(): void
     {
-        $ServiceTransport = new ServiceTransport();
+        $ServiceTransport = new \Mezon\Service\ServiceTransport();
         $ServiceTransport->ServiceLogic = [
             new FakeServiceLogic($ServiceTransport->Router)
         ];
@@ -101,7 +101,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
      */
     public function test_get_service_logic_with_unexisting_method(): void
     {
-        $ServiceTransport = new ServiceTransport();
+        $ServiceTransport = new \Mezon\Service\ServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
 
         try {
@@ -119,7 +119,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     public function test_format_call_stack(): void
     {
         // setup
-        $ServiceTransport = new ServiceTransport();
+        $ServiceTransport = new \Mezon\Service\ServiceTransport();
         $Exception = new Exception('Error message', - 1);
 
         // test body
@@ -162,7 +162,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     public function test_load_route(): void
     {
         // setup
-        $ServiceTransport = new ServiceTransport();
+        $ServiceTransport = new \Mezon\Service\ServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
 
         // test body
@@ -183,7 +183,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     public function test_invalid_load_route(array $Route): void
     {
         // setup
-        $ServiceTransport = new ServiceTransport();
+        $ServiceTransport = new \Mezon\Service\ServiceTransport();
         $ServiceTransport->ServiceLogic = null;
 
         // test body
@@ -203,7 +203,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     public function test_load_routes(): void
     {
         // setup
-        $ServiceTransport = new ServiceTransport();
+        $ServiceTransport = new \Mezon\Service\ServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
 
         // test body
@@ -224,7 +224,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     public function test_fetch_actions(): void
     {
         // setup
-        $ServiceTransport = new ServiceTransport();
+        $ServiceTransport = new \Mezon\Service\ServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
 
         // test body

@@ -1,15 +1,17 @@
 <?php
+namespace Mezon;
 
 /**
  * Class Router
  *
- * @package     Mezon
- * @subpackage  Router
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/15)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage Router
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/15)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Router class
  */
@@ -207,11 +209,11 @@ class Router
                 } elseif (method_exists($Processor[0], $FunctionName) === false) {
                     $CallableDescription = $this->get_callable_description($Processor);
 
-                    throw (new Exception("'$CallableDescription' does not exists"));
+                    throw (new \Exception("'$CallableDescription' does not exists"));
                 } else {
                     $CallableDescription = $this->get_callable_description($Processor);
 
-                    throw (new Exception("'$CallableDescription' must be callable entity"));
+                    throw (new \Exception("'$CallableDescription' must be callable entity"));
                 }
             }
         }
@@ -246,7 +248,7 @@ class Router
                 break;
 
             default:
-                throw (new Exception('Unsupported request method'));
+                throw (new \Exception('Unsupported request method'));
         }
 
         return ($Result);
@@ -314,7 +316,7 @@ class Router
                 $Return = $ParameterData[1];
                 break;
             default:
-                throw (new Exception('Illegal parameter type/value : ' . $ParameterData[0]));
+                throw (new \Exception('Illegal parameter type/value : ' . $ParameterData[0]));
         }
 
         return ($Return);
@@ -410,7 +412,7 @@ class Router
                 break;
 
             default:
-                throw (new Exception('Unsupported request method'));
+                throw (new \Exception('Unsupported request method'));
         }
 
         return ($Result);
@@ -432,7 +434,7 @@ class Router
      */
     public function no_processor_found_error_handler(string $Route)
     {
-        throw (new Exception('The processor was not found for the route ' . $Route . ' in ' . $this->get_all_routes_trace()));
+        throw (new \Exception('The processor was not found for the route ' . $Route . ' in ' . $this->get_all_routes_trace()));
     }
 
     /**
@@ -506,7 +508,7 @@ class Router
         if (isset($this->DeleteRoutes[$Route])) {
             return ($this->DeleteRoutes[$Route]);
         }
-        throw (new Exception('Route was not found'));
+        throw (new \Exception('Route was not found'));
     }
 
     /**
@@ -519,7 +521,7 @@ class Router
     public function get_param(string $Name): string
     {
         if (isset($this->Parameters[$Name]) === false) {
-            throw (new Exception('Paremeter ' . $Name . ' was not found in route', - 1));
+            throw (new \Exception('Paremeter ' . $Name . ' was not found in route', - 1));
         }
 
         return ($this->Parameters[$Name]);

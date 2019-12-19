@@ -1,5 +1,5 @@
 <?php
-
+namespace Mezon\Service;
 /**
  * Class ServiceSimpleRequestParams
  *
@@ -11,6 +11,7 @@
  */
 require_once (__DIR__ . '/../service-request-params/service-request-params.php');
 
+// TODO add camel-case
 /**
  * Request params fetcher.
  */

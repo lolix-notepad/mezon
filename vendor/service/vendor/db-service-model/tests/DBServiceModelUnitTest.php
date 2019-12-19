@@ -12,7 +12,7 @@ class DBServiceModelUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function get_connection_mock()
     {
-        $Mock = $this->getMockBuilder('PDOCRUD')
+        $Mock = $this->getMockBuilder('\Mezon\PDOCRUD')
             ->disableOriginalConstructor()
             ->setMethods([
             'select',
@@ -34,7 +34,7 @@ class DBServiceModelUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function get_model_mock($ConnectionMock)
     {
-        $Mock = $this->getMockBuilder('DBServiceModel')
+        $Mock = $this->getMockBuilder('\Mezon\Service\DBServiceModel')
             ->setConstructorArgs([
             [
                 'id' => [
@@ -75,7 +75,7 @@ class DBServiceModelUnitTest extends PHPUnit\Framework\TestCase
                 '*'
             ],
             [
-                new FieldsAlgorithms([
+                new \Mezon\GUI\FieldsAlgorithms([
                     'id' => [
                         'type' => 'intger'
                     ]
@@ -97,7 +97,7 @@ class DBServiceModelUnitTest extends PHPUnit\Framework\TestCase
     public function test_constructor($Data, string $Origin)
     {
         // setup and test body
-        $Model = new DBServiceModel($Data, 'entity_name');
+        $Model = new \Mezon\Service\DBServiceModel($Data, 'entity_name');
 
         // assertions
         $this->assertTrue($Model->has_field($Origin), 'Invalid contruction');
@@ -110,7 +110,7 @@ class DBServiceModelUnitTest extends PHPUnit\Framework\TestCase
     {
         try {
             // setup and test body
-            new DBServiceModel(new stdClass(), 'entity_name');
+            new \Mezon\Service\DBServiceModel(new stdClass(), 'entity_name');
             // assertions
             $this->fail('Exception in constructor must be thrown');
         } catch (Exception $e) {

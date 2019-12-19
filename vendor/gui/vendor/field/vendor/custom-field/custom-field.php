@@ -1,22 +1,24 @@
 <?php
+namespace Mezon\GUI\Field;
 
 /**
  * Class CustomField
  *
- * @package     Field
- * @subpackage  CustomField
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/13)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Field
+ * @subpackage CustomField
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/13)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/../../../../../template-engine/template-engine.php');
 
 require_once (__DIR__ . '/../../field.php');
 
+// TODO add camel-case
 /**
  * Custom field control
  */
-class CustomField extends Field
+class CustomField extends \Mezon\GUI\Field
 {
 
     /**
@@ -52,7 +54,7 @@ class CustomField extends Field
         $Content = file_get_contents('./res/templates/field-' . $this->Name . '.tpl');
 
         if ($Content === false) {
-            throw (new Exception('Template field-' . $this->Name . '.tpl was not found'));
+            throw (new \Exception('Template field-' . $this->Name . '.tpl was not found'));
         }
 
         return ($Content);
@@ -66,7 +68,7 @@ class CustomField extends Field
      */
     public function html(): string
     {
-        $Content = TemplateEngine::print_record($this->get_field_template(), [
+        $Content = \Mezon\TemplateEngine::print_record($this->get_field_template(), [
             'name' => $this->Name,
             'name-prefix' => $this->NamePrefix,
             'disabled' => $this->Disabled ? 1 : 0,

@@ -1,15 +1,16 @@
 <?php
+namespace Mezon;
 
 /**
  * Class Security
  *
- * @package     Mezon
- * @subpackage  Security
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/10/08)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage Security
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/10/08)
+ * @copyright Copyright (c) 2019, aeon.org
  */
-
+// TODO add camel-case
 /**
  * Security class
  *
@@ -103,7 +104,8 @@ class Security
      *            Content of the saving file
      * @param string $PathPrefix
      *            Prefix to file
-     * @param bool $Decoded If the file was not encodded in base64
+     * @param bool $Decoded
+     *            If the file was not encodded in base64
      * @return string Path to file
      */
     public static function store_file_content(string $FileContent, string $PathPrefix, bool $Decoded = false): string
@@ -119,6 +121,22 @@ class Security
         }
 
         return ($Dir . $FileName);
+    }
+
+    /**
+     * Method stores file on disk
+     *
+     * @param string $FilePath
+     *            Path to the saving file
+     * @param string $PathPrefix
+     *            Prefix to file
+     * @param bool $Decoded
+     *            If the file was not encodded in base64
+     * @return string Path to file
+     */
+    public static function store_file(string $FilePath, string $PathPrefix, bool $Decoded = false): string
+    {
+        return (self::store_file_content(file_get_contents($FilePath), $PathPrefix, $Decoded));
     }
 }
 

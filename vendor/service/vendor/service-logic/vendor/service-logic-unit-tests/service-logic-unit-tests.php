@@ -22,47 +22,11 @@ class ServiceLogicUnitTests extends ServiceBaseLogicUnitTests
 {
 
     /**
-     * Testing connect method
+     * Constructor
      */
-    public function test_construct_1()
+    public function __construct(string $ClassName = \Mezon\Service\ServiceLogic::class)
     {
-        $ServiceLogicClassName = $this->ClassName;
-
-        $Logic = new $ServiceLogicClassName(new MockParamsFetcher(), new MockSecurityProvider());
-
-        $Msg = 'Construction failed for default model';
-
-        $this->assertInstanceOf('MockParamsFetcher', $Logic->ParamsFetcher, $Msg);
-        $this->assertInstanceOf('MockSecurityProvider', $Logic->SecurityProvider, $Msg);
-        $this->assertEquals(null, $Logic->Model, $Msg);
-    }
-
-    /**
-     * Testing connect method
-     */
-    public function test_construct_2()
-    {
-        $ServiceLogicClassName = $this->ClassName;
-
-        $Logic = new $ServiceLogicClassName(new MockParamsFetcher(), new MockSecurityProvider(), new MockModel());
-
-        $Msg = 'Construction failed for defined model object';
-
-        $this->check_logic_parts($Logic, $Msg);
-    }
-
-    /**
-     * Testing connect method
-     */
-    public function test_construct_3()
-    {
-        $ServiceLogicClassName = $this->ClassName;
-
-        $Logic = new $ServiceLogicClassName(new MockParamsFetcher(), new MockSecurityProvider(), 'MockModel');
-
-        $Msg = 'Construction failed for defined model name';
-
-        $this->check_logic_parts($Logic, $Msg);
+        parent::__construct($ClassName);
     }
 
     /**
@@ -70,7 +34,7 @@ class ServiceLogicUnitTests extends ServiceBaseLogicUnitTests
      */
     protected function get_security_provider_mock()
     {
-        $Mock = $this->getMockBuilder('ServiceMockSecurityProvider')
+        $Mock = $this->getMockBuilder(\Mezon\Service\ServiceMockSecurityProvider::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'connect',

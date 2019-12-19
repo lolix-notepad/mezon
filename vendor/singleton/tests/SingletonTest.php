@@ -1,19 +1,19 @@
 <?php
 require_once (__DIR__ . '/../singleton.php');
 
-class SingletonFoo extends Singleton
+class SingletonFoo extends \Mezon\Singleton
 {
 
     public $tmp = 'Default foo value';
 }
 
-class SingletonBar extends Singleton
+class SingletonBar extends \Mezon\Singleton
 {
 
     public $tmp = 'Default bar value';
 }
 
-class SingletonParams extends Singleton
+class SingletonParams extends \Mezon\Singleton
 {
 
     public $tmp = 0;

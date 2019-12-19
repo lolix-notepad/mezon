@@ -8,7 +8,7 @@ require_once (__DIR__ . '/../common-application.php');
  *
  * @author Dodonov A.A.
  */
-class TestView extends View
+class TestView extends \Mezon\View
 {
 
     public function __construct(string $Content)
@@ -27,7 +27,7 @@ class TestView extends View
 /**
  * Application for testing purposes.
  */
-class TestCommonApplication extends CommonApplication
+class TestCommonApplication extends \Mezon\CommonApplication
 {
 
     /**
@@ -35,7 +35,7 @@ class TestCommonApplication extends CommonApplication
      */
     function __construct()
     {
-        parent::__construct(new HTMLTemplate(__DIR__, 'index'));
+        parent::__construct(new \Mezon\HTMLTemplate(__DIR__, 'index'));
     }
 
     function action_array_result()
@@ -135,7 +135,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
         $Application = new TestCommonApplication();
         $Output = '';
         try {
-            throw (new RESTException('', 0, 200, ''));
+            throw (new \Mezon\Service\ServiceRESTTransport\RESTException('', 0, 200, ''));
         } catch (Exception $e) {
             // test body
             ob_start();

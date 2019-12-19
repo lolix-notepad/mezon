@@ -1,4 +1,5 @@
 <?php
+namespace Mezon\Service;
 /**
  * Class ServiceRESTTransport
  *
@@ -13,6 +14,7 @@ require_once (__DIR__ . '/../service-http-transport/service-http-transport.php')
 
 require_once (__DIR__ . '/vendor/rest-exception/rest-exception.php');
 
+// TODO add camel-case
 /**
  * REST transport for all services.
  *
@@ -46,9 +48,9 @@ class ServiceRESTTransport extends ServiceHTTPTransport
                 $ServiceLogic,
                 $Method
             ], $Params));
-        } catch (RESTException $e) {
+        } catch (ServiceRESTTransport\RESTException $e) {
             return ($this->error_response($e));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return (parent::error_response($e));
         }
     }
@@ -76,9 +78,9 @@ class ServiceRESTTransport extends ServiceHTTPTransport
                 $ServiceLogic,
                 $Method
             ], $Params));
-        } catch (RESTException $e) {
+        } catch (ServiceRESTTransport\RESTException $e) {
             return ($this->error_response($e));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return (parent::error_response($e));
         }
     }
@@ -110,7 +112,7 @@ class ServiceRESTTransport extends ServiceHTTPTransport
             'host' => 'console'
         ];
 
-        if ($e instanceof RESTException) {
+        if ($e instanceof ServiceRESTTransport\RESTException) {
             $Return['http_code'] = $e->getHttpCode();
             $Return['http_body'] = $e->getHttpBody();
         }
@@ -121,7 +123,7 @@ class ServiceRESTTransport extends ServiceHTTPTransport
     /**
      * Method processes exception
      *
-     * @param $e Exception
+     * @param $e \Exception
      *            object
      */
     public function handle_exception($e):void

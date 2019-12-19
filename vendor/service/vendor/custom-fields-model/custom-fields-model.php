@@ -1,4 +1,5 @@
-<?php 
+<?php
+namespace Mezon\Service;
 /**
  * Class CustomFieldsModel
  *
@@ -9,6 +10,7 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Model for processing custom fields
  * 
@@ -34,12 +36,12 @@ class CustomFieldsModel {
     /**
      * Method returns connection to the DB.
      *
-     * @return boolean|PDOCrud - PDO DB connection or false on error.
+     * @return boolean|\Mezon\PdoCrud - PDO DB connection or false on error.
      */
-    protected function get_connection():PdoCrud
+    protected function get_connection():\Mezon\PdoCrud
     {
         // @codeCoverageIgnoreStart
-        return (Mezon::get_db_connection());
+        return (\Mezon\Mezon::get_db_connection());
         // @codeCoverageIgnoreEnd
     }
 
@@ -71,11 +73,11 @@ class CustomFieldsModel {
         $CustomFields = $this->get_connection()->select('*', $this->get_custom_fields_template_name(), 'object_id = ' . $ObjectId);
 
         foreach ($CustomFields as $Field) {
-            $FieldName = Functional::get_field($Field, 'field_name');
+            $FieldName = \Mezon\Functional::get_field($Field, 'field_name');
 
             // if the field in the list or all fields must be fetched
             if (in_array($FieldName, $Filter) || in_array('*', $Filter)) {
-                $Result[$FieldName] = Functional::get_field($Field, 'field_value');
+                $Result[$FieldName] = \Mezon\Functional::get_field($Field, 'field_value');
             }
         }
 
@@ -144,7 +146,7 @@ class CustomFieldsModel {
     public function get_custom_fields_for_records(array $Records): array
     {
         foreach ($Records as $i => $Record) {
-            $Records[$i]['custom'] = $this->get_custom_fields_for_object(Functional::get_field($Record, 'id'));
+            $Records[$i]['custom'] = $this->get_custom_fields_for_object(\Mezon\Functional::get_field($Record, 'id'));
         }
 
         return ($Records);

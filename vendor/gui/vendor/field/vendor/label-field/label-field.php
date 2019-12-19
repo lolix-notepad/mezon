@@ -1,17 +1,18 @@
 <?php
+namespace Mezon\GUI\Field;
 
 /**
  * Class LabelField
  *
- * @package     Field
- * @subpackage  LabelField
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/04)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Field
+ * @subpackage LabelField
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/04)
+ * @copyright Copyright (c) 2019, aeon.org
  */
-
 require_once (__DIR__ . '/../text-field/text-field.php');
 
+// TODO add camel-case
 /**
  * Form header control
  */
@@ -30,6 +31,16 @@ class LabelField extends TextField
         $Content .= '</div>';
 
         return ($Content);
+    }
+
+    /**
+     * Getting field type
+     *
+     * @return string Field type
+     */
+    public function get_type(): string
+    {
+        return ('label');
     }
 }
 

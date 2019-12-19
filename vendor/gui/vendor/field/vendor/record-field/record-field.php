@@ -1,5 +1,5 @@
 <?php
-
+namespace Mezon\GUI\Field;
 /**
  * Class RecordField
  *
@@ -16,6 +16,7 @@ require_once (__DIR__ . '/../../../../../template-engine/template-engine.php');
 
 require_once (__DIR__ . '/../remote-field/remote-field.php');
 
+// TODO add camel-case
 /**
  * Record field control
  */
@@ -47,7 +48,7 @@ class RecordField extends RemoteField
         if (isset($FieldDescription['bind-field'])) {
             $this->BindField = $FieldDescription['bind-field'];
         } else {
-            throw (new Exception('Bind field is not defined', - 1));
+            throw (new \Exception('Bind field is not defined', - 1));
         }
     }
 
@@ -62,7 +63,7 @@ class RecordField extends RemoteField
         if (isset($FieldDescription['layout'])) {
             $this->Layout = $FieldDescription['layout'];
         } else {
-            throw (new Exception('Layout is not defined', - 1));
+            throw (new \Exception('Layout is not defined', - 1));
         }
     }
 
@@ -103,11 +104,11 @@ class RecordField extends RemoteField
     public function html(): string
     {
         // getting fields
-        $FormFields = new FieldsAlgorithms($this->get_fields(), $this->NamePrefix);
+        $FormFields = new \Mezon\GUI\FieldsAlgorithms($this->get_fields(), $this->NamePrefix);
         $FormFields->remove_field($this->BindField);
 
         // getting form
-        $FormBuilder = new FormBuilder($FormFields, $this->SessionId, $this->NamePrefix, $this->Layout, $this->Batch);
+        $FormBuilder = new \Mezon\GUI\FormBuilder($FormFields, $this->SessionId, $this->NamePrefix, $this->Layout, $this->Batch);
 
         // getting HTML
         return ($FormBuilder->compile_form_fields());

@@ -1,5 +1,5 @@
 <?php
-require_once (__DIR__ . '/../../service-unit-tests/service-unit-tests.php');
+require_once (__DIR__ . '/../vendor/service-unit-tests/service-unit-tests.php');
 
 require_once (__DIR__ . '/test-service.php');
 
@@ -14,7 +14,7 @@ class ServiceUnitTest extends ServiceUnitTests
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
-		$Service = new TestService('ServiceConsoleTransport', $this->get_security_provider(AS_STRING), 'TestLogic');
+		$Service = new TestService('\Mezon\Service\ServiceConsoleTransport', $this->get_security_provider(AS_STRING), 'TestLogic');
 
 		try {
 			// route from routes.php

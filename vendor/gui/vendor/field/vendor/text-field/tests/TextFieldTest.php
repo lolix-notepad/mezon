@@ -10,7 +10,7 @@ class TextFieldTest extends PHPUnit\Framework\TestCase
     public function test_constructor()
     {
         // setup
-        $Field = new TextField([
+        $Field = new \Mezon\GUI\Field\TextField([
             'text' => 'name'
         ]);
 

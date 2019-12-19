@@ -1,5 +1,5 @@
 <?php
-
+namespace Mezon\GUI\FieldsAlgorithms;
 /**
  * Class Filter
  *
@@ -10,6 +10,7 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Class for compiling filter statement
  */
@@ -44,7 +45,7 @@ class Filter
             return ($Item['op']);
         }
 
-        throw (new Exception('Invalid operator ' . $Item['op']));
+        throw (new \Exception('Invalid operator ' . $Item['op']));
     }
 
     /**

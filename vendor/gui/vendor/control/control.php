@@ -1,5 +1,5 @@
 <?php
-
+namespace Mezon\GUI;
 /**
  * Interface Control
  *
@@ -10,6 +10,7 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
+// TODO add camel-case
 /**
  * Base interface for all controls
  */

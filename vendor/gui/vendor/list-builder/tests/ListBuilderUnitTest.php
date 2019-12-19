@@ -6,7 +6,7 @@ require_once (__DIR__ . '/../../form-builder/form-builder.php');
 require_once (__DIR__ . '/../vendor/list-builder-adapter/list-builder-adapter.php');
 require_once (__DIR__ . '/../list-builder.php');
 
-class FakeAdapter implements ListBuilderAdapter
+class FakeAdapter implements \Mezon\GUI\ListBuilder\ListBuilderAdapter
 {
 
     /**
@@ -55,7 +55,7 @@ class FakeAdapter implements ListBuilderAdapter
     }
 }
 
-class FakeRequestParams implements ServiceRequestParams
+class FakeRequestParams implements \Mezon\Service\ServiceRequestParams
 {
 
     /**
@@ -91,11 +91,11 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Method creates service logic
      *
-     * @return CRUDServiceLogic CRUD service logic object
+     * @return \Mezon\CRUDService\CRUDServiceLogic CRUD service logic object
      */
     protected function get_service_logic()
     {
-        return (new CRUDServiceLogic(new FakeRequestParams(), new stdClass()));
+        return (new \Mezon\CRUDService\CRUDServiceLogic(new FakeRequestParams(), new stdClass()));
     }
 
     /**
@@ -104,7 +104,7 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     public function test_constructor_valid()
     {
         // setup and test body
-        $ListBuilder = new ListBuilder($this->get_fields(), new FakeAdapter($this->get_service_logic()));
+        $ListBuilder = new \Mezon\GUI\ListBuilder($this->get_fields(), new FakeAdapter($this->get_service_logic()));
 
         // assertions
         $this->assertIsArray($ListBuilder->Fields, 'Invalid fields list type');
@@ -116,7 +116,7 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     public function test_listing_form()
     {
         // setup
-        $ListBuilder = new ListBuilder($this->get_fields(), new FakeAdapter($this->get_service_logic()));
+        $ListBuilder = new \Mezon\GUI\ListBuilder($this->get_fields(), new FakeAdapter($this->get_service_logic()));
 
         // test body
         $Content = $ListBuilder->listing_form();
@@ -133,7 +133,7 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     public function test_simple_listing_form()
     {
         // setup
-        $ListBuilder = new ListBuilder($this->get_fields(), new FakeAdapter($this->get_service_logic()));
+        $ListBuilder = new \Mezon\GUI\ListBuilder($this->get_fields(), new FakeAdapter($this->get_service_logic()));
 
         // test body
         $Content = $ListBuilder->simple_listing_form();

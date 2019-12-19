@@ -18,7 +18,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
         'select'
     ])
     {
-        $Mock = $this->getMockBuilder('PDOCRUD')
+        $Mock = $this->getMockBuilder('\Mezon\PDOCRUD')
             ->disableOriginalConstructor()
             ->setMethods($Methods)
             ->getMock();
@@ -62,7 +62,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function get_connection_mock()
     {
-        $Mock = $this->getMockBuilder('PDOCRUD')
+        $Mock = $this->getMockBuilder('\Mezon\PDOCRUD')
             ->disableOriginalConstructor()
             ->setMethods([
             'select',
@@ -84,7 +84,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function get_model_mock($ConnectionMock)
     {
-        $Mock = $this->getMockBuilder('CRUDServiceModel')
+        $Mock = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceModel')
             ->setConstructorArgs([
             [
                 'id' => [
@@ -223,7 +223,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
                 '*'
             ],
             [
-                new FieldsAlgorithms([
+                new \Mezon\GUI\FieldsAlgorithms([
                     'id' => [
                         'type' => 'intger'
                     ]
@@ -245,7 +245,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     public function test_constructor($Data, string $Origin)
     {
         // setup and test body
-        $Model = new CRUDServiceModel($Data, 'entity_name');
+        $Model = new \Mezon\CRUDService\CRUDServiceModel($Data, 'entity_name');
 
         // assertions
         $this->assertTrue($Model->has_field($Origin), 'Invalid contruction');
@@ -258,7 +258,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     {
         try {
             // setup and test body
-            new CRUDServiceModel(new stdClass(), 'entity_name');
+            new \Mezon\CRUDService\CRUDServiceModel(new stdClass(), 'entity_name');
             // assertions
             $this->fail('Exception in constructor must be thrown');
         } catch (Exception $e) {

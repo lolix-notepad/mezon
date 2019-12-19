@@ -9,7 +9,7 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
      */
     public function testAdditingSingleCSSFile()
     {
-        $TemplateResources = new TemplateResources();
+        $TemplateResources = new \Mezon\TemplateResources();
 
         $this->assertEquals(0, count($TemplateResources->get_css_files()), 'CSS files array must be empty');
 
@@ -25,7 +25,7 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
      */
     public function testAdditingMultypleCSSFiles()
     {
-        $TemplateResources = new TemplateResources();
+        $TemplateResources = new \Mezon\TemplateResources();
 
         $this->assertEquals(0, count($TemplateResources->get_css_files()), 'CSS files array must be empty');
 
@@ -44,7 +44,7 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
      */
     public function testDoublesCSSExcluding()
     {
-        $TemplateResources = new TemplateResources();
+        $TemplateResources = new \Mezon\TemplateResources();
 
         $this->assertEquals(0, count($TemplateResources->get_css_files()), 'CSS files array must be empty');
 
@@ -67,7 +67,7 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
      */
     public function testAdditingSingleJSFile()
     {
-        $TemplateResources = new TemplateResources();
+        $TemplateResources = new \Mezon\TemplateResources();
 
         $this->assertEquals(0, count($TemplateResources->get_js_files()), 'JS files array must be empty');
 
@@ -83,7 +83,7 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
      */
     public function testAdditingMultypleJSFiles()
     {
-        $TemplateResources = new TemplateResources();
+        $TemplateResources = new \Mezon\TemplateResources();
 
         $this->assertEquals(0, count($TemplateResources->get_js_files()), 'JS files array must be empty');
 
@@ -102,7 +102,7 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
      */
     public function testDoublesJSExcluding()
     {
-        $TemplateResources = new TemplateResources();
+        $TemplateResources = new \Mezon\TemplateResources();
 
         $this->assertEquals(0, count($TemplateResources->get_js_files()), 'JS files array must be empty');
 

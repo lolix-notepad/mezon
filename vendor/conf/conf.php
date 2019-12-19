@@ -1,46 +1,49 @@
 <?php
+namespace Mezon;
+
 /**
  * Configuration routines
- * 
- * @package     Mezon
- * @subpackage  Conf
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/07)
- * @copyright   Copyright (c) 2019, aeon.org
+ *
+ * @package Mezon
+ * @subpackage Conf
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/07)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 define('APP_HTTP_PATH_STRING', '@app-http-path');
 define('MEZON_HTTP_PATH_STRING', '@mezon-http-path');
 
+// TODO add camel-case
 /**
  * Method expands string
  *
  * @param string $Value
- *        	value to be expanded;
+ *            value to be expanded;
  * @return mixed Expanded value.
  */
 function _expand_string($Value)
 {
-	global $AppConfig;
+    global $AppConfig;
 
-	if (is_string($Value)) {
-		$Value = str_replace([
-			APP_HTTP_PATH_STRING,
-			MEZON_HTTP_PATH_STRING
-		], [
-			@$AppConfig[APP_HTTP_PATH_STRING],
-			@$AppConfig[MEZON_HTTP_PATH_STRING]
-		], $Value);
-	} elseif (is_array($Value)) {
-		foreach ($Value as $FieldName => $FieldValue) {
-			$Value[$FieldName] = _expand_string($FieldValue);
-		}
-	} elseif (is_object($Value)) {
-		foreach ($Value as $FieldName => $FieldValue) {
-			$Value->$FieldName = _expand_string($FieldValue);
-		}
-	}
+    if (is_string($Value)) {
+        $Value = str_replace([
+            APP_HTTP_PATH_STRING,
+            MEZON_HTTP_PATH_STRING
+        ], [
+            @$AppConfig[APP_HTTP_PATH_STRING],
+            @$AppConfig[MEZON_HTTP_PATH_STRING]
+        ], $Value);
+    } elseif (is_array($Value)) {
+        foreach ($Value as $FieldName => $FieldValue) {
+            $Value[$FieldName] = _expand_string($FieldValue);
+        }
+    } elseif (is_object($Value)) {
+        foreach ($Value as $FieldName => $FieldValue) {
+            $Value->$FieldName = _expand_string($FieldValue);
+        }
+    }
 
-	return ($Value);
+    return ($Value);
 }
 
 /**
@@ -48,220 +51,220 @@ function _expand_string($Value)
  * If the key does not exists then $DefaultValue will be returned
  *
  * @param string $Route
- *        	Key route in config
+ *            Key route in config
  * @param mixed $DefaultValue
- *        	Default value if the key was not found
+ *            Default value if the key was not found
  * @return mixed Key value
  */
 function get_config_value($Route, $DefaultValue = false)
 {
-	global $AppConfig;
+    global $AppConfig;
 
-	if (is_string($Route)) {
-		$Route = explode('/', $Route);
-	}
+    if (is_string($Route)) {
+        $Route = explode('/', $Route);
+    }
 
-	if (isset($AppConfig[$Route[0]]) === false) {
-		return ($DefaultValue);
-	}
+    if (isset($AppConfig[$Route[0]]) === false) {
+        return ($DefaultValue);
+    }
 
-	$Value = $AppConfig[$Route[0]];
+    $Value = $AppConfig[$Route[0]];
 
-	for ($i = 1; $i < count($Route); $i ++) {
-		if (isset($Value[$Route[$i]]) === false) {
-			return ($DefaultValue);
-		}
+    for ($i = 1; $i < count($Route); $i ++) {
+        if (isset($Value[$Route[$i]]) === false) {
+            return ($DefaultValue);
+        }
 
-		$Value = $Value[$Route[$i]];
-	}
+        $Value = $Value[$Route[$i]];
+    }
 
-	return (_expand_string($Value));
+    return (_expand_string($Value));
 }
 
 /**
  * Setting config value
  *
  * @param array $Config
- *        	Config values
+ *            Config values
  * @param array $Route
- *        	Route to key
+ *            Route to key
  * @param mixed $Value
- *        	Value to be set
+ *            Value to be set
  */
 function _set_config_value_rec(array &$Config, array $Route, $Value)
 {
-	if (isset($Config[$Route[0]]) === false) {
-		$Config[$Route[0]] = [];
-	}
+    if (isset($Config[$Route[0]]) === false) {
+        $Config[$Route[0]] = [];
+    }
 
-	if (count($Route) > 1) {
-		_set_config_value_rec($Config[$Route[0]], array_slice($Route, 1), $Value);
-	} elseif (count($Route) == 1) {
-		$Config[$Route[0]] = $Value;
-	}
+    if (count($Route) > 1) {
+        _set_config_value_rec($Config[$Route[0]], array_slice($Route, 1), $Value);
+    } elseif (count($Route) == 1) {
+        $Config[$Route[0]] = $Value;
+    }
 }
 
 /**
  * Function sets specified config key with value $Value
  *
  * @param array $Route
- *        	Route to key
+ *            Route to key
  * @param mixed $Value
- *        	Value to be set
+ *            Value to be set
  */
 function set_config_value($Route, $Value)
 {
-	global $AppConfig;
+    global $AppConfig;
 
-	$Route = explode('/', $Route);
+    $Route = explode('/', $Route);
 
-	if (count($Route) > 1) {
-		_set_config_value_rec($AppConfig, $Route, $Value);
-	} else {
-		$AppConfig[$Route[0]] = $Value;
-	}
+    if (count($Route) > 1) {
+        _set_config_value_rec($AppConfig, $Route, $Value);
+    } else {
+        $AppConfig[$Route[0]] = $Value;
+    }
 }
 
 /**
  * Additing value
  *
  * @param array $Config
- *        	Config values
+ *            Config values
  * @param array $Route
- *        	Route to key
+ *            Route to key
  * @param mixed $Value
- *        	Value to be set
+ *            Value to be set
  */
 function _add_config_value_rec(array &$Config, array $Route, $Value)
 {
-	if (isset($Config[$Route[0]]) === false) {
-		$Config[$Route[0]] = [];
-	}
+    if (isset($Config[$Route[0]]) === false) {
+        $Config[$Route[0]] = [];
+    }
 
-	if (count($Route) > 1) {
-		_add_config_value_rec($Config[$Route[0]], array_slice($Route, 1), $Value);
-	} elseif (count($Route) == 1) {
-		$Config[$Route[0]][] = $Value;
-	}
+    if (count($Route) > 1) {
+        _add_config_value_rec($Config[$Route[0]], array_slice($Route, 1), $Value);
+    } elseif (count($Route) == 1) {
+        $Config[$Route[0]][] = $Value;
+    }
 }
 
 /**
  * Function adds specified value $Value into array with path $Route in the config
  *
  * @param string $Route
- *        	Route to key
+ *            Route to key
  * @param mixed $Value
- *        	Value to be set
+ *            Value to be set
  */
 function add_config_value(string $Route, $Value)
 {
-	global $AppConfig;
+    global $AppConfig;
 
-	$Route = explode('/', $Route);
+    $Route = explode('/', $Route);
 
-	if (count($Route) > 1) {
-		_add_config_value_rec($AppConfig, $Route, $Value);
-	} else {
-		$AppConfig[$Route[0]] = [
-			$Value
-		];
-	}
+    if (count($Route) > 1) {
+        _add_config_value_rec($AppConfig, $Route, $Value);
+    } else {
+        $AppConfig[$Route[0]] = [
+            $Value
+        ];
+    }
 }
 
 /**
  * Validating key existance
  *
  * @param mixed $Route
- *        	Route to key
+ *            Route to key
  * @return bool True if the key exists, false otherwise
  */
 function config_key_exists($Route): bool
 {
-	global $AppConfig;
+    global $AppConfig;
 
-	if (is_string($Route)) {
-		$Route = explode('/', $Route);
-	}
+    if (is_string($Route)) {
+        $Route = explode('/', $Route);
+    }
 
-	// validating route
-	$Value = $AppConfig[$Route[0]];
+    // validating route
+    $Value = $AppConfig[$Route[0]];
 
-	for ($i = 1; $i < count($Route); $i ++) {
-		if (isset($Value[$Route[$i]]) === false) {
-			return (false);
-		}
+    for ($i = 1; $i < count($Route); $i ++) {
+        if (isset($Value[$Route[$i]]) === false) {
+            return (false);
+        }
 
-		$Value = $Value[$Route[$i]];
-	}
+        $Value = $Value[$Route[$i]];
+    }
 
-	return (true);
+    return (true);
 }
 
 /**
  * Deleting config element
  *
  * @param array $RouteParts
- *        	Route parts
+ *            Route parts
  * @param array $ConfigPart
- *        	Config part
+ *            Config part
  */
 function _delete_config(array $RouteParts, array &$ConfigPart)
 {
-	if (count($RouteParts) == 1) {
-		// don't go deeper and delete the found staff
-		unset($ConfigPart[$RouteParts[0]]);
-	} else {
-		// go deeper
-		_delete_config(array_splice($RouteParts, 1), $ConfigPart[$RouteParts[0]]);
+    if (count($RouteParts) == 1) {
+        // don't go deeper and delete the found staff
+        unset($ConfigPart[$RouteParts[0]]);
+    } else {
+        // go deeper
+        _delete_config(array_splice($RouteParts, 1), $ConfigPart[$RouteParts[0]]);
 
-		if (count($ConfigPart[$RouteParts[0]]) == 0) {
-			// remove empty parents
-			unset($ConfigPart[$RouteParts[0]]);
-		}
-	}
+        if (count($ConfigPart[$RouteParts[0]]) == 0) {
+            // remove empty parents
+            unset($ConfigPart[$RouteParts[0]]);
+        }
+    }
 }
 
 /**
  * Deleting config value
  *
  * @param mixed $Route
- *        	Route to key
+ *            Route to key
  */
 function delete_config_value($Route)
 {
-	global $AppConfig;
+    global $AppConfig;
 
-	if (is_string($Route)) {
-		$Route = explode('/', $Route);
-	}
+    if (is_string($Route)) {
+        $Route = explode('/', $Route);
+    }
 
-	if (config_key_exists($Route) === false) {
-		return (false);
-	}
+    if (config_key_exists($Route) === false) {
+        return (false);
+    }
 
-	// route exists, so delete it
-	_delete_config($Route, $AppConfig);
+    // route exists, so delete it
+    _delete_config($Route, $AppConfig);
 
-	return (true);
+    return (true);
 }
 
 /**
  * Method sets connection details to config
  *
  * @param string $Name
- *        	Config key
+ *            Config key
  * @param string $DSN
- *        	DSN
+ *            DSN
  * @param string $User
- *        	DB User login
+ *            DB User login
  * @param string $Password
- *        	DB User password
+ *            DB User password
  */
 function add_connection_to_config(string $Name, string $DSN, string $User, string $Password)
 {
-	set_config_value($Name . '/dsn', $DSN);
-	set_config_value($Name . '/user', $User);
-	set_config_value($Name . '/password', $Password);
+    set_config_value($Name . '/dsn', $DSN);
+    set_config_value($Name . '/user', $User);
+    set_config_value($Name . '/password', $Password);
 }
 
 set_config_value(APP_HTTP_PATH_STRING, 'http://' . @$_SERVER['HTTP_HOST'] . '/' . trim(@$_SERVER['REQUEST_URI'], '/'));

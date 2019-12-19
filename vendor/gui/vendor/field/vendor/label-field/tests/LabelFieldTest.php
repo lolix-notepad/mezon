@@ -10,7 +10,7 @@ class LabelFieldTest extends PHPUnit\Framework\TestCase
     public function test_constructor()
     {
         // setup
-        $Field = new LabelField([
+        $Field = new \Mezon\GUI\Field\LabelField([
             'text' => 'name'
         ]);
 

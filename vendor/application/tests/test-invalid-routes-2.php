@@ -1,9 +1,9 @@
 <?php
-return (array(
-    array(
+return ([
+    [
         'route' => '/test/',
         'existing'
-    )
-));
+    ]
+]);
 
 ?>
