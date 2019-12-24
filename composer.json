@@ -17,6 +17,7 @@
 		"issues" : "https://github.com/alexdodonov/mezon/issues",
 		"source" : "https://github.com/alexdodonov/mezon"
 	},
-	"minimum-stability" : "stable",
-	"homepage" : "https://github.com/alexdodonov/mezon"
+	"minimum-stability" : "dev",
+	"homepage" : "https://github.com/alexdodonov/mezon",
+    "prefer-stable": true
 }
