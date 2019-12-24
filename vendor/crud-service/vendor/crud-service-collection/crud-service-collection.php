@@ -12,7 +12,6 @@ namespace Mezon\CRUDService;
  */
 require_once (__DIR__ . '/../crud-service-client/crud-service-client.php');
 
-// TODO add camel-case
 /**
  * Collection of the crud service's records
  *
@@ -44,7 +43,7 @@ class CRUDServiceCollection
     public function __construct(string $Service = '', string $Token = '')
     {
         if ($Service !== '') {
-            $this->Connector = $this->construct_client($Service, $Token);
+            $this->Connector = $this->constructClient($Service, $Token);
         }
     }
 
@@ -57,11 +56,11 @@ class CRUDServiceCollection
      *            Acccess token
      * @return CRUDServiceClient Connector to the service
      */
-    protected function construct_client(string $Service, string $Token)
+    protected function constructClient(string $Service, string $Token)
     {
         $Client = new CRUDServiceClient($Service);
 
-        $Client->set_token($Token);
+        $Client->setToken($Token);
 
         return ($Client);
     }
@@ -72,7 +71,7 @@ class CRUDServiceCollection
      * @param CRUDServiceClient $NewConnector
      *            New connector
      */
-    public function set_connector($NewConnector)
+    public function setConnector($NewConnector)
     {
         $this->Connector = $NewConnector;
     }
@@ -82,9 +81,9 @@ class CRUDServiceCollection
      *
      * @param string $DateTime
      */
-    public function new_records_since(string $DateTime)
+    public function newRecordsSince(string $DateTime)
     {
-        $this->Collection = $this->Connector->new_records_since($DateTime);
+        $this->Collection = $this->Connector->newRecordsSince($DateTime);
     }
 
     /**
@@ -97,9 +96,9 @@ class CRUDServiceCollection
      * @param string $Order
      *            Sorting order
      */
-    public function top_by_field(int $Count, string $Field, string $Order = 'DESC')
+    public function topByField(int $Count, string $Field, string $Order = 'DESC')
     {
-        $this->Collection = $this->Connector->get_list(0, $Count, 0, false, [
+        $this->Collection = $this->Connector->getList(0, $Count, 0, false, [
             'field' => $Field,
             'order' => $Order
         ]);

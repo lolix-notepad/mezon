@@ -1,19 +1,19 @@
 <?php
 namespace Mezon\Service;
+
 /**
  * Class ServiceHTTPTransport
  *
- * @package     Service
- * @subpackage  ServiceHTTPTransport
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/13)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage ServiceHTTPTransport
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/13)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 require_once (__DIR__ . '/vendor/http-request-params/http-request-params.php');
 require_once (__DIR__ . '/../service-transport/service-transport.php');
 require_once (__DIR__ . '/../service-mock-security-provider/service-mock-security-provider.php');
 
-// TODO add camel-case
 /**
  * HTTP transport for all services
  *
@@ -33,7 +33,7 @@ class ServiceHTTPTransport extends ServiceTransport implements ServiceTransportI
         parent::__construct();
 
         if (is_string($SecurityProvider)) {
-            $this->SecurityProvider = new $SecurityProvider($this->get_params_fetcher());
+            $this->SecurityProvider = new $SecurityProvider($this->getParamsFetcher());
         } else {
             $this->SecurityProvider = $SecurityProvider;
         }
@@ -46,19 +46,19 @@ class ServiceHTTPTransport extends ServiceTransport implements ServiceTransportI
      *            Session token
      * @return string Session token
      */
-    public function create_session(string $Token = ''): string
+    public function createSession(string $Token = ''): string
     {
-        return ($this->SecurityProvider->create_session($Token));
+        return ($this->SecurityProvider->createSession($Token));
     }
-    
+
     /**
      * Method creates parameters fetcher
      *
      * @return ServiceRequestParams paremeters fetcher
      */
-    public function create_fetcher(): ServiceRequestParams
+    public function createFetcher(): ServiceRequestParams
     {
-        return(new \Mezon\Service\ServiceHTTPTransport\HTTPRequestParams($this->Router));
+        return (new \Mezon\Service\ServiceHTTPTransport\HTTPRequestParams($this->Router));
     }
 
     /**
@@ -86,11 +86,11 @@ class ServiceHTTPTransport extends ServiceTransport implements ServiceTransportI
      *            logic's parameters
      * @return mixed Result of the called method
      */
-    public function call_logic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
+    public function callLogic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
     {
         $this->header('Content-type', 'text/html; charset=utf-8');
 
-        return (parent::call_logic($ServiceLogic, $Method, $Params));
+        return (parent::callLogic($ServiceLogic, $Method, $Params));
     }
 
     /**
@@ -104,11 +104,11 @@ class ServiceHTTPTransport extends ServiceTransport implements ServiceTransportI
      *            logic's parameters
      * @return mixed Result of the called method
      */
-    public function call_public_logic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
+    public function callPublicLogic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
     {
         $this->header('Content-type', 'text/html; charset=utf-8');
 
-        return (parent::call_public_logic($ServiceLogic, $Method, $Params));
+        return (parent::callPublicLogic($ServiceLogic, $Method, $Params));
     }
 }
 

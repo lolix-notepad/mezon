@@ -26,7 +26,7 @@ class DateTimeUtils
      *            Date to be analyzed
      * @return bool true if the $Date is today, false other wise
      */
-    public static function is_today(string $Date): bool
+    public static function isToday(string $Date): bool
     {
         return (date(DEFAULT_DATE_MASK) == date(DEFAULT_DATE_MASK, strtotime($Date)));
     }
@@ -38,7 +38,7 @@ class DateTimeUtils
      *            Date to be analyzed
      * @return bool true if the $Date is yesterday, false other wise
      */
-    public static function is_yesterday(string $Date): bool
+    public static function isYesterday(string $Date): bool
     {
         return (date(DEFAULT_DATE_MASK, strtotime('-1 day')) == date(DEFAULT_DATE_MASK, strtotime($Date)));
     }
@@ -55,7 +55,7 @@ class DateTimeUtils
      *
      * @return array Dictionary
      */
-    protected static function get_dictionary(): array
+    protected static function getDictionary(): array
     {
         return (json_decode(file_get_contents(__DIR__ . '/res/l8n/' . self::$Locale . '.json'), true));
     }
@@ -67,9 +67,9 @@ class DateTimeUtils
      *            Date to be converted
      * @return string Converted date
      */
-    public static function day_month(string $Date): string
+    public static function dayMonth(string $Date): string
     {
-        $Dictionary = self::get_dictionary();
+        $Dictionary = self::getDictionary();
 
         $DateTime = strtotime($Date);
 

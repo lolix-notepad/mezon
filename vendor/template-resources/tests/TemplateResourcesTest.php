@@ -11,11 +11,11 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
     {
         $TemplateResources = new \Mezon\TemplateResources();
 
-        $this->assertEquals(0, count($TemplateResources->get_css_files()), 'CSS files array must be empty');
+        $this->assertEquals(0, count($TemplateResources->getCssFiles()), 'CSS files array must be empty');
 
-        $TemplateResources->add_css_file('./res/test.css');
+        $TemplateResources->addCssFile('./res/test.css');
 
-        $this->assertEquals(1, count($TemplateResources->get_css_files()), 'CSS files array must be NOT empty');
+        $this->assertEquals(1, count($TemplateResources->getCssFiles()), 'CSS files array must be NOT empty');
 
         $TemplateResources->clear();
     }
@@ -27,14 +27,14 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
     {
         $TemplateResources = new \Mezon\TemplateResources();
 
-        $this->assertEquals(0, count($TemplateResources->get_css_files()), 'CSS files array must be empty');
+        $this->assertEquals(0, count($TemplateResources->getCssFiles()), 'CSS files array must be empty');
 
-        $TemplateResources->add_css_files(array(
+        $TemplateResources->addCssFiles([
             './res/test.css',
             './res/test2.css'
-        ));
+        ]);
 
-        $this->assertEquals(2, count($TemplateResources->get_css_files()), 'CSS files array must be NOT empty');
+        $this->assertEquals(2, count($TemplateResources->getCssFiles()), 'CSS files array must be NOT empty');
 
         $TemplateResources->clear();
     }
@@ -46,18 +46,18 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
     {
         $TemplateResources = new \Mezon\TemplateResources();
 
-        $this->assertEquals(0, count($TemplateResources->get_css_files()), 'CSS files array must be empty');
+        $this->assertEquals(0, count($TemplateResources->getCssFiles()), 'CSS files array must be empty');
 
-        $TemplateResources->add_css_files(array(
+        $TemplateResources->addCssFiles([
             './res/test.css',
             './res/test.css'
-        ));
+        ]);
 
-        $this->assertEquals(1, count($TemplateResources->get_css_files()), 'Only one path must be added');
+        $this->assertEquals(1, count($TemplateResources->getCssFiles()), 'Only one path must be added');
 
-        $TemplateResources->add_css_file('./res/test.css');
+        $TemplateResources->addCssFile('./res/test.css');
 
-        $this->assertEquals(1, count($TemplateResources->get_css_files()), 'Only one path must be added');
+        $this->assertEquals(1, count($TemplateResources->getCssFiles()), 'Only one path must be added');
 
         $TemplateResources->clear();
     }
@@ -69,11 +69,11 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
     {
         $TemplateResources = new \Mezon\TemplateResources();
 
-        $this->assertEquals(0, count($TemplateResources->get_js_files()), 'JS files array must be empty');
+        $this->assertEquals(0, count($TemplateResources->getJsFiles()), 'JS files array must be empty');
 
-        $TemplateResources->add_js_file('./include/js/test.js');
+        $TemplateResources->addJsFile('./include/js/test.js');
 
-        $this->assertEquals(1, count($TemplateResources->get_js_files()), 'JS files array must be NOT empty');
+        $this->assertEquals(1, count($TemplateResources->getJsFiles()), 'JS files array must be NOT empty');
 
         $TemplateResources->clear();
     }
@@ -85,14 +85,14 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
     {
         $TemplateResources = new \Mezon\TemplateResources();
 
-        $this->assertEquals(0, count($TemplateResources->get_js_files()), 'JS files array must be empty');
+        $this->assertEquals(0, count($TemplateResources->getJsFiles()), 'JS files array must be empty');
 
-        $TemplateResources->add_js_files(array(
+        $TemplateResources->addJsFiles([
             './include/js/test.js',
             './include/js//test2.js'
-        ));
+        ]);
 
-        $this->assertEquals(2, count($TemplateResources->get_js_files()), 'JS files array must be NOT empty');
+        $this->assertEquals(2, count($TemplateResources->getJsFiles()), 'JS files array must be NOT empty');
 
         $TemplateResources->clear();
     }
@@ -104,18 +104,18 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
     {
         $TemplateResources = new \Mezon\TemplateResources();
 
-        $this->assertEquals(0, count($TemplateResources->get_js_files()), 'JS files array must be empty');
+        $this->assertEquals(0, count($TemplateResources->getJsFiles()), 'JS files array must be empty');
 
-        $TemplateResources->add_js_files(array(
+        $TemplateResources->addJsFiles([
             './include/js/test.js',
             './include/js/test.js'
-        ));
+        ]);
 
-        $this->assertEquals(1, count($TemplateResources->get_js_files()), 'Only one path must be added');
+        $this->assertEquals(1, count($TemplateResources->getJsFiles()), 'Only one path must be added');
 
-        $TemplateResources->add_js_file('./include/js/test.js');
+        $TemplateResources->addJsFile('./include/js/test.js');
 
-        $this->assertEquals(1, count($TemplateResources->get_js_files()), 'Only one path must be added');
+        $this->assertEquals(1, count($TemplateResources->getJsFiles()), 'Only one path must be added');
 
         $TemplateResources->clear();
     }

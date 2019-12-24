@@ -25,12 +25,12 @@ class CRUDServiceClientUnitTests extends ServiceClientUnitTests
      *
      * @return object Mock object
      */
-    protected function get_crud_service_client_mock()
+    protected function getCrudServiceClientMock()
     {
-        $Mock = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceClient')
+        $Mock = $this->getMockBuilder(\Mezon\CRUDService\CRUDServiceClient::class)
             ->setMethods([
-            'get_request',
-            'post_request'
+            'getRequest',
+            'postRequest'
         ])
             ->disableOriginalConstructor()
             ->getMock();
@@ -44,41 +44,41 @@ class CRUDServiceClientUnitTests extends ServiceClientUnitTests
      * @param string $ConfigName
      * @return object Mock object
      */
-    protected function get_setup_mock_with_get_method(string $ConfigName)
+    protected function getSetupMockWithGetMethod(string $ConfigName)
     {
-        $Mock = $this->get_crud_service_client_mock();
+        $Mock = $this->getCrudServiceClientMock();
 
-        $Mock->method('get_request')->willReturn(json_decode(file_get_contents(__DIR__ . '/conf/' . $ConfigName . '.json')));
-        $Mock->method('post_request')->willReturn(json_decode(file_get_contents(__DIR__ . '/conf/' . $ConfigName . '.json')));
+        $Mock->method('getRequest')->willReturn(json_decode(file_get_contents(__DIR__ . '/conf/' . $ConfigName . '.json')));
+        $Mock->method('postRequest')->willReturn(json_decode(file_get_contents(__DIR__ . '/conf/' . $ConfigName . '.json')));
 
         return ($Mock);
     }
 
     /**
-     * Testing 'get_compiled_filter' method
+     * Testing 'getCompiledFilter' method
      */
-    public function test_get_compiled_filter_1()
+    public function testGetCompiledFilter1()
     {
         // setup
-        $Client = $this->get_crud_service_client_mock();
+        $Client = $this->getCrudServiceClientMock();
 
         // test body
-        $Result = $Client->get_compiled_filter(false);
+        $Result = $Client->getCompiledFilter(false);
 
         // assertions
         $this->assertEquals('', $Result, 'Empty string must be returned');
     }
 
     /**
-     * Testing 'get_compiled_filter' method
+     * Testing 'getCompiledFilter' method
      */
-    public function test_get_compiled_filter_2()
+    public function testGetCompiledFilter2()
     {
         // setup
-        $Client = $this->get_crud_service_client_mock();
+        $Client = $this->getCrudServiceClientMock();
 
         // test body
-        $Result = $Client->get_compiled_filter([
+        $Result = $Client->getCompiledFilter([
             'field1' => 1,
             'field2' => 2
         ], true);
@@ -89,15 +89,15 @@ class CRUDServiceClientUnitTests extends ServiceClientUnitTests
     }
 
     /**
-     * Testing 'get_compiled_filter' method
+     * Testing 'getCompiledFilter' method
      */
-    public function test_get_compiled_filter_3()
+    public function testGetCompiledFilter3()
     {
         // setup
-        $Client = $this->get_crud_service_client_mock();
+        $Client = $this->getCrudServiceClientMock();
 
         // test body
-        $Result = $Client->get_compiled_filter([
+        $Result = $Client->getCompiledFilter([
             [
                 'arg1' => '$id',
                 'op' => '=',
@@ -112,20 +112,20 @@ class CRUDServiceClientUnitTests extends ServiceClientUnitTests
     }
 
     /**
-     * Testing 'get_by_ids_array' method
+     * Testing 'getByIdsArray' method
      */
-    public function test_get_by_ids_array()
+    public function testGetByIdsArray()
     {
         // setup
-        $Client = $this->get_setup_mock_with_get_method('get-by-ids-array');
+        $Client = $this->getSetupMockWithGetMethod('get-by-ids-array');
 
         // test body
         $ids = [
             1,
             2
         ];
-        $Result = $Client->get_by_ids_array($ids); // compile
-        $Result2 = $Client->get_by_ids_array($ids); // cache
+        $Result = $Client->getByIdsArray($ids); // compile
+        $Result2 = $Client->getByIdsArray($ids); // cache
 
         // assertions
         $this->assertEquals(2, count($Result));
@@ -133,31 +133,31 @@ class CRUDServiceClientUnitTests extends ServiceClientUnitTests
     }
 
     /**
-     * Testing 'get_by_ids_array' method
+     * Testing 'getByIdsArray' method
      */
-    public function test_get_by_ids_array_null()
+    public function testGetByIdsArrayNull()
     {
         // setup
-        $Client = $this->get_setup_mock_with_get_method('get-by-ids-array');
+        $Client = $this->getSetupMockWithGetMethod('get-by-ids-array');
 
         // test body
-        $Result = $Client->get_by_ids_array([]);
+        $Result = $Client->getByIdsArray([]);
 
         // assertions
         $this->assertEquals(0, count($Result));
     }
 
     /**
-     * Testing 'records_count_by_field' method
+     * Testing 'recordsCountByField' method
      */
-    public function test_records_count_by_field()
+    public function testRecordsCountByField()
     {
         // setup
-        $Client = $this->get_setup_mock_with_get_method('records-count-by-field');
+        $Client = $this->getSetupMockWithGetMethod('records-count-by-field');
 
         // test body
-        $Result = $Client->records_count_by_field('id');
-        $Result2 = $Client->records_count_by_field('id');
+        $Result = $Client->recordsCountByField('id');
+        $Result2 = $Client->recordsCountByField('id');
 
         // assertions
         $this->assertEquals(3, count($Result));
@@ -167,40 +167,40 @@ class CRUDServiceClientUnitTests extends ServiceClientUnitTests
     /**
      * Testing instance method
      */
-    public function test_instance()
+    public function testInstance()
     {
         // setup and test body
         $Client = \Mezon\CRUDService\CRUDServiceClient::instance('http://auth', 'token');
 
         // assertions
-        $this->assertEquals('token', $Client->get_token());
+        $this->assertEquals('token', $Client->getToken());
     }
 
     /**
-     * Testing 'get_list' method
+     * Testing 'getList' method
      */
-    public function test_get_list()
+    public function testGetList()
     {
         // setup
-        $Client = $this->get_setup_mock_with_get_method('get-list');
+        $Client = $this->getSetupMockWithGetMethod('get-list');
 
         // test body
-        $Result = $Client->get_list(0, 1, false, false, false);
+        $Result = $Client->getList(0, 1, false, false, false);
 
         // assertions
         $this->assertEquals(2, count($Result));
     }
 
     /**
-     * Testing 'get_list' method
+     * Testing 'getList' method
      */
-    public function test_get_list_order()
+    public function testGetListOrder()
     {
         // setup
-        $Client = $this->get_setup_mock_with_get_method('get-list');
+        $Client = $this->getSetupMockWithGetMethod('get-list');
 
         // test body
-        $Result = $Client->get_list(0, 1, false, false, [
+        $Result = $Client->getList(0, 1, false, false, [
             'field' => 'id',
             'order' => 'ASC'
         ]);
@@ -212,10 +212,10 @@ class CRUDServiceClientUnitTests extends ServiceClientUnitTests
     /**
      * Testing 'create' method
      */
-    public function test_create()
+    public function testCreate()
     {
         // setup
-        $Client = $this->get_setup_mock_with_get_method('create');
+        $Client = $this->getSetupMockWithGetMethod('create');
 
         // test body
         $Result = $Client->create([

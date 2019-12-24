@@ -15,7 +15,6 @@ require_once (__DIR__ . '/../gui/vendor/form-builder/form-builder.php');
 
 require_once (__DIR__ . '/vendor/crud-service-client/crud-service-client.php');
 
-// TODO add camel-case
 /**
  * Class for custom crud service.
  *
@@ -41,9 +40,11 @@ class CRUDService extends Service
     public function __construct(array $Entity, $ServiceTransport = '\Mezon\Service\ServiceRESTTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\CRUDService\CRUDServiceLogic', $ServiceModel = '\Mezon\CRUDService\CRUDServiceModel')
     {
         try {
-            parent::__construct($ServiceTransport, $SecurityProvider, $ServiceLogic, $this->init_model($Entity, $ServiceModel));
+            parent::__construct($ServiceTransport, $SecurityProvider, $ServiceLogic, $this->initModel($Entity, $ServiceModel));
+
+            $this->initCRUDRoutes();
         } catch (\Exception $e) {
-            $this->ServiceTransport->handle_exception($e);
+            $this->ServiceTransport->handleException($e);
         }
     }
 
@@ -55,9 +56,9 @@ class CRUDService extends Service
      * @param string|\Mezon\CRUDService\CRUDServiceModel $ServiceModel
      *            Service's model
      */
-    protected function init_model(array $Entity, $ServiceModel)
+    protected function initModel(array $Entity, $ServiceModel)
     {
-        $Fields = isset($Entity['fields']) ? $Entity['fields'] : $this->get_fields_from_config();
+        $Fields = isset($Entity['fields']) ? $Entity['fields'] : $this->getFieldsFromConfig();
 
         if (is_string($ServiceModel)) {
             $this->Model = new $ServiceModel($Fields, $Entity['table-name'], $Entity['entity-name']);
@@ -73,7 +74,7 @@ class CRUDService extends Service
      *
      * @return array List of fields
      */
-    protected function get_fields_from_config()
+    protected function getFieldsFromConfig()
     {
         if (file_exists('./conf/fields.json')) {
             return (json_decode(file_get_contents('./conf/fields.json'), true));
@@ -85,23 +86,21 @@ class CRUDService extends Service
     /**
      * Method inits common servoce's routes
      */
-    protected function init_common_routes(): void
+    protected function initCRUDRoutes(): void
     {
-        parent::init_common_routes();
-
-        $this->ServiceTransport->add_route('/list/', 'list_record', 'GET');
-        $this->ServiceTransport->add_route('/all/', 'all', 'GET');
-        $this->ServiceTransport->add_route('/exact/list/[il:ids]/', 'exact_list', 'GET');
-        $this->ServiceTransport->add_route('/exact/[i:id]/', 'exact', 'GET');
-        $this->ServiceTransport->add_route('/fields/', 'fields', 'GET');
-        $this->ServiceTransport->add_route('/delete/[i:id]/', 'delete_record', 'GET');
-        $this->ServiceTransport->add_route('/delete/', 'delete_filtered', 'POST');
-        $this->ServiceTransport->add_route('/create/', 'create_record', 'POST');
-        $this->ServiceTransport->add_route('/update/[i:id]/', 'update_record', 'POST');
-        $this->ServiceTransport->add_route('/new/from/[s:date]/', 'new_records_since', 'GET');
-        $this->ServiceTransport->add_route('/records/count/', 'records_count', 'GET');
-        $this->ServiceTransport->add_route('/last/[i:count]/', 'last_records', 'GET');
-        $this->ServiceTransport->add_route('/records/count/[s:field]/', 'records_count_by_field', 'GET');
+        $this->ServiceTransport->addRoute('/list/', 'listRecord', 'GET');
+        $this->ServiceTransport->addRoute('/all/', 'all', 'GET');
+        $this->ServiceTransport->addRoute('/exact/list/[il:ids]/', 'exactList', 'GET');
+        $this->ServiceTransport->addRoute('/exact/[i:id]/', 'exact', 'GET');
+        $this->ServiceTransport->addRoute('/fields/', 'fields', 'GET');
+        $this->ServiceTransport->addRoute('/delete/[i:id]/', 'deleteRecord', 'GET');
+        $this->ServiceTransport->addRoute('/delete/', 'deleteFiltered', 'POST');
+        $this->ServiceTransport->addRoute('/create/', 'createRecord', 'POST');
+        $this->ServiceTransport->addRoute('/update/[i:id]/', 'updateRecord', 'POST');
+        $this->ServiceTransport->addRoute('/new/from/[s:date]/', 'newRecordsSince', 'GET');
+        $this->ServiceTransport->addRoute('/records/count/', 'recordsCount', 'GET');
+        $this->ServiceTransport->addRoute('/last/[i:count]/', 'lastRecords', 'GET');
+        $this->ServiceTransport->addRoute('/records/count/[s:field]/', 'recordsCountByField', 'GET');
     }
 }
 

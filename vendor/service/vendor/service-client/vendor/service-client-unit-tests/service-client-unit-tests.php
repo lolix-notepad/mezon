@@ -43,9 +43,9 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
      *            mocking methods
      * @return object Mock
      */
-    protected function get_service_client_raw_mock(array $Methods = [
-        'post_request',
-        'get_request'
+    protected function getServiceClientRawMock(array $Methods = [
+        'postRequest',
+        'getRequest'
     ]): object
     {
         $Mock = $this->getMockBuilder($this->ClientClassName)
@@ -63,13 +63,13 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
      *            File name with testing data
      * @return object Mock object
      */
-    protected function get_service_client_mock(string $DataFile): object
+    protected function getServiceClientMock(string $DataFile): object
     {
-        $Mock = $this->get_service_client_raw_mock([
-            'send_request'
+        $Mock = $this->getServiceClientRawMock([
+            'sendRequest'
         ]);
 
-        $Mock->method('send_request')->will($this->returnValue(json_decode(file_get_contents(__DIR__ . '/conf/' . $DataFile . '.json'), true)));
+        $Mock->method('sendRequest')->will($this->returnValue(json_decode(file_get_contents(__DIR__ . '/conf/' . $DataFile . '.json'), true)));
 
         return ($Mock);
     }
@@ -77,23 +77,23 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing construction with login and password
      */
-    public function test_construct_with_login(): void
+    public function testConstructWithLogin(): void
     {
         // setup
-        $Mock = $this->get_service_client_mock('construct-with-login');
+        $Mock = $this->getServiceClientMock('construct-with-login');
 
         // test body
         $Mock->__construct('http://fast-auth.gdzone.ru/', 'login', 'password');
 
         // assertions
-        $this->assertEquals('login', $Mock->get_stored_login(), 'Login was not set');
-        $this->assertEquals('session id', $Mock->get_token(), 'SessionId was not set');
+        $this->assertEquals('login', $Mock->getStoredLogin(), 'Login was not set');
+        $this->assertEquals('session id', $Mock->getToken(), 'SessionId was not set');
     }
 
     /**
      * Testing constructor
      */
-    public function test_set_header(): void
+    public function testSetHeader(): void
     {
         // setup
         $Client = new $this->ClientClassName('http://fast-auth.gdzone.ru/');
@@ -105,7 +105,7 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Checking exception throwing if the service was not found
      */
-    public function test_no_service_found(): void
+    public function testNoServiceFound(): void
     {
         try {
             $Client = new $this->ClientClassName('auth');
@@ -119,7 +119,7 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing that service was found.
      */
-    public function test_service_found(): void
+    public function testServiceFound(): void
     {
         $Client = new $this->ClientClassName('existing-service');
 
@@ -127,71 +127,71 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing post_request
+     * Testing postRequest
      */
-    public function test_post_request(): void
+    public function testPostRequest(): void
     {
-        $Mock = $this->get_service_client_mock('test-post-request');
+        $Mock = $this->getServiceClientMock('test-post-request');
 
-        $Result = $Mock->post_request('http://ya.ru', []);
+        $Result = $Mock->postRequest('http://ya.ru', []);
 
         $this->assertEquals(1, $Result->result, 'Invalid result was returned');
     }
 
     /**
-     * Testing get_request
+     * Testing getRequest
      */
-    public function test_get_request(): void
+    public function testGetRequest(): void
     {
-        $Mock = $this->get_service_client_mock('test-get-request');
+        $Mock = $this->getServiceClientMock('test-get-request');
 
-        $Result = $Mock->get_request('http://ya.ru');
+        $Result = $Mock->getRequest('http://ya.ru');
 
         $this->assertEquals(1, $Result->result, 'Invalid result was returned');
     }
 
     /**
-     * Testing set_token method
+     * Testing setToken method
      */
-    public function test_set_token(): void
+    public function testSetToken(): void
     {
         // setup
-        $Mock = $this->get_service_client_raw_mock(); // we need this function, as we need mock without any extra setup
+        $Mock = $this->getServiceClientRawMock(); // we need this function, as we need mock without any extra setup
 
         // test body
-        $Mock->set_token('token', 'login');
+        $Mock->setToken('token', 'login');
 
         // assertions
-        $this->assertEquals('token', $Mock->get_token(), 'SessionId was not set');
-        $this->assertEquals('login', $Mock->get_stored_login(), 'Login was not set');
+        $this->assertEquals('token', $Mock->getToken(), 'SessionId was not set');
+        $this->assertEquals('login', $Mock->getStoredLogin(), 'Login was not set');
     }
 
     /**
-     * Testing get_token method
+     * Testing getToken method
      */
-    public function test_get_token(): void
+    public function testGetToken(): void
     {
         // setup
-        $Mock = $this->get_service_client_raw_mock(); // we need this function, as we need mock without any extra setup
+        $Mock = $this->getServiceClientRawMock(); // we need this function, as we need mock without any extra setup
 
         // test body
-        $SessionId = $Mock->get_token();
+        $SessionId = $Mock->getToken();
 
         // assertions
         $this->assertEquals('', $SessionId, 'Invalid session id');
     }
 
     /**
-     * Testing set_token method
+     * Testing setToken method
      */
-    public function test_set_token_exception(): void
+    public function testSetTokenException(): void
     {
         // setup
-        $Mock = $this->get_service_client_raw_mock(); // we need this function, as we need mock without any extra setup
+        $Mock = $this->getServiceClientRawMock(); // we need this function, as we need mock without any extra setup
 
         // test body and assertions
         try {
-            $Mock->set_token('');
+            $Mock->setToken('');
             $this->fail('Empty token must cause throwing of the exception');
         } catch (Exception $e) {
             $this->addToAssertionCount(1);
@@ -199,46 +199,46 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing get_self_id method
+     * Testing getSelfId method
      */
-    public function test_get_self_id(): void
+    public function testGetSelfId(): void
     {
         // setup
-        $Mock = $this->get_service_client_mock('self-id');
+        $Mock = $this->getServiceClientMock('self-id');
 
         // test body
-        $SelfId = $Mock->get_self_id();
+        $SelfId = $Mock->getSelfId();
 
         // assertions
         $this->assertEquals('123', $SelfId, 'Invalid self id');
     }
 
     /**
-     * Testing get_self_login method
+     * Testing getSelfLogin method
      */
-    public function test_get_self_login(): void
+    public function testGetSelfLogin(): void
     {
         // setup
-        $Mock = $this->get_service_client_mock('self-login');
+        $Mock = $this->getServiceClientMock('self-login');
 
         // test body
-        $SelfLogin = $Mock->get_self_login();
+        $SelfLogin = $Mock->getSelfLogin();
 
         // assertions
         $this->assertEquals('admin', $SelfLogin, 'Invalid self login');
     }
 
     /**
-     * Testing login_as method
+     * Testing loginAs method
      */
-    public function test_login_as_with_invalid_session_id(): void
+    public function testLoginAsWithInvalidSessionId(): void
     {
         // setup
-        $Mock = $this->get_service_client_mock('login-with-invalid-session-id');
+        $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
         // test body
         try {
-            $Mock->login_as('registered', 'login');
+            $Mock->loginAs('registered', 'login');
             // assertions
             $this->fail();
         } catch (Exception $e) {
@@ -247,16 +247,16 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing login_as method
+     * Testing loginAs method
      */
-    public function test_login_as_with_invalid_session_id_2(): void
+    public function testLoginAsWithInvalidSessionId2(): void
     {
         // setup
-        $Mock = $this->get_service_client_mock('login-with-invalid-session-id');
+        $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
         // test body
         try {
-            $Mock->login_as('registered', 'id');
+            $Mock->loginAs('registered', 'id');
             // assertions
             $this->fail();
         } catch (Exception $e) {
@@ -265,27 +265,27 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing login_as method
+     * Testing loginAs method
      */
-    public function test_login_as(): void
+    public function testLoginAs(): void
     {
         // setup
-        $Mock = $this->get_service_client_mock('login-as');
+        $Mock = $this->getServiceClientMock('login-as');
 
         // test body
-        $Mock->login_as('registered', 'login');
+        $Mock->loginAs('registered', 'login');
 
         // assertions
-        $this->assertEquals('session-id', $Mock->get_token(), 'Invalid self login');
+        $this->assertEquals('session-id', $Mock->getToken(), 'Invalid self login');
     }
 
     /**
      * Testing construction with login and password and invalid session_id
      */
-    public function test_construct_with_login_and_invalid_session_id(): void
+    public function testConstructWithLoginAndInvalidSessionId(): void
     {
         // setup
-        $Mock = $this->get_service_client_mock('login-with-invalid-session-id');
+        $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
         // test body and assertions
         try {

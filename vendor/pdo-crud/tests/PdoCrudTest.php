@@ -18,13 +18,13 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
      *
      * @return object PdoCrud not setup mock
      */
-    protected function get_unsetup_pdo_mock(): object
+    protected function getUnsetupPdoMock(): object
     {
         $Mock = $this->getMockBuilder('\Mezon\PdoCrud')
             ->setMethods([
             'query',
-            'process_query_error',
-            'last_insert_id'
+            'processQueryError',
+            'lastInsertId'
         ])
             ->setConstructorArgs([])
             ->getMock();
@@ -37,15 +37,15 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
      *
      * @return object PdoCrud mock
      */
-    protected function get_pdo_mock(): object
+    protected function getPdoMock(): object
     {
-        $Mock = $this->get_unsetup_pdo_mock();
+        $Mock = $this->getUnsetupPdoMock();
 
         $Mock->expects($this->once())
             ->method('query');
 
         $Mock->expects($this->once())
-            ->method('process_query_error');
+            ->method('processQueryError');
 
         return ($Mock);
     }
@@ -53,11 +53,11 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
     /**
      * Testing multiple insertion method
      */
-    public function test_insert_multyple(): void
+    public function testInsertMultyple(): void
     {
-        $Mock = $this->get_pdo_mock();
+        $Mock = $this->getPdoMock();
 
-        $Mock->insert_multyple('records', [
+        $Mock->insertMultyple('records', [
             [
                 'id' => 1
             ],
@@ -70,13 +70,13 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
     /**
      * Testing insertion method
      */
-    public function test_insert(): void
+    public function testInsert(): void
     {
         // setup
-        $Mock = $this->get_pdo_mock();
+        $Mock = $this->getPdoMock();
 
         $Mock->expects($this->once())
-            ->method('last_insert_id')
+            ->method('lastInsertId')
             ->willReturn(1);
 
         // test body and assertions
@@ -88,10 +88,10 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
     /**
      * Testing rollback method
      */
-    public function test_rollback(): void
+    public function testRollback(): void
     {
         // setup
-        $Mock = $this->get_pdo_mock();
+        $Mock = $this->getPdoMock();
 
         $Mock->expects($this->once())
             ->method('query')
@@ -104,10 +104,10 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
     /**
      * Testing commit method
      */
-    public function test_commit(): void
+    public function testCommit(): void
     {
         // setup
-        $Mock = $this->get_unsetup_pdo_mock();
+        $Mock = $this->getUnsetupPdoMock();
 
         $Mock->expects($this->exactly(2))
             ->method('query')
@@ -118,28 +118,28 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing start_transaction method
+     * Testing startTransaction method
      */
-    public function test_start_transaction(): void
+    public function testStartTransaction(): void
     {
         // setup
-        $Mock = $this->get_unsetup_pdo_mock();
+        $Mock = $this->getUnsetupPdoMock();
 
         $Mock->expects($this->exactly(2))
             ->method('query')
             ->willReturn(true);
 
         // test body and assertions
-        $Mock->start_transaction();
+        $Mock->startTransaction();
     }
 
     /**
      * Testing unlock method
      */
-    public function test_unlock(): void
+    public function testUnlock(): void
     {
         // setup
-        $Mock = $this->get_pdo_mock();
+        $Mock = $this->getPdoMock();
 
         // test body and assertions
         $Mock->unlock();
@@ -148,10 +148,10 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
     /**
      * Testing lock method
      */
-    public function test_lock(): void
+    public function testLock(): void
     {
         // setup
-        $Mock = $this->get_pdo_mock();
+        $Mock = $this->getPdoMock();
 
         // test body and assertions
         $Mock->lock([
@@ -164,10 +164,10 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
     /**
      * Testing delete method
      */
-    public function test_delete(): void
+    public function testDelete(): void
     {
         // setup
-        $Mock = $this->get_unsetup_pdo_mock();
+        $Mock = $this->getUnsetupPdoMock();
 
         $Mock->expects($this->exactly(1))
             ->method('query')
@@ -180,10 +180,10 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
     /**
      * Testing update method
      */
-    public function test_update(): void
+    public function testUpdate(): void
     {
         // setup
-        $Mock = $this->get_unsetup_pdo_mock();
+        $Mock = $this->getUnsetupPdoMock();
         $Mock->expects($this->exactly(1))
             ->method('query')
             ->willReturn(new ResultMock());

@@ -14,7 +14,6 @@ require_once (__DIR__ . '/../../../../../crud-service/vendor/crud-service-client
 
 require_once (__DIR__ . '/../../field.php');
 
-// TODO add camel-case
 /**
  * Remote field control
  */
@@ -41,7 +40,7 @@ class RemoteField extends \Mezon\GUI\Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_session_id(array $FieldDescription)
+    protected function initSessionId(array $FieldDescription)
     {
         if (isset($FieldDescription['session-id'])) {
             $this->SessionId = $FieldDescription['session-id'];
@@ -56,7 +55,7 @@ class RemoteField extends \Mezon\GUI\Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_remote_source(array $FieldDescription)
+    protected function initRemoteSource(array $FieldDescription)
     {
         if (isset($FieldDescription['remote-source'])) {
             $this->RemoteSource = $FieldDescription['remote-source'];
@@ -77,9 +76,9 @@ class RemoteField extends \Mezon\GUI\Field
     {
         parent::__construct($FieldDescription, $Value);
 
-        $this->init_session_id($FieldDescription);
+        $this->initSessionId($FieldDescription);
 
-        $this->init_remote_source($FieldDescription);
+        $this->initRemoteSource($FieldDescription);
     }
 
     /**
@@ -87,11 +86,11 @@ class RemoteField extends \Mezon\GUI\Field
      *
      * @return \Mezon\CRUDService\CRUDServiceClient Service client
      */
-    protected function get_client(): \Mezon\CRUDService\CRUDServiceClient
+    protected function getClient(): \Mezon\CRUDService\CRUDServiceClient
     {
         // @codeCoverageIgnoreStart
         $ExternalRecords = new \Mezon\CRUDService\CRUDServiceClient($this->RemoteSource);
-        $ExternalRecords->set_token($this->SessionId);
+        $ExternalRecords->setToken($this->SessionId);
         return ($ExternalRecords);
         // @codeCoverageIgnoreEnd
     }

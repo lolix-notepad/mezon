@@ -15,9 +15,9 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
 {
 
     /**
-     * Testing getting field function.
+     * Testing getting field function
      */
-    public function test_get_field_array(): void
+    public function testGetFieldArray(): void
     {
         // setup
         $Arr = [
@@ -25,16 +25,16 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        $Result = \Mezon\Functional::get_field($Arr, 'foo');
+        $Result = \Mezon\Functional::getField($Arr, 'foo');
 
         // assertions
         $this->assertEquals($Result, 'bar', 'Invalid value');
     }
 
     /**
-     * Testing getting field function.
+     * Testing getting field function
      */
-    public function test_get_field_2_array(): void
+    public function testGetField2Array(): void
     {
         // setup
         $Arr = [
@@ -43,32 +43,32 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        $Result = \Mezon\Functional::get_field($Arr, 'foo2');
+        $Result = \Mezon\Functional::getField($Arr, 'foo2');
 
         // assertions
         $this->assertEquals($Result, 'bar2', 'Invalid value');
     }
 
     /**
-     * Testing getting field function.
+     * Testing getting field function
      */
-    public function test_get_field_object(): void
+    public function testGetFieldObject(): void
     {
         // setup
         $obj = new stdClass();
         $obj->foo = 'bar';
 
         // test body
-        $Result = \Mezon\Functional::get_field($obj, 'foo');
+        $Result = \Mezon\Functional::getField($obj, 'foo');
 
         // assertions
         $this->assertEquals($Result, 'bar', 'Invalid value');
     }
 
     /**
-     * Testing getting field function.
+     * Testing getting field function
      */
-    public function test_get_field_2_object(): void
+    public function testGetField2Object(): void
     {
         // setup
         $obj = new stdClass();
@@ -76,16 +76,16 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         $obj->foo2 = 'bar2';
 
         // test body
-        $Result = \Mezon\Functional::get_field($obj, 'foo2');
+        $Result = \Mezon\Functional::getField($obj, 'foo2');
 
         // assertions
         $this->assertEquals($Result, 'bar2', 'Invalid value');
     }
 
     /**
-     * Testing fields fetching.
+     * Testing fields fetching
      */
-    public function test_fields_fetching(): void
+    public function testFieldsFetching(): void
     {
         // setup
         $obj1 = new stdClass();
@@ -104,7 +104,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        $Result = \Mezon\Functional::get_fields($Data, 'foo');
+        $Result = \Mezon\Functional::getFields($Data, 'foo');
 
         // assertions
         $this->assertEquals(count($Result), 3, 'Invalid count');
@@ -115,9 +115,9 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing fields setting.
+     * Testing fields setting
      */
-    public function test_fields_setting(): void
+    public function testFieldsSetting(): void
     {
         // setup
         $Values = [
@@ -134,7 +134,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::set_fields_in_objects($Data, 'foo', $Values);
+        \Mezon\Functional::setFieldsInObjects($Data, 'foo', $Values);
 
         // assertions
         $this->assertEquals(count($Data), 3, 'Invalid count');
@@ -145,9 +145,9 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing fields summation.
+     * Testing fields summation
      */
-    public function test_fields_sum(): void
+    public function testFieldsSum(): void
     {
         // setup
         $obj1 = new stdClass();
@@ -166,13 +166,13 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body and assertions
-        $this->assertEquals(\Mezon\Functional::sum_fields($Data, 'foo'), 6, 'Invalid sum');
+        $this->assertEquals(\Mezon\Functional::sumFields($Data, 'foo'), 6, 'Invalid sum');
     }
 
     /**
      * Method will test transformation function.
      */
-    public function test_transform(): void
+    public function testTransform(): void
     {
         // setup
         $obj1 = new stdClass();
@@ -202,7 +202,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     /**
      * Testing recursive fields summation.
      */
-    public function test_recursive_sum(): void
+    public function testRecursiveSum(): void
     {
         // setup
         $obj1 = new stdClass();
@@ -223,13 +223,13 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body and assertions
-        $this->assertEquals(\Mezon\Functional::sum_fields($Data, 'foo'), 6, 'Invalid sum');
+        $this->assertEquals(\Mezon\Functional::sumFields($Data, 'foo'), 6, 'Invalid sum');
     }
 
     /**
      * This method is testing filtration function.
      */
-    public function test_filter_simple(): void
+    public function testFilterSimple(): void
     {
         // setup
         $obj1 = new stdClass();
@@ -254,7 +254,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     /**
      * This method is testing filtration function in a recursive mode.
      */
-    public function test_filter_recursive(): void
+    public function testFilterRecursive(): void
     {
         // setup
         $obj1 = new stdClass();
@@ -281,7 +281,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     /**
      * This method is testing filtration function in a recursive mode.
      */
-    public function test_get_field_recursive(): void
+    public function testGetFieldRecursive(): void
     {
         // setup
         $obj1 = new stdClass();
@@ -296,13 +296,13 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         $obj1->obj3 = $obj3;
 
         // test body and assertions
-        $this->assertEquals(\Mezon\Functional::get_field($obj1, 'eak'), 3, 'Invalid getting');
+        $this->assertEquals(\Mezon\Functional::getField($obj1, 'eak'), 3, 'Invalid getting');
     }
 
     /**
      * Testing fields replacing in arrays.
      */
-    public function test_replace_field_in_arrays(): void
+    public function testReplaceFieldInArrays(): void
     {
         // setup
         $Records = [
@@ -315,7 +315,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::replace_field($Records, 'from', 'to');
+        \Mezon\Functional::replaceField($Records, 'from', 'to');
 
         // assertions
         $this->assertTrue(isset($Records[0]['to']), 'Field was not replaced');
@@ -328,7 +328,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     /**
      * Testing fields replacing in objects.
      */
-    public function test_replace_field_in_objects(): void
+    public function testReplaceFieldInObjects(): void
     {
         // setup
         $Object0 = new stdClass();
@@ -343,7 +343,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::replace_field($Records, 'from', 'to');
+        \Mezon\Functional::replaceField($Records, 'from', 'to');
 
         // assertions
         $this->assertTrue(isset($Records[0]->to), 'Field was not replaced');
@@ -354,9 +354,9 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing 'replace_fields' method
+     * Testing 'replaceFields' method
      */
-    public function test_replace_fields(): void
+    public function testReplaceFields(): void
     {
         // setup
         $Objects = [
@@ -367,7 +367,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::replace_fields($Objects, [
+        \Mezon\Functional::replaceFields($Objects, [
             'id',
             'field'
         ], [
@@ -381,9 +381,9 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing 'replace_field_in_entity' method
+     * Testing 'replaceFieldInEntity' method
      */
-    public function test_replace_field_in_entity(): void
+    public function testReplaceFieldInEntity(): void
     {
         // setup
         $Object = [
@@ -391,7 +391,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::replace_field_in_entity($Object, 'id', 'id2');
+        \Mezon\Functional::replaceFieldInEntity($Object, 'id', 'id2');
 
         // assertions
         $this->assertArrayHasKey('id2', $Object);
@@ -399,9 +399,9 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing 'replace_fields_in_entity' method
+     * Testing 'replaceFieldsInEntity' method
      */
-    public function test_replace_fields_in_entity(): void
+    public function testReplaceFieldsInEntity(): void
     {
         // setup
         $Object = [
@@ -410,7 +410,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::replace_fields_in_entity($Object, [
+        \Mezon\Functional::replaceFieldsInEntity($Object, [
             'id',
             'field'
         ], [
@@ -428,7 +428,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     /**
      * Testing children setting.
      */
-    public function test_set_children(): void
+    public function testSetChildren(): void
     {
         // setup
         $Objects = [
@@ -452,7 +452,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::set_children('children', $Objects, 'id', $Records, 'f');
+        \Mezon\Functional::setChildren('children', $Objects, 'id', $Records, 'f');
 
         // assertions
         $this->assertTrue(isset($Objects[0]['children']), 'Field was not created correctly');
@@ -465,7 +465,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     /**
      * Method tests records expansion.
      */
-    public function test_expanding_records(): void
+    public function testExpandingRecords(): void
     {
         // setup
         $Arr1 = [
@@ -489,7 +489,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::expand_records_with($Arr1, 'id', $Arr2, 'id');
+        \Mezon\Functional::expandRecordsWith($Arr1, 'id', $Arr2, 'id');
 
         // assertions
         $this->assertTrue(isset($Arr1[0]['f']), 'Field was not merged');
@@ -501,7 +501,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     /**
      * Testing records sorting.
      */
-    function test_records_sorting(): void
+    function testRecordsSorting(): void
     {
         // setup
         $Arr = [
@@ -517,7 +517,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::sort_records($Arr, 'i');
+        \Mezon\Functional::sortRecords($Arr, 'i');
 
         // assertions
         $this->assertEquals(1, $Arr[0]['i'], 'Array was not sorted');
@@ -526,9 +526,9 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing records sorting.
+     * Testing records sorting
      */
-    function test_records_sorting_desc(): void
+    function testRecordsSortingDesc(): void
     {
         // setup
         $Arr = [
@@ -544,7 +544,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::sort_records_desc($Arr, 'i');
+        \Mezon\Functional::sortRecordsDesc($Arr, 'i');
 
         // assertions
         $this->assertEquals(3, $Arr[0]['i'], 'Array was not sorted');
@@ -555,7 +555,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     /**
      * Method tests nested record's addition.
      */
-    function test_set_child(): void
+    function testSetChild(): void
     {
         // setup
         $Objects = [
@@ -579,7 +579,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional::set_child('nested', $Objects, 'id', $Records, 'f');
+        \Mezon\Functional::setChild('nested', $Objects, 'id', $Records, 'f');
 
         // assertions
         $this->assertEquals(1, $Objects[0]['nested']['f'], 'Record was not nested');
@@ -589,7 +589,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     /**
      * Method checks does the field exists.
      */
-    function test_field_exists_plain(): void
+    function testFieldExistsPlain(): void
     {
         // setup
         $Arr = [
@@ -598,15 +598,15 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body and assertions
-        $this->assertTrue(\Mezon\Functional::field_exists($Arr, 'f1'));
-        $this->assertTrue(\Mezon\Functional::field_exists($Arr, 'f2'));
-        $this->assertFalse(\Mezon\Functional::field_exists($Arr, 'f3'));
+        $this->assertTrue(\Mezon\Functional::fieldExists($Arr, 'f1'));
+        $this->assertTrue(\Mezon\Functional::fieldExists($Arr, 'f2'));
+        $this->assertFalse(\Mezon\Functional::fieldExists($Arr, 'f3'));
     }
 
     /**
      * Method checks does the field recursive.
      */
-    function test_field_exists_recursive(): void
+    function testFieldExistsRecursive(): void
     {
         // setup
         $Arr = [
@@ -619,9 +619,9 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         ];
 
         // test body and assertions
-        $this->assertTrue(\Mezon\Functional::field_exists($Arr, 'f2'));
-        $this->assertTrue(\Mezon\Functional::field_exists($Arr, 'f22'));
-        $this->assertFalse(\Mezon\Functional::field_exists($Arr, 'f22', false));
+        $this->assertTrue(\Mezon\Functional::fieldExists($Arr, 'f2'));
+        $this->assertTrue(\Mezon\Functional::fieldExists($Arr, 'f22'));
+        $this->assertFalse(\Mezon\Functional::fieldExists($Arr, 'f22', false));
     }
 }
 

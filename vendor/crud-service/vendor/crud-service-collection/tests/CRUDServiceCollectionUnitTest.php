@@ -7,7 +7,7 @@ class CRUDServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing constructor
      */
-    public function test_constructor_valid()
+    public function testConstructorValid()
     {
         $Collection = new \Mezon\CRUDService\CRUDServiceCollection('http://auth', 'some token');
 
@@ -17,12 +17,12 @@ class CRUDServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Method returns mock connector
      */
-    protected function get_connector()
+    protected function getConnector()
     {
         $Mock = $this->getMockBuilder('MyClass')
             ->setMethods([
-            'new_records_since',
-            'get_list'
+            'newRecordsSince',
+            'getList'
         ])
             ->disableOriginalConstructor()
             ->getMock();
@@ -31,22 +31,22 @@ class CRUDServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing new_records_since method
+     * Testing newRecordsSince method
      */
-    public function test_new_records_since()
+    public function testNewRecordsSince()
     {
         // setup
-        $Connector = $this->get_connector();
-        $Connector->method('new_records_since')->willReturn([
+        $Connector = $this->getConnector();
+        $Connector->method('newRecordsSince')->willReturn([
             [],
             []
         ]);
 
         $Collection = new \Mezon\CRUDService\CRUDServiceCollection();
-        $Collection->set_connector($Connector);
+        $Collection->setConnector($Connector);
 
         // test body
-        $Collection->new_records_since('2019-01-01');
+        $Collection->newRecordsSince('2019-01-01');
 
         // assertions
         $this->assertEquals(2, count($Collection->Collection), 'Invalid records count');
@@ -55,20 +55,20 @@ class CRUDServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing top_by_field method
      */
-    public function test_top_by_field()
+    public function testTopByField()
     {
         // setup
-        $Connector = $this->get_connector();
-        $Connector->method('get_list')->willReturn([
+        $Connector = $this->getConnector();
+        $Connector->method('getList')->willReturn([
             [],
             []
         ]);
 
         $Collection = new \Mezon\CRUDService\CRUDServiceCollection();
-        $Collection->set_connector($Connector);
+        $Collection->setConnector($Connector);
 
         // test body
-        $Collection->top_by_field(2, 'id', 'DESC');
+        $Collection->topByField(2, 'id', 'DESC');
 
         // assertions
         $this->assertEquals(2, count($Collection->Collection), 'Invalid records count');

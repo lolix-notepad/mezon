@@ -11,8 +11,7 @@ namespace Mezon\Service;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
-
+//TODO change to interface
 /**
  * Base service model class.
  *

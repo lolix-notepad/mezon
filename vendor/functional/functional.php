@@ -11,7 +11,6 @@ namespace Mezon;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Functional algorithms.
  */
@@ -27,7 +26,7 @@ class Functional
      *            Field name
      * @return mixed Field value
      */
-    public static function get_field_plain($Record, string $Field)
+    public static function getFieldPlain($Record, string $Field)
     {
         if (is_object($Record)) {
             return (isset($Record->$Field) ? $Record->$Field : null);
@@ -47,12 +46,12 @@ class Functional
      *            Shold we search the field $Field along the whole object
      * @return mixed Field value
      */
-    public static function get_field($Record, string $Field, bool $Recursive = true)
+    public static function getField($Record, string $Field, bool $Recursive = true)
     {
         if ($Recursive) {
             foreach ($Record as $v) {
                 if (is_array($v) || is_object($v)) {
-                    $Result = self::get_field($v, $Field);
+                    $Result = self::getField($v, $Field);
 
                     if ($Result !== null) {
                         return ($Result);
@@ -61,7 +60,7 @@ class Functional
             }
         }
 
-        return (self::get_field_plain($Record, $Field));
+        return (self::getFieldPlain($Record, $Field));
     }
 
     /**
@@ -74,11 +73,11 @@ class Functional
      * @param mixed $Value
      *            Value to be set
      */
-    protected static function set_existing_field(&$Record, string $Field, $Value)
+    protected static function setExistingField(&$Record, string $Field, $Value)
     {
         foreach ($Record as $i => $v) {
             if (is_array($v) || is_object($v)) {
-                self::set_existing_field($v, $Field, $Value);
+                self::setExistingField($v, $Field, $Value);
             } elseif ($i == $Field) {
                 if (is_object($Record)) {
                     $Record->$Field = $Value;
@@ -99,9 +98,9 @@ class Functional
      * @param mixed $Value
      *            Value to be set
      */
-    public static function set_field(&$Record, string $Field, $Value)
+    public static function setField(&$Record, string $Field, $Value)
     {
-        $Existing = self::get_field($Record, $Field);
+        $Existing = self::getField($Record, $Field);
 
         if ($Existing == null) {
             // add field if it does not exist
@@ -112,7 +111,7 @@ class Functional
             }
         } else {
             // set existing field
-            self::set_existing_field($Record, $Field, $Value);
+            self::setExistingField($Record, $Field, $Value);
         }
     }
 
@@ -126,12 +125,12 @@ class Functional
      * @param bool $Recursive
      *            Shold we search the field $Field along the whole object
      */
-    public static function get_fields($Data, string $Field, $Recursive = true)
+    public static function getFields($Data, string $Field, $Recursive = true)
     {
         $Return = array();
 
         foreach ($Data as $Record) {
-            $Return[] = self::get_field($Record, $Field, $Recursive);
+            $Return[] = self::getField($Record, $Field, $Recursive);
         }
 
         return ($Return);
@@ -147,7 +146,7 @@ class Functional
      * @param array $Values
      *            Values to be set
      */
-    public static function set_fields_in_objects(&$Objects, string $FieldName, array $Values)
+    public static function setFieldsInObjects(&$Objects, string $FieldName, array $Values)
     {
         foreach ($Values as $i => $Value) {
             if (isset($Objects[$i]) === false) {
@@ -167,13 +166,13 @@ class Functional
      *            Field name
      * @return mixed Sum of fields.
      */
-    public static function sum_fields(&$Objects, $FieldName)
+    public static function sumFields(&$Objects, $FieldName)
     {
         $Sum = 0;
 
         foreach ($Objects as $Object) {
             if (is_array($Object)) {
-                $Sum += self::sum_fields($Object, $FieldName);
+                $Sum += self::sumFields($Object, $FieldName);
             } else {
                 $Sum += $Object->$FieldName;
             }
@@ -219,11 +218,11 @@ class Functional
         foreach ($Objects as $Object) {
             if (is_array($Object) && $Recursive === true) {
                 $Return = array_merge($Return, self::filter($Object, $Field, $Operation, $Value));
-            } elseif ($Operation == '==' && self::get_field($Object, $Field) == $Value) {
+            } elseif ($Operation == '==' && self::getField($Object, $Field) == $Value) {
                 $Return[] = $Object;
-            } elseif ($Operation == '>' && self::get_field($Object, $Field) > $Value) {
+            } elseif ($Operation == '>' && self::getField($Object, $Field) > $Value) {
                 $Return[] = $Object;
-            } elseif ($Operation == '<' && self::get_field($Object, $Field) < $Value) {
+            } elseif ($Operation == '<' && self::getField($Object, $Field) < $Value) {
                 $Return[] = $Object;
             }
         }
@@ -241,7 +240,7 @@ class Functional
      * @param string $FieldTo
      *            Field name to be added
      */
-    public static function replace_field_in_entity(&$Object, string $FieldFrom, string $FieldTo): void
+    public static function replaceFieldInEntity(&$Object, string $FieldFrom, string $FieldTo): void
     {
         if (is_array($Object)) {
             if (isset($Object[$FieldFrom])) {
@@ -270,10 +269,10 @@ class Functional
      * @param array $FieldsTo
      *            Field names to be added
      */
-    public static function replace_fields_in_entity(&$Object, array $FieldsFrom, array $FieldsTo): void
+    public static function replaceFieldsInEntity(&$Object, array $FieldsFrom, array $FieldsTo): void
     {
         foreach ($FieldsFrom as $i => $FieldFrom) {
-            self::replace_field_in_entity($Object, $FieldFrom, $FieldsTo[$i]);
+            self::replaceFieldInEntity($Object, $FieldFrom, $FieldsTo[$i]);
         }
     }
 
@@ -287,10 +286,10 @@ class Functional
      * @param string $FieldTo
      *            Field name to be added
      */
-    public static function replace_field(array &$Objects, string $FieldFrom, string $FieldTo): void
+    public static function replaceField(array &$Objects, string $FieldFrom, string $FieldTo): void
     {
         foreach ($Objects as $i => $Object) {
-            self::replace_field_in_entity($Object, $FieldFrom, $FieldTo);
+            self::replaceFieldInEntity($Object, $FieldFrom, $FieldTo);
 
             $Objects[$i] = $Object;
         }
@@ -306,10 +305,10 @@ class Functional
      * @param array $FieldsTo
      *            Field names to be added
      */
-    public static function replace_fields(array &$Objects, array $FieldsFrom, array $FieldsTo): void
+    public static function replaceFields(array &$Objects, array $FieldsFrom, array $FieldsTo): void
     {
         foreach ($FieldsFrom as $i => $FieldFrom) {
-            self::replace_field($Objects, $FieldFrom, $FieldsTo[$i]);
+            self::replaceField($Objects, $FieldFrom, $FieldsTo[$i]);
         }
     }
 
@@ -328,10 +327,10 @@ class Functional
      *            Filtering field
      * @return array List of tramsformed records
      */
-    public static function set_children(string $Field, array &$Objects, string $ObjectField, array $Records, string $RecordField): void
+    public static function setChildren(string $Field, array &$Objects, string $ObjectField, array $Records, string $RecordField): void
     {
         foreach ($Objects as &$Object) {
-            self::set_field($Object, $Field, self::filter($Records, $RecordField, '==', self::get_field($Object, $ObjectField, false), false));
+            self::setField($Object, $Field, self::filter($Records, $RecordField, '==', self::getField($Object, $ObjectField, false), false));
         }
     }
 
@@ -350,12 +349,12 @@ class Functional
      *            Filtering field
      * @return array List of tramsformed records
      */
-    public static function set_child(string $Field, array &$Objects, string $ObjectField, array $Records, string $RecordField)
+    public static function setChild(string $Field, array &$Objects, string $ObjectField, array $Records, string $RecordField)
     {
         foreach ($Objects as &$Object) {
             foreach ($Records as $Record) {
-                if (self::get_field($Object, $ObjectField, false) == self::get_field($Record, $RecordField, false)) {
-                    self::set_field($Object, $Field, $Record);
+                if (self::getField($Object, $ObjectField, false) == self::getField($Record, $RecordField, false)) {
+                    self::setField($Object, $Field, $Record);
                 }
             }
         }
@@ -373,13 +372,13 @@ class Functional
      * @param string $SrcField
      *            Field name
      */
-    public static function expand_records_with(array &$Dest, string $DestField, array $Src, string $SrcField)
+    public static function expandRecordsWith(array &$Dest, string $DestField, array $Src, string $SrcField)
     {
         foreach ($Dest as &$DestRecord) {
             foreach ($Src as $SrcRecord) {
-                if (self::get_field($DestRecord, $DestField, false) == self::get_field($SrcRecord, $SrcField, false)) {
+                if (self::getField($DestRecord, $DestField, false) == self::getField($SrcRecord, $SrcField, false)) {
                     foreach ($SrcRecord as $SrcRecordField => $SrcRecordValue) {
-                        self::set_field($DestRecord, $SrcRecordField, $SrcRecordValue);
+                        self::setField($DestRecord, $SrcRecordField, $SrcRecordValue);
                     }
 
                     break;
@@ -396,11 +395,12 @@ class Functional
      * @param string $Field
      *            Field name
      */
-    public static function sort_records(array &$Objects, string $Field)
+    public static function sortRecords(array &$Objects, string $Field)
     {
+        //TODO add sorting direction in parameters, now it iss sorting in the ascending order
         usort($Objects, function ($e1, $e2) use ($Field) {
-            $Value1 = self::get_field($e1, $Field, false);
-            $Value2 = self::get_field($e2, $Field, false);
+            $Value1 = self::getField($e1, $Field, false);
+            $Value2 = self::getField($e2, $Field, false);
 
             if ($Value1 < $Value2) {
                 return (- 1);
@@ -420,11 +420,11 @@ class Functional
      * @param string $Field
      *            Field name
      */
-    public static function sort_records_desc(array &$Objects, string $Field)
+    public static function sortRecordsDesc(array &$Objects, string $Field)
     {
         usort($Objects, function ($e1, $e2) use ($Field) {
-            $Value1 = self::get_field($e1, $Field, false);
-            $Value2 = self::get_field($e2, $Field, false);
+            $Value1 = self::getField($e1, $Field, false);
+            $Value2 = self::getField($e2, $Field, false);
 
             if ($Value1 > $Value2) {
                 return (- 1);
@@ -445,7 +445,7 @@ class Functional
      *            Field name
      * @return bool Does the field $Field exists or not
      */
-    public static function field_exists_plain(&$Record, string $Field): bool
+    public static function fieldExistsPlain(&$Record, string $Field): bool
     {
         if (is_object($Record) && isset($Record->$Field)) {
             return (true);
@@ -467,12 +467,12 @@ class Functional
      *            Do we need recursive descending
      * @return bool Does the field $Field exists or not
      */
-    public static function field_exists(&$Record, string $Field, bool $Recursive = true): bool
+    public static function fieldExists(&$Record, string $Field, bool $Recursive = true): bool
     {
         if ($Recursive) {
             foreach ($Record as $v) {
                 if (is_array($v) || is_object($v)) {
-                    $Result = self::field_exists($v, $Field);
+                    $Result = self::fieldExists($v, $Field);
 
                     if ($Result === true) {
                         return ($Result);
@@ -481,7 +481,7 @@ class Functional
             }
         }
 
-        return (self::field_exists_plain($Record, $Field));
+        return (self::fieldExistsPlain($Record, $Field));
     }
 }
 

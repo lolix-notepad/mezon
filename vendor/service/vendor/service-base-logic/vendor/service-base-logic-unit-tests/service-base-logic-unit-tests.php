@@ -48,7 +48,7 @@ class MockParamsFetcher implements \Mezon\Service\ServiceRequestParams
      *            default value
      * @return mixed Parameter value
      */
-    public function get_param($Param, $Default = false)
+    public function getParam($Param, $Default = false)
     {
         return ($this->Value);
     }
@@ -93,7 +93,7 @@ class MockSecurityProvider
      *            Token
      * @return string Token
      */
-    public function set_token(string $Token): string
+    public function setToken(string $Token): string
     {
         return ($Token);
     }
@@ -141,7 +141,7 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
      * @param string $Msg
      *            Error message
      */
-    protected function check_logic_parts(object $Logic, string $Msg): void
+    protected function checkLogicParts(object $Logic, string $Msg): void
     {
         $this->assertInstanceOf('MockParamsFetcher', $Logic->ParamsFetcher, $Msg);
         $this->assertInstanceOf('MockSecurityProvider', $Logic->SecurityProvider, $Msg);
@@ -151,7 +151,7 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing connect method
      */
-    public function test_construct_1(): void
+    public function testConstruct1(): void
     {
         $ServiceLogicClassName = $this->ClassName;
 
@@ -167,7 +167,7 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing connect method
      */
-    public function test_construct_2(): void
+    public function testConstruct2(): void
     {
         $ServiceLogicClassName = $this->ClassName;
 
@@ -175,13 +175,13 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
 
         $Msg = 'Construction failed for defined model object';
 
-        $this->check_logic_parts($Logic, $Msg);
+        $this->checkLogicParts($Logic, $Msg);
     }
 
     /**
      * Testing connect method
      */
-    public function test_construct_3(): void
+    public function testConstruct3(): void
     {
         $ServiceLogicClassName = $this->ClassName;
 
@@ -189,7 +189,7 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
 
         $Msg = 'Construction failed for defined model name';
 
-        $this->check_logic_parts($Logic, $Msg);
+        $this->checkLogicParts($Logic, $Msg);
     }
 }
 

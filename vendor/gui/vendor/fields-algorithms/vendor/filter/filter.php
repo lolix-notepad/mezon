@@ -10,7 +10,6 @@ namespace Mezon\GUI\FieldsAlgorithms;
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Class for compiling filter statement
  */
@@ -24,7 +23,7 @@ class Filter
      *            Expression item with operator
      * @return string Operator.
      */
-    protected static function get_operator(array $Item): string
+    protected static function getOperator(array $Item): string
     {
         $Item['op'] = strtolower($Item['op']);
 
@@ -57,12 +56,12 @@ class Filter
      *            Operator
      * @return string Argument
      */
-    protected static function get_arg($Arg, $Op = false): string
+    protected static function getArg($Arg, $Op = false): string
     {
         if (is_array($Arg) && $Op === 'in') {
             $Result = '( ' . implode(' , ', $Arg) . ' )';
         } elseif (is_array($Arg)) {
-            $Result = '( ' . self::get_statement($Arg) . ' )';
+            $Result = '( ' . self::getStatement($Arg) . ' )';
         } elseif (strpos($Arg, '$') === 0) {
             $Result = substr($Arg, 1);
         } else {
@@ -82,13 +81,13 @@ class Filter
      *            Expression
      * @return string Compiled expression
      */
-    protected static function get_statement(array $Item): string
+    protected static function getStatement(array $Item): string
     {
-        $Statement = self::get_arg($Item['arg1']);
+        $Statement = self::getArg($Item['arg1']);
 
-        $Statement .= ' ' . self::get_operator($Item) . ' ';
+        $Statement .= ' ' . self::getOperator($Item) . ' ';
 
-        $Statement .= self::get_arg($Item['arg2'], self::get_operator($Item));
+        $Statement .= self::getArg($Item['arg2'], self::getOperator($Item));
 
         return ($Statement);
     }
@@ -102,10 +101,10 @@ class Filter
      *            List of compiled conditions
      * @return array New list of compiled conditons
      */
-    protected static function compile_where(array $Arr, array $Where): array
+    protected static function compileWhere(array $Arr, array $Where): array
     {
         foreach ($Arr as $Item) {
-            $Where[] = self::get_statement($Item);
+            $Where[] = self::getStatement($Item);
         }
 
         return ($Where);
@@ -120,13 +119,13 @@ class Filter
      *            Conditions
      * @return array Conditions
      */
-    public static function add_filter_condition_from_arr(array $Arr, array $Where): array
+    public static function addFilterConditionFromArr(array $Arr, array $Where): array
     {
         $FirstElement = array_slice($Arr, - 1);
         $FirstElement = array_pop($FirstElement);
 
         if (count($Arr) && is_array($FirstElement)) {
-            return (self::compile_where($Arr, $Where));
+            return (self::compileWhere($Arr, $Where));
         }
 
         // simple filter construction
@@ -152,13 +151,13 @@ class Filter
      *            Conditions
      * @return array Conditions
      */
-    public static function add_filter_condition($Where)
+    public static function addFilterCondition($Where)
     {
         if (! isset($_GET['filter'])) {
             return ($Where);
         }
 
-        return (self::add_filter_condition_from_arr($_GET['filter'], $Where));
+        return (self::addFilterConditionFromArr($_GET['filter'], $Where));
     }
 }
 

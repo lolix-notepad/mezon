@@ -12,7 +12,6 @@ namespace Mezon\Service\ServiceHTTPTransport;
  */
 require_once (__DIR__ . '/../../../service-request-params/service-request-params.php');
 
-// TODO add camel-case
 /**
  * Request params fetcher.
  */
@@ -44,7 +43,7 @@ class HTTPRequestParams implements \Mezon\Service\ServiceRequestParams
      *            Request headers
      * @return string Session id
      */
-    protected function get_session_id_from_headers(array $Headers)
+    protected function getSessionIdFromHeaders(array $Headers)
     {
         if (isset($Headers['Authorization'])) {
             $Token = str_replace('Basic ', '', $Headers['Authorization']);
@@ -64,7 +63,7 @@ class HTTPRequestParams implements \Mezon\Service\ServiceRequestParams
      *
      * @return array[string] Array of headers
      */
-    protected function get_http_request_headers(): array
+    protected function getHttpRequestHeaders(): array
     {
         $Headers = getallheaders();
 
@@ -76,11 +75,11 @@ class HTTPRequestParams implements \Mezon\Service\ServiceRequestParams
      *
      * @return string Session id
      */
-    protected function get_session_id()
+    protected function getSessionId()
     {
-        $Headers = $this->get_http_request_headers();
+        $Headers = $this->getHttpRequestHeaders();
 
-        return ($this->get_session_id_from_headers($Headers));
+        return ($this->getSessionIdFromHeaders($Headers));
     }
 
     /**
@@ -92,16 +91,16 @@ class HTTPRequestParams implements \Mezon\Service\ServiceRequestParams
      *            default value
      * @return mixed Parameter value
      */
-    public function get_param($Param, $Default = false)
+    public function getParam($Param, $Default = false)
     {
-        $Headers = $this->get_http_request_headers();
+        $Headers = $this->getHttpRequestHeaders();
 
         $Return = $Default;
 
         if ($Param == 'session_id') {
-            $Return = $this->get_session_id();
-        } elseif ($this->Router->has_param($Param)) {
-            $Return = $this->Router->get_param($Param);
+            $Return = $this->getSessionId();
+        } elseif ($this->Router->hasParam($Param)) {
+            $Return = $this->Router->getParam($Param);
         } elseif (isset($Headers[$Param])) {
             $Return = $Headers[$Param];
         } elseif (isset($_POST[$Param])) {

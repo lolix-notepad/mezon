@@ -13,7 +13,6 @@ namespace Mezon\CRUDService;
 require_once (__DIR__ . '/../../../functional/functional.php');
 require_once (__DIR__ . '/../../../service/vendor/db-service-model/db-service-model.php');
 
-// TODO add camel-case
 /**
  * CRUD service's default model
  *
@@ -38,14 +37,14 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
     }
 
     /**
-     * Method transforms record before it will be returned with the new_records_since method
+     * Method transforms record before it will be returned with the newRecordsSince method
      *
      * @param array $Records
      *            Record to be transformed
      */
-    protected function last_new_records_since(array &$Records)
+    protected function lastNewRecordsSince(array &$Records)
     {
-        $this->get_records_transformer($Records);
+        $this->getRecordsTransformer($Records);
     }
 
     /**
@@ -57,7 +56,7 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *            where condition
      * @return array where condition with domain_id limitations
      */
-    protected function add_domain_id_condition($DomainId, array $Where = []): array
+    protected function addDomainIdCondition($DomainId, array $Where = []): array
     {
         if ($DomainId === false) {
             if (count($Where) === 0) {
@@ -79,17 +78,17 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *            Start of the period
      * @return array List of records created since $Date
      */
-    public function new_records_since($DomainId, $Date)
+    public function newRecordsSince($DomainId, $Date)
     {
-        $Where = $this->add_domain_id_condition($DomainId);
+        $Where = $this->addDomainIdCondition($DomainId);
 
         $Where[] = 'creation_date >= "' . date('Y-m-d H:i:s', strtotime($Date)) . '"';
 
-        $Connection = $this->get_connection();
+        $Connection = $this->getConnection();
 
-        $Records = $Connection->select($this->get_fields_names(), $this->TableName, implode(' AND ', $Where));
+        $Records = $Connection->select($this->getFieldsNames(), $this->TableName, implode(' AND ', $Where));
 
-        $this->last_new_records_since($Records);
+        $this->lastNewRecordsSince($Records);
 
         return ($Records);
     }
@@ -103,19 +102,19 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *            Filter
      * @return number Amount of records
      */
-    public function records_count($DomainId = false, array $Where = [
+    public function recordsCount($DomainId = false, array $Where = [
         '1=1'
     ]): int
     {
-        $Where = $this->add_domain_id_condition($DomainId, $Where);
+        $Where = $this->addDomainIdCondition($DomainId, $Where);
 
-        $Records = $this->get_connection()->select('COUNT( * ) AS records_count', $this->TableName, implode(' AND ', $Where));
+        $Records = $this->getConnection()->select('COUNT( * ) AS records_count', $this->TableName, implode(' AND ', $Where));
 
         if (count($Records) === 0) {
             return (0);
         }
 
-        return (\Mezon\Functional::get_field($Records[0], 'records_count'));
+        return (\Mezon\Functional::getField($Records[0], 'records_count'));
     }
 
     /**
@@ -133,27 +132,27 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *            Sorting condition
      * @return array of records
      */
-    public function get_simple_records($DomainId, $From, $Limit, $Where, $Order = [
+    public function getSimpleRecords($DomainId, $From, $Limit, $Where, $Order = [
         'field' => 'id',
         'order' => 'ASC'
     ])
     {
-        $Where = $this->add_domain_id_condition($DomainId, $Where);
+        $Where = $this->addDomainIdCondition($DomainId, $Where);
 
-        $Records = $this->get_connection()->select($this->get_fields_names(), $this->TableName, implode(' AND ', $Where) . ' ORDER BY ' . htmlspecialchars($Order['field']) . ' ' . htmlspecialchars($Order['order']), $From, $Limit);
+        $Records = $this->getConnection()->select($this->getFieldsNames(), $this->TableName, implode(' AND ', $Where) . ' ORDER BY ' . htmlspecialchars($Order['field']) . ' ' . htmlspecialchars($Order['order']), $From, $Limit);
 
         return ($Records);
     }
 
     /**
-     * Method transforms record before it will be returned with the get_records method
+     * Method transforms record before it will be returned with the getRecords method
      *
      * @param array $Records
      *            Record to be transformed
      *            
      * @codeCoverageIgnore
      */
-    protected function get_records_transformer(array &$Records)
+    protected function getRecordsTransformer(array &$Records)
     {}
 
     /**
@@ -171,29 +170,29 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *            Sorting condition
      * @return array of records
      */
-    public function get_records($DomainId, $From, $Limit, $Where = [
+    public function getRecords($DomainId, $From, $Limit, $Where = [
         '1=1'
     ], $Order = [
         'field' => 'id',
         'order' => 'ASC'
     ])
     {
-        $Records = $this->get_simple_records($DomainId, $From, $Limit, $Where, $Order);
+        $Records = $this->getSimpleRecords($DomainId, $From, $Limit, $Where, $Order);
 
-        $this->get_records_transformer($Records);
+        $this->getRecordsTransformer($Records);
 
         return ($Records);
     }
 
     /**
-     * Method transforms record before it will be returned with the last_records method
+     * Method transforms record before it will be returned with the lastRecords method
      *
      * @param array $Records
      *            Record to be transformed
      */
-    protected function last_records_transformer(array &$Records)
+    protected function lastRecordsTransformer(array &$Records)
     {
-        $this->get_records_transformer($Records);
+        $this->getRecordsTransformer($Records);
     }
 
     /**
@@ -207,26 +206,26 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *            Filter conditions
      * @return array List of the last $Count records
      */
-    public function last_records($DomainId, $Count, $Where)
+    public function lastRecords($DomainId, $Count, $Where)
     {
-        $Where = $this->add_domain_id_condition($DomainId, $Where);
+        $Where = $this->addDomainIdCondition($DomainId, $Where);
 
-        $Records = $this->get_connection()->select($this->get_fields_names(), $this->TableName, implode(' AND ', $Where) . ' ORDER BY id DESC', 0, $Count);
+        $Records = $this->getConnection()->select($this->getFieldsNames(), $this->TableName, implode(' AND ', $Where) . ' ORDER BY id DESC', 0, $Count);
 
-        $this->last_records_transformer($Records);
+        $this->lastRecordsTransformer($Records);
 
         return ($Records);
     }
 
     /**
-     * Method transforms record before it will be returned with the fetch_records_by_ids method
+     * Method transforms record before it will be returned with the fetchRecordsByIds method
      *
      * @param array $Records
      *            Record to be transformed
      */
-    protected function fetch_records_by_ids_transformer(array &$Records)
+    protected function fetchRecordsByIdsTransformer(array &$Records)
     {
-        $this->get_records_transformer($Records);
+        $this->getRecordsTransformer($Records);
     }
 
     /**
@@ -238,7 +237,7 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *            ids of records to be fetched
      * @return array list of records
      */
-    public function fetch_records_by_ids($DomainId, string $ids)
+    public function fetchRecordsByIds($DomainId, string $ids)
     {
         if ($DomainId === false) {
             $Where = 'id IN ( ' . $ids . ' )';
@@ -246,13 +245,13 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
             $Where = 'id IN ( ' . $ids . ' ) AND domain_id = ' . intval($DomainId);
         }
 
-        $Records = $this->get_connection()->select($this->get_fields_names(), $this->TableName, $Where);
+        $Records = $this->getConnection()->select($this->getFieldsNames(), $this->TableName, $Where);
 
         if (count($Records) == 0) {
             throw (new \Exception('Record with id in ' . $ids . ' and domain = ' . ($DomainId === false ? 'false' : $DomainId) . ' was not found', - 1));
         }
 
-        $this->fetch_records_by_ids_transformer($Records);
+        $this->fetchRecordsByIdsTransformer($Records);
 
         return ($Records);
     }
@@ -268,11 +267,11 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *            Filtration conditions
      * @return array Records with stat
      */
-    public function records_count_by_field($DomainId, string $FieldName, array $Where): array
+    public function recordsCountByField($DomainId, string $FieldName, array $Where): array
     {
-        $Where = $this->add_domain_id_condition($DomainId, $Where);
+        $Where = $this->addDomainIdCondition($DomainId, $Where);
 
-        $Records = $this->get_connection()->select($FieldName . ' , COUNT( * ) AS records_count', $this->TableName, implode(' AND ', $Where) . ' GROUP BY ' . $FieldName);
+        $Records = $this->getConnection()->select($FieldName . ' , COUNT( * ) AS records_count', $this->TableName, implode(' AND ', $Where) . ' GROUP BY ' . $FieldName);
 
         if (count($Records) === 0) {
             return ([
@@ -291,12 +290,12 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      * @param array $Where
      *            Filtration conditions
      */
-    public function delete_filtered($DomainId, array $Where)
+    public function deleteFiltered($DomainId, array $Where)
     {
         if ($DomainId === false) {
-            return ($this->get_connection()->delete($this->TableName, implode(' AND ', $Where)));
+            return ($this->getConnection()->delete($this->TableName, implode(' AND ', $Where)));
         } else {
-            return ($this->get_connection()->delete($this->TableName, implode(' AND ', $Where) . ' AND domain_id = ' . intval($DomainId)));
+            return ($this->getConnection()->delete($this->TableName, implode(' AND ', $Where) . ' AND domain_id = ' . intval($DomainId)));
         }
     }
 
@@ -311,11 +310,11 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *            Condition
      * @return array Updated fields
      */
-    public function update_basic_fields($DomainId, array $Record, array $Where)
+    public function updateBasicFields($DomainId, array $Record, array $Where)
     {
-        $Where = $this->add_domain_id_condition($DomainId, $Where);
+        $Where = $this->addDomainIdCondition($DomainId, $Where);
 
-        $Connection = $this->get_connection();
+        $Connection = $this->getConnection();
 
         $Connection->update($this->TableName, $Record, implode(' AND ', $Where));
 
@@ -327,13 +326,13 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *
      * @return array fetched fields
      */
-    public function fetch_fields(): array
+    public function fetchFields(): array
     {
         $Record = [];
 
-        foreach ($this->FieldsAlgorithms->get_fields_names() as $Name) {
-            $Field = $this->FieldsAlgorithms->get_object($Name);
-            if ($Field->get_type() == 'custom') {
+        foreach ($this->FieldsAlgorithms->getFieldsNames() as $Name) {
+            $Field = $this->FieldsAlgorithms->getObject($Name);
+            if ($Field->getType() == 'custom') {
                 continue;
             }
             if ($Name == 'id' || $Name == 'domain_id') {
@@ -344,7 +343,7 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
                 continue;
             }
 
-            $this->FieldsAlgorithms->fetch_field($Record, $Name);
+            $this->FieldsAlgorithms->fetchField($Record, $Name);
         }
 
         return ($Record);
@@ -359,19 +358,19 @@ class CRUDServiceModel extends \Mezon\Service\DBServiceModel
      *            Id of the domain
      * @return array Inserted record
      */
-    public function insert_basic_fields(array $Record, $DomainId = 0)
+    public function insertBasicFields(array $Record, $DomainId = 0)
     {
-        if ($this->has_field('domain_id')) {
+        if ($this->hasField('domain_id')) {
             $Record['domain_id'] = $DomainId;
         }
 
         if (count($Record) === 0) {
             $Msg = 'Trying to create empty record. Be shure that you have passed at least one of these fields : ';
 
-            throw (new \Exception($Msg . $this->get_fields_names()));
+            throw (new \Exception($Msg . $this->getFieldsNames()));
         }
 
-        $Record['id'] = $this->get_connection()->insert($this->TableName, $Record);
+        $Record['id'] = $this->getConnection()->insert($this->TableName, $Record);
 
         return ($Record);
     }

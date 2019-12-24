@@ -6,60 +6,11 @@ class DBServiceModelUnitTest extends PHPUnit\Framework\TestCase
 {
 
     /**
-     * Method returns mock of the DB connection
-     *
-     * @return object Mock of the connection
-     */
-    protected function get_connection_mock()
-    {
-        $Mock = $this->getMockBuilder('\Mezon\PDOCRUD')
-            ->disableOriginalConstructor()
-            ->setMethods([
-            'select',
-            'delete',
-            'update',
-            'insert'
-        ])
-            ->getMock();
-
-        return ($Mock);
-    }
-
-    /**
-     * Method returns model's mock
-     *
-     * @param object $ConnectionMock
-     *            Mock of the connection
-     * @return object Mock of the model
-     */
-    protected function get_model_mock($ConnectionMock)
-    {
-        $Mock = $this->getMockBuilder('\Mezon\Service\DBServiceModel')
-            ->setConstructorArgs([
-            [
-                'id' => [
-                    'type' => 'integer'
-                ]
-            ],
-            'table-name'
-        ])
-            ->setMethods([
-            'get_connection',
-            'get_records_transformer'
-        ])
-            ->getMock();
-
-        $Mock->method('get_connection')->willReturn($ConnectionMock);
-
-        return ($Mock);
-    }
-
-    /**
      * Test data for test_constructor test
      *
      * @return array
      */
-    public function constructor_test_data(): array
+    public function constructorTestData(): array
     {
         return ([
             [
@@ -92,21 +43,21 @@ class DBServiceModelUnitTest extends PHPUnit\Framework\TestCase
      *            Parameterfor constructor
      * @param string $Origin
      *            original data for validation
-     * @dataProvider constructor_test_data
+     * @dataProvider constructorTestData
      */
-    public function test_constructor($Data, string $Origin)
+    public function testConstructor($Data, string $Origin)
     {
         // setup and test body
         $Model = new \Mezon\Service\DBServiceModel($Data, 'entity_name');
 
         // assertions
-        $this->assertTrue($Model->has_field($Origin), 'Invalid contruction');
+        $this->assertTrue($Model->hasField($Origin), 'Invalid contruction');
     }
 
     /**
      * Testing constructor with exception
      */
-    public function test_constructor_exception()
+    public function testConstructorException()
     {
         try {
             // setup and test body

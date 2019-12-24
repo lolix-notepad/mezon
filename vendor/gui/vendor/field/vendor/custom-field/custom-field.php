@@ -14,7 +14,6 @@ require_once (__DIR__ . '/../../../../../template-engine/template-engine.php');
 
 require_once (__DIR__ . '/../../field.php');
 
-// TODO add camel-case
 /**
  * Custom field control
  */
@@ -48,7 +47,7 @@ class CustomField extends \Mezon\GUI\Field
      *
      * @return string field's template
      */
-    protected function get_field_template(): string
+    protected function getFieldTemplate(): string
     {
         // @codeCoverageIgnoreStart
         $Content = file_get_contents('./res/templates/field-' . $this->Name . '.tpl');
@@ -68,7 +67,7 @@ class CustomField extends \Mezon\GUI\Field
      */
     public function html(): string
     {
-        $Content = \Mezon\TemplateEngine::print_record($this->get_field_template(), [
+        $Content = \Mezon\TemplateEngine::printRecord($this->get_field_template(), [
             'name' => $this->Name,
             'name-prefix' => $this->NamePrefix,
             'disabled' => $this->Disabled ? 1 : 0,
@@ -87,7 +86,7 @@ class CustomField extends \Mezon\GUI\Field
      *
      * @return array parts of the custom field
      */
-    public function get_fields(): array
+    public function getFields(): array
     {
         return ($this->Fields);
     }

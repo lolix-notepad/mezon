@@ -9,12 +9,12 @@ require_once (__DIR__ . '/../view.php');
 class TestingView extends \Mezon\View
 {
 
-    public function view_test(): string
+    public function viewTest(): string
     {
         return ('rendered content');
     }
     
-    public function view_test2(): string
+    public function viewTest2(): string
     {
         return ('rendered content 2');
     }
@@ -26,7 +26,7 @@ class ViewTest extends PHPUnit\Framework\TestCase
     /**
      * Testing constructor
      */
-    public function test_constructor()
+    public function testConstructor()
     {
         $View = new TestingView('test');
 
@@ -36,7 +36,7 @@ class ViewTest extends PHPUnit\Framework\TestCase
     /**
      * Testing render
      */
-    public function test_render()
+    public function testRender()
     {
         $View = new TestingView('test');
 

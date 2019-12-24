@@ -7,7 +7,7 @@ class RestExceptionUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing invalid construction
 	 */
-	public function test_constructor()
+	public function testConstructor()
 	{
 		$Object = new \Mezon\Service\ServiceRESTTransport\RESTException('msg', 1, 200, 'body', 'http://ya.ru', [
 			1,

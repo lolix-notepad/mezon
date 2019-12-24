@@ -16,7 +16,6 @@ require_once (__DIR__ . '/../../../../../template-engine/template-engine.php');
 
 require_once (__DIR__ . '/../remote-field/remote-field.php');
 
-// TODO add camel-case
 /**
  * Record field control
  */
@@ -43,7 +42,7 @@ class RecordField extends RemoteField
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_bind_field(array $FieldDescription)
+    protected function initBindField(array $FieldDescription)
     {
         if (isset($FieldDescription['bind-field'])) {
             $this->BindField = $FieldDescription['bind-field'];
@@ -58,7 +57,7 @@ class RecordField extends RemoteField
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_layout(array $FieldDescription)
+    protected function initLayout(array $FieldDescription)
     {
         if (isset($FieldDescription['layout'])) {
             $this->Layout = $FieldDescription['layout'];
@@ -79,9 +78,9 @@ class RecordField extends RemoteField
     {
         parent::__construct($FieldDescription, $Value);
 
-        $this->init_bind_field($FieldDescription);
+        $this->initBindField($FieldDescription);
 
-        $this->init_layout($FieldDescription);
+        $this->initLayout($FieldDescription);
     }
 
     /**
@@ -89,10 +88,10 @@ class RecordField extends RemoteField
      *
      * @return array List of records
      */
-    protected function get_fields(): array
+    protected function getFields(): array
     {
         // @codeCoverageIgnoreStart
-        return ($this->get_client()->get_remote_creation_form_fields_json());
+        return ($this->getClient()->getRemoteCreationFormFieldsJson());
         // @codeCoverageIgnoreEnd
     }
 
@@ -104,14 +103,14 @@ class RecordField extends RemoteField
     public function html(): string
     {
         // getting fields
-        $FormFields = new \Mezon\GUI\FieldsAlgorithms($this->get_fields(), $this->NamePrefix);
-        $FormFields->remove_field($this->BindField);
+        $FormFields = new \Mezon\GUI\FieldsAlgorithms($this->getFields(), $this->NamePrefix);
+        $FormFields->removeField($this->BindField);
 
         // getting form
         $FormBuilder = new \Mezon\GUI\FormBuilder($FormFields, $this->SessionId, $this->NamePrefix, $this->Layout, $this->Batch);
 
         // getting HTML
-        return ($FormBuilder->compile_form_fields());
+        return ($FormBuilder->compileFormFields());
     }
 }
 

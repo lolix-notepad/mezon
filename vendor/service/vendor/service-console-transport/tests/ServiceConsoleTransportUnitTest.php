@@ -12,12 +12,12 @@ class FakeSecurityProvider
 class TestingServiceLogic extends \Mezon\Service\ServiceLogic
 {
 
-    public function private_method()
+    public function privateMethod()
     {
         return ('private');
     }
 
-    public function public_method()
+    public function publicMethod()
     {
         return ('public');
     }
@@ -31,11 +31,11 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return object ServiceConsoleTransport mocked object.
      */
-    protected function get_transport_mock(): object
+    protected function getTransportMock(): object
     {
         $Mock = $this->getMockBuilder(\Mezon\Service\ServiceConsoleTransport::class)
             ->setMethods([
-            'create_session'
+            'createSession'
         ])
             ->getMock();
 
@@ -47,7 +47,7 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return object ServiceLogic mocked object.
      */
-    protected function get_service_logic_mock(): object
+    protected function getServiceLogicMock(): object
     {
         $Mock = $this->getMockBuilder('TestingServiceLogic')
             ->disableOriginalConstructor()
@@ -62,7 +62,7 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing connect method.
      */
-    public function test_constructor(): void
+    public function testConstructor(): void
     {
         $Transport = new \Mezon\Service\ServiceConsoleTransport();
 
@@ -72,7 +72,7 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing that security provider was set.
      */
-    public function test_security_provider_init_default(): void
+    public function testSecurityProviderInitDefault(): void
     {
         $Transport = new \Mezon\Service\ServiceConsoleTransport();
         $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $Transport->SecurityProvider);
@@ -81,7 +81,7 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing that security provider was set.
      */
-    public function test_security_provider_init_string(): void
+    public function testSecurityProviderInitString(): void
     {
         $Transport = new \Mezon\Service\ServiceConsoleTransport(FakeSecurityProvider::class);
         $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
@@ -90,7 +90,7 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing that security provider was set.
      */
-    public function test_security_provider_init_object(): void
+    public function testSecurityProviderInitObject(): void
     {
         $Transport = new \Mezon\Service\ServiceConsoleTransport(new FakeSecurityProvider());
         $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
@@ -99,86 +99,86 @@ class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing that header function is called once for each header.
      */
-    public function test_single_header_call(): void
+    public function testSingleHeaderCall(): void
     {
-        $Mock = $this->get_transport_mock();
+        $Mock = $this->getTransportMock();
 
-        $ServiceLogic = $this->get_service_logic_mock();
+        $ServiceLogic = $this->getServiceLogicMock();
 
         $ServiceLogic->expects($this->once())
             ->method('connect');
 
-        $Mock->call_logic($ServiceLogic, 'connect');
+        $Mock->callLogic($ServiceLogic, 'connect');
     }
 
     /**
      * Testing that header function is called once for each header.
      */
-    public function test_single_header_call_public(): void
+    public function testSingleHeaderCallPublic(): void
     {
-        $Mock = $this->get_transport_mock();
+        $Mock = $this->getTransportMock();
 
-        $ServiceLogic = $this->get_service_logic_mock();
+        $ServiceLogic = $this->getServiceLogicMock();
 
         $ServiceLogic->expects($this->once())
             ->method('connect');
 
-        $Mock->call_public_logic($ServiceLogic, 'connect');
+        $Mock->callPublicLogic($ServiceLogic, 'connect');
     }
 
     /**
-     * Testing public call without create_session method.
+     * Testing public call without createSession method.
      */
-    public function test_public_call(): void
+    public function testPublicCall(): void
     {
         // setup
-        $Mock = $this->get_transport_mock();
+        $Mock = $this->getTransportMock();
 
-        $Mock->ServiceLogic = $this->get_service_logic_mock();
+        $Mock->ServiceLogic = $this->getServiceLogicMock();
 
         $Mock->expects($this->never())
-            ->method('create_session');
+            ->method('createSession');
 
-        $Mock->add_route('public-method', 'public_method', 'GET', 'public_call');
+        $Mock->addRoute('public-method', 'publicMethod', 'GET', 'public_call');
 
         // test body and assertions
-        $Mock->Router->call_route('/public-method/');
+        $Mock->Router->callRoute('/public-method/');
     }
 
     /**
-     * Testing private call with create_session method.
+     * Testing private call with createSession method.
      */
-    public function test_private_call(): void
+    public function testPrivateCall(): void
     {
         // setup
-        $Mock = $this->get_transport_mock();
+        $Mock = $this->getTransportMock();
 
-        $Mock->ServiceLogic = $this->get_service_logic_mock();
+        $Mock->ServiceLogic = $this->getServiceLogicMock();
 
         $Mock->expects($this->once())
-            ->method('create_session');
+            ->method('createSession');
 
-        $Mock->add_route('private-method', 'private_method', 'GET', 'private_call');
+        $Mock->addRoute('private-method', 'privateMethod', 'GET', 'private_call');
 
         // test body and assertions
-        $Mock->Router->call_route('/private-method/');
+        $Mock->Router->callRoute('/private-method/');
     }
 
     /**
      * Testing 'run' method
      */
-    public function test_run(): void
+    public function testRun(): void
     {
         // setup
         $_GET['r'] = 'public-method';
-        $Mock = $this->get_transport_mock();
+        $Mock = $this->getTransportMock();
 
-        $Mock->ServiceLogic = $this->get_service_logic_mock();
+        $Mock->ServiceLogic = $this->getServiceLogicMock();
 
         $Mock->expects($this->never())
-            ->method('create_session');
+            ->method('createSession');
 
-        $Mock->add_route('public-method', 'public_method', 'GET', 'public_call');
+        $Mock->addRoute('public-method', 'publicMethod', 'GET', 'public_call');
 
         // test body
         $Mock->run();

@@ -12,7 +12,6 @@ namespace Mezon\GUI\ListBuilder;
  */
 require_once (__DIR__ . '/../list-builder-adapter/list-builder-adapter.php');
 
-// TODO add camel-case
 /**
  * Logic adapter for list builder
  */
@@ -71,7 +70,7 @@ class CRUDServiceClientAdapter implements ListBuilderAdapter
      *
      * @return \Mezon\CRUDService\CRUDServiceClient Client
      */
-    protected function get_client(): \Mezon\CRUDService\CRUDServiceClient
+    protected function getClient(): \Mezon\CRUDService\CRUDServiceClient
     {
         if ($this->CRUDServiceClient === null) {
             $this->CRUDServiceClient = new \Mezon\CRUDService\CRUDServiceClient($this->Service, $this->Login, $this->Password);
@@ -86,7 +85,7 @@ class CRUDServiceClientAdapter implements ListBuilderAdapter
      * @param \Mezon\CRUDService\CRUDServiceClient $CRUDServiceClient
      *            Service client
      */
-    public function set_client(\Mezon\CRUDService\CRUDServiceClient $CRUDServiceClient)
+    public function setClient(\Mezon\CRUDService\CRUDServiceClient $CRUDServiceClient)
     {
         $this->CRUDServiceClient = $CRUDServiceClient;
     }
@@ -98,7 +97,7 @@ class CRUDServiceClientAdapter implements ListBuilderAdapter
      */
     public function all(): array
     {
-        return ($this->get_client()->get_list(0, 1000000));
+        return ($this->getClient()->getList(0, 1000000));
     }
 
     /**
@@ -112,9 +111,9 @@ class CRUDServiceClientAdapter implements ListBuilderAdapter
      *            the size of the batch
      * @return array subset from vailable records
      */
-    public function get_records(array $Order, int $From, int $Limit): array
+    public function getRecords(array $Order, int $From, int $Limit): array
     {
-        return ($this->get_client()->get_list($From, $Limit, 0, [], $Order));
+        return ($this->getClient()->getList($From, $Limit, 0, [], $Order));
     }
 
     /**
@@ -124,7 +123,7 @@ class CRUDServiceClientAdapter implements ListBuilderAdapter
      *            record to be preprocessed
      * @return array preprocessed record
      */
-    public function preprocess_list_item(array $Record): array
+    public function preprocessListItem(array $Record): array
     {
         // in this case all transformations are done on the service's side
         return ($Record);

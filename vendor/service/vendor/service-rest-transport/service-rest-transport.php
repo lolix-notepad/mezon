@@ -14,7 +14,6 @@ require_once (__DIR__ . '/../service-http-transport/service-http-transport.php')
 
 require_once (__DIR__ . '/vendor/rest-exception/rest-exception.php');
 
-// TODO add camel-case
 /**
  * REST transport for all services.
  *
@@ -37,21 +36,21 @@ class ServiceRESTTransport extends ServiceHTTPTransport
      *            logic's parameters.
      * @return mixed Result of the called method.
      */
-    public function call_logic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
+    public function callLogic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
     {
         $this->header('Content-type', 'application/json');
 
         try {
-            $Params['SessionId'] = $this->create_session();
+            $Params['SessionId'] = $this->createSession();
 
             return (call_user_func_array([
                 $ServiceLogic,
                 $Method
             ], $Params));
         } catch (ServiceRESTTransport\RESTException $e) {
-            return ($this->error_response($e));
+            return ($this->errorResponse($e));
         } catch (\Exception $e) {
-            return (parent::error_response($e));
+            return (parent::errorResponse($e));
         }
     }
 
@@ -69,7 +68,7 @@ class ServiceRESTTransport extends ServiceHTTPTransport
      *            logic's parameters.
      * @return mixed Result of the called method.
      */
-    public function call_public_logic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
+    public function callPublicLogic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
     {
         $this->header('Content-type', 'application/json');
 
@@ -79,9 +78,9 @@ class ServiceRESTTransport extends ServiceHTTPTransport
                 $Method
             ], $Params));
         } catch (ServiceRESTTransport\RESTException $e) {
-            return ($this->error_response($e));
+            return ($this->errorResponse($e));
         } catch (\Exception $e) {
-            return (parent::error_response($e));
+            return (parent::errorResponse($e));
         }
     }
 
@@ -91,7 +90,7 @@ class ServiceRESTTransport extends ServiceHTTPTransport
     public function run(): void
     {
         // @codeCoverageIgnoreStart
-        print(json_encode($this->Router->call_route($_GET['r'])));
+        print(json_encode($this->Router->callRoute($_GET['r'])));
         // @codeCoverageIgnoreEnd
     }
 
@@ -102,13 +101,13 @@ class ServiceRESTTransport extends ServiceHTTPTransport
      *            Exception object
      * @return array Error data
      */
-    public function error_response($e): array
+    public function errorResponse($e): array
     {
         $Return = [
             'message' => $e->getMessage(),
             'code' => $e->getCode(),
             'service' => 'service',
-            'call_stack' => $this->format_call_stack($e),
+            'call_stack' => $this->formatCallStack($e),
             'host' => 'console'
         ];
 
@@ -126,12 +125,12 @@ class ServiceRESTTransport extends ServiceHTTPTransport
      * @param $e \Exception
      *            object
      */
-    public function handle_exception($e):void
+    public function handleException($e):void
     {
         // @codeCoverageIgnoreStart
         header('Content-type:application/json');
 
-        print(json_encode($this->error_response($e)));
+        print(json_encode($this->errorResponse($e)));
         // @codeCoverageIgnoreEnd
     }
 }

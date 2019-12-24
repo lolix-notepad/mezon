@@ -11,7 +11,6 @@ namespace Mezon\GUI\FormBuilder;
  */
 require_once (__DIR__ . '/../../../field/field.php');
 
-// TODO add camel-case
 /**
  * Rows field control
  */
@@ -65,7 +64,7 @@ class RowsField extends \Mezon\GUI\Field
     /**
      * Does control fills all row
      */
-    public function fill_all_row(): bool
+    public function fillAllRow(): bool
     {
         return (true);
     }

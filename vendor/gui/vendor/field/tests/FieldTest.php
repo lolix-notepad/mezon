@@ -7,7 +7,7 @@ class FieldTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing constructor
 	 */
-	public function test_no_name_exception()
+	public function testNoNameException()
 	{
 		try {
 			// test body
@@ -22,7 +22,7 @@ class FieldTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing setters
 	 */
-	public function test_name_setter()
+	public function testNameSetter()
 	{
 		// test body
 	    $Field = new \Mezon\GUI\Field(json_decode(file_get_contents(__DIR__ . '/conf/name-setter.json'), true),'');
@@ -34,7 +34,7 @@ class FieldTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing setters
 	 */
-	public function test_required_setter()
+	public function testRequiredSetter()
 	{
 		// test body
 	    $Field = new \Mezon\GUI\Field(json_decode(file_get_contents(__DIR__ . '/conf/required-setter.json'), true),'');

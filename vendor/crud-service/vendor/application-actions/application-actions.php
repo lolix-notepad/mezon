@@ -19,7 +19,6 @@ require_once (__DIR__ . '/../crud-service-client/crud-service-client.php');
 
 define('FIELD_NAME_DOMAIN_ID', 'domain_id');
 
-// TODO add camel-case
 /**
  * Class for basic CRUD client
  */
@@ -86,10 +85,10 @@ class ApplicationActions
      *            Application object
      * @return array Compiled view
      */
-    protected function add_page_parts(array $Result, \Mezon\CommonApplication &$AppObject): array
+    protected function addPageParts(array $Result, \Mezon\CommonApplication &$AppObject): array
     {
-        if (method_exists($AppObject, 'cross_render')) {
-            $Result = array_merge($Result, $AppObject->cross_render());
+        if (method_exists($AppObject, 'crossRender')) {
+            $Result = array_merge($Result, $AppObject->crossRender());
         }
 
         return ($Result);
@@ -107,9 +106,9 @@ class ApplicationActions
      * @param string|array $Method
      *            HTTP method name GET or POST
      */
-    protected function load_route(\Mezon\CommonApplication &$AppObject, string $Route, string $Callback, $Method)
+    protected function loadRoute(\Mezon\CommonApplication &$AppObject, string $Route, string $Callback, $Method)
     {
-        $AppObject->load_route([
+        $AppObject->loadRoute([
             'route' => $Route,
             'callback' => $Callback,
             'method' => $Method
@@ -122,11 +121,11 @@ class ApplicationActions
      * @param array $Options
      * @return \Mezon\GUI\ListBuilder
      */
-    protected function create_list_builder(array $Options): \Mezon\GUI\ListBuilder
+    protected function createListBuilder(array $Options): \Mezon\GUI\ListBuilder
     {
         // create adapter
         $CRUDServiceClientAdapter = new \Mezon\GUI\ListBuilder\CRUDServiceClientAdapter();
-        $CRUDServiceClientAdapter->set_client($this->CRUDServiceClient);
+        $CRUDServiceClientAdapter->setClient($this->CRUDServiceClient);
 
         if (isset($Options['default-fields']) === false) {
             throw (new \Exception('List of fields must be defined in the $Options[\'default-fields\']', - 1));
@@ -146,11 +145,11 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    public function attach_list_page(\Mezon\CommonApplication &$AppObject, array $Options)
+    public function attachListPage(\Mezon\CommonApplication &$AppObject, array $Options)
     {
-        $MethodName = $this->SafeEntityName . '_listing_page';
+        $MethodName = $this->SafeEntityName . 'ListingPage';
 
-        $this->load_route($AppObject, $this->EntityName . '/list/', $MethodName, 'GET');
+        $this->loadRoute($AppObject, $this->EntityName . '/list/', $MethodName, 'GET');
 
         $Options = $Options === false ? [] : $Options;
 
@@ -158,18 +157,18 @@ class ApplicationActions
         $Options['update_button'] = $this->UpdateButton ? 1 : 0;
         $Options['delete_button'] = $this->DeleteButton ? 1 : 0;
 
-        $Options[FIELD_NAME_DOMAIN_ID] = $this->get_self_id();
+        $Options[FIELD_NAME_DOMAIN_ID] = $this->getSelfId();
 
         $AppObject->$MethodName = function () use ($AppObject, $Options) {
-            $ListBuilder = $this->create_list_builder($Options);
+            $ListBuilder = $this->createListBuilder($Options);
 
             // generate list
             $Result = [
-                'main' => $ListBuilder->listing_form()
+                'main' => $ListBuilder->listingForm()
             ];
 
             // add page parts
-            return ($this->add_page_parts($Result, $AppObject, $Options));
+            return ($this->addPageParts($Result, $AppObject, $Options));
         };
     }
 
@@ -181,26 +180,26 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    public function attach_simple_list_page(\Mezon\CommonApplication $AppObject, array $Options)
+    public function attachSimpleListPage(\Mezon\CommonApplication $AppObject, array $Options)
     {
-        $MethodName = $this->SafeEntityName . '_simple_listing_page';
+        $MethodName = $this->SafeEntityName . 'SimpleListingPage';
 
-        $this->load_route($AppObject, $this->EntityName . '/list/simple/', $MethodName, 'GET');
+        $this->loadRoute($AppObject, $this->EntityName . '/list/simple/', $MethodName, 'GET');
 
         $Options = $Options === false ? [] : $Options;
 
-        $Options[FIELD_NAME_DOMAIN_ID] = $this->get_self_id();
+        $Options[FIELD_NAME_DOMAIN_ID] = $this->getSelfId();
 
         $AppObject->$MethodName = function () use ($AppObject, $Options) {
-            $ListBuilder = $this->create_list_builder($Options);
+            $ListBuilder = $this->createListBuilder($Options);
 
             // generate list
             $Result = [
-                'main' => $ListBuilder->simple_listing_form()
+                'main' => $ListBuilder->simpleListingForm()
             ];
 
             // add page parts
-            return ($this->add_page_parts($Result, $AppObject, $Options));
+            return ($this->addPageParts($Result, $AppObject, $Options));
         };
     }
 
@@ -212,22 +211,22 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    public function attach_delete_record(\Mezon\CommonApplication &$AppObject, array $Options)
+    public function attachDeleteRecord(\Mezon\CommonApplication &$AppObject, array $Options)
     {
         $this->DeleteButton = true;
 
-        $MethodName = $this->SafeEntityName . '_delete_record';
+        $MethodName = $this->SafeEntityName . 'DeleteRecord';
 
-        $this->load_route($AppObject, $this->EntityName . '/delete/[i:id]/', $MethodName, 'GET');
+        $this->loadRoute($AppObject, $this->EntityName . '/delete/[i:id]/', $MethodName, 'GET');
 
         $Options = $Options === false ? [] : $Options;
 
-        $Options[FIELD_NAME_DOMAIN_ID] = $this->get_self_id();
+        $Options[FIELD_NAME_DOMAIN_ID] = $this->getSelfId();
 
         $AppObject->$MethodName = function (...$Params) use ($AppObject, $Options) {
             $this->CRUDServiceClient->delete($Params[1]['id'], $Options[FIELD_NAME_DOMAIN_ID]);
 
-            $AppObject->redirect_to('../../list/');
+            $AppObject->redirectTo('../../list/');
         };
     }
 
@@ -240,25 +239,25 @@ class ApplicationActions
      *            id of the updating record
      * @return array Compiled result
      */
-    protected function get_compiled_form(string $Type = 'creation', int $id = 0): array
+    protected function getCompiledForm(string $Type = 'creation', int $id = 0): array
     {
         // get fields
-        $Data = $this->CRUDServiceClient->get_remote_creation_form_fields();
+        $Data = $this->CRUDServiceClient->getRemoteCreationFormFields();
 
         // construct $FieldsAlgorithms
-        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms(\Mezon\Functional::get_field($Data, 'fields'), $this->EntityName);
+        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms(\Mezon\Functional::getField($Data, 'fields'), $this->EntityName);
 
         // create form builder object
-        $FormBuilder = new \Mezon\GUI\FormBuilder($FieldsAlgorithms, false, $this->EntityName, \Mezon\Functional::get_field($Data, 'layout'));
+        $FormBuilder = new \Mezon\GUI\FormBuilder($FieldsAlgorithms, false, $this->EntityName, \Mezon\Functional::getField($Data, 'layout'));
 
         // compile form
         if ($Type == 'creation') {
             $Result = [
-                'main' => $FormBuilder->creation_form()
+                'main' => $FormBuilder->creationForm()
             ];
         } else {
             $Result = [
-                'main' => $FormBuilder->updating_form($this->CRUDServiceClient->get_session_id(), $this->CRUDServiceClient->get_by_id($id, $this->get_self_id()))
+                'main' => $FormBuilder->updatingForm($this->CRUDServiceClient->getSessionId(), $this->CRUDServiceClient->getById($id, $this->getSelfId()))
             ];
         }
 
@@ -273,21 +272,21 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    protected function add_create_record_method(\Mezon\CommonApplication &$AppObject, array $Options)
+    protected function addCreateRecordMethod(\Mezon\CommonApplication &$AppObject, array $Options)
     {
-        $MethodName = $this->SafeEntityName . '_create_record';
+        $MethodName = $this->SafeEntityName . 'CreateRecord';
 
         $AppObject->$MethodName = function () use ($AppObject, $Options) {
             if (count($_POST) > 0) {
-                $_POST[FIELD_NAME_DOMAIN_ID] = $this->get_self_id();
+                $_POST[FIELD_NAME_DOMAIN_ID] = $this->getSelfId();
 
-                $Data = $this->pretransform_data(array_merge($_POST, $_FILES));
+                $Data = $this->pretransformData(array_merge($_POST, $_FILES));
 
                 $this->CRUDServiceClient->create($Data);
 
-                $AppObject->redirect_to('../list/');
+                $AppObject->redirectTo('../list/');
             } else {
-                return ($this->add_page_parts($this->get_compiled_form(), $AppObject, $Options));
+                return ($this->addPageParts($this->getCompiledForm(), $AppObject, $Options));
             }
         };
     }
@@ -300,7 +299,7 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    public function attach_create_record(\Mezon\CommonApplication &$AppObject, array $Options)
+    public function attachCreateRecord(\Mezon\CommonApplication &$AppObject, array $Options)
     {
         $this->CreateButton = true;
 
@@ -308,12 +307,12 @@ class ApplicationActions
 
         $Route = isset($Options['create-page-endpoint']) ? $Options['create-page-endpoint'] : $this->EntityName . '/create/';
 
-        $this->load_route($AppObject, $Route, $this->SafeEntityName . '_create_record', [
+        $this->loadRoute($AppObject, $Route, $this->SafeEntityName . 'CreateRecord', [
             'POST',
             'GET'
         ]);
 
-        $this->add_create_record_method($AppObject, $Options);
+        $this->addCreateRecordMethod($AppObject, $Options);
     }
 
     /**
@@ -324,21 +323,21 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    protected function add_update_record_method(\Mezon\CommonApplication &$AppObject, array $Options)
+    protected function addUpdateRecordMethod(\Mezon\CommonApplication &$AppObject, array $Options)
     {
-        $MethodName = $this->SafeEntityName . '_update_record';
+        $MethodName = $this->SafeEntityName . 'UpdateRecord';
 
         $AppObject->$MethodName = function (...$Params) use ($AppObject, $Options) {
             if (count($_POST) > 0) {
-                $_POST[FIELD_NAME_DOMAIN_ID] = $this->get_self_id();
+                $_POST[FIELD_NAME_DOMAIN_ID] = $this->getSelfId();
 
-                $this->post_request('/update/' . $Params[1]['id'] . '/', $_POST);
+                $this->postRequest('/update/' . $Params[1]['id'] . '/', $_POST);
 
                 $this->CRUDServiceClient->update($Params[1]['id'], $_POST, $_POST[FIELD_NAME_DOMAIN_ID]);
 
-                $AppObject->redirect_to('../../list/');
+                $AppObject->redirectTo('../../list/');
             } else {
-                return ($this->add_page_parts($this->get_compiled_form('updating', $Params[1]['id']), $AppObject, $Options));
+                return ($this->addPageParts($this->getCompiledForm('updating', $Params[1]['id']), $AppObject, $Options));
             }
         };
     }
@@ -351,7 +350,7 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    public function attach_update_record(\Mezon\CommonApplication &$AppObject, array $Options)
+    public function attachUpdateRecord(\Mezon\CommonApplication &$AppObject, array $Options)
     {
         $this->UpdateButton = true;
 
@@ -359,12 +358,12 @@ class ApplicationActions
 
         $Route = isset($Options['update-record-endpoint']) ? $Options['update-record-endpoint'] : $this->EntityName . '/update/[i:id]/';
 
-        $this->load_route($AppObject, $Route, $this->SafeEntityName . '_update_record', [
+        $this->loadRoute($AppObject, $Route, $this->SafeEntityName . 'UpdateRecord', [
             'POST',
             'GET'
         ]);
 
-        $this->add_update_record_method($AppObject, $Options);
+        $this->addUpdateRecordMethod($AppObject, $Options);
     }
 }
 

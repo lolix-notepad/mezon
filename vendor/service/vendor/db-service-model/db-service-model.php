@@ -15,7 +15,6 @@ require_once (__DIR__ . '/../../../gui/vendor/fields-algorithms/fields-algorithm
 require_once (__DIR__ . '/../../../mezon/mezon.php');
 require_once (__DIR__ . '/../../../service/vendor/service-model/service-model.php');
 
-// TODO add camel-case
 /**
  * CRUD service's default model
  *
@@ -51,7 +50,7 @@ class DBServiceModel extends ServiceModel
      */
     public function __construct($Fields = '*', string $TableName = '', string $EntityName = '')
     {
-        $this->set_table_name($TableName);
+        $this->setTableName($TableName);
 
         $this->EntityName = $EntityName;
 
@@ -77,7 +76,7 @@ class DBServiceModel extends ServiceModel
      * @param string $TableName
      *            Table name
      */
-    protected function set_table_name(string $TableName = '')
+    protected function setTableName(string $TableName = '')
     {
         if (strpos($TableName, '-') !== false && strpos($TableName, '`') === false) {
             $TableName = "`$TableName`";
@@ -90,10 +89,10 @@ class DBServiceModel extends ServiceModel
      *
      * @return \Mezon\PdoCrud - PDO DB connection
      */
-    protected function get_connection(): \Mezon\PdoCrud
+    protected function getConnection(): \Mezon\PdoCrud
     {
         // @codeCoverageIgnoreStart
-        return (\Mezon\Mezon::get_db_connection());
+        return (\Mezon\Mezon::getDbConnection());
         // @codeCoverageIgnoreEnd
     }
 
@@ -102,9 +101,9 @@ class DBServiceModel extends ServiceModel
      *
      * @return string list of all fields as string
      */
-    public function get_fields_names(): string
+    public function getFieldsNames(): string
     {
-        return (implode(', ', $this->FieldsAlgorithms->get_fields_names()));
+        return (implode(', ', $this->FieldsAlgorithms->getFieldsNames()));
     }
 
     /**
@@ -114,10 +113,10 @@ class DBServiceModel extends ServiceModel
      *            Field name
      * @return bool
      */
-    public function has_field(string $FieldName): bool
+    public function hasField(string $FieldName): bool
     {
         // @codeCoverageIgnoreStart
-        return ($this->FieldsAlgorithms->has_field($FieldName));
+        return ($this->FieldsAlgorithms->hasField($FieldName));
         // @codeCoverageIgnoreEnd
     }
 
@@ -126,10 +125,10 @@ class DBServiceModel extends ServiceModel
      *
      * @return bool
      */
-    public function has_custom_fields(): bool
+    public function hasCustomFields(): bool
     {
         // @codeCoverageIgnoreStart
-        return ($this->FieldsAlgorithms->has_custom_fields());
+        return ($this->FieldsAlgorithms->hasCustomFields());
         // @codeCoverageIgnoreEnd
     }
 
@@ -139,10 +138,10 @@ class DBServiceModel extends ServiceModel
      * @param string $Field
      *            Field name
      */
-    public function validate_field_existance(string $Field)
+    public function validateFieldExistance(string $Field)
     {
         // @codeCoverageIgnoreStart
-        return ($this->FieldsAlgorithms->validate_field_existance($Field));
+        return ($this->FieldsAlgorithms->validateFieldExistance($Field));
         // @codeCoverageIgnoreEnd
     }
 
@@ -151,7 +150,7 @@ class DBServiceModel extends ServiceModel
      *
      * @return array Fields list
      */
-    public function get_fields(): array
+    public function getFields(): array
     {
         // @codeCoverageIgnoreStart
         return ($this->FieldsAlgorithms->get());
@@ -163,7 +162,7 @@ class DBServiceModel extends ServiceModel
      *
      * @return string Entity name
      */
-    public function get_entity_name(): string
+    public function getEntityName(): string
     {
         // @codeCoverageIgnoreStart
         return ($this->EntityName);

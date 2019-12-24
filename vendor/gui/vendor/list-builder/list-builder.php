@@ -1,5 +1,5 @@
 <?php
-namespace MEzon\GUI;
+namespace Mezon\GUI;
 /**
  * Class ListBuilder
  *
@@ -17,7 +17,6 @@ require_once (__DIR__ . '/vendor/crud-service-client-adapter/crud-service-client
 
 define('DESCRIPTION_FIELD_NAME', 'description');
 
-// TODO add camel-case
 /**
  * Class constructs grids.
  */
@@ -65,7 +64,7 @@ class ListBuilder
      *
      * @return string Create page endpoint
      */
-    protected function get_create_page_endpoint(): string
+    protected function getCreatePageEndpoint(): string
     {
         if (isset($_GET['create-page-endpoint'])) {
             return ($_GET['create-page-endpoint']);
@@ -79,11 +78,11 @@ class ListBuilder
      *
      * @return string Compiled list view
      */
-    protected function listing_no_items(): string
+    protected function listingNoItems(): string
     {
         $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-no-items');
 
-        $Content = str_replace('{create-page-endpoint}', $this->get_create_page_endpoint(), $Content);
+        $Content = str_replace('{create-page-endpoint}', $this->getCreatePageEndpoint(), $Content);
 
         return ($Content);
     }
@@ -95,7 +94,7 @@ class ListBuilder
      *            Id of the record
      * @return string Compiled list buttons
      */
-    protected function list_of_buttons(int $id): string
+    protected function listOfButtons(int $id): string
     {
         $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('list-of-buttons');
 
@@ -107,7 +106,7 @@ class ListBuilder
      *
      * @return bool Do we need add actions
      */
-    protected function need_actions(): bool
+    protected function needActions(): bool
     {
         if (@$_GET['update_button'] == 1 || @$_GET['delete_button'] == 1) {
             return (true);
@@ -123,7 +122,7 @@ class ListBuilder
      *            Do we need to add actions
      * @return string Compiled row
      */
-    protected function listing_items_cells(bool $AddActions = true): string
+    protected function listingItemsCells(bool $AddActions = true): string
     {
         $Content = '';
 
@@ -139,7 +138,7 @@ class ListBuilder
             $Content = str_replace('{name}', '{' . $Name . '}', $Content);
         }
 
-        if ($AddActions && $this->need_actions()) {
+        if ($AddActions && $this->needActions()) {
             $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-actions');
         }
 
@@ -153,7 +152,7 @@ class ListBuilder
      *            Transforming record
      * @return array Transformed record
      */
-    protected function transform_record(array $Record): array
+    protected function transformRecord(array $Record): array
     {
         // here we assume that we get from service
         // already transformed
@@ -172,21 +171,21 @@ class ListBuilder
      *            Listof records
      * @return string Compiled list items
      */
-    protected function listing_items(array $Records): string
+    protected function listingItems(array $Records): string
     {
         $Content = '';
 
         foreach ($Records as $Record) {
-            $Record['actions'] = $this->list_of_buttons(\Mezon\Functional::get_field($Record, 'id'));
+            $Record['actions'] = $this->listOfButtons(\Mezon\Functional::getField($Record, 'id'));
 
             $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-row');
-            $Content = str_replace('{items}', $this->listing_items_cells(), $Content);
+            $Content = str_replace('{items}', $this->listingItemsCells(), $Content);
 
-            $Record = $this->transform_record($Record);
+            $Record = $this->transformRecord($Record);
 
-            $Record = $this->ListBuilderAdapter->preprocess_list_item($Record);
+            $Record = $this->ListBuilderAdapter->preprocessListItem($Record);
 
-            $Content = \Mezon\TemplateEngine::print_record($Content, $Record);
+            $Content = \Mezon\TemplateEngine::printRecord($Content, $Record);
         }
 
         return ($Content);
@@ -199,7 +198,7 @@ class ListBuilder
      *            Do we need to add actions
      * @return string Compiled header
      */
-    protected function listing_header_cells(bool $AddActions = true): string
+    protected function listingHeaderCells(bool $AddActions = true): string
     {
         $Content = '';
 
@@ -223,7 +222,7 @@ class ListBuilder
             ], $Content);
         }
 
-        if ($AddActions && $this->need_actions()) {
+        if ($AddActions && $this->needActions()) {
             $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-header-actions');
         }
 
@@ -236,12 +235,12 @@ class ListBuilder
      * @param
      *            string Compiled header
      */
-    protected function listing_header_content(): string
+    protected function listingHeaderContent(): string
     {
         if (@$_GET['create_button'] == 1) {
             $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-header');
 
-            $Content = str_replace('{create-page-endpoint}', $this->get_create_page_endpoint(), $Content);
+            $Content = str_replace('{create-page-endpoint}', $this->getCreatePageEndpoint(), $Content);
         } else {
             $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('simple-listing-header');
         }
@@ -254,13 +253,13 @@ class ListBuilder
      *
      * @return string Compiled header
      */
-    protected function listing_header(): string
+    protected function listingHeader(): string
     {
-        $Content = $this->listing_header_content();
+        $Content = $this->listingHeaderContent();
 
         $Content = str_replace('{description}', isset($_GET[DESCRIPTION_FIELD_NAME]) ? $_GET[DESCRIPTION_FIELD_NAME] : 'Выберите необходимое действие', $Content);
 
-        $Content = str_replace('{cells}', $this->listing_header_cells(), $Content);
+        $Content = str_replace('{cells}', $this->listingHeaderCells(), $Content);
 
         return ($Content);
     }
@@ -270,13 +269,13 @@ class ListBuilder
      *
      * @return string Compiled header
      */
-    protected function simple_listing_header(): string
+    protected function simpleListingHeader(): string
     {
         $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('simple-listing-header');
 
         $Content = str_replace('{description}', isset($_GET[DESCRIPTION_FIELD_NAME]) ? $_GET[DESCRIPTION_FIELD_NAME] : 'Выберите необходимое действие', $Content);
 
-        $Content = str_replace('{cells}', $this->listing_header_cells(false), $Content);
+        $Content = str_replace('{cells}', $this->listingHeaderCells(false), $Content);
 
         return ($Content);
     }
@@ -288,16 +287,16 @@ class ListBuilder
      *            List of records
      * @return string Compiled simple list
      */
-    protected function simple_listing_items(array $Records): string
+    protected function simpleListingItems(array $Records): string
     {
         $Content = '';
 
         foreach ($Records as $Record) {
-            $Content .= str_replace('{items}', $this->listing_items_cells(false), \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-row'));
+            $Content .= str_replace('{items}', $this->listingItemsCells(false), \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-row'));
 
-            $Record = $this->transform_record($Record);
+            $Record = $this->transformRecord($Record);
 
-            $Content = \Mezon\TemplateEngine::print_record($Content, $Record);
+            $Content = \Mezon\TemplateEngine::printRecord($Content, $Record);
         }
 
         return ($Content);
@@ -308,23 +307,23 @@ class ListBuilder
      *
      * @return string Compiled listing form
      */
-    public function listing_form(): string
+    public function listingForm(): string
     {
-        $Records = $this->ListBuilderAdapter->get_records([
+        $Records = $this->ListBuilderAdapter->getRecords([
             'field' => 'id',
             'order' => 'ASC'
         ], isset($_GET['from']) ? $_GET['from'] : 0, isset($_GET['limit']) ? $_GET['limit'] : 100);
 
         if (count($Records)) {
-            $Header = $this->listing_header();
+            $Header = $this->listingHeader();
 
-            $Items = $this->listing_items($Records);
+            $Items = $this->listingItems($Records);
 
             $Footer = \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-footer');
 
             return ($Header . $Items . $Footer);
         } else {
-            return ($this->listing_no_items());
+            return ($this->listingNoItems());
         }
     }
 
@@ -333,14 +332,14 @@ class ListBuilder
      *
      * @return string Compiled simple listing form
      */
-    public function simple_listing_form(): string
+    public function simpleListingForm(): string
     {
         $Records = $this->ListBuilderAdapter->all();
 
         if (count($Records)) {
-            $Header = $this->simple_listing_header();
+            $Header = $this->simpleListingHeader();
 
-            $Items = $this->simple_listing_items($Records);
+            $Items = $this->simpleListingItems($Records);
 
             // they are the same with full feature listing
             $Footer = \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-footer');

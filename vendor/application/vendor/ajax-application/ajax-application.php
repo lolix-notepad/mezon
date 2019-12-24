@@ -11,7 +11,6 @@ namespace Mezon\Application;
  */
 require_once (__DIR__ . '/../../application.php');
 
-// TODO add camel-case
 /**
  * Base class of the ajax-application
  */
@@ -23,13 +22,13 @@ class AjaxApplication extends \Mezon\Application
      *
      * Must be overriden in the base class
      */
-    protected function validate_authorization_for_ajax_requests()
+    protected function validateAuthorizationForAjaxRequests()
     {}
 
     /**
      * Method finishes ajax requests processing
      */
-    protected function ajax_request_success()
+    protected function ajaxRequestSuccess()
     {
         print(json_encode([
             "code" => 0
@@ -41,7 +40,7 @@ class AjaxApplication extends \Mezon\Application
     /**
      * Method finishes ajax requests processing and returns result
      */
-    protected function ajax_request_result($Result)
+    protected function ajaxRequestResult($Result)
     {
         print(json_encode($Result));
 
@@ -56,7 +55,7 @@ class AjaxApplication extends \Mezon\Application
      * @param int $Code
      *            Error code
      */
-    protected function ajax_request_error(string $Message, int $Code = - 1)
+    protected function ajaxRequestError(string $Message, int $Code = - 1)
     {
         print(json_encode([
             "message" => $Message,
@@ -72,7 +71,7 @@ class AjaxApplication extends \Mezon\Application
      * @param \Exception $e
      *            Exception object.
      */
-    public function handle_exception(\Exception $e)
+    public function handleException(\Exception $e)
     {
         $Error = new \stdClass();
         $Error->message = $e->getMessage();
@@ -80,7 +79,7 @@ class AjaxApplication extends \Mezon\Application
         if (isset($e->HTTPBody)) {
             $Error->http_body = $e->HTTPBody;
         }
-        $Error->call_stack = $this->format_call_stack($e);
+        $Error->call_stack = $this->formatCallStack($e);
         $Error->host = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         
         print(json_encode($Error, JSON_PRETTY_PRINT));

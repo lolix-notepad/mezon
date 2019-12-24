@@ -1,18 +1,17 @@
 <?php
 namespace Mezon\Service;
+
 /**
  * Interface ServiceTransportInterface
  *
- * @package     Service
- * @subpackage  ServiceTransportInterface
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/12/11)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage ServiceTransportInterface
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/12/11)
+ * @copyright Copyright (c) 2019, aeon.org
  */
+require_once (__DIR__ . '/../service-request-params/service-request-params.php');
 
-require_once(__DIR__.'/../service-request-params/service-request-params.php');
-
-// TODO add camel-case
 /**
  * Interface for all transports
  *
@@ -26,7 +25,7 @@ interface ServiceTransportInterface
      *
      * @return ServiceRequestParams paremeters fetcher
      */
-    public function create_fetcher(): ServiceRequestParams;
+    public function createFetcher(): ServiceRequestParams;
 }
 
 ?>

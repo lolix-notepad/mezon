@@ -11,8 +11,6 @@ namespace Mezon\Service;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
-
 /**
  * Interface for security providers
  */
@@ -26,7 +24,7 @@ interface ServiceSecurityProvider
      *            Session token
      * @return string Session token
      */
-    public function create_session(string $Token = ''): string;
+    public function createSession(string $Token = ''): string;
 
     /**
      * Method creates conection session
@@ -46,7 +44,7 @@ interface ServiceSecurityProvider
      *            Token
      * @return string Session token id
      */
-    public function set_token(string $Token): string;
+    public function setToken(string $Token): string;
 
     /**
      * Method returns id of the session user
@@ -55,7 +53,7 @@ interface ServiceSecurityProvider
      *            Token
      * @return int id of the session user
      */
-    public function get_self_id(string $Token): int;
+    public function getSelfId(string $Token): int;
 
     /**
      * Method returns login of the session user
@@ -64,7 +62,7 @@ interface ServiceSecurityProvider
      *            Token
      * @return string login of the session user
      */
-    public function get_self_login(string $Token): string;
+    public function getSelfLogin(string $Token): string;
 
     /**
      * Method allows user to login under another user
@@ -77,7 +75,7 @@ interface ServiceSecurityProvider
      *            Contains 'login' or 'id'
      * @return string New session id
      */
-    public function login_as(string $Token, string $LoginOrId, string $Field): string;
+    public function loginAs(string $Token, string $LoginOrId, string $Field): string;
 
     /**
      * Method returns true or false if the session user has permit or not
@@ -88,7 +86,7 @@ interface ServiceSecurityProvider
      *            Permit name
      * @return bool True if the user has permit
      */
-    public function has_permit(string $Token, string $Permit): bool;
+    public function hasPermit(string $Token, string $Permit): bool;
 
     /**
      * Method throws exception if the user does not have permit
@@ -98,21 +96,21 @@ interface ServiceSecurityProvider
      * @param string $Permit
      *            Permit name
      */
-    public function validate_permit(string $Token, string $Permit);
+    public function validatePermit(string $Token, string $Permit);
 
     /**
      * Method returns field name for login
      *
      * @return string Field name
      */
-    public function get_login_field_name(): string;
+    public function getLoginFieldName(): string;
 
     /**
      * Method returns field name for session_id
      *
      * @return string Field name
      */
-    public function get_session_id_field_name(): string;
+    public function getSessionIdFieldName(): string;
 }
 
 ?>

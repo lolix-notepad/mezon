@@ -3,20 +3,28 @@ require_once (__DIR__ . '/../../conf/conf.php');
 
 require_once (__DIR__ . '/../mezon.php');
 
-\Mezon\add_connection_to_config('default-db-connection', 'mysql:dbname=record;host=localhost', 'root', '');
-
 class MezonUnitTest extends PHPUnit\Framework\TestCase
 {
 
-	/**
-	 * Testing get_db_connection
-	 */
-	public function test_get_db_connection()
-	{
-		$Connection = \Mezon\Mezon::get_db_connection();
+    /**
+     *
+     * {@inheritdoc}
+     * @see \PHPUnit\Framework\TestCase::setUp()
+     */
+    public function setUp()
+    {
+        \Mezon\addConnectionToConfig('default-db-connection', 'mysql:dbname=record;host=localhost', 'root', '');
+    }
 
-		$this->assertInstanceOf('\Mezon\PDOCrud', $Connection);
-	}
+    /**
+     * Testing get_db_connection
+     */
+    public function testGetDbConnection()
+    {
+        $Connection = \Mezon\Mezon::getDbConnection();
+
+        $this->assertInstanceOf(\Mezon\PDOCrud::class, $Connection);
+    }
 }
 
 ?>

@@ -29,7 +29,7 @@ class CRUDServiceClientTests extends ServiceClientTests
      * 
      * @param string $Password
      */
-    protected function construct_client(string $Password = 'root')
+    protected function constructClient(string $Password = 'root')
     {
     	$Client = new $this->ClientClassName(EXISTING_LOGIN, $Password);
 
@@ -39,21 +39,21 @@ class CRUDServiceClientTests extends ServiceClientTests
     /**
      * Testing API connection
      */
-    public function test_valid_connect()
+    public function testValidConnect()
     {
-    	$Client = $this->construct_client();
+    	$Client = $this->constructClient();
 
-        $this->assertNotEquals($Client->get_session_id(), false, 'Connection failed');
+        $this->assertNotEquals($Client->getSessionId(), false, 'Connection failed');
         $this->assertEquals($Client->Login, EXISTING_LOGIN, 'Login was not saved');
     }
 
     /**
      * Testing invalid API connection
      */
-    public function test_in_valid_connect()
+    public function testInValidConnect()
     {
         try {
-        	$this->construct_client('1234567');
+        	$this->constructClient('1234567');
 
             $this->fail('No exception was thrown');
         } catch (Exception $e) {
@@ -64,39 +64,39 @@ class CRUDServiceClientTests extends ServiceClientTests
     /**
      * Testing setting valid token
      */
-    public function test_set_valid_token()
+    public function testSetValidToken()
     {
-    	$Client = $this->construct_client();
+    	$Client = $this->constructClient();
 
         $NewClient = new $this->ClientClassName();
-        $NewClient->set_token($Client->get_session_id());
+        $NewClient->setToken($Client->getSessionId());
 
-        $this->assertNotEquals($NewClient->get_session_id(), false, 'Token was not set(1)');
+        $this->assertNotEquals($NewClient->getSessionId(), false, 'Token was not set(1)');
     }
 
     /**
      * Testing setting valid token and login
      */
-    public function test_set_valid_token_and_login()
+    public function testSetValidTokenAndLogin()
     {
-    	$Client = $this->construct_client();
+    	$Client = $this->constructClient();
 
         $NewClient = new $this->ClientClassName();
-        $NewClient->set_token($Client->get_session_id(), 'alexey@dodonov.none');
+        $NewClient->setToken($Client->getSessionId(), 'alexey@dodonov.none');
 
-        $this->assertNotEquals($NewClient->get_session_id(), false, 'Token was not set(2)');
-        $this->assertNotEquals($NewClient->get_stored_login(), false, 'Login was not saved');
+        $this->assertNotEquals($NewClient->getSessionId(), false, 'Token was not set(2)');
+        $this->assertNotEquals($NewClient->getStoredLogin(), false, 'Login was not saved');
     }
 
     /**
      * Testing setting invalid token
      */
-    public function test_set_in_valid_token()
+    public function testSetInValidToken()
     {
         $Client = new $this->ClientClassName();
 
         try {
-            $Client->set_token('unexistingtoken');
+            $Client->setToken('unexistingtoken');
 
             $this->fail('Invalid token was set');
         } catch (Exception $e) {
@@ -105,28 +105,28 @@ class CRUDServiceClientTests extends ServiceClientTests
     }
 
     /**
-     * Testing login_as method
+     * Testing loginAs method
      */
-    public function test_login_as()
+    public function testLoginAs()
     {
     	$Client = $this->construct_client();
 
         try {
-        	$Client->login_as(EXISTING_LOGIN);
+        	$Client->loginAs(EXISTING_LOGIN);
         } catch (Exception $e) {
             $this->assertEquals(0, 1, 'Login was was not called properly');
         }
     }
 
     /**
-     * Testing login_as method with failed call
+     * Testing loginAs method with failed call
      */
-    public function test_failed_login_as()
+    public function testFailedLoginAs()
     {
     	$Client = $this->construct_client();
 
         try {
-            $Client->login_as('alexey@dodonov.none');
+            $Client->loginAs('alexey@dodonov.none');
 
             $this->fail('Unexisting user logged in');
         } catch (Exception $e) {
@@ -135,9 +135,9 @@ class CRUDServiceClientTests extends ServiceClientTests
     }
 
     /**
-     * Testing situation that login_as will not be called after the connect() call with the same login
+     * Testing situation that loginAs will not be called after the connect() call with the same login
      */
-    public function test_single_login_as()
+    public function testSingleLoginAs()
     {
         $this->assertEquals(0, 1, 'Test was not created');
     }

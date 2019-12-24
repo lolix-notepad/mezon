@@ -9,7 +9,7 @@ class CustomFieldTest extends PHPUnit\Framework\TestCase
      *
      * @return object mock object of the custom field
      */
-    protected function get_field_mock(): object
+    protected function getFieldMock(): object
     {
         $Mock = $this->getMockBuilder('\Mezon\GUI\Field\CustomField')
             ->setConstructorArgs([
@@ -40,10 +40,10 @@ class CustomFieldTest extends PHPUnit\Framework\TestCase
     /**
      * Testing constructor
      */
-    public function test_constructor()
+    public function testConstructor()
     {
         // setup
-        $Field = $this->get_field_mock();
+        $Field = $this->getFieldMock();
 
         // test body
         $Content = $Field->html();

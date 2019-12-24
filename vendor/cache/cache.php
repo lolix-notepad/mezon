@@ -12,7 +12,6 @@ namespace Mezon;
 require_once (__DIR__ . '/../functional/functional.php');
 require_once (__DIR__ . '/../singleton/singleton.php');
 
-// TODO add camel-case
 /**
  * Class for caching data on disk.
  * For now we use one cache file for all pages of the service.
@@ -65,7 +64,7 @@ class Cache extends Singleton
     {
         $this->init();
 
-        Functional::set_field($this->Data, $Key, [
+        Functional::setField($this->Data, $Key, [
             // giving us an ability to break reference of the object wich was passed in $Data
             'data' => json_decode(json_encode($Data))
         ]);
@@ -100,13 +99,13 @@ class Cache extends Singleton
     {
         $this->init();
 
-        if (Functional::field_exists($this->Data, $Key, false) === false) {
+        if (Functional::fieldExists($this->Data, $Key, false) === false) {
             throw (new \Exception("The key $Key does not exist"));
         }
 
-        $KeyValue = Functional::get_field($this->Data, $Key, false);
+        $KeyValue = Functional::getField($this->Data, $Key, false);
 
-        $Result = Functional::get_field($KeyValue, 'data', false);
+        $Result = Functional::getField($KeyValue, 'data', false);
 
         // preventing external code from writing directly to cache
         return (json_decode(json_encode($Result)));

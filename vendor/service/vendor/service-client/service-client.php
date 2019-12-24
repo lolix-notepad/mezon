@@ -13,7 +13,6 @@ namespace Mezon\Service;
 require_once (__DIR__ . '/../../../custom-client/custom-client.php');
 require_once (__DIR__ . '/../../../dns-client/dns-client.php');
 
-// TODO add camel-case
 /**
  * Service client for Service
  */
@@ -27,7 +26,7 @@ class ServiceClient extends \Mezon\CustomClient
 
     /**
      * Last logged in user
-     * This is used for performance improvements in ServiceClient::login_as method
+     * This is used for performance improvements in ServiceClient::loginAs method
      * For optimisation purposes only! Do not use in the client code
      */
     private $Login = false;
@@ -53,9 +52,9 @@ class ServiceClient extends \Mezon\CustomClient
      */
     public function __construct(string $Service, string $Login = '', string $Password = '', array $Headers = [])
     {
-        if (\Mezon\DNS::service_exists($Service)) {
+        if (\Mezon\DNS::serviceExists($Service)) {
             $this->Service = $Service;
-            parent::__construct(\Mezon\DNS::resolve_host($Service), $Headers);
+            parent::__construct(\Mezon\DNS::resolveHost($Service), $Headers);
         } elseif (strpos($Service, 'http://') === false && strpos($Service, 'https://') === false) {
             throw (new \Exception('Service ' . $Service . ' was not found in DNS'));
         } else {
@@ -76,9 +75,9 @@ class ServiceClient extends \Mezon\CustomClient
      *            Request data
      * @return mixed Result of the request
      */
-    public function post_request(string $Endpoint, array $Data = [])
+    public function postRequest(string $Endpoint, array $Data = [])
     {
-        $Result = parent::post_request($Endpoint, $Data);
+        $Result = parent::postRequest($Endpoint, $Data);
 
         return (json_decode($Result));
     }
@@ -90,9 +89,9 @@ class ServiceClient extends \Mezon\CustomClient
      *            Calling endpoint
      * @return mixed Result of the remote call
      */
-    public function get_request(string $Endpoint)
+    public function getRequest(string $Endpoint)
     {
-        $Result = parent::get_request($Endpoint);
+        $Result = parent::getRequest($Endpoint);
 
         return (json_decode($Result));
     }
@@ -113,7 +112,7 @@ class ServiceClient extends \Mezon\CustomClient
             'password' => $Password
         ];
 
-        $Result = $this->post_request('/connect/', $Data);
+        $Result = $this->postRequest('/connect/', $Data);
 
         if (isset($Result->session_id) === false) {
             throw (new \Exception($Result->message, $Result->code));
@@ -131,7 +130,7 @@ class ServiceClient extends \Mezon\CustomClient
      * @param string $Login
      *            User login
      */
-    public function set_token(string $Token, string $Login = '')
+    public function setToken(string $Token, string $Login = '')
     {
         if ($Token === '') {
             throw (new \Exception('Token not set', - 4));
@@ -146,7 +145,7 @@ class ServiceClient extends \Mezon\CustomClient
      *
      * @return string Session id
      */
-    public function get_token(): string
+    public function getToken(): string
     {
         return ($this->SessionId);
     }
@@ -156,9 +155,9 @@ class ServiceClient extends \Mezon\CustomClient
      *
      * @return string Session user's id
      */
-    public function get_self_id(): string
+    public function getSelfId(): string
     {
-        $Result = $this->get_request('/self/id/');
+        $Result = $this->getRequest('/self/id/');
 
         return (isset($Result->id) ? $Result->id : $Result);
     }
@@ -168,9 +167,9 @@ class ServiceClient extends \Mezon\CustomClient
      *
      * @return string Session user's login
      */
-    public function get_self_login(): string
+    public function getSelfLogin(): string
     {
-        $Result = $this->get_request('/self/login/');
+        $Result = $this->getRequest('/self/login/');
 
         return (isset($Result->login) ? $Result->login : $Result);
     }
@@ -184,10 +183,10 @@ class ServiceClient extends \Mezon\CustomClient
      * @param string $Field
      *            Field name for credentials
      */
-    public function login_as(string $User, string $Field = 'id')
+    public function loginAs(string $User, string $Field = 'id')
     {
         if ($Field != 'id' && $this->Login !== $User) {
-            $Result = $this->post_request('/login-as/', [
+            $Result = $this->postRequest('/login-as/', [
                 $Field => $User
             ]);
             if (isset($Result->session_id) === false) {
@@ -208,7 +207,7 @@ class ServiceClient extends \Mezon\CustomClient
      *
      * @return string Stored login
      */
-    public function get_stored_login()
+    public function getStoredLogin()
     {
         return ($this->Login);
     }
@@ -218,9 +217,9 @@ class ServiceClient extends \Mezon\CustomClient
      *
      * @return array Headers
      */
-    protected function get_common_headers(): array
+    protected function getCommonHeaders(): array
     {
-        $Result = parent::get_common_headers();
+        $Result = parent::getCommonHeaders();
 
         if ($this->SessionId !== false) {
             $Result[] = "Cgi-Authorization: Basic " . $this->SessionId;

@@ -17,7 +17,7 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
      *            File name
      * @return array Testing data
      */
-    protected function get_json(string $Name): array
+    protected function getJson(string $Name): array
     {
         return (json_decode(file_get_contents(__DIR__ . '/conf/' . $Name . '.json'), true));
     }
@@ -27,9 +27,9 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return \Mezon\GUI\FieldsAlgorithms Fields algorithms object
      */
-    protected function get_fields_algorithms()
+    protected function getFieldsAlgorithms()
     {
-        return (new \Mezon\GUI\FieldsAlgorithms($this->get_json('setup'), 'entity'));
+        return (new \Mezon\GUI\FieldsAlgorithms($this->getJson('setup'), 'entity'));
     }
 
     /**
@@ -37,7 +37,7 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
      *
      * @param bool $Flag
      */
-    protected function form_header(bool $Flag)
+    protected function formHeader(bool $Flag)
     {
         if (! $Flag) {
             $_GET['no-header'] = 1;
@@ -51,17 +51,17 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return object Mock of the object
      */
-    protected function get_form_builder(bool $HasLayout = true): object
+    protected function getFormBuilder(bool $HasLayout = true): object
     {
         $FormBuilder = $this->getMockBuilder('\Mezon\GUI\FormBuilder')
             ->setMethods([
             'get_external_records'
         ])
             ->setConstructorArgs([
-            $this->get_fields_algorithms(),
+            $this->getFieldsAlgorithms(),
             SESSION_ID,
             ENTITY_NAME,
-            $HasLayout ? $this->get_json('layout') : []
+            $HasLayout ? $this->getJson('layout') : []
         ])
             ->getMock();
 
@@ -78,15 +78,15 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing creation form
      */
-    public function test_creation_form(): void
+    public function testCreationForm(): void
     {
         // setup
-        $FormBuilder = $this->get_form_builder();
+        $FormBuilder = $this->getFormBuilder();
 
-        $this->form_header(true);
+        $this->formHeader(true);
 
         // test body
-        $Content = $FormBuilder->creation_form();
+        $Content = $FormBuilder->creationForm();
 
         // assertions
         $this->assertContains('<div class="page-title">', $Content, 'No form title was found');
@@ -101,15 +101,15 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing creation form
      */
-    public function test_updating_form(): void
+    public function testUpdatingForm(): void
     {
         // setup
-        $FormBuilder = $this->get_form_builder();
+        $FormBuilder = $this->getFormBuilder();
 
-        $this->form_header(true);
+        $this->formHeader(true);
 
         // test body
-        $Content = $FormBuilder->updating_form('session-id', [
+        $Content = $FormBuilder->updatingForm('session-id', [
             'id' => '23'
         ]);
 
@@ -126,16 +126,16 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing constructor with no form title
      */
-    public function test_constructor_no_form_title(): void
+    public function testConstructorNoFormTitle(): void
     {
         // setup
         $_GET['form-width'] = 7;
-        $FormBuilder = $this->get_form_builder(false);
+        $FormBuilder = $this->getFormBuilder(false);
 
-        $this->form_header(false);
+        $this->formHeader(false);
 
         // test body
-        $Content = $FormBuilder->creation_form();
+        $Content = $FormBuilder->creationForm();
 
         // assertions
         $this->assertNotContains('<div class="page-title"', $Content, 'Form title was found');

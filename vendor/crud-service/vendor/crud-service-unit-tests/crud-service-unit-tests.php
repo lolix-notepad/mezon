@@ -45,7 +45,7 @@ class CRUDServiceExceptionConstructorMock extends \Mezon\CRUDService
         ]);
     }
 
-    protected function init_common_routes(): void
+    protected function initCommonRoutes(): void
     {
         throw (new Exception('Testing exception'));
     }
@@ -62,7 +62,7 @@ class CRUDServiceUnitTests extends PHPUnit\Framework\TestCase
      *
      * @var string
      */
-    var $ServiceClassName = '\Mezon\CRUDService';
+    var $ServiceClassName = \Mezon\CRUDService::class;
 
     /**
      * Constructor
@@ -70,7 +70,7 @@ class CRUDServiceUnitTests extends PHPUnit\Framework\TestCase
      * @param string $ServiceClassName
      *            - Class name to be tested
      */
-    public function __construct(string $ServiceClassName = '\Mezon\CRUDService')
+    public function __construct(string $ServiceClassName = \Mezon\CRUDService::class)
     {
         parent::__construct();
 
@@ -82,7 +82,7 @@ class CRUDServiceUnitTests extends PHPUnit\Framework\TestCase
      *
      * @return \Mezon\Service settings
      */
-    protected function get_service_settings(): array
+    protected function getServiceSettings(): array
     {
         return (json_decode(file_get_contents(__DIR__ . '/conf/setup.json'), true));
     }
@@ -97,13 +97,13 @@ class CRUDServiceUnitTests extends PHPUnit\Framework\TestCase
      * @param string $RequestMethod
      *            - HTTP request method
      */
-    protected function check_route(string $Route, string $Method, string $RequestMethod = 'GET')
+    protected function checkRoute(string $Route, string $Method, string $RequestMethod = 'GET')
     {
         $_GET['r'] = $Route;
 
-        $Mock = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceLogic')
+        $Mock = $this->getMockBuilder(\Mezon\CRUDService\CRUDServiceLogic::class)
             ->setConstructorArgs([
-            (new \Mezon\Service\ServiceConsoleTransport())->get_params_fetcher(),
+                (new \Mezon\Service\ServiceConsoleTransport())->getParamsFetcher(),
             new FakeSecurityProvider(),
             new \Mezon\CRUDService\CRUDServiceModel()
         ])
@@ -115,7 +115,7 @@ class CRUDServiceUnitTests extends PHPUnit\Framework\TestCase
         $Mock->expects($this->once())
             ->method($Method);
 
-        $Service = new $this->ServiceClassName($this->get_service_settings(), '\Mezon\Service\ServiceConsoleTransport', '\Mezon\Service\ServiceMockSecurityProvider', $Mock);
+        $Service = new $this->ServiceClassName($this->getServiceSettings(), \Mezon\Service\ServiceConsoleTransport::class, \Mezon\Service\ServiceMockSecurityProvider::class, $Mock);
 
         $_SERVER['REQUEST_METHOD'] = $RequestMethod;
 
@@ -131,10 +131,10 @@ class CRUDServiceUnitTests extends PHPUnit\Framework\TestCase
      *            - Type of return value
      * @return string Transport
      */
-    protected function get_transport(string $Type = GET_STRING)
+    protected function getTransport(string $Type = GET_STRING)
     {
         if ($Type == GET_STRING) {
-            return ('\Mezon\Service\ServiceConsoleTransport');
+            return (\Mezon\Service\ServiceConsoleTransport::class);
         } else {
             return (new \Mezon\Service\ServiceConsoleTransport());
         }
@@ -143,19 +143,19 @@ class CRUDServiceUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing CRUDService constructor
      */
-    public function test_service_constructor()
+    public function testServiceConstructor()
     {
-        $Service = new \Mezon\CRUDService($this->get_service_settings(), $this->get_transport());
+        $Service = new \Mezon\CRUDService($this->getServiceSettings(), $this->getTransport());
 
-        $this->assertInstanceOf('\Mezon\Service\ServiceMockSecurityProvider', $Service->ServiceTransport->SecurityProvider);
+        $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $Service->ServiceTransport->SecurityProvider);
     }
 
     /**
      * Testing CRUDService constructor
      */
-    public function test_service_constructor_with_security_provider_string()
+    public function testServiceConstructorWithSecurityProviderString()
     {
-        $Service = new \Mezon\CRUDService($this->get_service_settings(), $this->get_transport(), $TransportName = 'FakeSecurityProvider');
+        $Service = new \Mezon\CRUDService($this->getServiceSettings(), $this->getTransport(), $TransportName = FakeSecurityProvider::class);
 
         $this->assertInstanceOf($TransportName, $Service->ServiceTransport->SecurityProvider);
     }
@@ -163,10 +163,10 @@ class CRUDServiceUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing CRUDService constructor
      */
-    public function test_service_constructor_with_security_provider_object()
+    public function testServiceConstructorWithSecurityProviderObject()
     {
         // setup and test body
-        $Service = new \Mezon\CRUDService($this->get_service_settings(), $this->get_transport(), new FakeSecurityProvider());
+        $Service = new \Mezon\CRUDService($this->getServiceSettings(), $this->getTransport(), new FakeSecurityProvider());
 
         // assertions
         $this->assertInstanceOf('FakeSecurityProvider', $Service->ServiceTransport->SecurityProvider);
@@ -175,7 +175,7 @@ class CRUDServiceUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing CRUDService constructor with exception
      */
-    public function test_service_constructor_with_exception()
+    public function testServiceConstructorWithException()
     {
         // setup, test body and assertions
         try {
@@ -189,58 +189,58 @@ class CRUDServiceUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing CRUDService route processor
      */
-    public function test_routes()
+    public function testRoutes()
     {
         // test body and assertions
-        $this->check_route('/list/', 'list_record');
+        $this->checkRoute('/list/', 'listRecord');
 
-        $this->check_route('/all/', 'all');
+        $this->checkRoute('/all/', 'all');
 
-        $this->check_route('/exact/list/[il:ids]/', 'exact_list');
+        $this->checkRoute('/exact/list/[il:ids]/', 'exactList');
 
-        $this->check_route('/exact/[i:id]/', 'exact');
+        $this->checkRoute('/exact/[i:id]/', 'exact');
 
-        $this->check_route('/fields/', 'fields');
+        $this->checkRoute('/fields/', 'fields');
 
-        $this->check_route('/delete/1/', 'delete_record');
+        $this->checkRoute('/delete/1/', 'deleteRecord');
 
-        $this->check_route('/delete/', 'delete_filtered', 'POST');
+        $this->checkRoute('/delete/', 'deleteFiltered', 'POST');
 
-        $this->check_route('/create/', 'create_record', 'POST');
+        $this->checkRoute('/create/', 'createRecord', 'POST');
 
-        $this->check_route('/update/1/', 'update_record', 'POST');
+        $this->checkRoute('/update/1/', 'updateRecord', 'POST');
 
-        $this->check_route('/new/from/2019-01-01/', 'new_records_since');
+        $this->checkRoute('/new/from/2019-01-01/', 'newRecordsSince');
 
-        $this->check_route('/records/count/', 'records_count');
+        $this->checkRoute('/records/count/', 'recordsCount');
 
-        $this->check_route('/last/10/', 'last_records');
+        $this->checkRoute('/last/10/', 'lastRecords');
 
-        $this->check_route('/records/count/id/', 'records_count_by_field');
+        $this->checkRoute('/records/count/id/', 'recordsCountByField');
     }
 
     /**
      * Testing CRUDService constructor
      */
-    public function test_multiple_models()
+    public function testMultipleModels()
     {
         // setup
         $Model = new \Mezon\CRUDService\CRUDServiceModel();
 
-        $Transport = $this->get_transport(GET_OBJECT);
+        $Transport = $this->getTransport(GET_OBJECT);
 
         $Logic1 = new \Mezon\CRUDService\CRUDServiceLogic($Transport->ParamsFetcher, new FakeSecurityProvider(), $Model);
         $Logic2 = new \Mezon\CRUDService\CRUDServiceLogic($Transport->ParamsFetcher, new FakeSecurityProvider(), $Model);
 
         // test body
-        $Service = new \Mezon\CRUDService($this->get_service_settings(), $this->get_transport(), new FakeSecurityProvider(), [
+        $Service = new \Mezon\CRUDService($this->getServiceSettings(), $this->getTransport(), new FakeSecurityProvider(), [
             $Logic1,
             $Logic2
         ]);
 
         // assertions
-        $this->assertInstanceOf('\Mezon\CRUDService\CRUDServiceModel', $Service->ServiceLogic[0]->Model, 'Logic was not stored properly');
-        $this->assertInstanceOf('\Mezon\CRUDService\CRUDServiceModel', $Service->ServiceLogic[1]->Model, 'Logic was not stored properly');
+        $this->assertInstanceOf(\Mezon\CRUDService\CRUDServiceModel::class, $Service->ServiceLogic[0]->Model, 'Logic was not stored properly');
+        $this->assertInstanceOf(\Mezon\CRUDService\CRUDServiceModel::class, $Service->ServiceLogic[1]->Model, 'Logic was not stored properly');
     }
 }
 

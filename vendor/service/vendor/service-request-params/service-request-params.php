@@ -11,7 +11,6 @@ namespace Mezon\Service;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Request params fetcher
  */
@@ -27,7 +26,7 @@ interface ServiceRequestParams
      *            default value
      * @return mixed Parameter value
      */
-    public function get_param($Param, $Default = false);
+    public function getParam($Param, $Default = false);
 }
 
 ?>

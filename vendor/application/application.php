@@ -12,11 +12,6 @@ namespace Mezon;
  */
 require_once (__DIR__ . '/../router/router.php');
 
-define('NO_ROUTER', false);
-define('NO_ROUTE', false);
-define('NO_CALLBACK', false);
-
-// TODO add camel-case
 /**
  * Base class of the application
  */
@@ -26,7 +21,7 @@ class Application
     /**
      * Router object
      */
-    protected $Router = false;
+    protected $Router = null;
 
     /**
      * Constructor
@@ -36,21 +31,21 @@ class Application
         // getting application's actions
         $this->Router = new Router();
 
-        $this->Router->fetch_actions($this);
+        $this->Router->fetchActions($this);
     }
 
     /**
      * Method calls route and returns it's content
      */
-    protected function call_route()
+    protected function callRoute()
     {
         $Route = explode('/', trim(@$_GET['r'], '/'));
 
-        if ($this->Router == NO_ROUTER) {
+        if ($this->Router === null) {
             throw (new \Exception('this->Router was not set', - 2));
         }
 
-        $Content = $this->Router->call_route($Route);
+        $Content = $this->Router->callRoute($Route);
 
         return ($Content);
     }
@@ -61,19 +56,19 @@ class Application
      * @param array $Route
      *            Route settings
      */
-    public function load_route(array $Route)
+    public function loadRoute(array $Route): void
     {
-        if (isset($Route['route']) == NO_ROUTE) {
+        if (isset($Route['route']) === false) {
             throw (new \Exception('Field "route" must be set'));
         }
-        if (isset($Route['callback']) == NO_CALLBACK) {
+        if (isset($Route['callback']) === false) {
             throw (new \Exception('Field "callback" must be set'));
         }
         $Class = isset($Route['class']) ? new $Route['class']() : $this;
-        $this->Router->add_route($Route['route'], array(
+        $this->Router->addRoute($Route['route'], [
             $Class,
             $Route['callback']
-        ), isset($Route['method']) ? $Route['method'] : 'GET');
+        ], isset($Route['method']) ? $Route['method'] : 'GET');
     }
 
     /**
@@ -82,10 +77,10 @@ class Application
      * @param array $Routes
      *            List of routes
      */
-    public function load_routes(array $Routes)
+    public function loadRoutes(array $Routes): void
     {
         foreach ($Routes as $Route) {
-            $this->load_route($Route);
+            $this->loadRoute($Route);
         }
     }
 
@@ -95,7 +90,7 @@ class Application
      * @param string $Path
      *            Path of the config for routes
      */
-    public function load_routes_from_config(string $Path = './conf/routes.php')
+    public function loadRoutesFromConfig(string $Path = './conf/routes.php'): void
     {
         if (file_exists($Path)) {
             if (substr($Path, - 5) === '.json') {
@@ -105,7 +100,7 @@ class Application
                 // loadconfig from php
                 $Routes = (include ($Path));
             }
-            $this->load_routes($Routes);
+            $this->loadRoutes($Routes);
         } else {
             throw (new \Exception('Route ' . $Path . ' was not found', 1));
         }
@@ -117,7 +112,7 @@ class Application
      * @param \Exception $e
      *            Exception object to be formatted
      */
-    public function handle_exception(\Exception $e)
+    public function handleException(\Exception $e): void
     {
         print('<pre>' . $e);
     }
@@ -125,12 +120,12 @@ class Application
     /**
      * Running application
      */
-    public function run()
+    public function run(): void
     {
         try {
-            print($this->call_route());
+            print($this->callRoute());
         } catch (\Exception $e) {
-            $this->handle_exception($e);
+            $this->handleException($e);
         }
     }
 
@@ -158,7 +153,7 @@ class Application
      * @param string $URL
      *            New page
      */
-    public function redirect_to($URL)
+    public function redirectTo($URL): void
     {
         // @codeCoverageIgnoreStart
         header('Location: ' . $URL);

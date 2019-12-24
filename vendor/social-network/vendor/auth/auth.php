@@ -9,8 +9,7 @@
  * @version     v.1.0 (2019/08/17)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-// TODO add namespace
-// TODO add camel-case
+// TODO exclude to separate project
 /**
  * Class provides integration with social networks authorization APIs.
  *

@@ -14,7 +14,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
      *            - Methods tto be mocked
      * @return object Mock of the connection
      */
-    protected function get_connection_mock_old(int $Mode, array $Methods = [
+    protected function getConnectionMock_old(int $Mode, array $Methods = [
         'select'
     ])
     {
@@ -60,7 +60,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return object Mock of the connection
      */
-    protected function get_connection_mock()
+    protected function getConnectionMock()
     {
         $Mock = $this->getMockBuilder('\Mezon\PDOCRUD')
             ->disableOriginalConstructor()
@@ -82,7 +82,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
      *            Mock of the connection
      * @return object Mock of the model
      */
-    protected function get_model_mock($ConnectionMock)
+    protected function getModelMock($ConnectionMock)
     {
         $Mock = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceModel')
             ->setConstructorArgs([
@@ -94,12 +94,12 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
             'table-name'
         ])
             ->setMethods([
-            'get_connection',
-            'get_records_transformer'
+            'getConnection',
+            'getRecordsTransformer'
         ])
             ->getMock();
 
-        $Mock->method('get_connection')->willReturn($ConnectionMock);
+        $Mock->method('getConnection')->willReturn($ConnectionMock);
 
         return ($Mock);
     }
@@ -107,26 +107,26 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Method is testing default value return for empty table
      */
-    public function test_records_count0()
+    public function testRecordsCount0()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->expects($this->once())
             ->method('select')
             ->willReturn([]);
-        $Mock = $this->get_model_mock($Connection);
+        $Mock = $this->getModelMock($Connection);
 
         // test body and asssertions
-        $this->assertEquals(0, $Mock->records_count(), 'Invalid error was returned');
+        $this->assertEquals(0, $Mock->recordsCount(), 'Invalid error was returned');
     }
 
     /**
      * Method is testing default value return for empty table
      */
-    public function test_records_count1()
+    public function testRecordsCount1()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->expects($this->once())
             ->method('select')
             ->willReturn([
@@ -134,26 +134,26 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
                 'records_count' => 1
             ]
         ]);
-        $Mock = $this->get_model_mock($Connection);
+        $Mock = $this->getModelMock($Connection);
 
         // test body and assertions
-        $this->assertEquals(1, $Mock->records_count(), 'Invalid error was returned');
+        $this->assertEquals(1, $Mock->recordsCount(), 'Invalid error was returned');
     }
 
     /**
-     * Method tests insert_basic_fields method
+     * Method tests insertBasicFields method
      */
-    public function test_insert_basic_fields()
+    public function testInsertBasicFields()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->expects($this->once())
             ->method('insert')
             ->willReturn(1);
-        $Mock = $this->get_model_mock($Connection);
+        $Mock = $this->getModelMock($Connection);
 
         // test body
-        $Result = $Mock->insert_basic_fields([
+        $Result = $Mock->insertBasicFields([
             'title' => 'title'
         ]);
 
@@ -163,11 +163,11 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Data provider for the test_delete_filtered
+     * Data provider for the testDeleteFiltered
      *
      * @return array Data
      */
-    public function delete_filtered_test_data(): array
+    public function deleteFilteredTestData(): array
     {
         return ([
             [
@@ -180,24 +180,24 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Method tests delete_filtered method
+     * Method tests deleteFiltered method
      *
      * @param mixed $DomainId
      *            Domain id
      *            
-     * @dataProvider delete_filtered_test_data
+     * @dataProvider deleteFilteredTestData
      */
-    public function test_delete_filtered($DomainId)
+    public function testDeleteFiltered($DomainId)
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->expects($this->once())
             ->method('delete')
             ->willReturn(1);
-        $Mock = $this->get_model_mock($Connection);
+        $Mock = $this->getModelMock($Connection);
 
         // test body and assertions
-        $Mock->delete_filtered($DomainId, [
+        $Mock->deleteFiltered($DomainId, [
             'title LIKE "title"'
         ]);
     }
@@ -207,7 +207,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return array
      */
-    public function constructor_test_data(): array
+    public function constructorTestData(): array
     {
         return ([
             [
@@ -240,21 +240,21 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
      *            Parameterfor constructor
      * @param string $Origin
      *            original data for validation
-     * @dataProvider constructor_test_data
+     * @dataProvider constructorTestData
      */
-    public function test_constructor($Data, string $Origin)
+    public function testConstructor($Data, string $Origin)
     {
         // setup and test body
         $Model = new \Mezon\CRUDService\CRUDServiceModel($Data, 'entity_name');
 
         // assertions
-        $this->assertTrue($Model->has_field($Origin), 'Invalid contruction');
+        $this->assertTrue($Model->hasField($Origin), 'Invalid contruction');
     }
 
     /**
      * Testing constructor with exception
      */
-    public function test_constructor_exception()
+    public function testConstructorException()
     {
         try {
             // setup and test body
@@ -268,42 +268,42 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing new_records_since
+     * Testing newRecordsSince
      */
-    public function test_new_records_since()
+    public function testNewRecordsSince()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->method('select')->willReturn([
             [],
             []
         ]);
 
-        $Model = $this->get_model_mock($Connection);
+        $Model = $this->getModelMock($Connection);
 
         // test body
-        $Records = $Model->new_records_since(false, '2012-01-01');
+        $Records = $Model->newRecordsSince(false, '2012-01-01');
 
         // assertions
         $this->assertEquals(2, count($Records), 'Invalid count of new records');
     }
 
     /**
-     * Testing get_simple_records without domain
+     * Testing getSimpleRecords without domain
      */
-    public function test_get_simple_records_without_domain()
+    public function testGetSimpleRecordsWithoutDomain()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->method('select')->willReturn([
             [],
             []
         ]);
 
-        $Model = $this->get_model_mock($Connection);
+        $Model = $this->getModelMock($Connection);
 
         // test body
-        $Records = $Model->get_simple_records(false, 0, 2, [], [
+        $Records = $Model->getSimpleRecords(false, 0, 2, [], [
             'field' => 'id',
             'order' => 'ASC'
         ]);
@@ -313,21 +313,21 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing get_simple_records with domain
+     * Testing getSimpleRecords with domain
      */
-    public function test_get_simple_records_with_domain()
+    public function testGetSimpleRecordsWithDomain()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->method('select')->willReturn([
             [],
             []
         ]);
 
-        $Model = $this->get_model_mock($Connection);
+        $Model = $this->getModelMock($Connection);
 
         // test body
-        $Records = $Model->get_simple_records(1, 0, 2, [], [
+        $Records = $Model->getSimpleRecords(1, 0, 2, [], [
             'field' => 'id',
             'order' => 'ASC'
         ]);
@@ -337,61 +337,61 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing fetch_records_by_ids with domain
+     * Testing fetchRecordsByIds with domain
      */
-    public function test_fetch_records_by_ids_with_domain()
+    public function testFetchRecordsByIdsWithDomain()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->method('select')->willReturn([
             [],
             []
         ]);
 
-        $Model = $this->get_model_mock($Connection);
+        $Model = $this->getModelMock($Connection);
 
         // test body
-        $Records = $Model->fetch_records_by_ids(1, "1,2");
+        $Records = $Model->fetchRecordsByIds(1, "1,2");
 
         // assertions
         $this->assertEquals(2, count($Records), 'Invalid count of fetched by ids records');
     }
 
     /**
-     * Testing fetch_records_by_ids with domain
+     * Testing fetchRecordsByIds with domain
      */
-    public function test_fetch_records_by_ids_without_domain()
+    public function testFetchRecordsByIdsWithoutDomain()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->method('select')->willReturn([
             [],
             []
         ]);
 
-        $Model = $this->get_model_mock($Connection);
+        $Model = $this->getModelMock($Connection);
 
         // test body
-        $Records = $Model->fetch_records_by_ids(false, "1,2");
+        $Records = $Model->fetchRecordsByIds(false, "1,2");
 
         // assertions
         $this->assertEquals(2, count($Records), 'Invalid count of fetched by ids records');
     }
 
     /**
-     * Testing fetch_records_by_ids not found
+     * Testing fetchRecordsByIds not found
      */
-    public function test_fetch_records_by_ids_not_found()
+    public function testFetchRecordsByIdsNotFound()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->method('select')->willReturn([]);
 
-        $Model = $this->get_model_mock($Connection);
+        $Model = $this->getModelMock($Connection);
 
         // test body and assertions
         try {
-            $Model->fetch_records_by_ids("1,2", false);
+            $Model->fetchRecordsByIds("1,2", false);
             $this->fail('Exception mustbe thrown');
         } catch (Exception $e) {
             $this->addToAssertionCount(1);
@@ -403,7 +403,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return array Test data
      */
-    public function records_count_by_field_provider(): array
+    public function recordsCountByFieldProvider(): array
     {
         return ([
             [
@@ -421,20 +421,20 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing records_count_by_field method
+     * Testing recordsCountByField method
      *
-     * @dataProvider records_count_by_field_provider
+     * @dataProvider recordsCountByFieldProvider
      */
-    public function test_records_count_by_field(array $SelectResult, int $Count)
+    public function testRecordsCountByField(array $SelectResult, int $Count)
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->method('select')->willReturn($SelectResult);
 
-        $Model = $this->get_model_mock($Connection);
+        $Model = $this->getModelMock($Connection);
 
         // test body
-        $Result = $Model->records_count_by_field(false, 'id', []);
+        $Result = $Model->recordsCountByField(false, 'id', []);
 
         // assertions
         $this->assertEquals($Count, $Result['records_count'], 'Invalid records count was fetched');
@@ -443,20 +443,20 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Method tests last N records returning
      */
-    public function test_last_records()
+    public function testLastRecords()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->method('select')->willReturn([
             [],
             []
         ]);
-        $Mock = $this->get_model_mock($Connection);
+        $Mock = $this->getModelMock($Connection);
         $Mock->expects($this->once())
-            ->method('get_records_transformer');
+            ->method('getRecordsTransformer');
 
         // test body
-        $Records = $Mock->last_records(false, 2, [
+        $Records = $Mock->lastRecords(false, 2, [
             '1 = 1'
         ]);
 
@@ -465,42 +465,42 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing get_records method
+     * Testing getRecords method
      */
-    public function test_get_records()
+    public function testGetRecords()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->method('select')->willReturn([
             [
                 'id' => 1
             ]
         ]);
 
-        $Mock = $this->get_model_mock($Connection);
+        $Mock = $this->getModelMock($Connection);
         $Mock->expects($this->once())
-            ->method('get_records_transformer');
+            ->method('getRecordsTransformer');
 
         // test body
-        $Result = $Mock->get_records(0, 0, 1);
+        $Result = $Mock->getRecords(0, 0, 1);
 
         // assertions
         $this->assertCount(1, $Result);
     }
 
     /**
-     * Method tests update_basic_fields method
+     * Method tests updateBasicFields method
      */
-    public function test_update_basic_fields()
+    public function testUpdateBasicFields()
     {
         // setup
-        $Connection = $this->get_connection_mock();
+        $Connection = $this->getConnectionMock();
         $Connection->expects($this->once())
             ->method('update');
-        $Mock = $this->get_model_mock($Connection);
+        $Mock = $this->getModelMock($Connection);
 
         // test body and assertions
-        $Mock->update_basic_fields(false, [
+        $Mock->updateBasicFields(false, [
             'id' => 1
         ], [
             '1=1'

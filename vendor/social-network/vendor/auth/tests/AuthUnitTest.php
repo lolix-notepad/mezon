@@ -9,7 +9,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return array fake settings
      */
-    protected function get_settings(): array
+    protected function getSettings(): array
     {
         return ([
             'client_id' => 1,
@@ -21,10 +21,10 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing constructor
      */
-    public function test_constructor()
+    public function testConstructor()
     {
         // setup and test body
-        $Auth = new SocialNetworkAuth($this->get_settings());
+        $Auth = new SocialNetworkAuth($this->getSettings());
 
         // assertions
         $this->assertEquals(3, count($Auth->Settings), 'Setting were not set');
@@ -33,10 +33,10 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_link
      */
-    public function test_get_link()
+    public function testGetLink()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->get_settings());
+        $Auth = new SocialNetworkAuth($this->getSettings());
 
         // test body
         $Link = $Auth->get_link();
@@ -48,7 +48,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_link exception
      */
-    public function test_get_link_exception()
+    public function testGetLinkException()
     {
         // setup
         $Auth = new SocialNetworkAuth([]);
@@ -65,10 +65,10 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_user_info_uri
      */
-    public function test_get_user_info_uri()
+    public function testGetUserInfoUri()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->get_settings());
+        $Auth = new SocialNetworkAuth($this->getSettings());
 
         // test body
         $Link = $Auth->get_user_info_uri();
@@ -80,10 +80,10 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_token_params method
      */
-    public function test_get_token_params()
+    public function testGetTokenParams()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->get_settings());
+        $Auth = new SocialNetworkAuth($this->getSettings());
 
         // test body
         $Params = $Auth->get_token_params(123);
@@ -98,10 +98,10 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_token_uri
      */
-    public function test_get_token_uri()
+    public function testGetTokenUri()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->get_settings());
+        $Auth = new SocialNetworkAuth($this->getSettings());
 
         // test body
         $Link = $Auth->get_token_uri();
@@ -113,10 +113,10 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_desired_fields
      */
-    public function test_get_desired_fields()
+    public function testGetDesiredFields()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->get_settings());
+        $Auth = new SocialNetworkAuth($this->getSettings());
 
         // test body
         $Fields = $Auth->get_desired_fields();
@@ -128,10 +128,10 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing 'dispatch_user_info' method
      */
-    public function test_dispatch_user_info()
+    public function testDispatchUserInfo()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->get_settings());
+        $Auth = new SocialNetworkAuth($this->getSettings());
         $UserInfo = [
             'picture' => [
                 'data' => [
@@ -150,7 +150,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing 'auth' method
      */
-    public function test_auth()
+    public function testAuth()
     {
         // setup
         $Auth = $this->getMockBuilder('SocialNetworkAuth')
@@ -159,7 +159,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
             'request_token'
         ])
             ->setConstructorArgs([
-            $this->get_settings()
+            $this->getSettings()
         ])
             ->getMock();
         $Auth->method('get_request')->willReturn(json_encode([

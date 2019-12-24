@@ -7,15 +7,12 @@ require_once (__DIR__ . '/../crud-service-model.php');
 
 class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
 {
-
     /**
-     * Constructor.
+     * Setting up testing environment
      */
-    public function __construct()
+    public function setUp()
     {
-        parent::__construct();
-
-        \Mezon\add_connection_to_config('default-db-connection', 'mysql:host=localhost;dbname=record', 'root', '');
+        \Mezon\addConnectionToConfig('default-db-connection', 'mysql:host=localhost;dbname=record', 'root', '');
     }
 
     /**
@@ -25,15 +22,15 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
      *            - Connection to the database.
      * @return object Mock of the model.
      */
-    protected function get_model_mock($Connection)
+    protected function getModelMock($Connection)
     {
         $Mock = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceModel')
-            ->setMethods(array(
-            'get_connection'
-        ))
+            ->setMethods([
+            'getConnection'
+        ])
             ->getMock();
 
-        $Mock->method('get_connection')->willReturn($Connection);
+        $Mock->method('getConnection')->willReturn($Connection);
 
         $Mock->TableName = 'records';
 
@@ -45,7 +42,7 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
      *
      * @return Connection.
      */
-    protected function get_connection()
+    protected function getConnection()
     {
         $Connection = new \Mezon\PdoCrud();
         $Connection->connect([
@@ -60,11 +57,11 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
     /**
      * Method tests last N records returning.
      */
-    public function test_last_records_all()
+    public function testLastRecordsAll()
     {
-        $Mock = $this->get_model_mock($this->get_connection());
+        $Mock = $this->getModelMock($this->getConnection());
 
-        $this->assertEquals(count($Mock->last_records(2, [
+        $this->assertEquals(count($Mock->lastRecords(2, [
             '1 = 1'
         ])), 2, 'Invalid amount of records was returned (all)');
     }
@@ -72,11 +69,11 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
     /**
      * Method tests last N records returning.
      */
-    public function test_last_records_limited()
+    public function testLastRecordsLimited()
     {
-        $Mock = $this->get_model_mock($this->get_connection());
+        $Mock = $this->getModelMock($this->getConnection());
 
-        $this->assertEquals(count($Mock->last_records(1, [
+        $this->assertEquals(count($Mock->lastRecords(1, [
             '1 = 1'
         ])), 1, 'Invalid amount of records was returned (limited)');
     }
@@ -84,11 +81,11 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
     /**
      * Method tests last N records returning.
      */
-    public function test_last_records_query()
+    public function testLastRecordsQuery()
     {
-        $Mock = $this->get_model_mock($this->get_connection());
+        $Mock = $this->getModelMock($this->getConnection());
 
-        $Result = $Mock->last_records(2, [
+        $Result = $Mock->lastRecords(2, [
             'id > 1'
         ]);
 
@@ -98,11 +95,11 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
     /**
      * Method tests record insertion.
      */
-    public function test_insert_basic_fields()
+    public function testInsertBasicFields()
     {
-        $Mock = $this->get_model_mock($this->get_connection());
+        $Mock = $this->getModelMock($this->getConnection());
 
-        $Record = $Mock->insert_basic_fields([
+        $Record = $Mock->insertBasicFields([
             'name' => 'new name'
         ]);
 
@@ -112,11 +109,11 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
     /**
      * Method tests record deletion.
      */
-    public function test_delete_filtered()
+    public function testDeleteFiltered()
     {
-        $Mock = $this->get_model_mock($this->get_connection());
+        $Mock = $this->getModelMock($this->getConnection());
 
-        $Mock->delete_filtered(false, [
+        $Mock->deleteFiltered(false, [
             'name LIKE "new name"'
         ]);
 
@@ -126,14 +123,14 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
     /**
      * Testing records fetching.
      */
-    public function test_get_simple_records()
+    public function testGetSimpleRecords()
     {
         $Model = new \Mezon\CRUDService\CRUDServiceModel('id', 'records');
-        $Records = $Model->get_simple_records(false, 0, 1, [], [
+        $Records = $Model->getSimpleRecords(false, 0, 1, [], [
             'field' => 'id',
             'order' => 'asc'
         ]);
-        $this->assertEquals(1, count($Records), 'get_simple_records have returned nothing');
+        $this->assertEquals(1, count($Records), 'getSimpleRecords have returned nothing');
     }
 }
 

@@ -13,7 +13,7 @@ class MockRouter extends \Mezon\Router
     /**
      * Mock error handler.
      */
-    public function set_error_var()
+    public function setErrorVar()
     {
         $this->ErrorVar = 7;
     }
@@ -25,7 +25,7 @@ class RouterTest extends PHPUnit\Framework\TestCase
     /**
      * Function simply returns string.
      */
-    public function hello_world_output()
+    public function helloWorldOutput()
     {
         return ('Hello world!');
     }
@@ -33,7 +33,7 @@ class RouterTest extends PHPUnit\Framework\TestCase
     /**
      * Method for checking id list.
      */
-    public function il_test($Route, $Params)
+    public function ilTest($Route, $Params)
     {
         return ($Params['ids']);
     }
@@ -41,7 +41,7 @@ class RouterTest extends PHPUnit\Framework\TestCase
     /**
      * Function simply returns string.
      */
-    static public function static_hello_world_output()
+    static public function staticHelloWorldOutput()
     {
         return ('Hello static world!');
     }
@@ -49,7 +49,7 @@ class RouterTest extends PHPUnit\Framework\TestCase
     /**
      * Testing action #1.
      */
-    public function action_a1()
+    public function actionA1()
     {
         return ('action #1');
     }
@@ -57,9 +57,14 @@ class RouterTest extends PHPUnit\Framework\TestCase
     /**
      * Testing action #2.
      */
-    public function action_a2()
+    public function actionA2()
     {
         return ('action #2');
+    }
+
+    public function actionDoubleWord()
+    {
+        return ('action double word');
     }
 
     /**
@@ -69,12 +74,12 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router();
 
-        $Router->add_route('/index/', array(
+        $Router->addRoute('/index/', [
             $this,
-            'hello_world_output'
-        ));
+            'helloWorldOutput'
+        ]);
 
-        $Content = $Router->call_route('/index/');
+        $Content = $Router->callRoute('/index/');
 
         $this->assertEquals('Hello world!', $Content, 'Invalid index route');
     }
@@ -86,11 +91,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router();
 
-        $Router->add_route('/index/', function () {
+        $Router->addRoute('/index/', function () {
             return ('Hello world!');
         });
 
-        $Content = $Router->call_route('/index/');
+        $Content = $Router->callRoute('/index/');
 
         $this->assertEquals('Hello world!', $Content, 'Invalid index route');
     }
@@ -101,9 +106,9 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testOneComponentRouterStatic()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/index/', 'RouterTest::static_hello_world_output');
+        $Router->addRoute('/index/', 'RouterTest::staticHelloWorldOutput');
 
-        $Content = $Router->call_route('/index/');
+        $Content = $Router->callRoute('/index/');
 
         $this->assertEquals('Hello static world!', $Content, 'Invalid index route');
     }
@@ -115,13 +120,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/index/', array(
+        $Router->addRoute('/index/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/unexisting-route/');
+            $Router->callRoute('/unexisting-route/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -137,13 +142,16 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testClassActions()
     {
         $Router = new \Mezon\Router();
-        $Router->fetch_actions($this);
+        $Router->fetchActions($this);
 
-        $Content = $Router->call_route('/a1/');
+        $Content = $Router->callRoute('/a1/');
         $this->assertEquals('action #1', $Content, 'Invalid a1 route');
 
-        $Content = $Router->call_route('/a2/');
+        $Content = $Router->callRoute('/a2/');
         $this->assertEquals('action #2', $Content, 'Invalid a2 route');
+
+        $Content = $Router->callRoute('/double-word/');
+        $this->assertEquals('action double word', $Content, 'Invalid a2 route');
     }
 
     /**
@@ -155,8 +163,8 @@ class RouterTest extends PHPUnit\Framework\TestCase
         // set_global('server', 'REQUEST_METHOD', 'POST');
 
         $Router = new \Mezon\Router();
-        $Router->fetch_actions($this);
-        $Content = $Router->call_route('/a1/');
+        $Router->fetchActions($this);
+        $Content = $Router->callRoute('/a1/');
         $this->assertEquals('action #1', $Content, 'Invalid a1 route');
 
         // set_global('server', 'REQUEST_METHOD', 'GET');
@@ -170,12 +178,12 @@ class RouterTest extends PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('*', array(
+        $Router->addRoute('*', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
-        $Content = $Router->call_route('/some-route/');
+        $Content = $Router->callRoute('/some-route/');
 
         $this->assertEquals('Hello world!', $Content, 'Invalid index route');
     }
@@ -186,13 +194,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testSingleAllProcessorOverlapUnexisting()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('*', array(
+        $Router->addRoute('*', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
-        $Router->add_route('/index/', 'RouterTest::static_hello_world_output');
+        $Router->addRoute('/index/', 'RouterTest::staticHelloWorldOutput');
 
-        $Content = $Router->call_route('/some-route/');
+        $Content = $Router->callRoute('/some-route/');
 
         $this->assertEquals('Hello world!', $Content, 'Invalid index route');
     }
@@ -203,13 +211,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testSingleAllProcessorOverlapExisting()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('*', array(
+        $Router->addRoute('*', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
-        $Router->add_route('/index/', 'RouterTest::static_hello_world_output');
+        $Router->addRoute('/index/', 'RouterTest::staticHelloWorldOutput');
 
-        $Content = $Router->call_route('/index/');
+        $Content = $Router->callRoute('/index/');
 
         $this->assertEquals('Hello world!', $Content, 'Invalid index route');
     }
@@ -220,13 +228,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testSingleAllProcessorExisting()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/index/', 'RouterTest::static_hello_world_output');
-        $Router->add_route('*', array(
+        $Router->addRoute('/index/', 'RouterTest::staticHelloWorldOutput');
+        $Router->addRoute('*', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
-        $Content = $Router->call_route('/index/');
+        $Content = $Router->callRoute('/index/');
 
         $this->assertEquals('Hello static world!', $Content, 'Invalid index route');
     }
@@ -237,13 +245,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testSingleAllProcessorUnexisting()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/index/', 'RouterTest::static_hello_world_output');
-        $Router->add_route('*', array(
+        $Router->addRoute('/index/', 'RouterTest::staticHelloWorldOutput');
+        $Router->addRoute('*', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
-        $Content = $Router->call_route('/some-route/');
+        $Content = $Router->callRoute('/some-route/');
 
         $this->assertEquals('Hello world!', $Content, 'Invalid index route');
     }
@@ -254,13 +262,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testInvalidType()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[unexisting-type:i]/item/', array(
+        $Router->addRoute('/catalog/[unexisting-type:i]/item/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/1024/item/');
+            $Router->callRoute('/catalog/1024/item/');
             $this->assertFalse(true, 'Exception expected');
         } catch (Exception $e) {
             $this->assertFalse(false, '');
@@ -273,13 +281,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testValidInvalidTypes()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:cat_id]/item/[unexisting-type-trace:item_id]/', array(
+        $Router->addRoute('/catalog/[i:cat_id]/item/[unexisting-type-trace:item_id]/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/1024/item/2048/');
+            $Router->callRoute('/catalog/1024/item/2048/');
             $this->assertFalse(true, 'Exception expected');
         } catch (Exception $e) {
             $this->assertFalse(false, '');
@@ -293,13 +301,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:cat_id]/item/[i:item_id]/', array(
+        $Router->addRoute('/catalog/[i:cat_id]/item/[i:item_id]/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/1024/item/2048/');
+            $Router->callRoute('/catalog/1024/item/2048/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -316,13 +324,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:cat_id]/', array(
+        $Router->addRoute('/catalog/[i:cat_id]/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/1024/');
+            $Router->callRoute('/catalog/1024/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -339,13 +347,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[a:cat_id]/', array(
+        $Router->addRoute('/catalog/[a:cat_id]/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/foo/');
+            $Router->callRoute('/catalog/foo/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -362,13 +370,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:cat_id]/', array(
+        $Router->addRoute('/catalog/[i:cat_id]/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/a1024/');
+            $Router->callRoute('/catalog/a1024/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -385,13 +393,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[a:cat_id]/', array(
+        $Router->addRoute('/catalog/[a:cat_id]/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/~foo/');
+            $Router->callRoute('/catalog/~foo/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -407,11 +415,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testValidExtractedParameter()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[a:cat_id]/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[a:cat_id]/', function ($Route, $Parameters) {
             return ($Parameters['cat_id']);
         });
 
-        $Result = $Router->call_route('/catalog/foo/');
+        $Result = $Router->callRoute('/catalog/foo/');
 
         $this->assertEquals($Result, 'foo', 'Invalid extracted parameter');
     }
@@ -422,11 +430,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testValidExtractedParameters()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[a:cat_id]/[i:item_id]', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[a:cat_id]/[i:item_id]', function ($Route, $Parameters) {
             return ($Parameters['cat_id'] . $Parameters['item_id']);
         });
 
-        $Result = $Router->call_route('/catalog/foo/1024/');
+        $Result = $Router->callRoute('/catalog/foo/1024/');
 
         $this->assertEquals($Result, 'foo1024', 'Invalid extracted parameter');
     }
@@ -437,18 +445,18 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testValidRouteParameter()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ($Route);
         });
-        $Router->add_route('/catalog/[i:cat_id]', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[i:cat_id]', function ($Route, $Parameters) {
             return ($Route);
         });
 
-        $Result = $Router->call_route('/catalog/');
+        $Result = $Router->callRoute('/catalog/');
 
         $this->assertEquals($Result, '/catalog/', 'Invalid extracted route');
 
-        $Result = $Router->call_route('/catalog/1024/');
+        $Result = $Router->callRoute('/catalog/1024/');
 
         $this->assertEquals($Result, '/catalog/1024/', 'Invalid extracted route');
     }
@@ -461,11 +469,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ($Route);
         }, 'POST');
 
-        $Result = $Router->call_route('/catalog/');
+        $Result = $Router->callRoute('/catalog/');
 
         $this->assertEquals($Result, '/catalog/', 'Invalid extracted route');
     }
@@ -478,11 +486,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:cat_id]', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[i:cat_id]', function ($Route, $Parameters) {
             return ($Route);
         }, 'POST');
 
-        $Result = $Router->call_route('/catalog/1024/');
+        $Result = $Router->callRoute('/catalog/1024/');
 
         $this->assertEquals($Result, '/catalog/1024/', 'Invalid extracted route');
     }
@@ -496,13 +504,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/', array(
+        $Router->addRoute('/catalog/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/');
+            $Router->callRoute('/catalog/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -521,13 +529,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:cat_id]', array(
+        $Router->addRoute('/catalog/[i:cat_id]', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/1024/');
+            $Router->callRoute('/catalog/1024/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -545,11 +553,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'PUT';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ($Route);
         }, 'PUT');
 
-        $Result = $Router->call_route('/catalog/');
+        $Result = $Router->callRoute('/catalog/');
 
         $this->assertEquals($Result, '/catalog/', 'Invalid extracted route');
     }
@@ -562,11 +570,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'PUT';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:cat_id]', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[i:cat_id]', function ($Route, $Parameters) {
             return ($Route);
         }, 'PUT');
 
-        $Result = $Router->call_route('/catalog/1024/');
+        $Result = $Router->callRoute('/catalog/1024/');
 
         $this->assertEquals($Result, '/catalog/1024/', 'Invalid extracted route');
     }
@@ -580,13 +588,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/', array(
+        $Router->addRoute('/catalog/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/');
+            $Router->callRoute('/catalog/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -605,13 +613,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:cat_id]', array(
+        $Router->addRoute('/catalog/[i:cat_id]', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/1024/');
+            $Router->callRoute('/catalog/1024/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -629,11 +637,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ($Route);
         }, 'DELETE');
 
-        $Result = $Router->call_route('/catalog/');
+        $Result = $Router->callRoute('/catalog/');
 
         $this->assertEquals($Result, '/catalog/', 'Invalid extracted route');
     }
@@ -646,11 +654,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:cat_id]', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[i:cat_id]', function ($Route, $Parameters) {
             return ($Route);
         }, 'DELETE');
 
-        $Result = $Router->call_route('/catalog/1024/');
+        $Result = $Router->callRoute('/catalog/1024/');
 
         $this->assertEquals($Result, '/catalog/1024/', 'Invalid extracted route');
     }
@@ -664,13 +672,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/', array(
+        $Router->addRoute('/catalog/', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/');
+            $Router->callRoute('/catalog/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -689,13 +697,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:cat_id]', array(
+        $Router->addRoute('/catalog/[i:cat_id]', array(
             $this,
-            'hello_world_output'
+            'helloWorldOutput'
         ));
 
         try {
-            $Router->call_route('/catalog/1024/');
+            $Router->callRoute('/catalog/1024/');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -711,33 +719,33 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testGetPostPostDeleteRouteConcurrency()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ('POST');
         }, 'POST');
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ('GET');
         }, 'GET');
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ('PUT');
         }, 'PUT');
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ('DELETE');
         }, 'DELETE');
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $Result = $Router->call_route('/catalog/');
+        $Result = $Router->callRoute('/catalog/');
         $this->assertEquals($Result, 'POST', 'Invalid selected route');
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $Result = $Router->call_route('/catalog/');
+        $Result = $Router->callRoute('/catalog/');
         $this->assertEquals($Result, 'GET', 'Invalid selected route');
 
         $_SERVER['REQUEST_METHOD'] = 'PUT';
-        $Result = $Router->call_route('/catalog/');
+        $Result = $Router->callRoute('/catalog/');
         $this->assertEquals($Result, 'PUT', 'Invalid selected route');
 
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
-        $Result = $Router->call_route('/catalog/');
+        $Result = $Router->callRoute('/catalog/');
         $this->assertEquals($Result, 'DELETE', 'Invalid selected route');
     }
 
@@ -747,23 +755,23 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testClearMethod()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ('POST');
         }, 'POST');
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ('GET');
         }, 'GET');
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ('PUT');
         }, 'PUT');
-        $Router->add_route('/catalog/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/', function ($Route, $Parameters) {
             return ('DELETE');
         }, 'DELETE');
         $Router->clear();
 
         try {
             $_SERVER['REQUEST_METHOD'] = 'POST';
-            $Router->call_route('/catalog/');
+            $Router->callRoute('/catalog/');
             $Flag = 'not cleared';
         } catch (Exception $e) {
             $Flag = 'cleared';
@@ -772,7 +780,7 @@ class RouterTest extends PHPUnit\Framework\TestCase
 
         try {
             $_SERVER['REQUEST_METHOD'] = 'GET';
-            $Router->call_route('/catalog/');
+            $Router->callRoute('/catalog/');
             $Flag = 'not cleared';
         } catch (Exception $e) {
             $Flag = 'cleared';
@@ -781,7 +789,7 @@ class RouterTest extends PHPUnit\Framework\TestCase
 
         try {
             $_SERVER['REQUEST_METHOD'] = 'PUT';
-            $Router->call_route('/catalog/');
+            $Router->callRoute('/catalog/');
             $Flag = 'not cleared';
         } catch (Exception $e) {
             $Flag = 'cleared';
@@ -790,7 +798,7 @@ class RouterTest extends PHPUnit\Framework\TestCase
 
         try {
             $_SERVER['REQUEST_METHOD'] = 'DELETE';
-            $Router->call_route('/catalog/');
+            $Router->callRoute('/catalog/');
             $Flag = 'not cleared';
         } catch (Exception $e) {
             $Flag = 'cleared';
@@ -804,15 +812,15 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testSetErrorHandler()
     {
         $Router = new MockRouter();
-        $Current = $Router->set_no_processor_found_error_handler(array(
+        $Current = $Router->setNoProcessorFoundErrorHandler([
             $Router,
-            'set_error_var'
-        ));
+            'setErrorVar'
+        ]);
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $Router->call_route('/unexisting/');
+        $Router->callRoute('/unexisting/');
 
-        $Router->set_no_processor_found_error_handler($Current);
+        $Router->setNoProcessorFoundErrorHandler($Current);
 
         $this->assertEquals($Router->ErrorVar, 7, 'Handler was not set');
     }
@@ -824,12 +832,12 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router();
 
-        $Router->add_route('/[a:url]/', function ($Route, $Parameters) {
+        $Router->addRoute('/[a:url]/', function ($Route, $Parameters) {
             return ('GET');
         }, 'GET');
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $Result = $Router->call_route('/.-@/');
+        $Result = $Router->callRoute('/.-@/');
         $this->assertEquals($Result, 'GET', 'Invalid selected route');
     }
 
@@ -840,12 +848,12 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router();
 
-        $Router->add_route('/[s:url]/', function ($Route, $Parameters) {
+        $Router->addRoute('/[s:url]/', function ($Route, $Parameters) {
             return ('GET');
         }, 'GET');
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $Result = $Router->call_route('/, ;:/');
+        $Result = $Router->callRoute('/, ;:/');
         $this->assertEquals($Result, 'GET', 'Invalid selected route');
     }
 
@@ -856,13 +864,13 @@ class RouterTest extends PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[il:cat_id]/', array(
+        $Router->addRoute('/catalog/[il:cat_id]/', [
             $this,
-            'hello_world_output'
-        ));
+            'helloWorldOutput'
+        ]);
 
         try {
-            $Router->call_route('/catalog/12345./');
+            $Router->callRoute('/catalog/12345./');
         } catch (Exception $e) {
             $Exception = $e->getMessage();
         }
@@ -878,12 +886,12 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testValidIdListParams()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[il:ids]/', array(
+        $Router->addRoute('/catalog/[il:ids]/', [
             $this,
-            'il_test'
-        ));
+            'ilTest'
+        ]);
 
-        $Result = $Router->call_route('/catalog/123,456,789/');
+        $Result = $Router->callRoute('/catalog/123,456,789/');
 
         $this->assertEquals($Result, '123,456,789', 'Invalid router response');
     }
@@ -894,11 +902,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testStringParamSecurity()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[s:foo]/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[s:foo]/', function ($Route, $Parameters) {
             return ($Parameters['foo']);
         });
 
-        $Result = $Router->call_route('/catalog/123&456/');
+        $Result = $Router->callRoute('/catalog/123&456/');
 
         $this->assertEquals($Result, '123&amp;456', 'Security data violation');
     }
@@ -909,11 +917,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testFloatI()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:foo]/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
             return ($Parameters['foo']);
         });
 
-        $Result = $Router->call_route('/catalog/1.1/');
+        $Result = $Router->callRoute('/catalog/1.1/');
 
         $this->assertEquals($Result, '1.1', 'Float data violation');
     }
@@ -924,11 +932,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testNegativeFloatI()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:foo]/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
             return ($Parameters['foo']);
         });
 
-        $Result = $Router->call_route('/catalog/-1.1/');
+        $Result = $Router->callRoute('/catalog/-1.1/');
 
         $this->assertEquals($Result, '-1.1', 'Float data violation');
     }
@@ -939,11 +947,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testPositiveFloatI()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:foo]/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
             return ($Parameters['foo']);
         });
 
-        $Result = $Router->call_route('/catalog/+1.1/');
+        $Result = $Router->callRoute('/catalog/+1.1/');
 
         $this->assertEquals($Result, '+1.1', 'Float data violation');
     }
@@ -954,11 +962,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function test_negative_integer_i()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:foo]/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
             return ($Parameters['foo']);
         });
 
-        $Result = $Router->call_route('/catalog/-1/');
+        $Result = $Router->callRoute('/catalog/-1/');
 
         $this->assertEquals('-1', $Result, 'Float data violation');
     }
@@ -969,11 +977,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function test_positive_integer_i()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:foo]/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
             return ($Parameters['foo']);
         });
 
-        $Result = $Router->call_route('/catalog/1/');
+        $Result = $Router->callRoute('/catalog/1/');
 
         $this->assertEquals('1', $Result, 'Float data violation');
     }
@@ -981,16 +989,16 @@ class RouterTest extends PHPUnit\Framework\TestCase
     /**
      * Testing array routes.
      */
-    public function test_array_routes()
+    public function testArrayRoutes()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/item/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/item/', function ($Route, $Parameters) {
             return ($Route);
         }, 'GET');
 
-        $Result = $Router->call_route([
+        $Result = $Router->callRoute([
             'catalog',
             'item'
         ]);
@@ -1001,17 +1009,17 @@ class RouterTest extends PHPUnit\Framework\TestCase
     /**
      * Testing empty array routes.
      */
-    public function test_empty_array_routes()
+    public function testEmptyArrayRoutes()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '/catalog/item/';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/item/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/item/', function ($Route, $Parameters) {
             return ($Route);
         }, 'GET');
 
-        $Result = $Router->call_route([
+        $Result = $Router->callRoute([
             0 => ''
         ]);
 
@@ -1021,17 +1029,17 @@ class RouterTest extends PHPUnit\Framework\TestCase
     /**
      * Testing empty array routes.
      */
-    public function test_index_route()
+    public function testIndexRoute()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '/';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('/index/', function ($Route, $Parameters) {
+        $Router->addRoute('/index/', function ($Route, $Parameters) {
             return ($Route);
         }, 'GET');
 
-        $Result = $Router->call_route([
+        $Result = $Router->callRoute([
             0 => ''
         ]);
 
@@ -1041,28 +1049,28 @@ class RouterTest extends PHPUnit\Framework\TestCase
     /**
      * Testing saving of the route parameters
      */
-    public function test_saving_parameters()
+    public function testSavingParameters()
     {
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:foo]/', function ($Route, $Parameters) {
+        $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
             return ($Parameters['foo']);
         });
 
-        $Router->call_route('/catalog/-1/');
+        $Router->callRoute('/catalog/-1/');
 
-        $this->assertEquals($Router->get_param('foo'), '-1', 'Float data violation');
+        $this->assertEquals($Router->getParam('foo'), '-1', 'Float data violation');
     }
 
     /**
      * Testing empty array routes
      */
-    public function test_multiple_request_types()
+    public function testMultipleRequestTypes()
     {
         // setup
         $_SERVER['REQUEST_URI'] = '/';
 
         $Router = new \Mezon\Router();
-        $Router->add_route('/index/', function ($Route, $Parameters) {
+        $Router->addRoute('/index/', function ($Route, $Parameters) {
             return ($Route);
         }, [
             'GET',
@@ -1070,12 +1078,12 @@ class RouterTest extends PHPUnit\Framework\TestCase
         ]);
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $Result = $Router->call_route([
+        $Result = $Router->callRoute([
             0 => ''
         ]);
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $Result = $Router->call_route([
+        $Result = $Router->callRoute([
             0 => ''
         ]);
 
@@ -1083,64 +1091,62 @@ class RouterTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing get_param for unexisting param
+     * Testing getParam for unexisting param
      */
-    public function test_getting_unexisting_parameter()
+    public function testGettingUnexistingParameter()
     {
         // setup
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:foo]/', function () {});
+        $Router->addRoute('/catalog/[i:foo]/', function () {});
 
-        $Router->call_route('/catalog/1/');
+        $Router->callRoute('/catalog/1/');
 
         // test body and assertions
-        try{
-            $Router->get_param('unexisting');
+        try {
+            $Router->getParam('unexisting');
             $this->fail('Exception was not thrown');
-        }
-        catch(Exception $e){
+        } catch (Exception $e) {
             $this->addToAssertionCount(1);
         }
     }
 
     /**
-     * Testing get_param for existing param
+     * Testing getParam for existing param
      */
-    public function test_getting_existing_parameter()
+    public function testGettingExistingParameter()
     {
         // setup
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:foo]/', function () {});
+        $Router->addRoute('/catalog/[i:foo]/', function () {});
 
-        $Router->call_route('/catalog/1/');
+        $Router->callRoute('/catalog/1/');
 
         // test body and assertions
-        try{
-            $Router->get_param('foo');
+        try {
+            $Router->getParam('foo');
             $this->addToAssertionCount(1);
-        }
-        catch(Exception $e){
+        } catch (Exception $e) {
             $this->fail('Exception was thrown for existing parameter');
         }
     }
 
     /**
-     * Testing has_param method
+     * Testing hasParam method
      */
-    public function test_validating_parameter()
+    public function testValidatingParameter()
     {
         // setup
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $Router = new \Mezon\Router();
-        $Router->add_route('/catalog/[i:foo]/', function () {});
+        $Router->addRoute('/catalog/[i:foo]/', function () {});
 
-        $Router->call_route('/catalog/1/');
+        $Router->callRoute('/catalog/1/');
 
         // test body and assertions
-        $this->assertTrue($Router->has_param('foo'));
-        $this->assertFalse($Router->has_param('unexisting'));
+        $this->assertTrue($Router->hasParam('foo'));
+        $this->assertFalse($Router->hasParam('unexisting'));
     }
 }
 

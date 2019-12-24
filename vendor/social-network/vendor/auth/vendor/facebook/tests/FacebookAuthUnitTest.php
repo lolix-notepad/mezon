@@ -9,7 +9,7 @@ class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return array fake settings
      */
-    protected function get_settings(): array
+    protected function getSettings(): array
     {
         return ([
             'client_id' => 1,
@@ -21,10 +21,10 @@ class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_user_info_uri
      */
-    public function test_get_user_info_uri()
+    public function testGetUserInfoUri()
     {
         // setup
-        $Auth = new FacebookAuth($this->get_settings());
+        $Auth = new FacebookAuth($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/graph.facebook.com/me?', $Auth->get_user_info_uri());
@@ -33,10 +33,10 @@ class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_token_uri
      */
-    public function test_get_token_uri()
+    public function testGetTokenUri()
     {
         // setup
-        $Auth = new FacebookAuth($this->get_settings());
+        $Auth = new FacebookAuth($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/graph.facebook.com/oauth/access_token?', $Auth->get_token_uri());
@@ -45,10 +45,10 @@ class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_desired_fields
      */
-    public function test_get_desired_fields()
+    public function testGetDesiredFields()
     {
         // setup
-        $Auth = new FacebookAuth($this->get_settings());
+        $Auth = new FacebookAuth($this->getSettings());
 
         // test body and assertions
         $this->assertContains('id,first_name,last_name,email,picture.width(120).height(120)', $Auth->get_desired_fields());
@@ -57,10 +57,10 @@ class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing dispatch_user_info
      */
-    public function test_dispatch_user_info()
+    public function testDispatchUserInfo()
     {
         // setup
-        $Auth = new FacebookAuth($this->get_settings());
+        $Auth = new FacebookAuth($this->getSettings());
 
         // test body
         $Result = $Auth->dispatch_user_info([

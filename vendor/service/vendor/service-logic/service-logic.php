@@ -13,7 +13,6 @@ namespace Mezon\Service;
 require_once (__DIR__ . '/../service-base-logic/service-base-logic.php');
 require_once (__DIR__ . '/../service-model/service-model.php');
 
-// TODO add camel-case
 /**
  * Class stores all service's logic
  *
@@ -29,15 +28,15 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function connect(): array
     {
-        $Login = $this->get_param($this->SecurityProvider->get_login_field_name(), false);
-        $Password = $this->get_param('password', false);
+        $Login = $this->getParam($this->SecurityProvider->getLoginFieldName(), false);
+        $Password = $this->getParam('password', false);
 
         if ($Login === false || $Password === false) {
             throw (new \Exception('Fields login and/or password were not set', - 1));
         }
 
         return ([
-            $this->SecurityProvider->get_session_id_field_name() => $this->SecurityProvider->connect($Login, $Password)
+            $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->connect($Login, $Password)
         ]);
     }
 
@@ -46,10 +45,10 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      *
      * @return array Session id
      */
-    public function set_token(): array
+    public function setToken(): array
     {
         return ([
-            $this->SecurityProvider->get_session_id_field_name() => $this->SecurityProvider->set_token($this->get_param('token'))
+            $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->setToken($this->getParam('token'))
         ]);
     }
 
@@ -58,10 +57,10 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      *
      * @return integer Session user's id
      */
-    public function get_self_id(): array
+    public function getSelfId(): array
     {
         return ([
-            'id' => $this->get_self_id_value()
+            'id' => $this->getSelfIdValue()
         ]);
     }
 
@@ -70,10 +69,10 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      *
      * @return string Session user's login
      */
-    public function get_self_login(): array
+    public function getSelfLogin(): array
     {
         return ([
-            $this->SecurityProvider->get_login_field_name() => $this->get_self_login_value()
+            $this->SecurityProvider->getLoginFieldName() => $this->getSelfLoginValue()
         ]);
     }
 
@@ -82,9 +81,9 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      *
      * @return string Session id
      */
-    protected function get_session_id(): string
+    protected function getSessionId(): string
     {
-        return ($this->get_param($this->SecurityProvider->get_session_id_field_name()));
+        return ($this->getParam($this->SecurityProvider->getSessionIdFieldName()));
     }
 
     /**
@@ -92,21 +91,21 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      *
      * @return array Session id
      */
-    public function login_as(): array
+    public function loginAs(): array
     {
-        $LoginFieldName = $this->SecurityProvider->get_login_field_name();
+        $LoginFieldName = $this->SecurityProvider->getLoginFieldName();
 
         // we can login using either user's login or id
-        if (($LoginOrId = $this->get_param($LoginFieldName, '')) !== '') {
+        if (($LoginOrId = $this->getParam($LoginFieldName, '')) !== '') {
             // we are log in using login
             $LoginFieldName = 'login';
-        } elseif (($LoginOrId = $this->get_param('id', '')) !== '') {
+        } elseif (($LoginOrId = $this->getParam('id', '')) !== '') {
             // we are log in using id
             $LoginFieldName = 'id';
         }
 
         return ([
-            $this->SecurityProvider->get_session_id_field_name() => $this->SecurityProvider->login_as($this->get_session_id(), $LoginOrId, $LoginFieldName)
+            $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->loginAs($this->getSessionId(), $LoginOrId, $LoginFieldName)
         ]);
     }
 
@@ -115,9 +114,9 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      *
      * @return integer Session user's id
      */
-    public function get_self_id_value(): int
+    public function getSelfIdValue(): int
     {
-        return ($this->SecurityProvider->get_self_id($this->get_session_id()));
+        return ($this->SecurityProvider->getSelfId($this->getSessionId()));
     }
 
     /**
@@ -125,9 +124,9 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      *
      * @return string Session user's login
      */
-    public function get_self_login_value(): string
+    public function getSelfLoginValue(): string
     {
-        return ($this->SecurityProvider->get_self_login($this->get_session_id()));
+        return ($this->SecurityProvider->getSelfLogin($this->getSessionId()));
     }
 
     /**
@@ -137,20 +136,20 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      *            Permit to check
      * @return bool true or false if the session user has permit or not
      */
-    public function has_permit(string $Permit): bool
+    public function hasPermit(string $Permit): bool
     {
-        return ($this->SecurityProvider->has_permit($this->get_session_id(), $Permit));
+        return ($this->SecurityProvider->hasPermit($this->getSessionId(), $Permit));
     }
 
     /**
-     * The same as has_permit but throwing exception for session user no permit
+     * The same as hasPermit but throwing exception for session user no permit
      *
      * @param string $Permit
      *            Permit name
      */
-    public function validate_permit(string $Permit)
+    public function validatePermit(string $Permit)
     {
-        $this->SecurityProvider->validate_permit($this->get_session_id(), $Permit);
+        $this->SecurityProvider->validatePermit($this->getSessionId(), $Permit);
     }
 }
 

@@ -11,8 +11,6 @@ namespace Mezon\WidgetsRegistry;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
-
 /**
  * Class for getting access to widgets
  */
@@ -26,7 +24,7 @@ interface WidgetsRegistryBase
      *            Name of the widget
      * @return string Widget's HTML code
      */
-    public function get_widget(string $Name): string;
+    public function getWidget(string $Name): string;
 }
 
 ?>

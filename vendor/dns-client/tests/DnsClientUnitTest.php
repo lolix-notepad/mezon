@@ -16,10 +16,10 @@ class DnsClientUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing constructor
 	 */
-	public function test_get_services()
+	public function testGetServices()
 	{
 		// setup and test body
-		$Services = \Mezon\DNS::get_services();
+		$Services = \Mezon\DNS::getServices();
 
 		// assertions
 		$this->assertEquals('auth, author, invalid', $Services);
@@ -28,21 +28,21 @@ class DnsClientUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing service existence
 	 */
-	public function test_service_exists()
+	public function testServiceExists()
 	{
-	    $this->assertTrue(\Mezon\DNS::service_exists('auth'), 'Existing service was not found');
+	    $this->assertTrue(\Mezon\DNS::serviceExists('auth'), 'Existing service was not found');
 
-	    $this->assertFalse(\Mezon\DNS::service_exists('unexisting'), 'Unexisting service was found');
+	    $this->assertFalse(\Mezon\DNS::serviceExists('unexisting'), 'Unexisting service was found');
 	}
 
 	/**
 	 * Testing resolving unexisting host
 	 */
-	public function test_resolve_unexisting_host()
+	public function testResolveUnexistingHost()
 	{
 		// test body and assertions
 		try {
-		    \Mezon\DNS::resolve_host('unexisting');
+		    \Mezon\DNS::resolveHost('unexisting');
 			$this->fails('Exception must be thrown');
 		} catch (Exception $e) {
 			$this->addToAssertionCount(1);
@@ -52,21 +52,21 @@ class DnsClientUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing resolving existing host
 	 */
-	public function test_resolve_host()
+	public function testResolveHost()
 	{
 		// test body and assertions
-	    $URL = \Mezon\DNS::resolve_host('auth');
+	    $URL = \Mezon\DNS::resolveHost('auth');
 		$this->assertEquals('auth.local', $URL, 'Invalid URL was fetched');
 	}
 
 	/**
 	 * Testing resolving invalid host
 	 */
-	public function test_resolve_invalid_host()
+	public function testResolveInvalidHost()
 	{
 		// test body and assertions
 		try {
-		    \Mezon\DNS::resolve_host('invalid');
+		    \Mezon\DNS::resolveHost('invalid');
 			$this->fails('Exception must be thrown');
 		} catch (Exception $e) {
 			$this->addToAssertionCount(1);

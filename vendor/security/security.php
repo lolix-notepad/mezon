@@ -10,7 +10,7 @@ namespace Mezon;
  * @version v.1.0 (2019/10/08)
  * @copyright Copyright (c) 2019, aeon.org
  */
-// TODO add camel-case
+
 /**
  * Security class
  *
@@ -26,7 +26,7 @@ class Security
      *            Value to be made secure
      * @return string Secure value
      */
-    public static function get_string_value(string $Value): string
+    public static function getStringValue(string $Value): string
     {
         if ($Value == '""') {
             return ('');
@@ -42,7 +42,7 @@ class Security
      *            Prefix to file path
      * @return string File path
      */
-    private static function prepare_fs(string $FilePrefix): string
+    private static function prepareFs(string $FilePrefix): string
     {
         @mkdir($FilePrefix . '/data/');
 
@@ -70,7 +70,7 @@ class Security
      *            Must be the file stored in the file system of the service or not
      * @return string|array Path to the stored file or the array $Value itself
      */
-    public static function get_file_value($Value, bool $StoreFiles)
+    public static function getFileValue($Value, bool $StoreFiles)
     {
         if (is_array($Value) === false) {
             $Value = $_FILES[$Value];
@@ -81,7 +81,7 @@ class Security
         }
 
         if ($StoreFiles) {
-            $Dir = '.' . self::prepare_fs('.');
+            $Dir = '.' . self::prepareFs('.');
 
             $UploadFile = $Dir . md5($Value['name'] . microtime(true)) . '.' . pathinfo($Value['name'], PATHINFO_EXTENSION);
 
@@ -108,9 +108,9 @@ class Security
      *            If the file was not encodded in base64
      * @return string Path to file
      */
-    public static function store_file_content(string $FileContent, string $PathPrefix, bool $Decoded = false): string
+    public static function storeFileContent(string $FileContent, string $PathPrefix, bool $Decoded = false): string
     {
-        $Dir = self::prepare_fs($PathPrefix);
+        $Dir = self::prepareFs($PathPrefix);
 
         $FileName = md5(microtime(true));
 
@@ -134,9 +134,9 @@ class Security
      *            If the file was not encodded in base64
      * @return string Path to file
      */
-    public static function store_file(string $FilePath, string $PathPrefix, bool $Decoded = false): string
+    public static function storeFile(string $FilePath, string $PathPrefix, bool $Decoded = false): string
     {
-        return (self::store_file_content(file_get_contents($FilePath), $PathPrefix, $Decoded));
+        return (self::storeFileContent(file_get_contents($FilePath), $PathPrefix, $Decoded));
     }
 }
 

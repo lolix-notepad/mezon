@@ -12,7 +12,6 @@ namespace Mezon;
  */
 require_once (__DIR__ . '/vendor/curl-wrapper/curl-wrapper.php');
 
-// TODO add camel-case
 /**
  * Custom API client class
  */
@@ -73,9 +72,9 @@ class CustomClient
      * @return array Response body and HTTP code
      * @codeCoverageIgnore
      */
-    protected function send_request(string $URL, array $Headers, string $Method, array $Data = []): array
+    protected function sendRequest(string $URL, array $Headers, string $Method, array $Data = []): array
     {
-        return (\Mezon\CustomClient\CurlWrapper::send_request($URL, $Headers, $Method, $Data));
+        return (\Mezon\CustomClient\CurlWrapper::sendRequest($URL, $Headers, $Method, $Data));
     }
 
     /**
@@ -87,7 +86,7 @@ class CustomClient
      *            Response HTTP code
      * @return mixed Request result
      */
-    protected function dispatch_result(string $URL, int $Code)
+    protected function dispatchResult(string $URL, int $Code)
     {
         if ($Code == 404) {
             throw (new \Exception("URL: $URL not found"));
@@ -103,7 +102,7 @@ class CustomClient
      *
      * @return array Headers
      */
-    protected function get_common_headers(): array
+    protected function getCommonHeaders(): array
     {
         $Result = [];
 
@@ -125,9 +124,9 @@ class CustomClient
      *
      * @return array Header
      */
-    protected function get_post_headers(): array
+    protected function getPostHeaders(): array
     {
-        $FullHeaders = $this->get_common_headers();
+        $FullHeaders = $this->getCommonHeaders();
 
         $FullHeaders[] = 'Content-type: application/x-www-form-urlencoded';
 
@@ -143,13 +142,13 @@ class CustomClient
      *            Request data
      * @return mixed Result of the request
      */
-    public function post_request(string $Endpoint, array $Data = [])
+    public function postRequest(string $Endpoint, array $Data = [])
     {
         $FullURL = $this->URL . '/' . ltrim($Endpoint, '/');
 
-        list ($Body, $Code) = $this->send_request($FullURL, $this->get_post_headers(), 'POST', $Data);
+        list ($Body, $Code) = $this->sendRequest($FullURL, $this->getPostHeaders(), 'POST', $Data);
 
-        $this->dispatch_result($FullURL, $Code);
+        $this->dispatchResult($FullURL, $Code);
 
         return ($Body);
     }
@@ -161,15 +160,15 @@ class CustomClient
      *            Calling endpoint.
      * @return mixed Result of the remote call.
      */
-    public function get_request(string $Endpoint)
+    public function getRequest(string $Endpoint)
     {
         $FullURL = $this->URL . '/' . ltrim($Endpoint, '/');
 
         $FullURL = str_replace(' ', '%20', $FullURL);
 
-        list ($Body, $Code) = $this->send_request($FullURL, $this->get_common_headers(), 'GET');
+        list ($Body, $Code) = $this->sendRequest($FullURL, $this->getCommonHeaders(), 'GET');
 
-        $this->dispatch_result($FullURL, $Code);
+        $this->dispatchResult($FullURL, $Code);
 
         return ($Body);
     }
@@ -181,7 +180,7 @@ class CustomClient
      * @param string $Key
      *            Idempotence key
      */
-    public function set_idempotency_key(string $Key)
+    public function setIdempotencyKey(string $Key)
     {
         $this->IdempotencyKey = $Key;
     }
@@ -191,7 +190,7 @@ class CustomClient
      *
      * @return string Idempotency key
      */
-    public function get_idempotency_key(): string
+    public function getIdempotencyKey(): string
     {
         return ($this->IdempotencyKey);
     }
@@ -201,7 +200,7 @@ class CustomClient
      *
      * @return string URL
      */
-    public function get_url(): string
+    public function getUrl(): string
     {
         return ($this->URL);
     }
@@ -211,7 +210,7 @@ class CustomClient
      *
      * @return array Headers
      */
-    public function get_headers(): array
+    public function getHeaders(): array
     {
         return ($this->Headers);
     }

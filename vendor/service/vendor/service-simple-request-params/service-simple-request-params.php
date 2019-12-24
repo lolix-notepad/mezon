@@ -11,7 +11,6 @@ namespace Mezon\Service;
  */
 require_once (__DIR__ . '/../service-request-params/service-request-params.php');
 
-// TODO add camel-case
 /**
  * Request params fetcher.
  */
@@ -23,7 +22,7 @@ class ServiceSimpleRequestParams implements ServiceRequestParams
      *
      * @return array[string] Array of headers
      */
-    protected function get_http_request_headers(): array
+    protected function getHttpRequestHeaders(): array
     {
         $Headers = getallheaders();
 
@@ -39,9 +38,9 @@ class ServiceSimpleRequestParams implements ServiceRequestParams
      *            default value
      * @return mixed Parameter value
      */
-    public function get_param($Param, $Default = false)
+    public function getParam($Param, $Default = false)
     {
-        $Headers = $this->get_http_request_headers();
+        $Headers = $this->getHttpRequestHeaders();
 
         $Return = $Default;
 

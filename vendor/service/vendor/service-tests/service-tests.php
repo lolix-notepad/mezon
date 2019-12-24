@@ -46,7 +46,7 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	{
 		parent::__construct();
 
-		$this->ServerPath = DNS::resolve_host($Service);
+		$this->ServerPath = \Mezon\DNS::resolveHost($Service);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	 * @param string $Message
 	 *        	- Message to be displayed in case of error.
 	 */
-	protected function assert_errors($Content, $Message)
+	protected function assertErrors($Content, $Message)
 	{
 		if (strpos($Content, 'Warning') !== false || strpos($Content, 'Error') !== false || strpos($Content, 'Fatal error') !== false || strpos($Content, 'Access denied') !== false || strpos($Content, "doesn't exist in statement") !== false) {
 			throw (new Exception($Message . "\r\n" . $Content));
@@ -74,7 +74,7 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	 * @param string $Result
 	 *        	- Raw result of the call.
 	 */
-	protected function assert_json($JSONResult, string $Result)
+	protected function assertJson($JSONResult, string $Result)
 	{
 		if ($JSONResult === null && $Result !== '') {
 			throw (new Exception("JSON result is invalid because of:\r\n$Result"));
@@ -94,7 +94,7 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	 *        	- Requesting endpoint.
 	 * @return mixed Request result.
 	 */
-	protected function post_http_request(array $Data, string $URL)
+	protected function postHttpRequest(array $Data, string $URL)
 	{
 		$Options = [
 			'http' => [
@@ -107,11 +107,11 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 		$Context = stream_context_create($Options);
 		$Result = file_get_contents($URL, false, $Context);
 
-		$this->assert_errors($Result, 'Request have returned warnings/errors');
+		$this->assertErrors($Result, 'Request have returned warnings/errors');
 
 		$JSONResult = json_decode($Result);
 
-		$this->assert_json($JSONResult, $Result);
+		$this->assertJson($JSONResult, $Result);
 
 		return ($JSONResult);
 	}
@@ -119,7 +119,7 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	/**
 	 * Method prepares GET request options.
 	 */
-	protected function prepare_get_options()
+	protected function prepareGetOptions()
 	{
 		$Options = [
 			'http' => [
@@ -138,18 +138,18 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	 *        	Requesting URL
 	 * @return mixed Result off the request
 	 */
-	protected function get_html_request(string $URL)
+	protected function getHtmlRequest(string $URL)
 	{
-		$Options = $this->prepare_get_options();
+		$Options = $this->prepareGetOptions();
 
 		$Context = stream_context_create($Options);
 		$Result = file_get_contents($URL, false, $Context);
 
-		$this->assert_errors($Result, 'Request have returned warnings/errors');
+		$this->assertErrors($Result, 'Request have returned warnings/errors');
 
 		$JSONResult = json_decode($Result);
 
-		$this->assert_json($JSONResult, $Result);
+		$this->assertJson($JSONResult, $Result);
 
 		return ($JSONResult);
 	}
@@ -159,7 +159,7 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	 *
 	 * @return array Test data
 	 */
-	protected function get_user_data(): array
+	protected function getUserData(): array
 	{
 		return ([
 			'login' => 'alexey@dodonov.pro',
@@ -172,13 +172,13 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	 *
 	 * @return mixed Result of the connection.
 	 */
-	protected function valid_connect()
+	protected function validConnect()
 	{
-		$Data = $this->get_user_data();
+		$Data = $this->getUserData();
 
 		$URL = $this->ServerPath . '/connect/';
 
-		$Result = $this->post_http_request($Data, $URL);
+		$Result = $this->postHttpRequest($Data, $URL);
 
 		if (isset($Result->session_id) !== false) {
 			$this->SessionId = $Result->session_id;
@@ -190,10 +190,10 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing API connection.
 	 */
-	public function test_valid_connect()
+	public function testValidConnect()
 	{
 		// authorization
-		$Result = $this->valid_connect();
+		$Result = $this->validConnect();
 
 		$this->assertNotEquals($Result, null, 'Connection failed');
 
@@ -207,16 +207,16 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing API invalid connection.
 	 */
-	public function test_invalid_connect()
+	public function testInvalidConnect()
 	{
 		try {
 			// authorization
-			$Data = $this->get_user_data();
+			$Data = $this->getUserData();
 			$Data['password'] = '1234';
 
 			$URL = $this->ServerPath . '/connect/';
 
-			$this->post_http_request($Data, $URL);
+			$this->postHttpRequest($Data, $URL);
 
 			$this->fail('Exception was not thrown');
 		} catch (Exception $e) {
@@ -228,9 +228,9 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing setting valid token.
 	 */
-	public function test_set_valid_token()
+	public function testSetValidToken()
 	{
-		$this->test_valid_connect();
+		$this->testValidConnect();
 
 		$Data = [
 			'token' => $this->SessionId
@@ -238,7 +238,7 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 
 		$URL = $this->ServerPath . '/token/' . $this->SessionId . '/';
 
-		$Result = $this->post_http_request($Data, $URL);
+		$Result = $this->postHttpRequest($Data, $URL);
 
 		$this->assertEquals(isset($Result->session_id), true, 'Connection failed');
 	}
@@ -246,10 +246,10 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing setting invalid token.
 	 */
-	public function test_set_invalid_token()
+	public function testSetInvalidToken()
 	{
 		try {
-			$this->test_valid_connect();
+			$this->testValidConnect();
 
 			$Data = [
 				'token' => ''
@@ -257,7 +257,7 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 
 			$URL = $this->ServerPath . '/token/unexisting/';
 
-			$this->post_http_request($Data, $URL);
+			$this->postHttpRequest($Data, $URL);
 		} catch (Exception $e) {
 			// set token method either throws exception or not
 			// both is correct behaviour
@@ -269,10 +269,10 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing login under another user
 	 */
-	public function test_login_as()
+	public function testLoginAs()
 	{
 		// setup
-		$this->test_valid_connect();
+		$this->testValidConnect();
 
 		// test body
 		$Data = [
@@ -281,14 +281,14 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 
 		$URL = $this->ServerPath . '/login-as/';
 
-		$this->post_http_request($Data, $URL);
+		$this->postHttpRequest($Data, $URL);
 
 		// assertions
 		$URL = $this->ServerPath . '/self/login/';
 
 		$Result = $this->get_html_request($URL);
 
-		$this->assertEquals('alexey@dodonov.none', Functional::get_field($Result, 'login'), 'Session user must be alexey@dodonov.none');
+		$this->assertEquals('alexey@dodonov.none', \Mezon\Functional::getField($Result, 'login'), 'Session user must be alexey@dodonov.none');
 	}
 }
 

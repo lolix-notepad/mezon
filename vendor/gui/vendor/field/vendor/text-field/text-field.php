@@ -12,7 +12,6 @@ namespace Mezon\GUI\Field;
  */
 require_once (__DIR__ . '/../../../control/control.php');
 
-// TODO add camel-case
 /**
  * Text field control
  */
@@ -52,7 +51,7 @@ class TextField implements \Mezon\GUI\Control
     /**
      * Does control fills all row
      */
-    public function fill_all_row(): bool
+    public function fillAllRow(): bool
     {
         return (true);
     }

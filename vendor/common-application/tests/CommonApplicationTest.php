@@ -38,7 +38,7 @@ class TestCommonApplication extends \Mezon\CommonApplication
         parent::__construct(new \Mezon\HTMLTemplate(__DIR__, 'index'));
     }
 
-    function action_array_result()
+    function actionArrayResult()
     {
         return ([
             'title' => 'Array result',
@@ -46,7 +46,7 @@ class TestCommonApplication extends \Mezon\CommonApplication
         ]);
     }
 
-    function action_view_result()
+    function actionViewResult()
     {
         return ([
             'title' => 'View result',
@@ -61,7 +61,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
     /**
      * Running with complex router result
      */
-    public function test_complex_route_result()
+    public function testComplexRouteResult()
     {
         $Application = new TestCommonApplication();
 
@@ -80,7 +80,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
     /**
      * Compiling page with functional view
      */
-    public function test_complex_view_renderring()
+    public function testComplexViewRenderring()
     {
         // setup
         $Application = new TestCommonApplication();
@@ -102,7 +102,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
     /**
      * Testing handle_exception method
      */
-    public function test_handle_exception()
+    public function testHandleException()
     {
         // setup
         $Application = new TestCommonApplication();
@@ -112,7 +112,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
         } catch (Exception $e) {
             // test body
             ob_start();
-            $Application->handle_exception($e);
+            $Application->handleException($e);
             $Output = ob_get_contents();
             ob_end_clean();
         }
@@ -129,7 +129,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
     /**
      * Testing handle_rest_exception method
      */
-    public function test_handle_rest_exception()
+    public function testHandleRestException()
     {
         // setup
         $Application = new TestCommonApplication();
@@ -139,7 +139,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
         } catch (Exception $e) {
             // test body
             ob_start();
-            $Application->handle_rest_exception($e);
+            $Application->handleRestException($e);
             $Output = ob_get_contents();
             ob_end_clean();
         }
@@ -156,7 +156,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
     /**
      * Testing handle_exception method
      */
-    public function test_handle_exception_with_host()
+    public function testHandleExceptionWithHost()
     {
         // setup
         $Application = new TestCommonApplication();
@@ -168,7 +168,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
         } catch (Exception $e) {
             // test body
             ob_start();
-            $Application->handle_exception($e);
+            $Application->handleException($e);
             $Output = ob_get_contents();
             ob_end_clean();
         }

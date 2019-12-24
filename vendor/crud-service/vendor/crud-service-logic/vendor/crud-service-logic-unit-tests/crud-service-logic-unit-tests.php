@@ -37,7 +37,7 @@ class FakeParametersFetcher implements \Mezon\Service\ServiceRequestParams
      *            default value
      * @return mixed Parameter value
      */
-    public function get_param($Param, $Default = false)
+    public function getParam($Param, $Default = false)
     {
         return (false);
     }
@@ -72,7 +72,7 @@ class FakeServiceModel extends \Mezon\CRUDService\CRUDServiceModel
      *            Filtration conditions
      * @return array Records with stat
      */
-    public function records_count_by_field($DomainId, string $FieldName, array $Where): array
+    public function recordsCountByField($DomainId, string $FieldName, array $Where): array
     {
         return ([
             [
@@ -97,7 +97,7 @@ class FakeServiceModel extends \Mezon\CRUDService\CRUDServiceModel
      *            Filter conditions
      * @return array List of the last $Count records
      */
-    public function last_records($DomainId, $Count, $Where)
+    public function lastRecords($DomainId, $Count, $Where)
     {
         return ([
             []
@@ -126,7 +126,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
      *            Methods to be mocked
      * @return object Service model
      */
-    protected function get_service_model_mock(array $Methods = [])
+    protected function getServiceModelMock(array $Methods = [])
     {
         $Model = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceModel')
             ->setConstructorArgs([
@@ -156,7 +156,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
      *            File name
      * @return array json decoded countent of the file
      */
-    protected function json_data(string $FileName): array
+    protected function jsonData(string $FileName): array
     {
         return (json_decode(file_get_contents(__DIR__ . '/conf/' . $FileName . '.json'), true));
     }
@@ -168,7 +168,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
      *            List of models or single model
      * @return \Mezon\CRUDService\CRUDServiceLogic object
      */
-    protected function get_service_logic($Model): \Mezon\CRUDService\CRUDServiceLogic
+    protected function getServiceLogic($Model): \Mezon\CRUDService\CRUDServiceLogic
     {
         $Transport = new \Mezon\Service\ServiceConsoleTransport();
 
@@ -180,9 +180,9 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Method creates service logic for list methods testing
      */
-    protected function setup_logic_for_list_methods_testing()
+    protected function setupLogicForListMethodsTesting()
     {
-        $Connection = $this->getMockBuilder('\Mezon\PDOCRUD')
+        $Connection = $this->getMockBuilder(\Mezon\PDOCRUD::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'select'
@@ -195,14 +195,14 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
             ]
         ]);
 
-        $ServiceModel = $this->get_service_model_mock([
-            'get_simple_records',
-            'get_connection'
+        $ServiceModel = $this->getServiceModelMock([
+            'getSimpleRecords',
+            'getConnection'
         ]);
-        $ServiceModel->method('get_simple_records')->willReturn($this->json_data('get-simple-records'));
-        $ServiceModel->method('get_connection')->willReturn($Connection);
+        $ServiceModel->method('getSimpleRecords')->willReturn($this->jsonData('get-simple-records'));
+        $ServiceModel->method('getConnection')->willReturn($Connection);
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         return ($ServiceLogic);
     }
@@ -210,16 +210,16 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Testing getting amount of records
      */
-    public function test_records_count1()
+    public function testRecordsCount1()
     {
         // setup
-        $ServiceModel = $this->get_service_model_mock();
-        $ServiceModel->method('records_count')->willReturn(1);
+        $ServiceModel = $this->getServiceModelMock();
+        $ServiceModel->method('recordsCount')->willReturn(1);
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         // test body
-        $Count = $ServiceLogic->records_count();
+        $Count = $ServiceLogic->recordsCount();
 
         // assertions
         $this->assertEquals(1, $Count, 'Records count was not fetched');
@@ -228,16 +228,16 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Testing getting amount of records
      */
-    public function test_records_count0()
+    public function testRecordsCount0()
     {
         // setup
-        $ServiceModel = $this->get_service_model_mock();
-        $ServiceModel->method('records_count')->willReturn(0);
+        $ServiceModel = $this->getServiceModelMock();
+        $ServiceModel->method('recordsCount')->willReturn(0);
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         // test body
-        $Count = $ServiceLogic->records_count();
+        $Count = $ServiceLogic->recordsCount();
 
         // assertions
         $this->assertEquals(0, $Count, 'Records count was not fetched');
@@ -246,15 +246,15 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Method tests last N records returning
      */
-    public function test_last_records()
+    public function testLastRecords()
     {
         // setup
         $ServiceModel = new FakeServiceModel();
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         // test body
-        $Records = $ServiceLogic->last_records(1);
+        $Records = $ServiceLogic->lastRecords(1);
 
         // assertions
         $this->assertEquals(1, count($Records), 'Invalid amount of records was returned');
@@ -263,18 +263,18 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Testing getting amount of records
      */
-    public function test_records_count_by_existing_field()
+    public function testRecordsCountByExistingField()
     {
         // setup
         $ServiceModel = new FakeServiceModel();
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         global $argv;
         $argv['field'] = 'id';
 
         // test body
-        $Counters = $ServiceLogic->records_count_by_field();
+        $Counters = $ServiceLogic->recordsCountByField();
 
         // assertions
         $this->assertEquals(2, count($Counters), 'Records were not fetched. Params:  ' . serialize($argv));
@@ -285,19 +285,19 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Testing getting amount of records.
      */
-    public function test_records_count_by_not_existing_field()
+    public function testRecordsCountByNotExistingField()
     {
         // setup
         $ServiceModel = new FakeServiceModel();
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         global $argv;
         $argv['field'] = 'unexisting';
 
         // test body and assertions
         try {
-            $ServiceLogic->records_count_by_field();
+            $ServiceLogic->recordsCountByField();
 
             $this->fail('Exception must be thrown, but it was not ' . serialize($argv));
         } catch (Exception $e) {
@@ -308,7 +308,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Testing constructor.
      */
-    public function test_construct()
+    public function testConstruct()
     {
         $ServiceLogic = new \Mezon\CRUDService\CRUDServiceLogic(new FakeParametersFetcher(), new FakeSecurityProvider());
 
@@ -319,13 +319,13 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Testing records list generation
      */
-    public function test_list_record()
+    public function testListRecord()
     {
         // setup
-        $ServiceLogic = $this->setup_logic_for_list_methods_testing();
+        $ServiceLogic = $this->setupLogicForListMethodsTesting();
 
         // test body
-        $RecordsList = $ServiceLogic->list_record();
+        $RecordsList = $ServiceLogic->listRecord();
 
         // assertions
         $this->assertEquals(2, count($RecordsList), 'Invalid records list was fetched');
@@ -334,55 +334,55 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Testing domain_id fetching
      */
-    public function test_get_domain_id_cross_domain_disabled()
+    public function testGetDomainIdCrossDomainDisabled()
     {
         // setup
-        $ServiceModel = $this->get_service_model_mock([
+        $ServiceModel = $this->getServiceModelMock([
             'get_connection'
         ]);
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         unset($_GET['cross_domain']);
 
         // test body
-        $Result = $ServiceLogic->get_domain_id();
+        $Result = $ServiceLogic->getDomainId();
 
         // assertions
-        $this->assertEquals(1, $Result, 'Invalid get_domain_id result. Must be 1');
+        $this->assertEquals(1, $Result, 'Invalid getDomainId result. Must be 1');
     }
 
     /**
      * Testing domain_id fetching
      */
-    public function test_get_domain_id_cross_domain_enabled()
+    public function testGetDomainIdCrossDomainEnabled()
     {
         // setup
-        $ServiceModel = $this->get_service_model_mock();
+        $ServiceModel = $this->getServiceModelMock();
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         $_GET['cross_domain'] = 1;
 
         // test
-        $Result = $ServiceLogic->get_domain_id();
+        $Result = $ServiceLogic->getDomainId();
 
-        $this->assertEquals(false, $Result, 'Invalid get_domain_id result. Must be false');
+        $this->assertEquals(false, $Result, 'Invalid getDomainId result. Must be false');
     }
 
     /**
-     * Testing new_records_since method for invalid
+     * Testing newRecordsSince method for invalid
      */
-    public function test_new_records_since_invalid()
+    public function testNewRecordsSinceInvalid()
     {
         // setup
-        $ServiceModel = $this->get_service_model_mock();
+        $ServiceModel = $this->getServiceModelMock();
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         // test body
         try {
-            $ServiceLogic->new_records_since();
+            $ServiceLogic->newRecordsSince();
             $this->fail('Exception must be thrown');
         } catch (Exception $e) {
             $this->addToAssertionCount(1);
@@ -390,50 +390,50 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     }
 
     /**
-     * Testing new_records_since method
+     * Testing newRecordsSince method
      */
-    public function test_new_records_since()
+    public function testNewRecordsSince()
     {
         // setup
-        $ServiceModel = $this->get_service_model_mock([
-            'new_records_since'
+        $ServiceModel = $this->getServiceModelMock([
+            'newRecordsSince'
         ]);
-        $ServiceModel->method('new_records_since')->willReturn([
+        $ServiceModel->method('newRecordsSince')->willReturn([
             []
         ]);
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         // test body
-        $Result = $ServiceLogic->new_records_since();
+        $Result = $ServiceLogic->newRecordsSince();
 
         // assertions
         $this->assertCount(1, $Result);
     }
 
     /**
-     * Testing 'update_record' method
+     * Testing 'updateRecord' method
      */
-    public function test_update_record()
+    public function testUpdateRecord()
     {
         // setup
         $FieldName = 'record-title';
-        $ServiceModel = $this->get_service_model_mock([
-            'update_basic_fields',
-            'set_field_for_object'
+        $ServiceModel = $this->getServiceModelMock([
+            'updateBasicFields',
+            'setFieldForObject'
         ]);
-        $ServiceModel->method('update_basic_fields')->willReturn([
+        $ServiceModel->method('updateBasicFields')->willReturn([
             $FieldName => 'Record title'
         ]);
 
-        $ServiceLogic = $this->get_service_logic($ServiceModel);
+        $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         global $argv;
         $argv[$FieldName] = 'Some title';
         $argv['custom_fields']['record-balance'] = 123;
 
         // test body
-        $Record = $ServiceLogic->update_record();
+        $Record = $ServiceLogic->updateRecord();
 
         // assertions
         $this->assertEquals('Record title', $Record[$FieldName], 'Invalid update result' . serialize($argv));
@@ -444,42 +444,42 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Method tests filtered deletion
      */
-    public function test_delete_filtered()
+    public function testDeleteFltered()
     {
         // setup
-        $ServiceModel = $this->get_service_model_mock();
+        $ServiceModel = $this->getServiceModelMock();
         $ServiceModel->expects($this->once())
-            ->method('delete_filtered');
+            ->method('deleteFiltered');
 
-        $Mock = $this->get_service_logic($ServiceModel);
+        $Mock = $this->getServiceLogic($ServiceModel);
 
         // test body and assertions
-        $Mock->delete_filtered();
+        $Mock->deleteFiltered();
     }
 
     /**
      * Method tests deletion
      */
-    public function test_delete_record()
+    public function testDeleteRecord()
     {
         // setup
-        $ServiceModel = $this->get_service_model_mock();
+        $ServiceModel = $this->getServiceModelMock();
         $ServiceModel->expects($this->once())
-            ->method('delete_filtered');
+            ->method('deleteFiltered');
 
-        $Mock = $this->get_service_logic($ServiceModel);
+        $Mock = $this->getServiceLogic($ServiceModel);
 
         // test body and assertions
-        $Mock->delete_record();
+        $Mock->deleteRecord();
     }
 
     /**
      * Testing all records generation
      */
-    public function test_all()
+    public function testAll()
     {
         // setup
-        $ServiceLogic = $this->setup_logic_for_list_methods_testing();
+        $ServiceLogic = $this->setupLogicForListMethodsTesting();
 
         // test body
         $RecordsList = $ServiceLogic->all();
@@ -491,17 +491,17 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     /**
      * Method tests creation
      */
-    public function test_create_record()
+    public function testCreateRecord()
     {
         // setup
-        $ServiceModel = $this->get_service_model_mock();
+        $ServiceModel = $this->getServiceModelMock();
         $ServiceModel->expects($this->once())
-            ->method('insert_basic_fields');
+            ->method('insertBasicFields');
 
-        $Mock = $this->get_service_logic($ServiceModel);
+        $Mock = $this->getServiceLogic($ServiceModel);
 
         // test body and assertions
-        $Mock->create_record();
+        $Mock->createRecord();
     }
 }
 

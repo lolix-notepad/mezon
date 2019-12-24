@@ -9,7 +9,7 @@ class OKAuthUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return array fake settings
      */
-    protected function get_settings(): array
+    protected function getSettings(): array
     {
         return ([
             'client_id' => 1,
@@ -22,10 +22,10 @@ class OKAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_user_info_uri
      */
-    public function test_get_user_info_uri()
+    public function testGetUserInfoUri()
     {
         // setup
-        $Auth = new OKAuth($this->get_settings());
+        $Auth = new OKAuth($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/api.odnoklassniki.ru/fb.do?application_key=', $Auth->get_user_info_uri());
@@ -35,10 +35,10 @@ class OKAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_token_uri
      */
-    public function test_get_token_uri()
+    public function testGetTokenUri()
     {
         // setup
-        $Auth = new OKAuth($this->get_settings());
+        $Auth = new OKAuth($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/api.odnoklassniki.ru/oauth/token.do?grant_type=authorization_code&', $Auth->get_token_uri());
@@ -47,10 +47,10 @@ class OKAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing dispatch_user_info
      */
-    public function test_dispatch_user_info()
+    public function testDispatchUserInfo()
     {
         // setup
-        $Auth = new OKAuth($this->get_settings());
+        $Auth = new OKAuth($this->getSettings());
 
         // test body
         $Result = $Auth->dispatch_user_info([
@@ -72,10 +72,10 @@ class OKAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_token_params method
      */
-    public function test_get_token_params()
+    public function testGetTokenParams()
     {
         // setup
-        $Auth = new OKAuth($this->get_settings());
+        $Auth = new OKAuth($this->getSettings());
 
         // test body
         $Params = $Auth->get_token_params(123);

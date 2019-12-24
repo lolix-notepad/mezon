@@ -20,7 +20,7 @@ class CacheTest extends PHPUnit\Framework\TestCase
      */
     public function testAdditingDataToCache()
     {
-        $Cache = CacheFoo::get_instance();
+        $Cache = CacheFoo::getInstance();
 
         $Cache->set('key', 'test');
 
@@ -28,7 +28,7 @@ class CacheTest extends PHPUnit\Framework\TestCase
 
         $Cache->destroy();
 
-        $Cache = CacheFoo::get_instance();
+        $Cache = CacheFoo::getInstance();
 
         $Result = $Cache->get('key');
 
@@ -42,7 +42,7 @@ class CacheTest extends PHPUnit\Framework\TestCase
      */
     public function testExistence()
     {
-        $Cache = CacheFoo::get_instance();
+        $Cache = CacheFoo::getInstance();
 
         $Cache->set('key', 'test');
 

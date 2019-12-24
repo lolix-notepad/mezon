@@ -2,6 +2,8 @@
 /**
  * Tests for the class ServiceTransport.
  */
+use Mezon\Service\ServiceRequestParams;
+
 require_once (__DIR__ . '/../service-transport.php');
 require_once (__DIR__ . '/../../service-base-logic-interface/service-base-logic-interface.php');
 require_once (__DIR__ . '/../../service-http-transport/vendor/http-request-params/http-request-params.php');
@@ -13,6 +15,24 @@ class FakeService implements \Mezon\Service\ServiceBaseLogicInterface
     public function action_hello_world()
     {
         return (1);
+    }
+}
+
+class ConcreteFetcher implements \Mezon\Service\ServiceRequestParams
+{
+
+    public function getParam($Param, $Default = false)
+    {
+        return (1);
+    }
+}
+
+class ConcreteServiceTransport extends \Mezon\Service\ServiceTransport
+{
+
+    public function createFetcher(): ServiceRequestParams
+    {
+        return (new ConcreteFetcher());
     }
 }
 
@@ -45,9 +65,9 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing constructor.
      */
-    public function test_constructor(): void
+    public function testConstructor(): void
     {
-        $ServiceTransport = new \Mezon\Service\ServiceTransport();
+        $ServiceTransport = new ConcreteServiceTransport();
 
         $this->assertInstanceOf('\Mezon\Router', $ServiceTransport->Router, 'Router was not created');
     }
@@ -55,13 +75,13 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing simple calling of the logic's method.
      */
-    public function test_get_service_logic(): void
+    public function testGetServiceLogic(): void
     {
-        $ServiceTransport = new \Mezon\Service\ServiceTransport();
+        $ServiceTransport = new ConcreteServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
-        $ServiceTransport->add_route('test', 'test', 'GET');
+        $ServiceTransport->addRoute('test', 'test', 'GET');
 
-        $Result = $ServiceTransport->Router->call_route('test');
+        $Result = $ServiceTransport->Router->callRoute('test');
 
         $this->assertEquals('test', $Result, 'Invalid route execution result');
     }
@@ -69,13 +89,13 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing simple calling of the logic's method.
      */
-    public function test_get_service_logic_public(): void
+    public function testGetServiceLogicPublic(): void
     {
-        $ServiceTransport = new \Mezon\Service\ServiceTransport();
+        $ServiceTransport = new ConcreteServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
-        $ServiceTransport->add_route('test', 'test', 'GET', 'public_call');
+        $ServiceTransport->addRoute('test', 'test', 'GET', 'public_call');
 
-        $Result = $ServiceTransport->Router->call_route('test');
+        $Result = $ServiceTransport->Router->callRoute('test');
 
         $this->assertEquals('test', $Result, 'Invalid public route execution result');
     }
@@ -83,15 +103,15 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing calling of the logic's method from array.
      */
-    public function test_get_service_logic_from_array(): void
+    public function testGetServiceLogicFromArray(): void
     {
-        $ServiceTransport = new \Mezon\Service\ServiceTransport();
+        $ServiceTransport = new ConcreteServiceTransport();
         $ServiceTransport->ServiceLogic = [
             new FakeServiceLogic($ServiceTransport->Router)
         ];
-        $ServiceTransport->add_route('test', 'test', 'GET');
+        $ServiceTransport->addRoute('test', 'test', 'GET');
 
-        $Result = $ServiceTransport->Router->call_route('test');
+        $Result = $ServiceTransport->Router->callRoute('test');
 
         $this->assertEquals('test', $Result, 'Invalid route execution result for multyple logics');
     }
@@ -99,13 +119,13 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing calling of the logic's method from array.
      */
-    public function test_get_service_logic_with_unexisting_method(): void
+    public function testGetServiceLogicWithUnexistingMethod(): void
     {
-        $ServiceTransport = new \Mezon\Service\ServiceTransport();
+        $ServiceTransport = new ConcreteServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
 
         try {
-            $ServiceTransport->add_route('unexisting', 'unexisting', 'GET');
+            $ServiceTransport->addRoute('unexisting', 'unexisting', 'GET');
             $this->fail('Exception must be thrown');
         } catch (Exception $e) {
             $this->assertEquals(- 1, $e->getCode(), 'Illeagal error code was returned. Probably invalid exception was thrown.');
@@ -116,14 +136,14 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing call stack formatter.
      */
-    public function test_format_call_stack(): void
+    public function testFormatCallStack(): void
     {
         // setup
-        $ServiceTransport = new \Mezon\Service\ServiceTransport();
+        $ServiceTransport = new ConcreteServiceTransport();
         $Exception = new Exception('Error message', - 1);
 
         // test body
-        $Format = $ServiceTransport->error_response($Exception);
+        $Format = $ServiceTransport->errorResponse($Exception);
 
         // assertions
         $this->assertEquals(5, count($Format), 'Invalid formatter');
@@ -134,7 +154,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return string[][][] Data set
      */
-    public function data_provider_for_test_invalid_load_route()
+    public function dataProviderForTestInvalidLoadRoute()
     {
         return ([
             [
@@ -159,36 +179,36 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing 'load_route' method
      */
-    public function test_load_route(): void
+    public function testLadRoute(): void
     {
         // setup
-        $ServiceTransport = new \Mezon\Service\ServiceTransport();
+        $ServiceTransport = new ConcreteServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
 
         // test body
-        $ServiceTransport->load_route([
+        $ServiceTransport->loadRoute([
             'route' => '/route/',
             'callback' => 'test'
         ]);
 
         // assertions
-        $this->assertTrue(is_object($ServiceTransport->Router->get_route('/route/')), 'Route does not exists');
+        $this->assertTrue(is_object($ServiceTransport->Router->getRoute('/route/')), 'Route does not exists');
     }
 
     /**
-     * Testing 'load_route' method with unexisting logic
+     * Testing 'loadRoute' method with unexisting logic
      *
-     * @dataProvider data_provider_for_test_invalid_load_route
+     * @dataProvider dataProviderForTestInvalidLoadRoute
      */
-    public function test_invalid_load_route(array $Route): void
+    public function testInvalidLoadRoute(array $Route): void
     {
         // setup
-        $ServiceTransport = new \Mezon\Service\ServiceTransport();
+        $ServiceTransport = new ConcreteServiceTransport();
         $ServiceTransport->ServiceLogic = null;
 
         // test body
         try {
-            $ServiceTransport->load_route($Route);
+            $ServiceTransport->loadRoute($Route);
 
             // assertions
             $this->fail('Exception must be thrown');
@@ -200,14 +220,14 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing load_routes method
      */
-    public function test_load_routes(): void
+    public function testLoadRoutes(): void
     {
         // setup
-        $ServiceTransport = new \Mezon\Service\ServiceTransport();
+        $ServiceTransport = new ConcreteServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
 
         // test body
-        $ServiceTransport->load_routes([
+        $ServiceTransport->loadRoutes([
             [
                 'route' => '/route/',
                 'callback' => 'test'
@@ -215,23 +235,23 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
         ]);
 
         // assertions
-        $this->assertTrue(is_object($ServiceTransport->Router->get_route('/route/')), 'Route does not exists');
+        $this->assertTrue(is_object($ServiceTransport->Router->getRoute('/route/')), 'Route does not exists');
     }
 
     /**
-     * Testing fetch_actions method
+     * Testing fetchActions method
      */
-    public function test_fetch_actions(): void
+    public function testFetchActions(): void
     {
         // setup
-        $ServiceTransport = new \Mezon\Service\ServiceTransport();
+        $ServiceTransport = new ConcreteServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
 
         // test body
-        $ServiceTransport->fetch_actions(new FakeService());
+        $ServiceTransport->fetchActions(new FakeService());
 
         // assertions
-        $this->assertTrue(is_object($ServiceTransport->Router->get_route('/hello-world/')), 'Route does not exists');
+        $this->assertTrue(is_object($ServiceTransport->Router->getRoute('/hello-world/')), 'Route does not exists');
     }
 }
 

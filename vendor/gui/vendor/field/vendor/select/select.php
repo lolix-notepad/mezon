@@ -12,7 +12,6 @@ namespace Mezon\GUI\Field;
  */
 require_once (__DIR__ . '/../../field.php');
 
-// TODO add camel-case
 /**
  * Text area control
  */

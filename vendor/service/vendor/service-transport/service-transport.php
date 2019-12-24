@@ -14,13 +14,12 @@ require_once (__DIR__ . '/../../../router/router.php');
 require_once (__DIR__ . '/../service-logic/service-logic.php');
 require_once (__DIR__ . '/../service-transport-interface/service-transport-interface.php');
 
-// TODO add camel-case
 /**
  * Base class for all transports
  *
  * @author Dodonov A.A.
  */
-class ServiceTransport
+abstract class ServiceTransport implements ServiceTransportInterface
 {
 
     /**
@@ -66,7 +65,7 @@ class ServiceTransport
      *            Necessary method
      * @return ServiceLogic Logic object
      */
-    protected function get_necessary_logic(string $Method): ServiceLogic
+    protected function getNecessaryLogic(string $Method): ServiceLogic
     {
         if (is_object($this->ServiceLogic)) {
             if (method_exists($this->ServiceLogic, $Method)) {
@@ -80,6 +79,8 @@ class ServiceTransport
                     return ($Logic);
                 }
             }
+
+            throw (new \Exception('The method "' . $Method . '" was not found in the set of logic objects', - 1));
         } else {
             throw (new \Exception('Logic was not found', - 2));
         }
@@ -94,7 +95,7 @@ class ServiceTransport
      * @param bool|string $Token
      *            Session token
      */
-    public function create_session(string $Token = ''): string
+    public function createSession(string $Token = ''): string
     {
         // must be overriden
         return ($Token);
@@ -112,17 +113,17 @@ class ServiceTransport
      * @param string $CallType
      *            Type of the call
      */
-    public function add_route(string $Route, string $Method, string $Request, string $CallType = 'call_logic'): void
+    public function addRoute(string $Route, string $Method, string $Request, string $CallType = 'callLogic'): void
     {
-        $LocalServiceLogic = $this->get_necessary_logic($Method);
+        $LocalServiceLogic = $this->getNecessaryLogic($Method);
 
         if ($CallType == 'public_call') {
-            $this->Router->add_route($Route, function () use ($LocalServiceLogic, $Method) {
-                return ($this->call_public_logic($LocalServiceLogic, $Method, []));
+            $this->Router->addRoute($Route, function () use ($LocalServiceLogic, $Method) {
+                return ($this->callPublicLogic($LocalServiceLogic, $Method, []));
             }, $Request);
         } else {
-            $this->Router->add_route($Route, function () use ($LocalServiceLogic, $Method) {
-                return ($this->call_logic($LocalServiceLogic, $Method, []));
+            $this->Router->addRoute($Route, function () use ($LocalServiceLogic, $Method) {
+                return ($this->callLogic($LocalServiceLogic, $Method, []));
             }, $Request);
         }
     }
@@ -133,7 +134,7 @@ class ServiceTransport
      * @param array $Route
      *            Route description
      */
-    public function load_route(array $Route): void
+    public function loadRoute(array $Route): void
     {
         if (! isset($Route['route'])) {
             throw (new \Exception('Field "route" must be set'));
@@ -142,9 +143,9 @@ class ServiceTransport
             throw (new \Exception('Field "callback" must be set'));
         }
         $Method = isset($Route['method']) ? $Route['method'] : 'GET';
-        $CallType = isset($Route['call_type']) ? $Route['call_type'] : 'call_logic';
+        $CallType = isset($Route['call_type']) ? $Route['call_type'] : 'callLogic';
 
-        $this->add_route($Route['route'], $Route['callback'], $Method, $CallType);
+        $this->addRoute($Route['route'], $Route['callback'], $Method, $CallType);
     }
 
     /**
@@ -153,10 +154,10 @@ class ServiceTransport
      * @param array $Routes
      *            Route descriptions
      */
-    public function load_routes(array $Routes): void
+    public function loadRoutes(array $Routes): void
     {
         foreach ($Routes as $Route) {
-            $this->load_route($Route);
+            $this->loadRoute($Route);
         }
     }
 
@@ -166,12 +167,12 @@ class ServiceTransport
      * @param string $Path
      *            Path to the routes description
      */
-    public function load_routes_from_config(string $Path = './conf/routes.php')
+    public function loadRoutesFromConfig(string $Path = './conf/routes.php')
     {
         if (file_exists($Path)) {
             $Routes = (include ($Path));
 
-            $this->load_routes($Routes);
+            $this->loadRoutes($Routes);
         } else {
             throw (new \Exception('Route ' . $Path . ' was not found', 1));
         }
@@ -188,17 +189,17 @@ class ServiceTransport
      *            Logic's parameters
      * @return mixed Result of the called method
      */
-    public function call_logic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
+    public function callLogic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
     {
         try {
-            $Params['SessionId'] = $this->create_session();
+            $Params['SessionId'] = $this->createSession();
 
             return (call_user_func_array([
                 $ServiceLogic,
                 $Method
             ], $Params));
         } catch (\Exception $e) {
-            return ($this->error_response($e));
+            return ($this->errorResponse($e));
         }
     }
 
@@ -213,7 +214,7 @@ class ServiceTransport
      *            Logic's parameters
      * @return mixed Result of the called method
      */
-    public function call_public_logic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
+    public function callPublicLogic(ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
     {
         try {
             return (call_user_func_array([
@@ -221,7 +222,7 @@ class ServiceTransport
                 $Method
             ], $Params));
         } catch (\Exception $e) {
-            return ($this->error_response($e));
+            return ($this->errorResponse($e));
         }
     }
 
@@ -232,13 +233,13 @@ class ServiceTransport
      *            Exception object
      * @return array Error data
      */
-    public function error_response($e): array
+    public function errorResponse($e): array
     {
         return ([
             'message' => $e->getMessage(),
             'code' => $e->getCode(),
             'service' => 'service',
-            'call_stack' => $this->format_call_stack($e),
+            'call_stack' => $this->formatCallStack($e),
             'host' => 'console'
         ]);
     }
@@ -252,9 +253,9 @@ class ServiceTransport
      *            Default value
      * @return string Parameter value
      */
-    public function get_param(string $Param, $Default = false)
+    public function getParam(string $Param, $Default = false)
     {
-        return ($this->ParamsFetcher->get_param($Param, $Default));
+        return ($this->ParamsFetcher->getParam($Param, $Default));
     }
 
     /**
@@ -264,7 +265,7 @@ class ServiceTransport
      *            Exception object
      * @return array Call stack
      */
-    protected function format_call_stack($e): array
+    protected function formatCallStack($e): array
     {
         $Stack = $e->getTrace();
 
@@ -282,7 +283,7 @@ class ServiceTransport
      */
     public function run(): void
     {
-        print($this->Router->call_route($_GET['r']));
+        print($this->Router->callRoute($_GET['r']));
     }
 
     /**
@@ -292,7 +293,7 @@ class ServiceTransport
      *            Exception object
      * @codeCoverageIgnore
      */
-    public function handle_exception($e): void
+    public function handleException($e): void
     {
         print('<pre>' . $e->getTraceAsString());
     }
@@ -303,7 +304,7 @@ class ServiceTransport
      * @param ServiceBaseLogicInterface $ActionsSource
      *            Source of actions
      */
-    public function fetch_actions(ServiceBaseLogicInterface $ActionsSource): void
+    public function fetchActions(ServiceBaseLogicInterface $ActionsSource): void
     {
         $Methods = get_class_methods($ActionsSource);
 
@@ -317,12 +318,12 @@ class ServiceTransport
                     '-'
                 ], $Method);
 
-                $this->Router->add_route($Route, function () use ($ActionsSource, $Method) {
-                    return ($this->call_public_logic($ActionsSource, $Method, []));
+                $this->Router->addRoute($Route, function () use ($ActionsSource, $Method) {
+                    return ($this->callPublicLogic($ActionsSource, $Method, []));
                 }, 'GET');
 
-                $this->Router->add_route($Route, function () use ($ActionsSource, $Method) {
-                    return ($this->call_public_logic($ActionsSource, $Method, []));
+                $this->Router->addRoute($Route, function () use ($ActionsSource, $Method) {
+                    return ($this->callPublicLogic($ActionsSource, $Method, []));
                 }, 'POST');
             }
         }
@@ -333,13 +334,13 @@ class ServiceTransport
      *
      * @return ServiceRequestParams Request data fetcher
      */
-    public function get_params_fetcher(): ServiceRequestParams
+    public function getParamsFetcher(): ServiceRequestParams
     {
         if ($this->ParamsFetcher !== false) {
             return ($this->ParamsFetcher);
         }
 
-        return ($this->ParamsFetcher = $this->create_fetcher());
+        return ($this->ParamsFetcher = $this->createFetcher());
     }
 }
 

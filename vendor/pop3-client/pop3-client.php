@@ -9,8 +9,7 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
-// TODO add namespace
-// TODO add camel-case
+// TODO exclude to separate project
 
 /**
  *	POP3 protocol client.

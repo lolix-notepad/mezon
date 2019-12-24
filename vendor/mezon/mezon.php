@@ -12,9 +12,6 @@ namespace Mezon;
 require_once (__DIR__ . '/../conf/conf.php');
 require_once (__DIR__ . '/../pdo-crud/pdo-crud.php');
 
-
-// TODO add camel-case
-
 /**
  * Mezon's main class.
  */
@@ -31,17 +28,17 @@ class Mezon
      * 
      * @param string $ConnectionName Connectio name
      */
-    protected static function validate_dsn(string $ConnectionName)
+    protected static function validateDsn(string $ConnectionName)
     {
-        if (get_config_value($ConnectionName . '/dsn') === false) {
+        if (getConfigValue($ConnectionName . '/dsn') === false) {
             throw (new \Exception($ConnectionName . '/dsn not set'));
         }
 
-        if (get_config_value($ConnectionName . '/user') === false) {
+        if (getConfigValue($ConnectionName . '/user') === false) {
             throw (new \Exception($ConnectionName . '/user not set'));
         }
 
-        if (get_config_value($ConnectionName . '/password') === false) {
+        if (getConfigValue($ConnectionName . '/password') === false) {
             throw (new \Exception($ConnectionName . '/password not set'));
         }
     }
@@ -51,20 +48,20 @@ class Mezon
      * 
      * @param string $ConnectionName Connectio name
      */
-    public static function get_db_connection(string $ConnectionName = 'default-db-connection')
+    public static function getDbConnection(string $ConnectionName = 'default-db-connection')
     {
         if (self::$CRUD !== false) {
             return (self::$CRUD);
         }
 
-        self::validate_dsn($ConnectionName);
+        self::validateDsn($ConnectionName);
 
         self::$CRUD = new PDOCrud();
 
         self::$CRUD->connect([
-            'dsn' => get_config_value($ConnectionName . '/dsn'),
-            'user' => get_config_value($ConnectionName . '/user'),
-            'password' => get_config_value($ConnectionName . '/password')
+            'dsn' => getConfigValue($ConnectionName . '/dsn'),
+            'user' => getConfigValue($ConnectionName . '/user'),
+            'password' => getConfigValue($ConnectionName . '/password')
         ]);
 
         return (self::$CRUD);

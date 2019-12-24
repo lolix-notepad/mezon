@@ -7,12 +7,12 @@ class CustomClientTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing get method
 	 */
-	public function test_get_method()
+	public function testGetMethod()
 	{
-		$Client = new CustomClient('http://yandex.ru/');
+		$Client = new \Mezon\CustomClient('http://yandex.ru/');
 
 		try {
-			$Client->get_request('unexisting');
+			$Client->getRequest('unexisting');
 			$this->fail('Exception was not thrown');
 		} catch (Exception $e) {
 			$this->addToAssertionCount(1);
@@ -22,12 +22,12 @@ class CustomClientTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing post metthod
 	 */
-	public function test_post_method()
+	public function testPostMethod()
 	{
-		$Client = new CustomClient('http://yandex.ru/');
+		$Client = new \Mezon\CustomClient('http://yandex.ru/');
 
 		try {
-			$Client->post_request('unexisting');
+			$Client->postRequest('unexisting');
 			$this->fail('Exception was not thrown');
 		} catch (Exception $e) {
 			$this->addToAssertionCount(1);

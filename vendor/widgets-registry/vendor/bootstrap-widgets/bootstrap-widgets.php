@@ -12,8 +12,6 @@ namespace Mezon\WidgetsRegistry;
  */
 require_once (__DIR__ . '/../widgets-registry-base/widgets-registry-base.php');
 
-// TODO add camel-case
-
 /**
  * Bootstrap widgets
  */
@@ -27,7 +25,7 @@ class BootstrapWidgets implements WidgetsRegistryBase
      *            Name of the widget
      * @return string Widget's HTML code
      */
-    public function get_widget(string $Name): string
+    public function getWidget(string $Name): string
     {
         return (BootstrapWidgets::get($Name));
     }

@@ -18,7 +18,6 @@ require_once (__DIR__ . '/../../../../../template-engine/template-engine.php');
 
 require_once (__DIR__ . '/../remote-field/remote-field.php');
 
-// TODO add camel-case
 /**
  * Checkboxes field control
  */
@@ -30,10 +29,10 @@ class CheckboxesField extends RemoteField
      *
      * @return array List of records
      */
-    protected function get_external_records(): array
+    protected function getExternalRecords(): array
     {
         // @codeCoverageIgnoreStart
-        return ($this->get_client()->get_all());
+        return ($this->getClient()->getAll());
         // @codeCoverageIgnoreEnd
     }
 
@@ -44,12 +43,12 @@ class CheckboxesField extends RemoteField
      *            Data source
      * @return string Compiled title
      */
-    protected function get_external_title(array $Record): string
+    protected function getExternalTitle(array $Record): string
     {
-        if (\Mezon\Functional::get_field($Record, 'title') !== null) {
-            return (\Mezon\Functional::get_field($Record, 'title'));
+        if (\Mezon\Functional::getField($Record, 'title') !== null) {
+            return (\Mezon\Functional::getField($Record, 'title'));
         } else {
-            return ('id : ' . \Mezon\Functional::get_field($Record, 'id'));
+            return ('id : ' . \Mezon\Functional::getField($Record, 'id'));
         }
     }
 
@@ -62,13 +61,13 @@ class CheckboxesField extends RemoteField
     {
         $Content = '';
 
-        $Records = $this->get_external_records();
+        $Records = $this->getExternalRecords();
 
         foreach ($Records as $Item) {
-            $id = \Mezon\Functional::get_field($Item, 'id');
+            $id = \Mezon\Functional::getField($Item, 'id');
 
             $Content .= '<label>
-                <input type="checkbox" class="js-switch" name="' . $this->NamePrefix . '-' . $this->Name . '[]" value="' . $id . '" /> ' . $this->get_external_title($Item) . '
+                <input type="checkbox" class="js-switch" name="' . $this->NamePrefix . '-' . $this->Name . '[]" value="' . $id . '" /> ' . $this->getExternalTitle($Item) . '
             </label><br>';
         }
 

@@ -7,7 +7,7 @@ class CustomClientUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing invalid construction
      */
-    public function test_constructor_invalid(): void
+    public function testConstructorInvalid(): void
     {
         try {
             $Client = new \Mezon\CustomClient(false);
@@ -27,38 +27,38 @@ class CustomClientUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing valid construction
      */
-    public function test_constructor_valid(): void
+    public function testConstructorValid(): void
     {
         $Client = new \Mezon\CustomClient('http://yandex.ru/', [
             'header'
         ]);
 
-        $this->assertEquals('http://yandex.ru', $Client->get_url(), 'Invalid URL');
-        $this->assertEquals(1, count($Client->get_headers()), 'Invalid headers');
+        $this->assertEquals('http://yandex.ru', $Client->getUrl(), 'Invalid URL');
+        $this->assertEquals(1, count($Client->getHeaders()), 'Invalid headers');
     }
 
     /**
      * Testing getters/setters for the field
      */
-    public function test_idempotency_get_set(): void
+    public function testIdempotencyGetSet(): void
     {
         // setup
         $Client = new \Mezon\CustomClient('some url', []);
 
         // test bodyand assertions
-        $Client->set_idempotency_key('i-key');
+        $Client->setIdempotencyKey('i-key');
 
-        $this->assertEquals('i-key', $Client->get_idempotency_key(), 'Invalid idempotency key');
+        $this->assertEquals('i-key', $Client->getIdempotencyKey(), 'Invalid idempotency key');
     }
 
     /**
      * Creating mock
      */
-    protected function get_mock(): object
+    protected function getMock(): object
     {
         $Mock = $this->getMockBuilder('\Mezon\CustomClient')
             ->setMethods([
-            'send_request'
+            'sendRequest'
         ])
             ->disableOriginalConstructor()
             ->getMock();
@@ -67,38 +67,38 @@ class CustomClientUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing get_request method
+     * Testing getRequest method
      */
-    public function test_get_request(): void
+    public function testGetRequest(): void
     {
         // setup
-        $Client = $this->get_mock();
-        $Client->method('send_request')->willReturn([
+        $Client = $this->getMock();
+        $Client->method('sendRequest')->willReturn([
             'result',
             1
         ]);
 
         // test body
-        $Result = $Client->get_request('/end-point/');
+        $Result = $Client->getRequest('/end-point/');
 
         // assertions
         $this->assertEquals('result', $Result);
     }
 
     /**
-     * Testing post_request method
+     * Testing postRequest method
      */
-    public function test_post_request(): void
+    public function testPostRequest(): void
     {
         // setup
-        $Client = $this->get_mock();
-        $Client->method('send_request')->willReturn([
+        $Client = $this->getMock();
+        $Client->method('sendRequest')->willReturn([
             'result',
             1
         ]);
 
         // test body
-        $Result = $Client->post_request('/end-point/');
+        $Result = $Client->postRequest('/end-point/');
 
         // assertions
         $this->assertEquals('result', $Result);

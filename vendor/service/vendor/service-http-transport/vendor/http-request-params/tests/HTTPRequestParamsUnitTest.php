@@ -28,7 +28,7 @@ class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Method constructs object to be tested.
 	 */
-	protected function get_request_params_mock()
+	protected function getRequestParamsMock()
 	{
 		$Router = new \Mezon\Router();
 
@@ -38,11 +38,11 @@ class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing empty result of the get_http_request_headers method.
 	 */
-	public function test_get_http_request_headers()
+	public function testGetHttpRequestHeaders()
 	{
-		$RequestParams = $this->get_request_params_mock();
+		$RequestParams = $this->getRequestParamsMock();
 
-		$Param = $RequestParams->get_param('unexisting-param', 'default-value');
+		$Param = $RequestParams->getParam('unexisting-param', 'default-value');
 
 		$this->assertEquals('default-value', $Param, 'Default value must be returned but it was not');
 	}
@@ -50,16 +50,16 @@ class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing getting parameter.
 	 */
-	public function test_get_session_id_from_authorization()
+	public function testGetSessionIdFromAuthorization()
 	{
 		global $TestHeaders;
 		$TestHeaders = [
 			'Authorization' => 'Basic author session id'
 		];
 
-		$RequestParams = $this->get_request_params_mock();
+		$RequestParams = $this->getRequestParamsMock();
 
-		$Param = $RequestParams->get_param(SESSION_ID_FIELD_NAME);
+		$Param = $RequestParams->getParam(SESSION_ID_FIELD_NAME);
 
 		$this->assertEquals('author session id', $Param, 'Session id must be fetched but it was not');
 	}
@@ -67,16 +67,16 @@ class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing getting parameter.
 	 */
-	public function test_get_session_id_from_cgi_authorization()
+	public function testGetSessionIdFromCgiAuthorization()
 	{
 		global $TestHeaders;
 		$TestHeaders = [
 			'Cgi-Authorization' => 'Basic cgi author session id'
 		];
 
-		$RequestParams = $this->get_request_params_mock();
+		$RequestParams = $this->getRequestParamsMock();
 
-		$Param = $RequestParams->get_param(SESSION_ID_FIELD_NAME);
+		$Param = $RequestParams->getParam(SESSION_ID_FIELD_NAME);
 
 		$this->assertEquals('cgi author session id', $Param, 'Session id must be fetched but it was not');
 	}
@@ -84,15 +84,15 @@ class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing getting parameter.
 	 */
-	public function test_get_unexisting_session_id()
+	public function testGetUnexistingSessionId()
 	{
 		global $TestHeaders;
 		$TestHeaders = [];
 
-		$RequestParams = $this->get_request_params_mock();
+		$RequestParams = $this->getRequestParamsMock();
 
 		try {
-			$RequestParams->get_param(SESSION_ID_FIELD_NAME);
+			$RequestParams->getParam(SESSION_ID_FIELD_NAME);
 
 			$this->fail('Exception must be thrown');
 		} catch (Exception $e) {
@@ -103,16 +103,16 @@ class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing getting parameter from custom header.
 	 */
-	public function test_get_parameter_from_header()
+	public function testGetParameterFromHeader()
 	{
 		global $TestHeaders;
 		$TestHeaders = [
 			'Custom-Header' => 'header value'
 		];
 
-		$RequestParams = $this->get_request_params_mock();
+		$RequestParams = $this->getRequestParamsMock();
 
-		$Param = $RequestParams->get_param('Custom-Header');
+		$Param = $RequestParams->getParam('Custom-Header');
 
 		$this->assertEquals('header value', $Param, 'Header value must be fetched but it was not');
 	}
@@ -120,13 +120,13 @@ class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing getting parameter from $_POST.
 	 */
-	public function test_get_parameter_from_post()
+	public function testGetParameterFromPost()
 	{
 		$_POST['post-parameter'] = 'post value';
 
-		$RequestParams = $this->get_request_params_mock();
+		$RequestParams = $this->getRequestParamsMock();
 
-		$Param = $RequestParams->get_param('post-parameter');
+		$Param = $RequestParams->getParam('post-parameter');
 
 		$this->assertEquals('post value', $Param, 'Value from $_POST must be fetched but it was not');
 	}
@@ -134,13 +134,13 @@ class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing getting parameter from $_GET.
 	 */
-	public function test_get_parameter_from_get()
+	public function testGetParameterFromGet()
 	{
 		$_GET['get-parameter'] = 'get value';
 
-		$RequestParams = $this->get_request_params_mock();
+		$RequestParams = $this->getRequestParamsMock();
 
-		$Param = $RequestParams->get_param('get-parameter');
+		$Param = $RequestParams->getParam('get-parameter');
 
 		$this->assertEquals('get value', $Param, 'Value from $_GET must be fetched but it was not');
 	}

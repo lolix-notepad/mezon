@@ -9,7 +9,7 @@ class RecordFieldTest extends PHPUnit\Framework\TestCase
      *
      * @return object mock object of the custom field
      */
-    protected function get_field_mock(): object
+    protected function getFieldMock(): object
     {
         $Mock = $this->getMockBuilder('\Mezon\GUI\Field\RecordField')
             ->setConstructorArgs([
@@ -39,11 +39,11 @@ class RecordFieldTest extends PHPUnit\Framework\TestCase
             ''
         ])
             ->setMethods([
-            'get_fields'
+            'getFields'
         ])
             ->getMock();
 
-        $Mock->method('get_fields')->willReturn([
+        $Mock->method('getFields')->willReturn([
             'id' => [
                 'type' => 'integer'
             ],
@@ -59,10 +59,10 @@ class RecordFieldTest extends PHPUnit\Framework\TestCase
     /**
      * Testing constructor
      */
-    public function test_constructor()
+    public function testConstructor()
     {
         // setup
-        $Field = $this->get_field_mock();
+        $Field = $this->getFieldMock();
 
         // test body
         $Content = $Field->html();

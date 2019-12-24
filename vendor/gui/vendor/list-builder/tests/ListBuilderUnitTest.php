@@ -37,7 +37,7 @@ class FakeAdapter implements \Mezon\GUI\ListBuilder\ListBuilderAdapter
      *            the size of the batch
      * @return array subset from vailable records
      */
-    public function get_records(array $Order, int $From, int $Limit): array
+    public function getRecords(array $Order, int $From, int $Limit): array
     {
         return ($this->all());
     }
@@ -49,7 +49,7 @@ class FakeAdapter implements \Mezon\GUI\ListBuilder\ListBuilderAdapter
      *            record to be preprocessed
      * @return array preprocessed record
      */
-    public function preprocess_list_item(array $Record): array
+    public function preprocessListItem(array $Record): array
     {
         return ($Record);
     }
@@ -67,7 +67,7 @@ class FakeRequestParams implements \Mezon\Service\ServiceRequestParams
      *            default value
      * @return mixed Parameter value
      */
-    public function get_param($Param, $Default = false)
+    public function getParam($Param, $Default = false)
     {
         return (false);
     }
@@ -81,7 +81,7 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return array Fields algorithms object
      */
-    protected function get_fields(): array
+    protected function getFields(): array
     {
         return ([
             'id'
@@ -93,7 +93,7 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return \Mezon\CRUDService\CRUDServiceLogic CRUD service logic object
      */
-    protected function get_service_logic()
+    protected function getServiceLogic()
     {
         return (new \Mezon\CRUDService\CRUDServiceLogic(new FakeRequestParams(), new stdClass()));
     }
@@ -101,10 +101,10 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing constructor
      */
-    public function test_constructor_valid()
+    public function testConstructorValid()
     {
         // setup and test body
-        $ListBuilder = new \Mezon\GUI\ListBuilder($this->get_fields(), new FakeAdapter($this->get_service_logic()));
+        $ListBuilder = new \Mezon\GUI\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
 
         // assertions
         $this->assertIsArray($ListBuilder->Fields, 'Invalid fields list type');
@@ -113,13 +113,13 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing listing form
      */
-    public function test_listing_form()
+    public function testListingForm()
     {
         // setup
-        $ListBuilder = new \Mezon\GUI\ListBuilder($this->get_fields(), new FakeAdapter($this->get_service_logic()));
+        $ListBuilder = new \Mezon\GUI\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
 
         // test body
-        $Content = $ListBuilder->listing_form();
+        $Content = $ListBuilder->listingForm();
 
         // assertions
         $this->assertContains('>id<', $Content, 'Invalid header content');
@@ -133,10 +133,10 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     public function test_simple_listing_form()
     {
         // setup
-        $ListBuilder = new \Mezon\GUI\ListBuilder($this->get_fields(), new FakeAdapter($this->get_service_logic()));
+        $ListBuilder = new \Mezon\GUI\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
 
         // test body
-        $Content = $ListBuilder->simple_listing_form();
+        $Content = $ListBuilder->simpleListingForm();
 
         // assertions
         $this->assertContains('>id<', $Content, 'Invalid header content');

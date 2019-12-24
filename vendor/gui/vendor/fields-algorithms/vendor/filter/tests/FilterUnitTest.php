@@ -5,12 +5,12 @@ require_once (__DIR__ . '/../../../../../../functional/functional.php');
 class FilterUnitTest extends PHPUnit\Framework\TestCase
 {
     /**
-     * Testing add_filter_condition_from_arr method
+     * Testing addFilterConditionFromArr method
      */
-    function test_add_filter_condition_from_arr()
+    function testAddFilterConditionFromArr()
     {
         // setup and test body
-        $Result = \Mezon\GUI\FieldsAlgorithms\Filter::add_filter_condition_from_arr([
+        $Result = \Mezon\GUI\FieldsAlgorithms\Filter::addFilterConditionFromArr([
             [
                 'arg1' => '$id',
                 'op' => '>',
@@ -23,12 +23,12 @@ class FilterUnitTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing add_filter_condition_from_arr method
+     * Testing addFilterConditionFromArr method
      */
-    function test_add_filter_condition_from_arr_simple()
+    function testAddFilterConditionFromArr_simple()
     {
         // setup and test body
-        $Result = \Mezon\GUI\FieldsAlgorithms\Filter::add_filter_condition_from_arr([
+        $Result = \Mezon\GUI\FieldsAlgorithms\Filter::addFilterConditionFromArr([
             'field1' => 1 ,
             'field2'=> 'null',
             'field3'=>'not null',

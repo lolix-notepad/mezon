@@ -7,7 +7,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing construction with default path
      */
-    public function test_constructor_1()
+    public function testConstructor1()
     {
         // setup and test body
         $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/', 'index', [
@@ -24,7 +24,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing construction with flexible path
      */
-    public function test_constructor_2()
+    public function testConstructor2()
     {
         // setup and test body
         $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/res/', 'index2', [
@@ -41,7 +41,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing invalid construction
      */
-    public function test_invalid_constructor()
+    public function testInvalidConstructor()
     {
         try {
             // setup and test body
@@ -57,7 +57,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing that all unused place holders will be removed
      */
-    public function test_compile()
+    public function testCompile()
     {
         // setup
         $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/res/', 'index2', [
@@ -75,7 +75,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing unexisting block
      */
-    public function test_get_unexisting_block()
+    public function testGetUnexistingBlock()
     {
         // setup and test body
         $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/', 'index', [
@@ -84,7 +84,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
 
         try {
             // test body
-            $Template->get_block('unexisting');
+            $Template->getBlock('unexisting');
 
             // assertions
             $this->fail('Exception wile block reading must be thrown but it was not');

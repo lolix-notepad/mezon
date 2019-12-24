@@ -14,7 +14,6 @@ require_once (__DIR__ . '/../html-template/html-template.php');
 require_once (__DIR__ . '/../template-engine/template-engine.php');
 require_once (__DIR__ . '/../template-resources/template-resources.php');
 
-// TODO add camel-case
 /**
  * Template class
  */
@@ -31,7 +30,7 @@ class GentellaTemplate extends \Mezon\HTMLTemplate
     {
         parent::__construct(dirname(__FILE__), $Template);
 
-        $this->set_page_var('action', '');
+        $this->setPageVar('action', '');
     }
 
     /**
@@ -39,7 +38,7 @@ class GentellaTemplate extends \Mezon\HTMLTemplate
      *
      * @return string Close button markup
      */
-    protected static function get_close_button(): string
+    protected static function getCloseButton(): string
     {
         return ('<button type="button" class="close" data-dismiss="alert" aria-label="Close">' . '<span aria-hidden="true">×</span></button>');
     }
@@ -53,7 +52,7 @@ class GentellaTemplate extends \Mezon\HTMLTemplate
      *            Message
      * @return string Message block markup
      */
-    protected static function get_message_content(string $MsgType, string $Message): string
+    protected static function getMessageContent(string $MsgType, string $Message): string
     {
         $Content = '<div class="x_content" style="margin: 0; padding: 0;">';
         $Content .= '<div class="alert ' . $MsgType . ' alert-dismissible fade in" role="alert">';
@@ -69,9 +68,9 @@ class GentellaTemplate extends \Mezon\HTMLTemplate
      * @param string $Message
      *            Message to be compiled
      */
-    public static function success_message_content(string $Message): string
+    public static function successMessageContent(string $Message): string
     {
-        return (self::get_message_content('alert-success', $Message));
+        return (self::getMessageContent('alert-success', $Message));
     }
 
     /**
@@ -80,9 +79,9 @@ class GentellaTemplate extends \Mezon\HTMLTemplate
      * @param string $Message
      *            Message to be compiled
      */
-    public static function info_message_content(string $Message): string
+    public static function infoMessageContent(string $Message): string
     {
-        return (self::get_message_content('alert-info', $Message));
+        return (self::getMessageContent('alert-info', $Message));
     }
 
     /**
@@ -91,9 +90,9 @@ class GentellaTemplate extends \Mezon\HTMLTemplate
      * @param string $Message
      *            Message to be compiled
      */
-    public static function warning_message_content(string $Message): string
+    public static function warningMessageContent(string $Message): string
     {
-        return (self::get_message_content('alert-warning', $Message));
+        return (self::getMessageContent('alert-warning', $Message));
     }
 
     /**
@@ -102,9 +101,9 @@ class GentellaTemplate extends \Mezon\HTMLTemplate
      * @param string $Message
      *            Message to be compiled
      */
-    public static function danger_message_content(string $Message): string
+    public static function dangerMessageContent(string $Message): string
     {
-        return (self::get_message_content('alert-danger', $Message));
+        return (self::getMessageContent('alert-danger', $Message));
     }
 }
 

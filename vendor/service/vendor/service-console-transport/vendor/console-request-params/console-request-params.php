@@ -1,18 +1,17 @@
 <?php
 namespace Mezon\Service\ServiceConsoleTransport;
+
 /**
  * Class ConsoleRequestParams
  *
- * @package     ServiceConsoleTransport
- * @subpackage  ConsoleRequestParams
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/12)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package ServiceConsoleTransport
+ * @subpackage ConsoleRequestParams
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/12)
+ * @copyright Copyright (c) 2019, aeon.org
  */
+require_once (__DIR__ . '/../../../service-request-params/service-request-params.php');
 
-require_once(__DIR__.'/../../../service-request-params/service-request-params.php');
-
-// TODO add camel-case
 /**
  * Request params fetcher.
  */
@@ -42,7 +41,7 @@ class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParams
      *
      * @return string Session id.
      */
-    protected function get_session_id()
+    protected function getSessionId()
     {
         return ('');
     }
@@ -56,7 +55,7 @@ class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParams
      *            - default value.
      * @return string Parameter value.
      */
-    public function get_param($Param, $Default = false)
+    public function getParam($Param, $Default = false)
     {
         global $argv;
 

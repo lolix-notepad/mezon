@@ -11,8 +11,6 @@ namespace Mezon\GUI\ListBuilder;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
-
 /**
  * Interace for all adapters
  */
@@ -37,7 +35,7 @@ interface ListBuilderAdapter
      *            the size of the batch
      * @return array subset from vailable records
      */
-    public function get_records(array $Order, int $From, int $Limit): array;
+    public function getRecords(array $Order, int $From, int $Limit): array;
 
     /**
      * Record preprocessor
@@ -46,7 +44,7 @@ interface ListBuilderAdapter
      *            record to be preprocessed
      * @return array preprocessed record
      */
-    public function preprocess_list_item(array $Record): array;
+    public function preprocessListItem(array $Record): array;
 }
 
 ?>

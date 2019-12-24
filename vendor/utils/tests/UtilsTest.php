@@ -7,10 +7,10 @@ class UtilsTest extends PHPUnit\Framework\TestCase
     /**
      * Testing bot detection
      */
-    public function test_bot_success()
+    public function testBotSuccess()
     {
         // test body
-        $Result = Utils::is_bot('YandexCalendar');
+        $Result = Utils::isBot('YandexCalendar');
 
         // assertions
         $this->assertTrue($Result, 'Invalid result');
@@ -19,10 +19,10 @@ class UtilsTest extends PHPUnit\Framework\TestCase
     /**
      * Testing bot detection
      */
-    public function test_bot_failed()
+    public function testBotFailed()
     {
         // test body
-        $Result = Utils::is_bot('Unexisting Bot');
+        $Result = Utils::isBot('Unexisting Bot');
 
         // assertions
         $this->assertFalse($Result, 'Invalid result');

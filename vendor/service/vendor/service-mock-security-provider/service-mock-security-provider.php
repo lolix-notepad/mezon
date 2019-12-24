@@ -12,7 +12,6 @@ namespace Mezon\Service;
  */
 require_once (__DIR__ . '/../service-security-provider/service-security-provider.php');
 
-// TODO add camel-case
 /**
  * Class ServiceMockSecurityProvider - provides mockes for all security methods
  */
@@ -26,7 +25,7 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
      *            Session token
      * @return string Session token
      */
-    public function create_session(string $Token = null): string
+    public function createSession(string $Token = null): string
     {
         if ($Token === null) {
             return (md5(microtime(true)));
@@ -56,7 +55,7 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
      *            Token
      * @return string Session token id
      */
-    public function set_token(string $Token): string
+    public function setToken(string $Token): string
     {
         return ($Token);
     }
@@ -68,7 +67,7 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
      *            Token
      * @return int id of the session user
      */
-    public function get_self_id(string $Token): int
+    public function getSelfId(string $Token): int
     {
         return (1);
     }
@@ -80,7 +79,7 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
      *            Token
      * @return string login of the session user
      */
-    public function get_self_login(string $Token): string
+    public function getSelfLogin(string $Token): string
     {
         return ('admin@localhost');
     }
@@ -96,7 +95,7 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
      *            Contains 'login' or 'id'
      * @return string New session id
      */
-    public function login_as(string $Token, string $LoginOrId, string $Field): string
+    public function loginAs(string $Token, string $LoginOrId, string $Field): string
     {
         return ($Token);
     }
@@ -110,7 +109,7 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
      *            Permit name
      * @return bool True if the
      */
-    public function has_permit(string $Token, string $Permit): bool
+    public function hasPermit(string $Token, string $Permit): bool
     {
         return (true);
     }
@@ -123,7 +122,7 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
      * @param string $Permit
      *            Permit name
      */
-    public function validate_permit(string $Token, string $Permit)
+    public function validatePermit(string $Token, string $Permit)
     {}
 
     /**
@@ -131,7 +130,7 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
      * {@inheritdoc}
      * @see ServiceSecurityProvider::get_login_field_name()
      */
-    public function get_login_field_name(): string
+    public function getLoginFieldName(): string
     {
         return ('login');
     }
@@ -141,7 +140,7 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
      *
      * @return string Field name
      */
-    public function get_session_id_field_name(): string
+    public function getSessionIdFieldName(): string
     {
         return ('session_id');
     }

@@ -10,7 +10,6 @@ namespace Mezon\CustomClient;
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Wrapper for CURL routines
  */
@@ -26,7 +25,7 @@ class CurlWrapper
 	 * @param array $Data Request data
 	 * @return array Response body and HTTP code
 	 */
-	public static function send_request(string $URL, array $Headers, string $Method, array $Data = []): array
+	public static function sendRequest(string $URL, array $Headers, string $Method, array $Data = []): array
 	{
 		$Ch = curl_init();
 

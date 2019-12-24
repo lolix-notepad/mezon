@@ -11,7 +11,6 @@ namespace Mezon\Service;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Base type for all logic classes
  *

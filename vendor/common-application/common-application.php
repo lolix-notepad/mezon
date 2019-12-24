@@ -15,7 +15,6 @@ require_once (__DIR__ . '/../router/router.php');
 require_once (__DIR__ . '/../service/vendor/service-rest-transport/vendor/rest-exception/rest-exception.php');
 require_once (__DIR__ . '/../view/view.php');
 
-// TODO add camel-case
 /**
  * Common application with any available template
  *
@@ -58,9 +57,9 @@ class CommonApplication extends Application
 
         $this->Template = $Template;
 
-        $this->Router->set_no_processor_found_error_handler([
+        $this->Router->setNoProcessorFoundErrorHandler([
             $this,
-            'no_route_found_error_handler'
+            'noRouteFoundErrorHandler'
         ]);
     }
 
@@ -70,7 +69,7 @@ class CommonApplication extends Application
      * @param string $Route
      * @codeCoverageIgnore
      */
-    public function no_route_found_error_handler(string $Route): void
+    public function noRouteFoundErrorHandler(string $Route): void
     {
         $this->redirect_to('/404');
     }
@@ -80,7 +79,7 @@ class CommonApplication extends Application
      *
      * @return array List of common parts.
      */
-    public function cross_render(): array
+    public function crossRender(): array
     {
         return ([]);
     }
@@ -91,7 +90,7 @@ class CommonApplication extends Application
      * @param mixed $e
      *            Exception object
      */
-    protected function format_call_stack($e): array
+    protected function formatCallStack($e): array
     {
         $Stack = $e->getTrace();
 
@@ -109,12 +108,12 @@ class CommonApplication extends Application
      *            Exception
      * @return object Formatted exception object
      */
-    protected function base_formatter(\Exception $e): object
+    protected function baseFormatter(\Exception $e): object
     {
         $Error = new \stdClass();
         $Error->message = $e->getMessage();
         $Error->code = $e->getCode();
-        $Error->call_stack = $this->format_call_stack($e);
+        $Error->call_stack = $this->formatCallStack($e);
         if (isset($_SERVER['HTTP_HOST']) && $_SERVER['REQUEST_URI']) {
             $Error->host = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         } else {
@@ -129,9 +128,9 @@ class CommonApplication extends Application
      * @param \Mezon\Service\ServiceRESTTransport\RESTException $e
      *            RESTException object.
      */
-    public function handle_rest_exception(\Mezon\Service\ServiceRESTTransport\RESTException $e): void
+    public function handleRestException(\Mezon\Service\ServiceRESTTransport\RESTException $e): void
     {
-        $Error = $this->base_formatter($e);
+        $Error = $this->baseFormatter($e);
 
         $Error->http_body = $e->http_body;
 
@@ -144,9 +143,9 @@ class CommonApplication extends Application
      * @param \Exception $e
      *            Exception object.
      */
-    public function handle_exception(\Exception $e): void
+    public function handleException(\Exception $e): void
     {
-        $Error = $this->base_formatter($e);
+        $Error = $this->baseFormatter($e);
 
         print('<pre>' . json_encode($Error, JSON_PRETTY_PRINT));
     }
@@ -157,26 +156,26 @@ class CommonApplication extends Application
     public function run(): void
     {
         try {
-            $CallRouteResult = $this->call_route();
+            $CallRouteResult = $this->callRoute();
             if (is_array($CallRouteResult) === false) {
                 throw (new \Exception('Route was not called properly'));
             }
 
-            $Result = array_merge($CallRouteResult, $this->cross_render());
+            $Result = array_merge($CallRouteResult, $this->crossRender());
 
             if (is_array($Result)) {
                 foreach ($Result as $Key => $Value) {
                     $Content = $Value instanceof \Mezon\View ? $Value->render() : $Value;
 
-                    $this->Template->set_page_var($Key, $Content);
+                    $this->Template->setPageVar($Key, $Content);
                 }
             }
 
             print($this->Template->compile());
         } catch (\Mezon\Service\ServiceRESTTransport\RESTException $e) {
-            $this->handle_rest_exception($e);
+            $this->handleRestException($e);
         } catch (\Exception $e) {
-            $this->handle_exception($e);
+            $this->handleException($e);
         }
     }
 
@@ -185,7 +184,7 @@ class CommonApplication extends Application
      *
      * @return HTMLTemplate Application's template
      */
-    public function get_template(): HTMLTemplate
+    public function getRemplate(): HTMLTemplate
     {
         return ($this->Template);
     }
@@ -196,7 +195,7 @@ class CommonApplication extends Application
      * @param mixed $Template
      *            Template
      */
-    public function set_template($Template): void
+    public function setTemplate($Template): void
     {
         $this->Template = $Template;
     }

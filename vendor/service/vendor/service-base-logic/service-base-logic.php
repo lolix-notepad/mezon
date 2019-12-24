@@ -14,7 +14,6 @@ require_once (__DIR__ . '/../service-base-logic-interface/service-base-logic-int
 require_once (__DIR__ . '/../service-model/service-model.php');
 require_once (__DIR__ . '/../service-request-params/service-request-params.php');
 
-// TODO add camel-case
 /**
  * Class stores all service's logic
  *
@@ -72,9 +71,9 @@ class ServiceBaseLogic implements ServiceBaseLogicInterface
      *            default value
      * @return mixed Parameter value
      */
-    protected function get_param($Param, $Default = false)
+    protected function getParam($Param, $Default = false)
     {
-        return ($this->ParamsFetcher->get_param($Param, $Default));
+        return ($this->ParamsFetcher->getParam($Param, $Default));
     }
 }
 

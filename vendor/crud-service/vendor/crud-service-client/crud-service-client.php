@@ -13,7 +13,6 @@ namespace Mezon\CRUDService;
 require_once (__DIR__ . '/../../../cache/cache.php');
 require_once (__DIR__ . '/../../../service/vendor/service-client/service-client.php');
 
-// TODO add camel-case
 /**
  * Class for basic CRUD API client.
  *
@@ -31,7 +30,7 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      *            Do we need &
      * @return string Compiled filter
      */
-    public function get_compiled_filter($Filter, $Amp = true)
+    public function getCompiledFilter($Filter, $Amp = true)
     {
         if ($Filter !== false) {
             if (isset($Filter[0]) && is_array($Filter[0])) {
@@ -59,7 +58,7 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      *            Sorting settings. For example [ 'field' => 'id' , 'order' => 'ASC' ]
      * @return string Compiled sorting settings
      */
-    protected function get_compiled_order($Order)
+    protected function getCompiledOrder($Order)
     {
         if ($Order !== false) {
             return ('&' . http_build_query([
@@ -80,11 +79,11 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      * @return array List of records
      * @codeCoverageIgnore
      */
-    public function get_records_by($Filter, $CrossDomain = 0)
+    public function getRecordsBy($Filter, $CrossDomain = 0)
     {
-        $Filter = $this->get_compiled_filter($Filter);
+        $Filter = $this->getCompiledFilter($Filter);
 
-        return ($this->get_request('/list/?cross_domain=' . $CrossDomain . $Filter));
+        return ($this->getRequest('/list/?cross_domain=' . $CrossDomain . $Filter));
     }
 
     /**
@@ -97,9 +96,9 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      * @return object fetched record
      * @codeCoverageIgnore
      */
-    public function get_by_id($id, $CrossDomain = 0)
+    public function getById($id, $CrossDomain = 0)
     {
-        return ($this->get_request("/exact/$id/?cross_domain=$CrossDomain"));
+        return ($this->getRequest("/exact/$id/?cross_domain=$CrossDomain"));
     }
 
     /**
@@ -111,9 +110,9 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      *            Domain id
      * @return array Fetched records
      */
-    public function get_by_ids_array($ids, $CrossDomain = 0)
+    public function getByIdsArray($ids, $CrossDomain = 0)
     {
-        $Cache = \Mezon\Cache::get_instance();
+        $Cache = \Mezon\Cache::getInstance();
 
         $Key = $this->Service . '/get_by_ids_array/' . ($CrossDomain ? 1 : 0) . implode('.', $ids);
 
@@ -125,7 +124,7 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
             return ([]);
         }
 
-        $Result = $this->get_request('/exact/list/' . implode(',', $ids) . "/?cross_domain=$CrossDomain");
+        $Result = $this->getRequest('/exact/list/' . implode(',', $ids) . "/?cross_domain=$CrossDomain");
 
         $Cache->set($Key, $Result);
 
@@ -141,9 +140,9 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      */
     public function create($Data)
     {
-        $Data = $this->pretransform_data($Data);
+        $Data = $this->pretransformData($Data);
 
-        return ($this->post_request('/create/', $Data));
+        return ($this->postRequest('/create/', $Data));
     }
 
     /**
@@ -160,7 +159,7 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      */
     public function update(int $id, array $Data, int $CrossDomain = 0)
     {
-        return ($this->post_request('/update/' . $id . '/?cross_domain=' . $CrossDomain, $Data));
+        return ($this->postRequest('/update/' . $id . '/?cross_domain=' . $CrossDomain, $Data));
     }
 
     /**
@@ -170,7 +169,7 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      */
     public function fields()
     {
-        $Result = $this->get_request('/fields/');
+        $Result = $this->getRequest('/fields/');
 
         $Result = json_encode($Result);
 
@@ -188,9 +187,9 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      * @return array List of records created since $Date
      * @codeCoverageIgnore
      */
-    public function new_records_since($Date)
+    public function newRecordsSince($Date)
     {
-        return ($this->get_request('/new/from/' . $Date . '/'));
+        return ($this->getRequest('/new/from/' . $Date . '/'));
     }
 
     /**
@@ -199,9 +198,9 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      * @return array List of records created since $Date
      * @codeCoverageIgnore
      */
-    public function records_count()
+    public function recordsCount()
     {
-        return ($this->get_request('/records/count/'));
+        return ($this->getRequest('/records/count/'));
     }
 
     /**
@@ -214,11 +213,11 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      * @return array $Count of last created records
      * @codeCoverageIgnore
      */
-    public function last_records($Count, $Filter)
+    public function lastRecords($Count, $Filter)
     {
-        $Filter = $this->get_compiled_filter($Filter, false);
+        $Filter = $this->getCompiledFilter($Filter, false);
 
-        return ($this->get_request('/last/' . $Count . '/?' . $Filter));
+        return ($this->getRequest('/last/' . $Count . '/?' . $Filter));
     }
 
     /**
@@ -233,7 +232,7 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      */
     public function delete(int $id, int $CrossDomain = 0): string
     {
-        return ($this->get_request('/delete/' . $id . '/?cross_domain=' . $CrossDomain));
+        return ($this->getRequest('/delete/' . $id . '/?cross_domain=' . $CrossDomain));
     }
 
     /**
@@ -245,19 +244,19 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      *            Filtering settings
      * @return array List of records created since $Date
      */
-    public function records_count_by_field(string $Field, $Filter = false): array
+    public function recordsCountByField(string $Field, $Filter = false): array
     {
-        $Cache = \Mezon\Cache::get_instance();
+        $Cache = \Mezon\Cache::getInstance();
 
-        $Filter = $this->get_compiled_filter($Filter);
+        $Filter = $this->getCompiledFilter($Filter);
 
-        $Key = $this->Service . '/records_count_by_field/' . $Field . '/' . $Filter;
+        $Key = $this->Service . '/records-count-by-field/' . $Field . '/' . $Filter;
 
         if ($Cache->exists($Key)) {
             return ($Cache->get($Key));
         }
 
-        $Return = $this->get_request('/records/count/' . $Field . '/?' . $Filter);
+        $Return = $this->getRequest('/records/count/' . $Field . '/?' . $Filter);
 
         $Cache->set($Key, $Return);
 
@@ -273,11 +272,11 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      *            Filtering settings
      * @codeCoverageIgnore
      */
-    public function delete_filtered($CrossDomain = 0, $Filter = false)
+    public function deleteFiltered($CrossDomain = 0, $Filter = false)
     {
-        $Filter = $this->get_compiled_filter($Filter);
+        $Filter = $this->getCompiledFilter($Filter);
 
-        $this->post_request('/delete/?cross_domain=' . $CrossDomain . $Filter, []);
+        $this->postRequest('/delete/?cross_domain=' . $CrossDomain . $Filter, []);
     }
 
     /**
@@ -293,7 +292,7 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
     {
         $Connection = new CRUDServiceClient($Service);
 
-        $Connection->set_token($Token);
+        $Connection->setToken($Token);
 
         return ($Connection);
     }
@@ -313,13 +312,13 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      *            Sorting settings
      * @return array List of records
      */
-    public function get_list(int $From = 0, int $Limit = 1000000000, $CrossDomain = 0, $Filter = false, $Order = false): array
+    public function getList(int $From = 0, int $Limit = 1000000000, $CrossDomain = 0, $Filter = false, $Order = false): array
     {
-        $Filter = $this->get_compiled_filter($Filter);
+        $Filter = $this->getCompiledFilter($Filter);
 
-        $Order = $this->get_compiled_order($Order);
+        $Order = $this->getCompiledOrder($Order);
 
-        return ($this->get_request('/list/?from=' . $From . '&limit=' . $Limit . '&cross_domain=' . $CrossDomain . $Filter . $Order));
+        return ($this->getRequest('/list/?from=' . $From . '&limit=' . $Limit . '&cross_domain=' . $CrossDomain . $Filter . $Order));
     }
 
     /**
@@ -331,7 +330,7 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      *            Field name
      * @return array Field data
      */
-    protected function create_file_field(string $Path, string $Name): array
+    protected function createFileField(string $Path, string $Name): array
     {
         return ([
             'file' => base64_encode(file_get_contents($Path)),
@@ -346,14 +345,14 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      *            Uploading data
      * @return boolean True if the $Value is the uploading file. False otherwise
      */
-    protected function is_file($Value)
+    protected function isFile($Value)
     {
         if ((is_array($Value) || is_object($Value)) === false) {
             // it is not a file, it is a scalar
             return (false);
         }
 
-        if (\Mezon\Functional::get_field($Value, 'name') !== null && \Mezon\Functional::get_field($Value, 'size') !== null && \Mezon\Functional::get_field($Value, 'type') !== null && \Mezon\Functional::get_field($Value, 'tmp_name') !== null) {
+        if (\Mezon\Functional::getField($Value, 'name') !== null && \Mezon\Functional::getField($Value, 'size') !== null && \Mezon\Functional::getField($Value, 'type') !== null && \Mezon\Functional::getField($Value, 'tmp_name') !== null) {
             return (true);
         }
 
@@ -367,10 +366,10 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      *            Data to be transformed
      * @return string Transformed data
      */
-    protected function pretransform_data($Data)
+    protected function pretransformData($Data)
     {
         foreach ($Data as $Key => $Value) {
-            if ($this->is_file($Value)) {
+            if ($this->isFile($Value)) {
                 $TmpName = $Value['tmp_name'];
                 // looks like we have to upload file
                 if (is_array($Value['name'])) {
@@ -378,11 +377,11 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
 
                     // even several files!
                     foreach (array_keys($Value['name']) as $i) {
-                        $Data[$Key][] = $this->create_file_field($TmpName[$i], $Value['name'][$i]);
+                        $Data[$Key][] = $this->createFileField($TmpName[$i], $Value['name'][$i]);
                     }
                 } else {
                     // only single file
-                    $Data[$Key] = $this->create_file_field($TmpName, $Value['name']);
+                    $Data[$Key] = $this->createFileField($TmpName, $Value['name']);
                 }
             }
         }
@@ -395,9 +394,9 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
      *
      * @return array Fields and layout
      */
-    public function get_fields(): array
+    public function getFields(): array
     {
-        return ($this->get_request('/fields/'));
+        return ($this->getRequest('/fields/'));
     }
 }
 

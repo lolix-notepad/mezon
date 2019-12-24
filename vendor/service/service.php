@@ -12,7 +12,6 @@ namespace Mezon;
  */
 require_once (__DIR__ . '/vendor/service-base/service-base.php');
 
-// TODO add camel-case
 /**
  * Service class
  *
@@ -35,23 +34,23 @@ class Service extends Service\ServiceBase
      * @param mixed $ServiceModel
      *            Service's model
      */
-    public function __construct($ServiceTransport = 'Mezon\Service\ServiceRESTTransport', $SecurityProvider = 'Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = 'Mezon\Service\ServiceLogic', $ServiceModel = 'Mezon\Service\ServiceModel')
+    public function __construct($ServiceTransport = '\Mezon\Service\ServiceRESTTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\Service\ServiceLogic', $ServiceModel = '\Mezon\Service\ServiceModel')
     {
         parent::__construct($ServiceTransport, $SecurityProvider, $ServiceLogic, $ServiceModel);
 
-        $this->init_common_routes();
+        $this->initCommonRoutes();
     }
 
     /**
      * Method inits common servoce's routes
      */
-    protected function init_common_routes(): void
+    protected function initCommonRoutes(): void
     {
-        $this->ServiceTransport->add_route('/connect/', 'connect', 'POST', 'public_call');
-        $this->ServiceTransport->add_route('/token/[a:token]/', 'set_token', 'POST');
-        $this->ServiceTransport->add_route('/self/id/', 'get_self_id', 'GET');
-        $this->ServiceTransport->add_route('/self/login/', 'get_self_login', 'GET');
-        $this->ServiceTransport->add_route('/login-as/', 'login_as', 'POST');
+        $this->ServiceTransport->addRoute('/connect/', 'connect', 'POST', 'public_call');
+        $this->ServiceTransport->addRoute('/token/[a:token]/', 'setToken', 'POST');
+        $this->ServiceTransport->addRoute('/self/id/', 'getSelfId', 'GET');
+        $this->ServiceTransport->addRoute('/self/login/', 'getSelfLogin', 'GET');
+        $this->ServiceTransport->addRoute('/login-as/', 'loginAs', 'POST');
     }
 
     /**

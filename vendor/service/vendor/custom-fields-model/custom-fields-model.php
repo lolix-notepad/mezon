@@ -10,7 +10,6 @@ namespace Mezon\Service;
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Model for processing custom fields
  * 
@@ -38,10 +37,10 @@ class CustomFieldsModel {
      *
      * @return boolean|\Mezon\PdoCrud - PDO DB connection or false on error.
      */
-    protected function get_connection():\Mezon\PdoCrud
+    protected function getConnection():\Mezon\PdoCrud
     {
         // @codeCoverageIgnoreStart
-        return (\Mezon\Mezon::get_db_connection());
+        return (\Mezon\Mezon::getDbConnection());
         // @codeCoverageIgnoreEnd
     }
 
@@ -50,7 +49,7 @@ class CustomFieldsModel {
      *
      * @return string Table name
      */
-    protected function get_custom_fields_template_name(): string
+    protected function getCustomFieldsTemplateBame(): string
     {
         return ($this->TableName . '_custom_field');
     }
@@ -64,20 +63,20 @@ class CustomFieldsModel {
      *            List of required fields or all
      * @return array Result of the fetching
      */
-    public function get_custom_fields_for_object(int $ObjectId, array $Filter = [
+    public function getCustomFieldsForObject(int $ObjectId, array $Filter = [
         '*'
     ]): array
     {
         $Result = [];
 
-        $CustomFields = $this->get_connection()->select('*', $this->get_custom_fields_template_name(), 'object_id = ' . $ObjectId);
+        $CustomFields = $this->getConnection()->select('*', $this->getCustomFieldsTemplateBame(), 'object_id = ' . $ObjectId);
 
         foreach ($CustomFields as $Field) {
-            $FieldName = \Mezon\Functional::get_field($Field, 'field_name');
+            $FieldName = \Mezon\Functional::getField($Field, 'field_name');
 
             // if the field in the list or all fields must be fetched
             if (in_array($FieldName, $Filter) || in_array('*', $Filter)) {
-                $Result[$FieldName] = \Mezon\Functional::get_field($Field, 'field_value');
+                $Result[$FieldName] = \Mezon\Functional::getField($Field, 'field_value');
             }
         }
 
@@ -92,7 +91,7 @@ class CustomFieldsModel {
      * @param array $Filter
      *            List of required fields or all
      */
-    public function delete_custom_fields_for_object(int $ObjectId, array $Filter = [
+    public function deleteCustomFieldsForObject(int $ObjectId, array $Filter = [
         '1=1'
     ])
     {
@@ -100,7 +99,7 @@ class CustomFieldsModel {
             'object_id = ' . $ObjectId
         ]));
 
-        $this->get_connection()->delete($this->get_custom_fields_template_name(), $Condition);
+        $this->getConnection()->delete($this->getCustomFieldsTemplateBame(), $Condition);
     }
 
     /**
@@ -113,9 +112,9 @@ class CustomFieldsModel {
      * @param string $FieldValue
      *            Field value
      */
-    public function set_field_for_object(int $ObjectId, string $FieldName, string $FieldValue):void
+    public function setFieldForObject(int $ObjectId, string $FieldName, string $FieldValue):void
     {
-        $Connection = $this->get_connection();
+        $Connection = $this->getConnection();
 
         $ObjectId = intval($ObjectId);
         $FieldName = htmlspecialchars($FieldName);
@@ -124,15 +123,15 @@ class CustomFieldsModel {
             'field_value' => $FieldValue
         ];
 
-        if (count($this->get_custom_fields_for_object($ObjectId, [
+        if (count($this->getCustomFieldsForObject($ObjectId, [
             $FieldName
         ])) > 0) {
-            $Connection->update($this->get_custom_fields_template_name(), $Record, 'field_name LIKE "' . $FieldName . '" AND object_id = ' . $ObjectId);
+            $Connection->update($this->getCustomFieldsTemplateBame(), $Record, 'field_name LIKE "' . $FieldName . '" AND object_id = ' . $ObjectId);
         } else {
             // in the previous line we have tried to update unexisting field, so create it
             $Record['field_name'] = $FieldName;
             $Record['object_id'] = $ObjectId;
-            $Connection->insert($this->get_custom_fields_template_name(), $Record);
+            $Connection->insert($this->getCustomFieldsTemplateBame(), $Record);
         }
     }
 
@@ -143,10 +142,10 @@ class CustomFieldsModel {
      *            List of records
      * @return array Transformed records
      */
-    public function get_custom_fields_for_records(array $Records): array
+    public function getCustomFieldsForRecords(array $Records): array
     {
         foreach ($Records as $i => $Record) {
-            $Records[$i]['custom'] = $this->get_custom_fields_for_object(\Mezon\Functional::get_field($Record, 'id'));
+            $Records[$i]['custom'] = $this->getCustomFieldsForObject(\Mezon\Functional::getField($Record, 'id'));
         }
 
         return ($Records);

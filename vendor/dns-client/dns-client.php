@@ -11,11 +11,10 @@ namespace Mezon;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * DNS class for fetching data about services location
  *
- * For example the call DNS::resolve_host('example') will return URL of the example service
+ * For example the call DNS::resolveHost('example') will return URL of the example service
  */
 class DNS
 {
@@ -23,7 +22,7 @@ class DNS
     /**
      * Method returns list of available services.
      */
-    public static function get_services()
+    public static function getServices()
     {
         global $DNSRecords;
 
@@ -36,7 +35,7 @@ class DNS
      * @param string $ServiceName
      *            Service name
      */
-    public static function service_exists($ServiceName)
+    public static function serviceExists($ServiceName)
     {
         global $DNSRecords;
 
@@ -49,12 +48,12 @@ class DNS
      * @param string $ServiceName
      *            Service name
      */
-    public static function resolve_host($ServiceName)
+    public static function resolveHost($ServiceName)
     {
         global $DNSRecords;
 
         if (! isset($DNSRecords[$ServiceName])) {
-            throw (new \Exception('Service "' . $ServiceName . '" was not found among services: ' . self::get_services(), - 1));
+            throw (new \Exception('Service "' . $ServiceName . '" was not found among services: ' . self::getServices(), - 1));
         }
 
         if (is_string($DNSRecords[$ServiceName])) {

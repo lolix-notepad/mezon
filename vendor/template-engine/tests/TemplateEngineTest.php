@@ -9,15 +9,15 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
     /**
      * Simple vars
      */
-    public function test_simple_substitutions_array()
+    public function testSimpleSubstitutionsArray()
     {
-        $Data = array(
+        $Data = [
             'var1' => 'v1',
             'var2' => 'v2'
-        );
+        ];
         $String = '{var1} {var2}';
 
-        $String = \Mezon\TemplateEngine::print_record($String, $Data);
+        $String = \Mezon\TemplateEngine::printRecord($String, $Data);
 
         $this->assertEquals($String, 'v1 v2', 'Invalid string processing');
     }
@@ -25,14 +25,14 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
     /**
      * Simple vars
      */
-    public function test_simple_substitutions_object()
+    public function testSimpleSubstitutionsObject()
     {
         $Data = new stdClass();
         $Data->var1 = 'v1';
         $Data->var2 = 'v2';
         $String = '{var1} {var2}';
 
-        $String = \Mezon\TemplateEngine::print_record($String, $Data);
+        $String = \Mezon\TemplateEngine::printRecord($String, $Data);
 
         $this->assertEquals($String, 'v1 v2', 'Invalid string processing');
     }
@@ -40,13 +40,13 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
     /**
      * Invalid objects
      */
-    public function test_simple_substitutions_invalid_objects()
+    public function testSimpleSubstitutionsInvalidObjects()
     {
         $Msg = '';
 
         try {
             $String = '';
-            $String = \Mezon\TemplateEngine::print_record($String, false);
+            $String = \Mezon\TemplateEngine::printRecord($String, false);
         } catch (Exception $e) {
             $Msg = $e->getMessage();
         }
@@ -55,7 +55,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
 
         try {
             $String = '';
-            $String = \Mezon\TemplateEngine::print_record($String, null);
+            $String = \Mezon\TemplateEngine::printRecord($String, null);
         } catch (Exception $e) {
             $Msg = $e->getMessage();
         }
@@ -64,7 +64,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
 
         try {
             $String = '';
-            $String = \Mezon\TemplateEngine::print_record($String, 1234);
+            $String = \Mezon\TemplateEngine::printRecord($String, 1234);
         } catch (Exception $e) {
             $Msg = $e->getMessage();
         }
@@ -73,7 +73,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
 
         try {
             $String = '';
-            $String = \Mezon\TemplateEngine::print_record($String, 'string');
+            $String = \Mezon\TemplateEngine::printRecord($String, 'string');
         } catch (Exception $e) {
             $Msg = $e->getMessage();
         }
@@ -86,7 +86,7 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
      *
      * @return array data sets
      */
-    public function switch_tests_data(): array
+    public function switchTestsData(): array
     {
         return (json_decode('[["{switch:1}{case:1}1{~case}{case:2}2{~case}{~switch}",[],"1"],["{foreach:field}{content}{~foreach}",{"field":[{"content":"1"},{"content":"2"}]},"12"],["{foreach:field}{n}{~foreach}",{"field":[{"f":1},{"f":2}]},"12"],["{switch:2}{case:1}1{~case}{case:2}2{~case}{~switch}",[],"2"],["{switch:0}{case:0}0{~case}{case:1}1{~case}{~switch}",[],"0"],["{switch:{value}}{case:0}0{~case}{case:1}1{~case}{~switch}",[],"{switch:{value}}{case:0}0{~case}{case:1}1{~case}{~switch}"],["{print:field}{content1}{content2}{~print}",{"field":[{"content1":"1"},{"content2":"2"}]},"12"],["{switch:{field3}}{case:3}Done!{~case}{~switch}",{"field1":1,"field2":{"f1":"11","f2":"22"},"field3":3},"Done!"],["{var1} {var2} {var3}",{"var1":"v1","var2":"v2","field":{"var3":"v3"}},"v1 v2 v3"]]', true));
     }
@@ -94,12 +94,12 @@ class TemplateEngineTest extends PHPUnit\Framework\TestCase
     /**
      * Method tests switch macro
      *
-     * @dataProvider switch_tests_data
+     * @dataProvider switchTestsData
      */
-    public function test_switch_macro(string $Str, array $Data, string $Result)
+    public function testSwitchMacro(string $Str, array $Data, string $Result)
     {
         // test body
-        $Data = \Mezon\TemplateEngine::print_record($Str, $Data);
+        $Data = \Mezon\TemplateEngine::printRecord($Str, $Data);
 
         // assertions
         $this->assertEquals($Result, $Data, 'Invalid blocks parsing');

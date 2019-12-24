@@ -9,8 +9,7 @@
  * @version     v.1.0 (2019/09/20)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-// TODO add namespace
-// TODO add camel-case
+// TODO exclude to separate project
 /**
  * Utilities
  */
@@ -24,7 +23,7 @@ class Utils
      *            Visitor's user agent
      * @return boolean True|false
      */
-    public static function is_bot(string $UserAgent): bool
+    public static function isBot(string $UserAgent): bool
     {
         $KnownBots = [
             'Googlebot',

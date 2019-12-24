@@ -10,7 +10,6 @@ namespace Mezon\GUI;
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Base interface for all controls
  */
@@ -27,7 +26,7 @@ interface Control
     /**
      * Does control fills all row
      */
-    public function fill_all_row(): bool;
+    public function fillAllRow(): bool;
 }
 
 ?>

@@ -2,11 +2,11 @@
 return ([
     [
         'route' => '/get-route/',
-        'callback' => 'action_existing'
+        'callback' => 'actionExisting'
     ],
     [
         'route' => '/post-route/',
-        'callback' => 'action_existing',
+        'callback' => 'actionExisting',
         'method' => 'POST'
     ]
 ]);

@@ -7,11 +7,11 @@ class ServiceMockSecurityProviderUnitTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing session creation.
 	 */
-	public function test_create_session_1()
+	public function testCreateSession1()
 	{
-		$Provider = new ServiceMockSecurityProvider();
+		$Provider = new \Mezon\Service\ServiceMockSecurityProvider();
 
-		$Token = $Provider->create_session();
+		$Token = $Provider->createSession();
 
 		$this->assertEquals(32, strlen($Token), 'Invalid token was returned');
 	}

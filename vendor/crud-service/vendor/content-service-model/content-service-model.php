@@ -11,7 +11,6 @@ namespace Mezon\Service;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 require_once (__DIR__ . '/../../../service/vendor/db-service-model/db-service-model.php');
 
 /**
@@ -28,13 +27,13 @@ class ContentServiceModel extends \Mezon\Service\DBServiceModel
      * @param integer $id
      *            Id of the record
      */
-    public function increment_views($id): void
+    public function incrementViews($id): void
     {
         $Where = [
             'id = ' . intval($id)
         ];
 
-        $Connection = $this->get_connection();
+        $Connection = $this->getConnection();
 
         $Connection->update($this->TableName, [
             'views' => 'INC'

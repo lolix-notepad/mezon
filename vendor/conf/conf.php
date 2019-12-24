@@ -13,7 +13,15 @@ namespace Mezon;
 define('APP_HTTP_PATH_STRING', '@app-http-path');
 define('MEZON_HTTP_PATH_STRING', '@mezon-http-path');
 
-// TODO add camel-case
+/**
+ * Config data
+ * 
+ * @author Dodonov A.A.
+ */
+class Config{
+    public static $AppConfig = [];
+}
+
 /**
  * Method expands string
  *
@@ -21,25 +29,23 @@ define('MEZON_HTTP_PATH_STRING', '@mezon-http-path');
  *            value to be expanded;
  * @return mixed Expanded value.
  */
-function _expand_string($Value)
+function _expandString($Value)
 {
-    global $AppConfig;
-
     if (is_string($Value)) {
         $Value = str_replace([
             APP_HTTP_PATH_STRING,
             MEZON_HTTP_PATH_STRING
         ], [
-            @$AppConfig[APP_HTTP_PATH_STRING],
-            @$AppConfig[MEZON_HTTP_PATH_STRING]
+            @Config::$AppConfig[APP_HTTP_PATH_STRING],
+            @Config::$AppConfig[MEZON_HTTP_PATH_STRING]
         ], $Value);
     } elseif (is_array($Value)) {
         foreach ($Value as $FieldName => $FieldValue) {
-            $Value[$FieldName] = _expand_string($FieldValue);
+            $Value[$FieldName] = _expandString($FieldValue);
         }
     } elseif (is_object($Value)) {
         foreach ($Value as $FieldName => $FieldValue) {
-            $Value->$FieldName = _expand_string($FieldValue);
+            $Value->$FieldName = _expandString($FieldValue);
         }
     }
 
@@ -56,19 +62,17 @@ function _expand_string($Value)
  *            Default value if the key was not found
  * @return mixed Key value
  */
-function get_config_value($Route, $DefaultValue = false)
+function getConfigValue($Route, $DefaultValue = false)
 {
-    global $AppConfig;
-
     if (is_string($Route)) {
         $Route = explode('/', $Route);
     }
 
-    if (isset($AppConfig[$Route[0]]) === false) {
+    if (isset(Config::$AppConfig[$Route[0]]) === false) {
         return ($DefaultValue);
     }
 
-    $Value = $AppConfig[$Route[0]];
+    $Value = Config::$AppConfig[$Route[0]];
 
     for ($i = 1; $i < count($Route); $i ++) {
         if (isset($Value[$Route[$i]]) === false) {
@@ -78,7 +82,7 @@ function get_config_value($Route, $DefaultValue = false)
         $Value = $Value[$Route[$i]];
     }
 
-    return (_expand_string($Value));
+    return (_expandString($Value));
 }
 
 /**
@@ -91,14 +95,14 @@ function get_config_value($Route, $DefaultValue = false)
  * @param mixed $Value
  *            Value to be set
  */
-function _set_config_value_rec(array &$Config, array $Route, $Value)
+function _setConfigValueRec(array &$Config, array $Route, $Value)
 {
     if (isset($Config[$Route[0]]) === false) {
         $Config[$Route[0]] = [];
     }
 
     if (count($Route) > 1) {
-        _set_config_value_rec($Config[$Route[0]], array_slice($Route, 1), $Value);
+        _setConfigValueRec($Config[$Route[0]], array_slice($Route, 1), $Value);
     } elseif (count($Route) == 1) {
         $Config[$Route[0]] = $Value;
     }
@@ -112,16 +116,14 @@ function _set_config_value_rec(array &$Config, array $Route, $Value)
  * @param mixed $Value
  *            Value to be set
  */
-function set_config_value($Route, $Value)
+function setConfigValue($Route, $Value)
 {
-    global $AppConfig;
-
     $Route = explode('/', $Route);
 
     if (count($Route) > 1) {
-        _set_config_value_rec($AppConfig, $Route, $Value);
+        _setConfigValueRec(Config::$AppConfig, $Route, $Value);
     } else {
-        $AppConfig[$Route[0]] = $Value;
+        Config::$AppConfig[$Route[0]] = $Value;
     }
 }
 
@@ -135,14 +137,14 @@ function set_config_value($Route, $Value)
  * @param mixed $Value
  *            Value to be set
  */
-function _add_config_value_rec(array &$Config, array $Route, $Value)
+function _addConfigValueRec(array &$Config, array $Route, $Value)
 {
     if (isset($Config[$Route[0]]) === false) {
         $Config[$Route[0]] = [];
     }
 
     if (count($Route) > 1) {
-        _add_config_value_rec($Config[$Route[0]], array_slice($Route, 1), $Value);
+        _addConfigValueRec($Config[$Route[0]], array_slice($Route, 1), $Value);
     } elseif (count($Route) == 1) {
         $Config[$Route[0]][] = $Value;
     }
@@ -156,16 +158,14 @@ function _add_config_value_rec(array &$Config, array $Route, $Value)
  * @param mixed $Value
  *            Value to be set
  */
-function add_config_value(string $Route, $Value)
+function addConfigValue(string $Route, $Value)
 {
-    global $AppConfig;
-
     $Route = explode('/', $Route);
 
     if (count($Route) > 1) {
-        _add_config_value_rec($AppConfig, $Route, $Value);
+        _addConfigValueRec(Config::$AppConfig, $Route, $Value);
     } else {
-        $AppConfig[$Route[0]] = [
+        Config::$AppConfig[$Route[0]] = [
             $Value
         ];
     }
@@ -178,16 +178,14 @@ function add_config_value(string $Route, $Value)
  *            Route to key
  * @return bool True if the key exists, false otherwise
  */
-function config_key_exists($Route): bool
+function configKeyExists($Route): bool
 {
-    global $AppConfig;
-
     if (is_string($Route)) {
         $Route = explode('/', $Route);
     }
 
     // validating route
-    $Value = $AppConfig[$Route[0]];
+    $Value = Config::$AppConfig[$Route[0]];
 
     for ($i = 1; $i < count($Route); $i ++) {
         if (isset($Value[$Route[$i]]) === false) {
@@ -208,14 +206,14 @@ function config_key_exists($Route): bool
  * @param array $ConfigPart
  *            Config part
  */
-function _delete_config(array $RouteParts, array &$ConfigPart)
+function _deleteConfig(array $RouteParts, array &$ConfigPart)
 {
     if (count($RouteParts) == 1) {
         // don't go deeper and delete the found staff
         unset($ConfigPart[$RouteParts[0]]);
     } else {
         // go deeper
-        _delete_config(array_splice($RouteParts, 1), $ConfigPart[$RouteParts[0]]);
+        _deleteConfig(array_splice($RouteParts, 1), $ConfigPart[$RouteParts[0]]);
 
         if (count($ConfigPart[$RouteParts[0]]) == 0) {
             // remove empty parents
@@ -230,20 +228,18 @@ function _delete_config(array $RouteParts, array &$ConfigPart)
  * @param mixed $Route
  *            Route to key
  */
-function delete_config_value($Route)
+function deleteConfigValue($Route)
 {
-    global $AppConfig;
-
     if (is_string($Route)) {
         $Route = explode('/', $Route);
     }
 
-    if (config_key_exists($Route) === false) {
+    if (configKeyExists($Route) === false) {
         return (false);
     }
 
     // route exists, so delete it
-    _delete_config($Route, $AppConfig);
+    _deleteConfig($Route, Config::$AppConfig);
 
     return (true);
 }
@@ -260,18 +256,11 @@ function delete_config_value($Route)
  * @param string $Password
  *            DB User password
  */
-function add_connection_to_config(string $Name, string $DSN, string $User, string $Password)
+function addConnectionToConfig(string $Name, string $DSN, string $User, string $Password)
 {
-    set_config_value($Name . '/dsn', $DSN);
-    set_config_value($Name . '/user', $User);
-    set_config_value($Name . '/password', $Password);
+    setConfigValue($Name . '/dsn', $DSN);
+    setConfigValue($Name . '/user', $User);
+    setConfigValue($Name . '/password', $Password);
 }
-
-set_config_value(APP_HTTP_PATH_STRING, 'http://' . @$_SERVER['HTTP_HOST'] . '/' . trim(@$_SERVER['REQUEST_URI'], '/'));
-set_config_value(MEZON_HTTP_PATH_STRING, 'http://' . @$_SERVER['HTTP_HOST'] . '/' . trim(@$_SERVER['REQUEST_URI'], '/'));
-
-set_config_value('res/images/favicon', '@mezon-http-path/res/images/favicon.ico');
-
-add_config_value('res/css', '@mezon-http-path/res/css/application.css');
 
 ?>

@@ -11,7 +11,6 @@ namespace Mezon;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Template engine class.
  */
@@ -25,7 +24,7 @@ class TemplateEngine
      *            Starting and ending positions of the blocks
      * @return array Updated positions
      */
-    protected static function get_possible_block_positions(array &$Positions): array
+    protected static function getPossibleBlockPositions(array &$Positions): array
     {
         $StartPos = $EndPos = false;
         $c = 0;
@@ -59,7 +58,7 @@ class TemplateEngine
      *            Block end
      * @return array Starting and ending positions of the block
      */
-    protected static function get_all_block_positions(string $String, string $BlockStart, string $BlockEnd): array
+    protected static function getAllBlockPositions(string $String, string $BlockStart, string $BlockEnd): array
     {
         $Positions = [];
         $StartPos = strpos($String, '{' . $BlockStart . '}', 0);
@@ -92,11 +91,11 @@ class TemplateEngine
      *            Block end
      * @return array Positions of the beginning and the end
      */
-    protected static function get_block_positions(string $String, string $BlockStart, string $BlockEnd): array
+    protected static function getBlockPositions(string $String, string $BlockStart, string $BlockEnd): array
     {
-        $Positions = self::get_all_block_positions($String, $BlockStart, $BlockEnd);
+        $Positions = self::getAllBlockPositions($String, $BlockStart, $BlockEnd);
 
-        list ($StartPos, $EndPos) = self::get_possible_block_positions($Positions);
+        list ($StartPos, $EndPos) = self::getPossibleBlockPositions($Positions);
 
         if ($StartPos === false) {
             return ([
@@ -125,9 +124,9 @@ class TemplateEngine
      *            end of the block
      * @return mixed Block content. Or false if the block was not found
      */
-    public static function get_block_data(string $String, string $BlockStart, string $BlockEnd)
+    public static function getBlockData(string $String, string $BlockStart, string $BlockEnd)
     {
-        list ($StartPos, $EndPos) = self::get_block_positions($String, $BlockStart, $BlockEnd);
+        list ($StartPos, $EndPos) = self::getBlockPositions($String, $BlockStart, $BlockEnd);
 
         if ($StartPos !== false) {
             $BlockData = substr($String, $StartPos + strlen('{' . $BlockStart . '}'), $EndPos - $StartPos - strlen('{' . $BlockStart . '}'));
@@ -150,7 +149,7 @@ class TemplateEngine
      * @param integer $Counter
      *            Brackets counter
      */
-    protected static function handle_macro_start(int $TmpStartPos, int $TmpEndPos, int &$StartPos, int &$Counter)
+    protected static function handleMacroStart(int $TmpStartPos, int $TmpEndPos, int &$StartPos, int &$Counter)
     {
         if ($TmpStartPos !== false && $TmpEndPos !== false) {
             if ($TmpStartPos < $TmpEndPos) {
@@ -180,7 +179,7 @@ class TemplateEngine
      * @param integer $MacroStartPos
      *            Position of the macro
      */
-    protected static function handle_macro_end(int $TmpStartPos, int $TmpEndPos, int &$StartPos, int &$Counter, int $MacroStartPos)
+    protected static function handleMacroEnd(int $TmpStartPos, int $TmpEndPos, int &$StartPos, int &$Counter, int $MacroStartPos)
     {
         if ($TmpStartPos !== false && $TmpEndPos === false) {
             $Counter ++;
@@ -214,14 +213,14 @@ class TemplateEngine
      * @param integer $MacroStartPos
      *            Position of the macro
      */
-    protected static function handle_macro_start_end(&$StringData, &$TmpStartPos, &$TmpEndPos, &$StartPos, &$Counter, $MacroStartPos)
+    protected static function handleMacroStartEnd(&$StringData, &$TmpStartPos, &$TmpEndPos, &$StartPos, &$Counter, $MacroStartPos)
     {
         $TmpStartPos = strpos($StringData, '{', $StartPos + 1);
         $TmpEndPos = strpos($StringData, '}', $StartPos + 1);
 
-        self::handle_macro_start($TmpStartPos, $TmpEndPos, $StartPos, $Counter);
+        self::handleMacroStart($TmpStartPos, $TmpEndPos, $StartPos, $Counter);
 
-        self::handle_macro_end($TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos);
+        self::handleMacroEnd($TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos);
     }
 
     /**
@@ -243,10 +242,10 @@ class TemplateEngine
      *            Position of macro's parameters
      * @return string Macro parameters or false otherwise
      */
-    public static function find_macro(&$StringData, &$TmpStartPos, &$TmpEndPos, &$StartPos, &$Counter, $MacroStartPos, $ParamStartPos)
+    public static function findMacro(&$StringData, &$TmpStartPos, &$TmpEndPos, &$StartPos, &$Counter, $MacroStartPos, $ParamStartPos)
     {
         do {
-            self::handle_macro_start_end($StringData, $TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos);
+            self::handleMacroStartEnd($StringData, $TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos);
 
             if ($Counter == 0) {
                 return (substr($StringData, $ParamStartPos, $TmpEndPos - $ParamStartPos));
@@ -267,7 +266,7 @@ class TemplateEngine
      *            starting position of the search
      * @return mixed Macro parameters or false if the macro was not found
      */
-    public static function get_macro_parameters($String, $Name, $StartPos = - 1)
+    public static function getMacrParameters($String, $Name, $StartPos = - 1)
     {
         while (($TmpStartPos = strpos($String, '{' . $Name . ':', $StartPos + 1)) !== false) {
             $Counter = 1;
@@ -276,7 +275,7 @@ class TemplateEngine
             $MacroStartPos = $StartPos;
             $ParamStartPos = $MacroStartPos + strlen('{' . $Name . ':');
 
-            $Result = self::find_macro($String, $TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos, $ParamStartPos);
+            $Result = self::findMacro($String, $TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos, $ParamStartPos);
 
             if ($Result !== false) {
                 return ($Result);
@@ -298,9 +297,9 @@ class TemplateEngine
      * @param
      *            string Processed string
      */
-    protected static function apply_foreach_data($Str, $Parameters, $Data)
+    protected static function applyForeachData($Str, $Parameters, $Data)
     {
-        $SubTemplate = self::get_block_data($Str, "foreach:$Parameters", '~foreach');
+        $SubTemplate = self::getBlockData($Str, "foreach:$Parameters", '~foreach');
 
         $BlockStart = "{foreach:$Parameters}";
 
@@ -309,7 +308,7 @@ class TemplateEngine
         foreach ($Data as $v) {
             $SingleRecordTemplate = str_replace('{n}', $RecordCounter ++, $SubTemplate);
 
-            $Str = str_replace($BlockStart, self::print_record($SingleRecordTemplate, $v) . $BlockStart, $Str);
+            $Str = str_replace($BlockStart, self::printRecord($SingleRecordTemplate, $v) . $BlockStart, $Str);
         }
 
         return ($Str);
@@ -327,13 +326,13 @@ class TemplateEngine
      * @param
      *            string Processed string
      */
-    protected static function apply_print_data($Str, $Parameters, $Data)
+    protected static function applyPrintData($Str, $Parameters, $Data)
     {
-        $SubTemplate = self::get_block_data($Str, "print:$Parameters", '~print');
+        $SubTemplate = self::getBlockData($Str, "print:$Parameters", '~print');
 
         $BlockStart = "{print:$Parameters}";
 
-        $Str = str_replace($BlockStart, self::unwrap_blocks($SubTemplate, $Data) . $BlockStart, $Str);
+        $Str = str_replace($BlockStart, self::unwrapBlocks($SubTemplate, $Data) . $BlockStart, $Str);
 
         return ($Str);
     }
@@ -352,9 +351,9 @@ class TemplateEngine
      * @param
      *            string Processed string
      */
-    public static function replace_block($Str, $BlockStart, $BlockEnd, $Content)
+    public static function replaceBlock($Str, $BlockStart, $BlockEnd, $Content)
     {
-        list ($StartPos, $EndPos) = self::get_block_positions($Str, $BlockStart, $BlockEnd);
+        list ($StartPos, $EndPos) = self::getBlockPositions($Str, $BlockStart, $BlockEnd);
 
         if ($StartPos !== false) {
             $Str = substr_replace($Str, $Content, $StartPos, $EndPos - $StartPos + strlen(chr(123) . $BlockEnd . chr(125)));
@@ -372,17 +371,17 @@ class TemplateEngine
      *            printing record
      * @return string Processed string
      */
-    public static function compile_print($String, &$Record): string
+    public static function compilePrint($String, &$Record): string
     {
         $StartPos = - 1;
 
-        while ($Parameters = self::get_macro_parameters($String, 'print', $StartPos)) {
-            if (Functional::field_exists($Record, $Parameters)) {
-                $Data = Functional::get_field($Record, $Parameters);
+        while ($Parameters = self::getMacrParameters($String, 'print', $StartPos)) {
+            if (Functional::fieldExists($Record, $Parameters)) {
+                $Data = Functional::getField($Record, $Parameters);
 
-                $String = self::apply_print_data($String, $Parameters, $Data);
+                $String = self::applyPrintData($String, $Parameters, $Data);
 
-                $String = self::replace_block($String, "print:$Parameters", '~print', '');
+                $String = self::replaceBlock($String, "print:$Parameters", '~print', '');
             } else {
                 $StartPos = strpos($String, "{print:$Parameters", $StartPos > 0 ? $StartPos : 0);
             }
@@ -400,17 +399,17 @@ class TemplateEngine
      *            printing record
      * @return string Processed string
      */
-    public static function compile_foreach($String, &$Record): string
+    public static function compileForeach($String, &$Record): string
     {
         $StartPos = - 1;
 
-        while ($Parameters = self::get_macro_parameters($String, 'foreach', $StartPos)) {
-            if (Functional::field_exists($Record, $Parameters)) {
-                $Data = Functional::get_field($Record, $Parameters);
+        while ($Parameters = self::getMacrParameters($String, 'foreach', $StartPos)) {
+            if (Functional::fieldExists($Record, $Parameters)) {
+                $Data = Functional::getField($Record, $Parameters);
 
-                $String = self::apply_foreach_data($String, $Parameters, $Data);
+                $String = self::applyForeachData($String, $Parameters, $Data);
 
-                $String = self::replace_block($String, "foreach:$Parameters", '~foreach', '');
+                $String = self::replaceBlock($String, "foreach:$Parameters", '~foreach', '');
             } else {
                 $StartPos = strpos($String, "{foreach:$Parameters", $StartPos > 0 ? $StartPos : 0);
             }
@@ -428,11 +427,11 @@ class TemplateEngine
      *            printing record
      * @return string Processed string
      */
-    public static function compile_values($String, $Record): string
+    public static function compileValues($String, $Record): string
     {
         foreach ($Record as $Field => $Value) {
             if (is_array($Value) || is_object($Value)) {
-                $String = self::unwrap_blocks($String, $Value);
+                $String = self::unwrapBlocks($String, $Value);
             } else {
                 $String = str_replace('{' . $Field . '}', $Value, $String);
             }
@@ -448,7 +447,7 @@ class TemplateEngine
      *            Parameters to be analized
      * @return bool true if the params are terminal, false otherwise
      */
-    protected static function are_terminal_params(string $Parameters): bool
+    protected static function areTerminalParams(string $Parameters): bool
     {
         return (strpos($Parameters, '}') === false && strpos($Parameters, '{') === false);
     }
@@ -460,17 +459,17 @@ class TemplateEngine
      *            processing string
      * @return string Processed string
      */
-    public static function compile_switch($String): string
+    public static function compileSwitch($String): string
     {
         $StartPos = - 1;
 
-        while (($Parameters = self::get_macro_parameters($String, 'switch', $StartPos)) !== false) {
-            if (self::are_terminal_params($Parameters)) {
-                $SwitchBody = self::get_block_data($String, "switch:$Parameters", '~switch');
+        while (($Parameters = self::getMacrParameters($String, 'switch', $StartPos)) !== false) {
+            if (self::areTerminalParams($Parameters)) {
+                $SwitchBody = self::getBlockData($String, "switch:$Parameters", '~switch');
 
-                $CaseBody = self::get_block_data($SwitchBody, "case:$Parameters", '~case');
+                $CaseBody = self::getBlockData($SwitchBody, "case:$Parameters", '~case');
 
-                $String = self::replace_block($String, "switch:$Parameters", '~switch', $CaseBody);
+                $String = self::replaceBlock($String, "switch:$Parameters", '~switch', $CaseBody);
             } else {
                 $StartPos = strpos($String, '{switch:', $StartPos + 8);
             }
@@ -489,13 +488,13 @@ class TemplateEngine
      * @param
      *            string Processed string
      */
-    public static function unwrap_blocks(string $String, $Record): string
+    public static function unwrapBlocks(string $String, $Record): string
     {
-        $String = self::compile_print($String, $Record);
+        $String = self::compilePrint($String, $Record);
 
-        $String = self::compile_foreach($String, $Record);
+        $String = self::compileForeach($String, $Record);
 
-        $String = self::compile_values($String, $Record);
+        $String = self::compileValues($String, $Record);
 
         return ($String);
     }
@@ -510,15 +509,15 @@ class TemplateEngine
      * @param
      *            string Processed string
      */
-    public static function print_record(string $String, $Record): string
+    public static function printRecord(string $String, $Record): string
     {
         if (is_array($Record) === false && is_object($Record) === false) {
             throw (new \Exception('Invalid record was passed'));
         }
 
-        $String = self::unwrap_blocks($String, $Record);
+        $String = self::unwrapBlocks($String, $Record);
 
-        $String = self::compile_switch($String);
+        $String = self::compileSwitch($String);
 
         return ($String);
     }

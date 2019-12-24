@@ -21,13 +21,13 @@ class CRUDServiceTests extends ServiceTests
 	/**
 	 * Method tests list endpoint.
 	 */
-	public function test_list()
+	public function testList()
 	{
-		$this->valid_connect();
+		$this->validConnect();
 
 		$URL = $this->ServerPath . '/list/?from=0&limit=20';
 
-		$Result = $this->get_html_request($URL);
+		$Result = $this->getHtmlRequest($URL);
 
 		$this->assertEquals(count($Result) > 0, true, 'No records were returned');
 	}
@@ -35,13 +35,13 @@ class CRUDServiceTests extends ServiceTests
 	/**
 	 * Method tests cross domain list endpoint.
 	 */
-	public function test_cross_domain_list()
+	public function testCrossDomainList()
 	{
-		$this->valid_connect();
+		$this->validConnect();
 
 		$URL = $this->ServerPath . '/list/?from=0&limit=20&cross_domain=1';
 
-		$Result = $this->get_html_request($URL);
+		$Result = $this->getHtmlRequest($URL);
 
 		$this->assertEquals(count($Result) > 0, true, 'No records were listed');
 	}
@@ -49,13 +49,13 @@ class CRUDServiceTests extends ServiceTests
 	/**
 	 * Method tests non cross domain list endpoint.
 	 */
-	public function test_non_cross_domain_list()
+	public function testNonCrossDomainList()
 	{
-		$this->valid_connect();
+		$this->validConnect();
 
 		$URL = $this->ServerPath . '/list/?from=0&limit=20&cross_domain=0';
 
-		$Result = $this->get_html_request($URL);
+		$Result = $this->getHtmlRequest($URL);
 
 		$this->assertEquals(count($Result) > 0, true, 'No records were listed');
 	}
@@ -63,13 +63,13 @@ class CRUDServiceTests extends ServiceTests
 	/**
 	 * Method tests records counter.
 	 */
-	public function test_records_count()
+	public function testRecordsCount()
 	{
-		$this->valid_connect();
+		$this->validConnect();
 
 		$URL = $this->ServerPath . '/records/count/';
 
-		$Result = $this->get_html_request($URL);
+		$Result = $this->getHtmlRequest($URL);
 
 		$this->assertEquals($Result > 0, true, 'Invalid records counting (>0)');
 	}
@@ -77,13 +77,13 @@ class CRUDServiceTests extends ServiceTests
 	/**
 	 * Method tests list page endpoint.
 	 */
-	public function test_list_page()
+	public function testListPage()
 	{
-		$this->valid_connect();
+		$this->validConnect();
 
 		$URL = $this->ServerPath . '/list/page/';
 
-		$Result = $this->get_html_request($URL);
+		$Result = $this->getHtmlRequest($URL);
 
 		$this->assertTrue(isset($Result->main), 'Page view was not generated');
 	}
@@ -91,13 +91,13 @@ class CRUDServiceTests extends ServiceTests
 	/**
 	 * Method tests last records fetching.
 	 */
-	public function test_last_records2()
+	public function testLastRecords2()
 	{
-		$this->valid_connect();
+		$this->validConnect();
 
 		$URL = $this->ServerPath . '/last/2/';
 
-		$Result = $this->get_html_request($URL);
+		$Result = $this->getHtmlRequest($URL);
 
 		$this->assertEquals(count($Result) > 0, true, 'Invalid records counting (2)');
 	}
@@ -105,13 +105,13 @@ class CRUDServiceTests extends ServiceTests
 	/**
 	 * Method tests last records fetching.
 	 */
-	public function test_last_records0()
+	public function testLastRecords0()
 	{
-		$this->valid_connect();
+		$this->validConnect();
 
 		$URL = $this->ServerPath . '/last/0/';
 
-		$Result = $this->get_html_request($URL);
+		$Result = $this->getHtmlRequest($URL);
 
 		$this->assertEquals(count($Result), 0, 'Invalid records counting (0)');
 	}

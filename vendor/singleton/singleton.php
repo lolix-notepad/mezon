@@ -10,7 +10,6 @@ namespace Mezon;
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  *   Singleton class
  */
@@ -39,7 +38,7 @@ class Singleton
     /**
      * Function returns instance of the object
      */
-    public static function get_instance()
+    public static function getInstance()
     {
         $ClassName = get_called_class();
 

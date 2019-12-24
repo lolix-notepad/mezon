@@ -25,7 +25,6 @@ require_once (__DIR__ . '/../field/vendor/textarea/textarea.php');
 
 require_once (__DIR__ . '/../form-builder/vendor/rows-field/rows-field.php');
 
-// TODO add camel-case
 /**
  * Class constructs forms
  */
@@ -69,7 +68,7 @@ class FieldsAlgorithms
             $Field['name'] = $Name;
             $Field['name-prefix'] = $this->EntityName;
 
-            $this->FieldObjects[$Name] = $this->init_object($Field);
+            $this->FieldObjects[$Name] = $this->initObject($Field);
         }
     }
 
@@ -80,7 +79,7 @@ class FieldsAlgorithms
      *            Value to be made secure
      * @return string Secure value
      */
-    protected function get_date_value(string $Value): string
+    protected function getDateValue(string $Value): string
     {
         if ($Value == '""') {
             return ('');
@@ -96,7 +95,7 @@ class FieldsAlgorithms
      *            Value to be made secure
      * @return array Secure value
      */
-    protected function get_external_value(array $Value): array
+    protected function getExternalValue(array $Value): array
     {
         foreach ($Value as $i => $Item) {
             $Value[$i] = intval($Item);
@@ -111,10 +110,10 @@ class FieldsAlgorithms
      *
      * @return bool true if the entity has custom fields
      */
-    public function has_custom_fields(): bool
+    public function hasCustomFields(): bool
     {
         foreach ($this->FieldObjects as $Field) {
-            if ($Field->get_type() == 'custom') {
+            if ($Field->getType() == 'custom') {
                 return (true);
             }
         }
@@ -133,7 +132,7 @@ class FieldsAlgorithms
      *            Need the uploaded file to be stored
      * @return mixed Secured value
      */
-    public function get_typed_value(string $Type, $Value, bool $StoreFiles = true)
+    public function getTypedValue(string $Type, $Value, bool $StoreFiles = true)
     {
         $Result = '';
 
@@ -143,19 +142,19 @@ class FieldsAlgorithms
                 break;
 
             case ('string'):
-                $Result = \Mezon\Security::get_string_value($Value);
+                $Result = \Mezon\Security::getStringValue($Value);
                 break;
 
             case ('file'):
-                $Result = \Mezon\Security::get_file_value($Value, $StoreFiles);
+                $Result = \Mezon\Security::getFileValue($Value, $StoreFiles);
                 break;
 
             case ('date'):
-                $Result = $this->get_date_value($Value);
+                $Result = $this->getDateValue($Value);
                 break;
 
             case ('external'):
-                $Result = $this->get_external_value($Value);
+                $Result = $this->getExternalValue($Value);
                 break;
 
             default:
@@ -171,7 +170,7 @@ class FieldsAlgorithms
      * @param string $Field
      *            Field name
      */
-    public function validate_field_existance(string $Field)
+    public function validateFieldExistance(string $Field)
     {
         if (! isset($this->FieldObjects[$Field])) {
             throw (new \Exception('Field "' . $Field . '" was not found'));
@@ -189,11 +188,11 @@ class FieldsAlgorithms
      *            Should we store files
      * @return mixed Secure value of the field
      */
-    public function get_secure_value(string $Field, $Value, bool $StoreFiles = true)
+    public function getSecureValue(string $Field, $Value, bool $StoreFiles = true)
     {
-        $this->validate_field_existance($Field);
+        $this->validateFieldExistance($Field);
 
-        return ($this->get_typed_value($this->FieldObjects[$Field]->get_type(), $Value, $StoreFiles));
+        return ($this->getTypedValue($this->FieldObjects[$Field]->getType(), $Value, $StoreFiles));
     }
 
     /**
@@ -207,16 +206,16 @@ class FieldsAlgorithms
      *            Should we store files
      * @return mixed Secure values of the field or one value
      */
-    public function get_secure_values(string $Field, $Values, bool $StoreFiles = true)
+    public function getSecureValues(string $Field, $Values, bool $StoreFiles = true)
     {
         $Return = [];
 
         if (is_array($Values)) {
             foreach ($Values as $i => $Value) {
-                $Return[$i] = $this->get_secure_value($Field, $Value, $StoreFiles);
+                $Return[$i] = $this->getSecureValue($Field, $Value, $StoreFiles);
             }
         } else {
-            $Return = $this->get_secure_value($Field, $Values, $StoreFiles);
+            $Return = $this->getSecureValue($Field, $Values, $StoreFiles);
         }
 
         return ($Return);
@@ -231,13 +230,13 @@ class FieldsAlgorithms
      *            Should we store files
      * @return array Fetched fields
      */
-    public function get_values_for_prefix(string $Prefix, bool $StoreFiles = true): array
+    public function getValuesForPrefix(string $Prefix, bool $StoreFiles = true): array
     {
         $Records = [];
 
         foreach (array_keys($this->FieldObjects) as $Name) {
             if (isset($_POST[$Prefix . $Name])) {
-                $Records[$Name] = $this->get_secure_values($Name, $_POST[$Prefix . $Name], $StoreFiles);
+                $Records[$Name] = $this->getSecureValues($Name, $_POST[$Prefix . $Name], $StoreFiles);
             }
         }
 
@@ -250,7 +249,7 @@ class FieldsAlgorithms
      * @param string $Name
      *            Field name
      */
-    public function remove_field($Name)
+    public function removeField($Name)
     {
         unset($this->FieldObjects[$Name]);
     }
@@ -264,17 +263,17 @@ class FieldsAlgorithms
      *            Name od the field
      * @return array Extended record
      */
-    public function fetch_custom_field(array &$Record, string $Name): array
+    public function fetchCustomField(array &$Record, string $Name): array
     {
         if (! isset($this->FieldObjects[$Name])) {
             return ($Record);
         }
 
-        $NestedFields = $this->FieldObjects[$Name]->get_fields();
+        $NestedFields = $this->FieldObjects[$Name]->getFields();
 
         foreach ($NestedFields as $Name => $Field) {
             if (isset($_POST[$this->EntityName . '-' . $Name])) {
-                $Record[$Name] = $this->get_typed_value($Field['type'], $_POST[$this->EntityName . '-' . $Name], true);
+                $Record[$Name] = $this->getTypedValue($Field['type'], $_POST[$this->EntityName . '-' . $Name], true);
             }
         }
 
@@ -289,14 +288,14 @@ class FieldsAlgorithms
      * @param string $Name
      *            Name od the field
      */
-    public function fetch_field(array &$Record, string $Name)
+    public function fetchField(array &$Record, string $Name)
     {
         if (isset($_POST[$this->EntityName . '-' . $Name])) {
-            $Record[$Name] = $this->get_secure_value($Name, $_POST[$this->EntityName . '-' . $Name]);
+            $Record[$Name] = $this->getSecureValue($Name, $_POST[$this->EntityName . '-' . $Name]);
         } elseif (isset($_FILES[$this->EntityName . '-' . $Name])) {
-            $Record[$Name] = $this->get_secure_value($Name, $_FILES[$this->EntityName . '-' . $Name]);
-        } elseif ($this->has_custom_fields()) {
-            $Record = $this->fetch_custom_field($Record, $Name);
+            $Record[$Name] = $this->getSecureValue($Name, $_FILES[$this->EntityName . '-' . $Name]);
+        } elseif ($this->hasCustomFields()) {
+            $Record = $this->fetchCustomField($Record, $Name);
         }
     }
 
@@ -307,7 +306,7 @@ class FieldsAlgorithms
      *            Field
      * @return mixed Control
      */
-    protected function init_object(array $Field)
+    protected function initObject(array $Field)
     {
         if (isset($Field['items'])) {
             $Control = new \Mezon\GUI\Field\Select($Field);
@@ -332,7 +331,7 @@ class FieldsAlgorithms
         } elseif ($Field['type'] == 'rows') {
             $ControlHTML = '';
             foreach ($Field['type']['rows'] as $RowFieldName) {
-                $Control = $this->get_object($RowFieldName);
+                $Control = $this->getObject($RowFieldName);
                 $ControlHTML .= $Control->html();
             }
             $Control = new \Mezon\GUI\FormBuilder\RowsField($Field, $ControlHTML);
@@ -350,7 +349,7 @@ class FieldsAlgorithms
      *            Field name
      * @return \Mezon\GUI\Field Field object
      */
-    public function get_object(string $Name): Field
+    public function getObject(string $Name): Field
     {
         return ($this->FieldObjects[$Name]);
     }
@@ -361,9 +360,9 @@ class FieldsAlgorithms
      * @param string $Name
      *            Field name
      */
-    public function get_compiled_field(string $Name)
+    public function getCompiledField(string $Name)
     {
-        $Control = $this->get_object($Name);
+        $Control = $this->getObject($Name);
 
         return ($Control->html());
     }
@@ -377,13 +376,13 @@ class FieldsAlgorithms
      *            Data source
      * @return string Compiled control
      */
-    protected function compile_rows_field(string $Name, array $Record): string
+    protected function compileRowsField(string $Name, array $Record): string
     {
-        $FieldObject = $this->get_object($Name);
+        $FieldObject = $this->getObject($Name);
 
-        $Content = ($FieldObject->has_label() ? '<div class="form-group ' . $this->EntityName . ' col-md-12">' . '<label class="control-label">' . $FieldObject->get_title() . ($FieldObject->is_required($Name) ? ' <span class="required">*</span>' : '') . '</label></div>' : '');
+        $Content = ($FieldObject->hasLabel() ? '<div class="form-group ' . $this->EntityName . ' col-md-12">' . '<label class="control-label">' . $FieldObject->get_title() . ($FieldObject->is_required($Name) ? ' <span class="required">*</span>' : '') . '</label></div>' : '');
 
-        $Content .= '<div>' . ($Template = $this->get_compiled_field($Name, $Record)) . '</div>';
+        $Content .= '<div>' . ($Template = $this->getCompiledField($Name, $Record)) . '</div>';
 
         $Content .= '<div><div class="form-group col-md-12">';
         $Content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $Name . '\' )">Добавить</button>';
@@ -407,7 +406,7 @@ class FieldsAlgorithms
      *
      * @return array
      */
-    public function get_fields_names(): array
+    public function getFieldsNames(): array
     {
         return (array_keys($this->FieldObjects));
     }
@@ -419,7 +418,7 @@ class FieldsAlgorithms
      *            Field name
      * @return bool
      */
-    public function has_field(string $FieldName): bool
+    public function hasField(string $FieldName): bool
     {
         // @codeCoverageIgnoreStart
         return (isset($this->FieldObjects[$FieldName]));

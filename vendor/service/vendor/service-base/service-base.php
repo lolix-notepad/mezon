@@ -12,7 +12,6 @@ namespace Mezon\Service;
  */
 require_once (__DIR__ . '/../service-rest-transport/service-rest-transport.php');
 
-// TODO add camel-case
 /**
  * Base service class
  *
@@ -51,22 +50,22 @@ class ServiceBase
      */
     public function __construct($ServiceTransport = 'ServiceRESTTransport', $SecurityProvider = 'ServiceMockSecurityProvider', $ServiceLogic = 'ServiceBaseLogic', $ServiceModel = 'ServiceModel')
     {
-        $this->init_transport($ServiceTransport, $SecurityProvider);
+        $this->initTransport($ServiceTransport, $SecurityProvider);
 
-        $this->init_service_logic($ServiceLogic, $ServiceModel);
+        $this->initServiceLogic($ServiceLogic, $ServiceModel);
 
-        $this->init_custom_routes();
+        $this->initCustomRoutes();
 
         if ($this instanceof ServiceBaseLogicInterface) {
-            $this->ServiceTransport->fetch_actions($this);
+            $this->ServiceTransport->fetchActions($this);
         }
 
         if ($this->ServiceLogic instanceof ServiceBaseLogicInterface) {
-            $this->ServiceTransport->fetch_actions($this->ServiceLogic);
+            $this->ServiceTransport->fetchActions($this->ServiceLogic);
         } elseif (is_array($this->ServiceLogic)) {
             foreach ($this->ServiceLogic as $ActionsSet) {
                 if ($ActionsSet instanceof ServiceBaseLogicInterface) {
-                    $this->ServiceTransport->fetch_actions($ActionsSet);
+                    $this->ServiceTransport->fetchActions($ActionsSet);
                 }
             }
         }
@@ -80,7 +79,7 @@ class ServiceBase
      * @param mixed $SecurityProvider
      *            Service's security provider
      */
-    protected function init_transport($ServiceTransport, $SecurityProvider)
+    protected function initTransport($ServiceTransport, $SecurityProvider)
     {
         if (is_string($ServiceTransport)) {
             $this->ServiceTransport = new $ServiceTransport($SecurityProvider);
@@ -98,10 +97,10 @@ class ServiceBase
      *            Service model class name of object itself
      * @return \Mezon\Service\ServiceLogic logic object
      */
-    protected function construct_service_logic($ServiceLogic, $ServiceModel)
+    protected function constructServiceLogic($ServiceLogic, $ServiceModel)
     {
         if (is_string($ServiceLogic)) {
-            $Result = new $ServiceLogic($this->ServiceTransport->get_params_fetcher(), $this->ServiceTransport->SecurityProvider, $ServiceModel);
+            $Result = new $ServiceLogic($this->ServiceTransport->getParamsFetcher(), $this->ServiceTransport->SecurityProvider, $ServiceModel);
         } else {
             $Result = $ServiceLogic;
         }
@@ -117,16 +116,16 @@ class ServiceBase
      * @param mixed $ServiceModel
      *            Service's Model
      */
-    protected function init_service_logic($ServiceLogic, $ServiceModel)
+    protected function initServiceLogic($ServiceLogic, $ServiceModel)
     {
         if (is_array($ServiceLogic)) {
             $this->ServiceLogic = [];
 
             foreach ($ServiceLogic as $Logic) {
-                $this->ServiceLogic[] = $this->construct_service_logic($Logic, $ServiceModel);
+                $this->ServiceLogic[] = $this->constructServiceLogic($Logic, $ServiceModel);
             }
         } else {
-            $this->ServiceLogic = $this->construct_service_logic($ServiceLogic, $ServiceModel);
+            $this->ServiceLogic = $this->constructServiceLogic($ServiceLogic, $ServiceModel);
         }
 
         $this->ServiceTransport->ServiceLogic = $this->ServiceLogic;
@@ -135,17 +134,17 @@ class ServiceBase
     /**
      * Method inits custom routes if necessary
      */
-    protected function init_custom_routes()
+    protected function initCustomRoutes()
     {
         $Reflector = new \ReflectionClass(get_class($this));
         $ClassPath = dirname($Reflector->getFileName());
 
         if (file_exists($ClassPath . '/conf/routes.php')) {
-            $this->ServiceTransport->load_routes_from_config($ClassPath . '/conf/routes.php');
+            $this->ServiceTransport->loadRoutesFromConfig($ClassPath . '/conf/routes.php');
         }
 
         if (file_exists($ClassPath . '/conf/routes.json')) {
-            $this->ServiceTransport->load_routes(json_decode(file_get_contents($ClassPath . '/conf/routes.json'), true));
+            $this->ServiceTransport->loadRoutes(json_decode(file_get_contents($ClassPath . '/conf/routes.json'), true));
         }
     }
 

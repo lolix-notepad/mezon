@@ -18,7 +18,7 @@ class TestApplication extends \Mezon\Application
 		parent::__construct();
 	}
 
-	function action_existing()
+	function actionExisting()
 	{
 		/* existing action */
 		return ('OK!');
@@ -36,7 +36,7 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Running with correct router.
 	 */
-	public function test_correct_route()
+	public function testCorrectRoute()
 	{
 		$Application = new TestApplication();
 
@@ -50,7 +50,7 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Running with incorrect router.
 	 */
-	public function test_incorrect_route()
+	public function testIncorrectRoute()
 	{
 		$Application = new TestApplication();
 
@@ -67,14 +67,14 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Test config structure validators.
 	 */
-	public function test_config_validators_route()
+	public function testConfigValidatorsRoute()
 	{
 		$Application = new TestApplication();
 
 		$Msg = '';
 
 		try {
-			$Application->load_routes_from_config(__DIR__ . '/test-invalid-routes-1.php');
+			$Application->loadRoutesFromConfig(__DIR__ . '/test-invalid-routes-1.php');
 		} catch (Exception $e) {
 			$Msg = $e->getMessage();
 		}
@@ -85,14 +85,14 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Test config structure validators.
 	 */
-	public function test_config_validators_callback()
+	public function testConfigValidatorsCallback()
 	{
 		$Application = new TestApplication();
 
 		$Msg = '';
 
 		try {
-			$Application->load_routes_from_config(__DIR__ . '/test-invalid-routes-2.php');
+			$Application->loadRoutesFromConfig(__DIR__ . '/test-invalid-routes-2.php');
 		} catch (Exception $e) {
 			$Msg = $e->getMessage();
 		}
@@ -103,11 +103,11 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing loading routes from config file.
 	 */
-	public function test_routes_php_config()
+	public function testRoutesPhpConfig()
 	{
 		$Application = new TestApplication();
 
-		$Application->load_routes_from_config(__DIR__ . '/test-routes.php');
+		$Application->loadRoutesFromConfig(__DIR__ . '/test-routes.php');
 
 		$_GET['r'] = '/get-route/';
 
@@ -119,11 +119,11 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing loading routes from config file.
 	 */
-	public function test_routes_json_config()
+	public function testRoutesJsonConfig()
 	{
 		$Application = new TestApplication();
 
-		$Application->load_routes_from_config(__DIR__ . '/test-routes.json');
+		$Application->loadRoutesFromConfig(__DIR__ . '/test-routes.json');
 
 		$_GET['r'] = '/get-route/';
 
@@ -135,13 +135,13 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing loading POST routes from config file.
 	 */
-	public function test_post_routes_config()
+	public function testPostRoutesConfig()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 
 		$Application = new TestApplication();
 
-		$Application->load_routes_from_config(__DIR__ . '/test-routes.php');
+		$Application->loadRoutesFromConfig(__DIR__ . '/test-routes.php');
 
 		$_GET['r'] = '/post-route/';
 
@@ -153,12 +153,12 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Trying to load unexisting config.
 	 */
-	public function test_loading_from_unexisting_route()
+	public function testLoadingFromUnexistingRoute()
 	{
 		try {
 			$Application = new TestApplication();
 
-			$Application->load_routes_from_config('unexisting');
+			$Application->loadRoutesFromConfig('unexisting');
 
 			$this->assertEquals(true, false, 'Exception was not thrown');
 		} catch (Exception $e) {
@@ -169,7 +169,7 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Method returns mocko bject of the application.
 	 */
-	protected function get_mock()
+	protected function getMock()
 	{
 		$Mock = $this->getMockBuilder('\Mezon\Application')
 			->disableOriginalConstructor()
@@ -184,10 +184,10 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Trying to load unexisting config.
 	 */
-	public function test_unexisting_router()
+	public function testUnexistingRouter()
 	{
 		try {
-			$Application = $this->get_mock();
+			$Application = $this->getMock();
 
 			$Application->run();
 
@@ -200,7 +200,7 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing call of the method added onthe fly.
 	 */
-	public function test_on_the_fly_method()
+	public function testOnTheFlyMethod()
 	{
 		$Application = new \Mezon\Application();
 
@@ -208,7 +208,7 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 			return ('OK!');
 		};
 
-		$Application->load_route([
+		$Application->loadRoute([
 			'route' => '/fly-route/',
 			'callback' => 'fly'
 		]);
@@ -224,7 +224,7 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Testing call of the method added onthe fly.
 	 */
-	public function test_on_the_fly_unexisting_method()
+	public function testOnTheFlyUnexistingMethod()
 	{
 		$Application = new \Mezon\Application();
 

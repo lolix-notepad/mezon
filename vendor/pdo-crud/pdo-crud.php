@@ -11,7 +11,6 @@ namespace Mezon;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Class provides simple CRUD operations
  */
@@ -46,7 +45,7 @@ class PdoCrud
      * @param string $Query
      *            SQL Query
      */
-    protected function process_query_error($Result, string $Query)
+    protected function processQueryError($Result, string $Query)
     {
         if ($Result === false) {
             $ErrorInfo = $this->PDO->errorInfo();
@@ -76,7 +75,7 @@ class PdoCrud
 
         $Result = $this->query($Query);
 
-        $this->process_query_error($Result, $Query);
+        $this->processQueryError($Result, $Query);
 
         return ($Result->fetchAll(\PDO::FETCH_ASSOC));
     }
@@ -88,7 +87,7 @@ class PdoCrud
      *            Inserting record
      * @return string Compiled query string
      */
-    protected function set_query(array $Record): string
+    protected function setQuery(array $Record): string
     {
         $SetFieldsStatement = [];
 
@@ -114,7 +113,7 @@ class PdoCrud
      *            Inserting records
      * @return string Compiled query string
      */
-    protected function set_multyple_query(array $Records)
+    protected function setMultypleQuery(array $Records)
     {
         $Query = '( ' . implode(' , ', array_keys($Records[0])) . ' ) VALUES ';
 
@@ -142,11 +141,11 @@ class PdoCrud
      */
     public function update(string $TableName, array $Record, string $Where, int $Limit = 10000000)
     {
-        $Query = 'UPDATE ' . $TableName . ' SET ' . $this->set_query($Record) . ' WHERE ' . $Where . ' LIMIT ' . $Limit;
+        $Query = 'UPDATE ' . $TableName . ' SET ' . $this->setQuery($Record) . ' WHERE ' . $Where . ' LIMIT ' . $Limit;
 
         $Result = $this->query($Query);
 
-        $this->process_query_error($Result, $Query);
+        $this->processQueryError($Result, $Query);
 
         return ($Result->rowCount());
     }
@@ -168,7 +167,7 @@ class PdoCrud
 
         $Result = $this->query($Query);
 
-        $this->process_query_error($Result, $Query);
+        $this->processQueryError($Result, $Query);
 
         return ($Result->rowCount());
     }
@@ -182,7 +181,7 @@ class PdoCrud
      *            List of lock modes
      * @return string Query
      */
-    protected function lock_query(array $Tables, array $Modes): string
+    protected function lockQuery(array $Tables, array $Modes): string
     {
         $Query = [];
 
@@ -205,11 +204,11 @@ class PdoCrud
      */
     public function lock(array $Tables, array $Modes)
     {
-        $Query = $this->lock_query($Tables, $Modes);
+        $Query = $this->lockQuery($Tables, $Modes);
 
         $Result = $this->query($Query);
 
-        $this->process_query_error($Result, $Query);
+        $this->processQueryError($Result, $Query);
     }
 
     /**
@@ -219,23 +218,23 @@ class PdoCrud
     {
         $Result = $this->query('UNLOCK TABLES');
 
-        $this->process_query_error($Result, 'UNLOCK TABLES');
+        $this->processQueryError($Result, 'UNLOCK TABLES');
     }
 
     /**
      * Method starts transaction
      */
-    public function start_transaction()
+    public function startTransaction()
     {
         // setting autocommit off
         $Result = $this->query('SET AUTOCOMMIT = 0');
 
-        $this->process_query_error($Result, 'SET AUTOCOMMIT = 0');
+        $this->processQueryError($Result, 'SET AUTOCOMMIT = 0');
 
         // starting transaction
         $Result = $this->query('START TRANSACTION');
 
-        $this->process_query_error($Result, 'START TRANSACTION');
+        $this->processQueryError($Result, 'START TRANSACTION');
     }
 
     /**
@@ -246,12 +245,12 @@ class PdoCrud
         // commit transaction
         $Result = $this->query('COMMIT');
 
-        $this->process_query_error($Result, 'COMMIT');
+        $this->processQueryError($Result, 'COMMIT');
 
         // setting autocommit on
         $Result = $this->query('SET AUTOCOMMIT = 1');
 
-        $this->process_query_error($Result, 'SET AUTOCOMMIT = 1');
+        $this->processQueryError($Result, 'SET AUTOCOMMIT = 1');
     }
 
     /**
@@ -262,7 +261,7 @@ class PdoCrud
         // rollback transaction
         $Result = $this->query('ROLLBACK');
 
-        $this->process_query_error($Result, 'ROLLBACK');
+        $this->processQueryError($Result, 'ROLLBACK');
     }
 
     /**
@@ -284,7 +283,7 @@ class PdoCrud
      *
      * @return string id of the last inserted record
      */
-    public function last_insert_id()
+    public function lastInsertId()
     {
         // @codeCoverageIgnoreStart
         return ($this->PDO->lastInsertId());
@@ -302,13 +301,13 @@ class PdoCrud
      */
     public function insert(string $TableName, array $Record): int
     {
-        $Query = 'INSERT ' . $TableName . ' SET ' . $this->set_query($Record);
+        $Query = 'INSERT ' . $TableName . ' SET ' . $this->setQuery($Record);
 
         $Result = $this->query($Query);
 
-        $this->process_query_error($Result, $Query);
+        $this->processQueryError($Result, $Query);
 
-        return ($this->last_insert_id());
+        return ($this->lastInsertId());
     }
 
     /**
@@ -320,13 +319,13 @@ class PdoCrud
      *            Inserting records
      * @return integer New record's id
      */
-    public function insert_multyple(string $TableName, array $Records)
+    public function insertMultyple(string $TableName, array $Records)
     {
-        $Query = 'INSERT INTO ' . $TableName . ' ' . $this->set_multyple_query($Records) . ';';
+        $Query = 'INSERT INTO ' . $TableName . ' ' . $this->setMultypleQuery($Records) . ';';
 
         $Result = $this->query($Query);
 
-        $this->process_query_error($Result, $Query);
+        $this->processQueryError($Result, $Query);
 
         return (0);
     }

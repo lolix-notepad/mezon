@@ -11,7 +11,6 @@ namespace Mezon\GUI;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Base class for all other fields
  */
@@ -115,7 +114,7 @@ class Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_name(array $FieldDescription)
+    protected function initName(array $FieldDescription)
     {
         if (isset($FieldDescription['name'])) {
             $this->Name = $FieldDescription['name'];
@@ -130,7 +129,7 @@ class Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_required(array $FieldDescription)
+    protected function initRequired(array $FieldDescription)
     {
         if (isset($FieldDescription['required']) === false) {
             $this->Required = false;
@@ -145,7 +144,7 @@ class Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_custom(array $FieldDescription)
+    protected function initCustom(array $FieldDescription)
     {
         if (isset($FieldDescription['custom']) === false) {
             $this->Custom = false;
@@ -160,7 +159,7 @@ class Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_batch(array $FieldDescription)
+    protected function initBatch(array $FieldDescription)
     {
         if (isset($FieldDescription['batch']) === false) {
             $this->Batch = false;
@@ -175,7 +174,7 @@ class Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_disabled(array $FieldDescription)
+    protected function initDisabled(array $FieldDescription)
     {
         if (isset($FieldDescription['disabled']) === false) {
             $this->Disabled = false;
@@ -190,7 +189,7 @@ class Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_toggler(array $FieldDescription)
+    protected function initToggler(array $FieldDescription)
     {
         if (isset($FieldDescription['toggler']) === false) {
             $this->Toggler = '';
@@ -205,7 +204,7 @@ class Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_toggle_value(array $FieldDescription)
+    protected function initToggleValue(array $FieldDescription)
     {
         if (isset($FieldDescription['toggle-value']) === false || $this->Toggler === '') {
             $this->ToggleValue = '';
@@ -220,7 +219,7 @@ class Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_title(array $FieldDescription)
+    protected function initTitle(array $FieldDescription)
     {
         if (isset($FieldDescription['title']) === true) {
             $this->Title = $FieldDescription['title'];
@@ -233,7 +232,7 @@ class Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_visible(array $FieldDescription)
+    protected function initVisible(array $FieldDescription)
     {
         if (isset($FieldDescription['visible']) === true) {
             $this->Visible = $FieldDescription['visible'] == 1;
@@ -246,7 +245,7 @@ class Field
      * @param array $FieldDescription
      *            Field description
      */
-    protected function init_has_label(array $FieldDescription)
+    protected function initHasLabel(array $FieldDescription)
     {
         if (isset($FieldDescription['has-label']) === true) {
             $this->HasLabel = $FieldDescription['has-label'] == 1;
@@ -263,27 +262,27 @@ class Field
      */
     public function __construct(array $FieldDescription, string $Value = '')
     {
-        $this->init_name($FieldDescription);
+        $this->initName($FieldDescription);
 
-        $this->init_required($FieldDescription);
+        $this->initRequired($FieldDescription);
 
         $this->NamePrefix = $FieldDescription['name-prefix'];
 
-        $this->init_custom($FieldDescription);
+        $this->initCustom($FieldDescription);
 
-        $this->init_batch($FieldDescription);
+        $this->initBatch($FieldDescription);
 
-        $this->init_disabled($FieldDescription);
+        $this->initDisabled($FieldDescription);
 
-        $this->init_toggler($FieldDescription);
+        $this->initToggler($FieldDescription);
 
-        $this->init_toggle_value($FieldDescription);
+        $this->initToggleValue($FieldDescription);
 
-        $this->init_title($FieldDescription);
+        $this->initTitle($FieldDescription);
 
-        $this->init_visible($FieldDescription);
+        $this->initVisible($FieldDescription);
 
-        $this->init_has_label($FieldDescription);
+        $this->initHasLabel($FieldDescription);
 
         $this->Value = $Value;
 
@@ -305,7 +304,7 @@ class Field
      *
      * @return string Title
      */
-    public function get_title(): string
+    public function getTitle(): string
     {
         return ($this->Title);
     }
@@ -315,7 +314,7 @@ class Field
      *
      * @return bool Is field required
      */
-    public function is_required(): bool
+    public function isRequired(): bool
     {
         return ($this->Required);
     }
@@ -325,7 +324,7 @@ class Field
      *
      * @return bool Is field visible
      */
-    public function is_visible(): bool
+    public function isVisible(): bool
     {
         return ($this->Visible);
     }
@@ -335,7 +334,7 @@ class Field
      *
      * @return bool Has label
      */
-    public function has_label(): bool
+    public function hasLabel(): bool
     {
         return ($this->HasLabel);
     }
@@ -345,7 +344,7 @@ class Field
      *
      * @return bool Dows field fills hole row
      */
-    public function fill_all_row(): bool
+    public function fillAllRow(): bool
     {
         return (false);
     }
@@ -355,7 +354,7 @@ class Field
      *
      * @return string Field type
      */
-    public function get_type(): string
+    public function getType(): string
     {
         return ($this->Type);
     }

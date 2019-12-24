@@ -38,9 +38,19 @@ class LabelField extends TextField
      *
      * @return string Field type
      */
-    public function get_type(): string
+    public function getType(): string
     {
         return ('label');
+    }
+
+    /**
+     *
+     * {@inheritdoc}
+     * @see \Mezon\GUI\Control::fillAllRow()
+     */
+    public function fillAllRow(): bool
+    {
+        return (true);
     }
 }
 

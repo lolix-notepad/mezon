@@ -11,7 +11,6 @@ namespace Mezon\GUI;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Form builder class
  */
@@ -77,17 +76,17 @@ class FormBuilder
      *            Data source
      * @return string Compiled control
      */
-    protected function compile_for_fields_with_no_layout(array $Record = []): string
+    protected function compileForFieldsWithNoLayout(array $Record = []): string
     {
         $Content = '';
 
-        foreach ($this->FieldsAlgorithms->get_fields_names() as $Name) {
-            $Field = $this->FieldsAlgorithms->get_object($Name);
-            if ($Name == 'id' || $Name == 'domain_id' || $Name == 'creation_date' || $Name == 'modification_date' || $Field->is_visible() === false) {
+        foreach ($this->FieldsAlgorithms->getFieldsNames() as $Name) {
+            $Field = $this->FieldsAlgorithms->getObject($Name);
+            if ($Name == 'id' || $Name == 'domain_id' || $Name == 'creation_date' || $Name == 'modification_date' || $Field->isVisible() === false) {
                 continue;
             }
 
-            $Content .= '<div class="form-group ' . $this->EntityName . '">' . '<label class="control-label" >' . $Field->get_title() . ($Field->is_required($Name) ? ' <span class="required">*</span>' : '') . '</label>' . $Field->html() . '</div>';
+            $Content .= '<div class="form-group ' . $this->EntityName . '">' . '<label class="control-label" >' . $Field->getTitle() . ($Field->isRequired($Name) ? ' <span class="required">*</span>' : '') . '</label>' . $Field->html() . '</div>';
         }
 
         return ($Content);
@@ -102,24 +101,24 @@ class FormBuilder
      *            HTML field name
      * @return string Compiled field
      */
-    protected function compile_field($Field, $Name)
+    protected function compileField($Field, $Name)
     {
-        $Control = $this->FieldsAlgorithms->get_compiled_field($Name);
+        $Control = $this->FieldsAlgorithms->getCompiledField($Name);
 
-        $FieldObject = $this->FieldsAlgorithms->get_object($Name);
+        $FieldObject = $this->FieldsAlgorithms->getObject($Name);
 
-        if ($FieldObject->fill_all_row()) {
+        if ($FieldObject->fillAllRow()) {
             return ($Control->html());
         }
 
-        if ($FieldObject->is_visible() === false) {
+        if ($FieldObject->isVisible() === false) {
             return ('');
         }
 
         $Content = '<div class="form-group ' . $this->EntityName . ' col-md-' . $Field['width'] . '">';
 
-        if ($FieldObject->has_label()) {
-            $Content .= '<label class="control-label" style="text-align: left;">' . $FieldObject->get_title() . ($FieldObject->is_required($Name) ? ' <span class="required">*</span>' : '') . '</label>';
+        if ($FieldObject->hasLabel()) {
+            $Content .= '<label class="control-label" style="text-align: left;">' . $FieldObject->getTitle() . ($FieldObject->isRequired($Name) ? ' <span class="required">*</span>' : '') . '</label>';
         }
 
         $Content .= $Control . '</div>';
@@ -134,13 +133,13 @@ class FormBuilder
      *            Record
      * @return string Compiled fields
      */
-    protected function compile_for_fields_with_layout(array $Record = []): string
+    protected function compileForFieldsWithLayout(array $Record = []): string
     {
         $Content = '';
 
         foreach ($this->Layout['rows'] as $Row) {
             foreach ($Row as $Name => $Field) {
-                $Content .= $this->compile_field($Field, $Name, $Record);
+                $Content .= $this->compileField($Field, $Name, $Record);
             }
         }
 
@@ -152,7 +151,7 @@ class FormBuilder
      *
      * @return string|integer Width of the column
      */
-    protected function get_form_width()
+    protected function getFormWidth()
     {
         if (isset($_GET['form-width'])) {
             return (intval($_GET['form-width']));
@@ -170,12 +169,12 @@ class FormBuilder
      *            Record
      * @return string Compiled fields
      */
-    public function compile_form_fields($Record = [])
+    public function compileFormFields($Record = [])
     {
         if (count($this->Layout) === 0) {
-            return ($this->compile_for_fields_with_no_layout($Record));
+            return ($this->compileForFieldsWithNoLayout($Record));
         } else {
-            return ($this->compile_for_fields_with_layout($Record));
+            return ($this->compileForFieldsWithLayout($Record));
         }
     }
 
@@ -184,7 +183,7 @@ class FormBuilder
      *
      * @return string Compiled creation form
      */
-    public function creation_form(): string
+    public function creationForm(): string
     {
         if (isset($_GET['no-header'])) {
             $Content = file_get_contents(__DIR__ . '/res/templates/creation_form_no_header.tpl');
@@ -196,9 +195,9 @@ class FormBuilder
 
         $BackLink = isset($_GET['back-link']) ? $_GET['back-link'] : '../list/';
 
-        $Content = str_replace('{fields}', $this->compile_form_fields(), $Content);
+        $Content = str_replace('{fields}', $this->compileFormFields(), $Content);
 
-        $Content = str_replace('{width}', $this->get_form_width(), $Content);
+        $Content = str_replace('{width}', $this->getFormWidth(), $Content);
 
         $Content = str_replace('{back-link}', $BackLink, $Content);
 
@@ -214,7 +213,7 @@ class FormBuilder
      *            Record to be updated
      * @return string Compiled updating form
      */
-    public function updating_form(string $SessionId, array $Record): string
+    public function updatingForm(string $SessionId, array $Record): string
     {
         if (isset($_GET['no-header'])) {
             $Content = file_get_contents(__DIR__ . '/res/templates/updating_form_no_header.tpl');
@@ -227,7 +226,7 @@ class FormBuilder
         $this->SessionId = $SessionId;
         $this->FieldsAlgorithms->SessionId = $SessionId;
 
-        $Content = str_replace('{fields}', $this->compile_form_fields($Record), $Content);
+        $Content = str_replace('{fields}', $this->compileFormFields($Record), $Content);
 
         return ($Content);
     }

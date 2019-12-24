@@ -10,11 +10,11 @@ class ServiceUnitTest extends ServiceUnitTests
 	 * Method tests does custom routes were loaded.
 	 * Trying to read routes both from php and json file and call routes from them.
 	 */
-	public function test_custom_routes_loading()
+	public function testCustomRoutesLoading()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 
-		$Service = new TestService('\Mezon\Service\ServiceConsoleTransport', $this->get_security_provider(AS_STRING), 'TestLogic');
+		$Service = new TestService(\Mezon\Service\ServiceConsoleTransport::class, $this->getSecurityProvider(AS_STRING), 'TestLogic');
 
 		try {
 			// route from routes.php

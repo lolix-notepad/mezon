@@ -9,7 +9,7 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
      *
      * @return array fake settings
      */
-    protected function get_settings(): array
+    protected function getSettings(): array
     {
         return ([
             'client_id' => 1,
@@ -21,10 +21,10 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_user_info_uri
      */
-    public function test_get_user_info_uri()
+    public function testGetUerInfoUri()
     {
         // setup
-        $Auth = new VKAuth($this->get_settings());
+        $Auth = new VKAuth($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/api.vk.com/method/users.get?v=5.0&', $Auth->get_user_info_uri());
@@ -33,10 +33,10 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_token_uri
      */
-    public function test_get_token_uri()
+    public function testGetTokenUri()
     {
         // setup
-        $Auth = new VKAuth($this->get_settings());
+        $Auth = new VKAuth($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/oauth.vk.com/access_token?v=5.0&', $Auth->get_token_uri());
@@ -45,10 +45,10 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_desired_fields
      */
-    public function test_get_desired_fields()
+    public function testGetDesiredFields()
     {
         // setup
-        $Auth = new VKAuth($this->get_settings());
+        $Auth = new VKAuth($this->getSettings());
 
         // test body
         $Fields = $Auth->get_desired_fields();
@@ -64,10 +64,10 @@ class VKAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing dispatch_user_info
      */
-    public function test_dispatch_user_info()
+    public function testDispatchUserInfo()
     {
         // setup
-        $Auth = new VKAuth($this->get_settings());
+        $Auth = new VKAuth($this->getSettings());
 
         // test body
         $Result = $Auth->dispatch_user_info([
