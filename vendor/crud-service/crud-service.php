@@ -10,10 +10,6 @@ namespace Mezon;
  * @version v.1.0 (2019/08/17)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../gui/vendor/fields-algorithms/fields-algorithms.php');
-require_once (__DIR__ . '/../gui/vendor/form-builder/form-builder.php');
-
-require_once (__DIR__ . '/vendor/crud-service-client/crud-service-client.php');
 
 /**
  * Class for custom crud service.
@@ -37,7 +33,7 @@ class CRUDService extends Service
      * @param mixed $ServiceModel
      *            Service's model
      */
-    public function __construct(array $Entity, $ServiceTransport = '\Mezon\Service\ServiceRESTTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\CRUDService\CRUDServiceLogic', $ServiceModel = '\Mezon\CRUDService\CRUDServiceModel')
+    public function __construct(array $Entity, $ServiceTransport = '\Mezon\Service\ServiceRestTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\CRUDService\CRUDServiceLogic', $ServiceModel = '\Mezon\CRUDService\CRUDServiceModel')
     {
         try {
             parent::__construct($ServiceTransport, $SecurityProvider, $ServiceLogic, $this->initModel($Entity, $ServiceModel));

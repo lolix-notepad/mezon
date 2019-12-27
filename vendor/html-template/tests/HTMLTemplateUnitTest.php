@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../html-template.php');
 
 class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
 {

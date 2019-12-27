@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../form-header.php');
 
 class FormHeaderTest extends PHPUnit\Framework\TestCase
 {

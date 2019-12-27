@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../bootstrap-widgets.php');
 
 class BootstrapWidgetsTest extends PHPUnit\Framework\TestCase
 {

@@ -1,21 +1,20 @@
 <?php
-namespace Mezon\Service\ServiceHTTPTransport;
+namespace Mezon\Service\ServiceHttpTransport;
 
 /**
- * Class HTTPRequestParams
+ * Class HttpRequestParams
  *
- * @package ServiceHTTPTransport
- * @subpackage HTTPRequestParams
+ * @package ServiceHttpTransport
+ * @subpackage HttpRequestParams
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/07)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../service-request-params/service-request-params.php');
 
 /**
  * Request params fetcher.
  */
-class HTTPRequestParams implements \Mezon\Service\ServiceRequestParams
+class HttpRequestParams implements \Mezon\Service\ServiceRequestParams
 {
 
     /**

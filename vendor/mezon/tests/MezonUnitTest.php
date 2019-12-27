@@ -1,7 +1,4 @@
 <?php
-require_once (__DIR__ . '/../../conf/conf.php');
-
-require_once (__DIR__ . '/../mezon.php');
 
 class MezonUnitTest extends PHPUnit\Framework\TestCase
 {

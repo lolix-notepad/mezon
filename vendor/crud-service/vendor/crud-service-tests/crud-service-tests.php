@@ -8,7 +8,6 @@
  * @version     v.1.0 (2019/08/17)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../service/vendor/service-tests/service-tests.php');
 
 /**
  * Predefined set of tests for crud service.

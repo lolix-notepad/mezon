@@ -19,5 +19,8 @@
 	},
 	"minimum-stability" : "dev",
 	"homepage" : "https://github.com/alexdodonov/mezon",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "autoload": {
+        "files": ["autoloader.php"]
+    }
 }

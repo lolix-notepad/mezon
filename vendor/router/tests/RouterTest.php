@@ -1,6 +1,4 @@
 <?php
-require_once (__DIR__ . '/../../conf/conf.php');
-require_once (__DIR__ . '/../router.php');
 
 /**
  * Mockup router class.

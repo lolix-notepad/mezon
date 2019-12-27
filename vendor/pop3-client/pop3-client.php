@@ -14,7 +14,7 @@
 /**
  *	POP3 protocol client.
  */
-class POP3Client
+class Pop3Client
 {
 
     /**

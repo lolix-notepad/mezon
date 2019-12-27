@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../crud-service-collection.php');
 
 class CRUDServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
 {

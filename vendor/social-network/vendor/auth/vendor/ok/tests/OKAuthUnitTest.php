@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../ok.php');
 
 class OKAuthUnitTest extends PHPUnit\Framework\TestCase
 {

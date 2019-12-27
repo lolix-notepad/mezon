@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../template-resources.php');
 
 class TemplateResourcesTest extends PHPUnit\Framework\TestCase
 {

@@ -9,10 +9,6 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
-require_once (__DIR__ . '/../../../../../custom-client/vendor/curl-wrapper/curl-wrapper.php');
-require_once (__DIR__ . '/../../auth.php');
-// TODO add namespace
-// TODO add camel-case
 /**
  * Class provides integration with OK
  *

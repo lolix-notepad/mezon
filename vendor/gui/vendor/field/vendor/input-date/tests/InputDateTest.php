@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../input-date.php');
 
 class InputDateTest extends PHPUnit\Framework\TestCase
 {

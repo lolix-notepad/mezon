@@ -10,12 +10,6 @@ namespace Mezon\CRUDService;
  * @version v.1.0 (2019/08/13)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../gui/vendor/fields-algorithms/vendor/filter/filter.php');
-require_once (__DIR__ . '/../../../gui/vendor/form-builder/form-builder.php');
-require_once (__DIR__ . '/../../../service/vendor/service-logic/service-logic.php');
-require_once (__DIR__ . '/../../../utils/utils.php');
-
-require_once (__DIR__ . '/../crud-service-model/crud-service-model.php');
 
 define('NOW', 'NOW()');
 define('CREATION_DATE_FIELD_NAME', 'creation_date');

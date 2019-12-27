@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../dns-client.php');
 
 $DNSRecords = [
 	'auth' => 'auth.local',

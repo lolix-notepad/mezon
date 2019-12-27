@@ -9,11 +9,6 @@ namespace Mezon\GUI;
  * @version     v.1.0 (2019/08/12)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../functional/functional.php');
-require_once (__DIR__ . '/../../../template-engine/template-engine.php');
-require_once (__DIR__ . '/../../../widgets-registry/vendor/bootstrap-widgets/bootstrap-widgets.php');
-
-require_once (__DIR__ . '/vendor/crud-service-client-adapter/crud-service-client-adapter.php');
 
 define('DESCRIPTION_FIELD_NAME', 'description');
 

@@ -9,11 +9,6 @@ namespace Mezon;
  * @version     v.1.0 (2019/08/07)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../application/application.php');
-require_once (__DIR__ . '/../html-template/html-template.php');
-require_once (__DIR__ . '/../router/router.php');
-require_once (__DIR__ . '/../service/vendor/service-rest-transport/vendor/rest-exception/rest-exception.php');
-require_once (__DIR__ . '/../view/view.php');
 
 /**
  * Common application with any available template
@@ -125,10 +120,10 @@ class CommonApplication extends Application
     /**
      * Method processes exception.
      *
-     * @param \Mezon\Service\ServiceRESTTransport\RESTException $e
-     *            RESTException object.
+     * @param \Mezon\Service\ServiceRestTransport\RestException $e
+     *            RestException object.
      */
-    public function handleRestException(\Mezon\Service\ServiceRESTTransport\RESTException $e): void
+    public function handleRestException(\Mezon\Service\ServiceRestTransport\RestException $e): void
     {
         $Error = $this->baseFormatter($e);
 
@@ -172,7 +167,7 @@ class CommonApplication extends Application
             }
 
             print($this->Template->compile());
-        } catch (\Mezon\Service\ServiceRESTTransport\RESTException $e) {
+        } catch (\Mezon\Service\ServiceRestTransport\RestException $e) {
             $this->handleRestException($e);
         } catch (\Exception $e) {
             $this->handleException($e);

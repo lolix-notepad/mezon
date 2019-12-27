@@ -1,10 +1,4 @@
 <?php
-require_once (__DIR__ . '/../../../../crud-service/vendor/crud-service-logic/crud-service-logic.php');
-require_once (__DIR__ . '/../../fields-algorithms/fields-algorithms.php');
-require_once (__DIR__ . '/../../form-builder/form-builder.php');
-
-require_once (__DIR__ . '/../vendor/list-builder-adapter/list-builder-adapter.php');
-require_once (__DIR__ . '/../list-builder.php');
 
 class FakeAdapter implements \Mezon\GUI\ListBuilder\ListBuilderAdapter
 {

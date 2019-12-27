@@ -10,20 +10,6 @@ namespace Mezon\GUI;
  * @version v.1.0 (2019/08/08)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../security/security.php');
-
-require_once (__DIR__ . '/../field/vendor/checkboxes-field/checkboxes-field.php');
-require_once (__DIR__ . '/../field/vendor/custom-field/custom-field.php');
-require_once (__DIR__ . '/../field/vendor/form-header/form-header.php');
-require_once (__DIR__ . '/../field/vendor/input-date/input-date.php');
-require_once (__DIR__ . '/../field/vendor/input-file/input-file.php');
-require_once (__DIR__ . '/../field/vendor/input-text/input-text.php');
-require_once (__DIR__ . '/../field/vendor/label-field/label-field.php');
-require_once (__DIR__ . '/../field/vendor/record-field/record-field.php');
-require_once (__DIR__ . '/../field/vendor/select/select.php');
-require_once (__DIR__ . '/../field/vendor/textarea/textarea.php');
-
-require_once (__DIR__ . '/../form-builder/vendor/rows-field/rows-field.php');
 
 /**
  * Class constructs forms

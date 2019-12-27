@@ -1,25 +1,21 @@
 <?php
 namespace Mezon\Service;
 /**
- * Class ServiceRESTTransport
+ * Class ServiceRestTransport
  *
  * @package     Service
- * @subpackage  ServiceRESTTransport
+ * @subpackage  ServiceRestTransport
  * @author      Dodonov A.A.
  * @version     v.1.0 (2019/08/17)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../service-http-transport/vendor/http-request-params/http-request-params.php');
-require_once (__DIR__ . '/../service-http-transport/service-http-transport.php');
-
-require_once (__DIR__ . '/vendor/rest-exception/rest-exception.php');
 
 /**
  * REST transport for all services.
  *
  * @author Dodonov A.A.
  */
-class ServiceRESTTransport extends ServiceHTTPTransport
+class ServiceRestTransport extends ServiceHttpTransport
 {
 
     /**
@@ -47,7 +43,7 @@ class ServiceRESTTransport extends ServiceHTTPTransport
                 $ServiceLogic,
                 $Method
             ], $Params));
-        } catch (ServiceRESTTransport\RESTException $e) {
+        } catch (ServiceRestTransport\RestException $e) {
             return ($this->errorResponse($e));
         } catch (\Exception $e) {
             return (parent::errorResponse($e));
@@ -77,7 +73,7 @@ class ServiceRESTTransport extends ServiceHTTPTransport
                 $ServiceLogic,
                 $Method
             ], $Params));
-        } catch (ServiceRESTTransport\RESTException $e) {
+        } catch (ServiceRestTransport\RestException $e) {
             return ($this->errorResponse($e));
         } catch (\Exception $e) {
             return (parent::errorResponse($e));
@@ -111,7 +107,7 @@ class ServiceRESTTransport extends ServiceHTTPTransport
             'host' => 'console'
         ];
 
-        if ($e instanceof ServiceRESTTransport\RESTException) {
+        if ($e instanceof ServiceRestTransport\RestException) {
             $Return['http_code'] = $e->getHttpCode();
             $Return['http_body'] = $e->getHttpBody();
         }

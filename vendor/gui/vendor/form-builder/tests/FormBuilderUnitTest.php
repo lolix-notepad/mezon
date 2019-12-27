@@ -1,8 +1,4 @@
 <?php
-require_once (__DIR__ . '/../../fields-algorithms/fields-algorithms.php');
-require_once (__DIR__ . '/../../../../functional/functional.php');
-
-require_once (__DIR__ . '/../form-builder.php');
 
 define('SESSION_ID', 'session-id');
 define('ENTITY_NAME', 'test-record');

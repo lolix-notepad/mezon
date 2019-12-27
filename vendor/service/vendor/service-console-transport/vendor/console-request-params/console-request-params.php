@@ -10,7 +10,6 @@ namespace Mezon\Service\ServiceConsoleTransport;
  * @version v.1.0 (2019/08/12)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../service-request-params/service-request-params.php');
 
 /**
  * Request params fetcher.

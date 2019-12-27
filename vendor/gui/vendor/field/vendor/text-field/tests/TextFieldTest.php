@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../text-field.php');
 
 class TextFieldTest extends PHPUnit\Framework\TestCase
 {

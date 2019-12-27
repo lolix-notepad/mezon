@@ -1,8 +1,6 @@
 <?php
-require_once (__DIR__ . '/../../conf/conf.php');
-require_once (__DIR__ . '/../pop3-client.php');
 
-class POP3ClientTest extends PHPUnit\Framework\TestCase
+class Pop3ClientTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -26,7 +24,7 @@ class POP3ClientTest extends PHPUnit\Framework\TestCase
     public function testInvalidServer()
     {
         try {
-            new POP3Client('some-server', 'login', 'password');
+            new Pop3Client('some-server', 'login', 'password');
 
             $this->assertEquals(true, false, 'Server validation failed');
         } catch (Exception $e) {
@@ -40,7 +38,7 @@ class POP3ClientTest extends PHPUnit\Framework\TestCase
     public function testInvalidLogin()
     {
         try {
-            new POP3Client($this->Server, 'unexisting-1024', 'password', 5, 995);
+            new Pop3Client($this->Server, 'unexisting-1024', 'password', 5, 995);
 
             $this->assertEquals(true, false, 'Login validation failed');
         } catch (Exception $e) {
@@ -54,7 +52,7 @@ class POP3ClientTest extends PHPUnit\Framework\TestCase
     public function testInvalidPassword()
     {
         try {
-            new POP3Client($this->Server, $this->Login, 'password', 5, 995);
+            new Pop3Client($this->Server, $this->Login, 'password', 5, 995);
 
             $this->assertEquals(true, false, 'Password validation failed');
         } catch (Exception $e) {
@@ -68,7 +66,7 @@ class POP3ClientTest extends PHPUnit\Framework\TestCase
     public function testConnect()
     {
         try {
-            new POP3Client($this->Server, $this->Login, $this->Password, 5, 995);
+            new Pop3Client($this->Server, $this->Login, $this->Password, 5, 995);
 
             $this->assertEquals(true, true, 'OK');
         } catch (Exception $e) {
@@ -81,7 +79,7 @@ class POP3ClientTest extends PHPUnit\Framework\TestCase
      */
     public function testGetCount()
     {
-        $Client = new POP3Client($this->Server, $this->Login, $this->Password, 5, 995);
+        $Client = new Pop3Client($this->Server, $this->Login, $this->Password, 5, 995);
 
         $this->assertEquals($Client->get_count() > 0, true, 'No emails were fetched');
     }
@@ -91,7 +89,7 @@ class POP3ClientTest extends PHPUnit\Framework\TestCase
      */
     public function testGetHeaders()
     {
-        $Client = new POP3Client($this->Server, $this->Login, $this->Password, 5, 995);
+        $Client = new Pop3Client($this->Server, $this->Login, $this->Password, 5, 995);
 
         $Headers = $Client->get_message_headers(1);
 
@@ -105,11 +103,11 @@ class POP3ClientTest extends PHPUnit\Framework\TestCase
      */
     public function testDeleteEmail()
     {
-        $Client = new POP3Client($this->Server, $this->Login, $this->Password, 5, 995);
+        $Client = new Pop3Client($this->Server, $this->Login, $this->Password, 5, 995);
 
         $Headers = $Client->get_message_headers(1);
 
-        $MessageId = POP3Client::get_message_id($Headers);
+        $MessageId = Pop3Client::get_message_id($Headers);
 
         $Client->delete_message(1);
 
@@ -119,7 +117,7 @@ class POP3ClientTest extends PHPUnit\Framework\TestCase
 
         $Headers = $Client->get_message_headers(1);
 
-        $MessageId2 = POP3Client::get_message_id($Headers);
+        $MessageId2 = Pop3Client::get_message_id($Headers);
 
         $this->assertNotEquals($MessageId, $MessageId2, 'Message was not deleted');
     }

@@ -1,9 +1,4 @@
 <?php
-require_once (__DIR__ . '/../../service-logic/service-logic.php');
-require_once (__DIR__ . '/../../service-security-provider/service-security-provider.php');
-require_once (__DIR__ . '/../../service-mock-security-provider/service-mock-security-provider.php');
-require_once (__DIR__ . '/../../service-console-transport/vendor/console-request-params/console-request-params.php');
-require_once (__DIR__ . '/../service-console-transport.php');
 
 class FakeSecurityProvider
 {

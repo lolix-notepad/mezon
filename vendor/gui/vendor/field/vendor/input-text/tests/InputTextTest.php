@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../input-text.php');
 
 class InputTextTest extends PHPUnit\Framework\TestCase
 {

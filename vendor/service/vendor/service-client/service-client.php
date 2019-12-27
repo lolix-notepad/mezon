@@ -10,8 +10,6 @@ namespace Mezon\Service;
  * @version v.1.0 (2019/08/06)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../custom-client/custom-client.php');
-require_once (__DIR__ . '/../../../dns-client/dns-client.php');
 
 /**
  * Service client for Service

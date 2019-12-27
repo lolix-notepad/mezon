@@ -1,6 +1,4 @@
 <?php
-require_once (__DIR__ . '/../fields-algorithms.php');
-require_once (__DIR__ . '/../../../../functional/functional.php');
 
 define('ENTITY_NAME', 'entity');
 define('ID_FIELD_NAME', 'id');

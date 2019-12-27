@@ -9,8 +9,6 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
-require_once(__DIR__.'/../../../service/vendor/service-client/vendor/service-client-tests.php');
-
 /**
  * Common unit tests for CRUDServiceClient and all derived client classes
  * 

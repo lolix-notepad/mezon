@@ -8,12 +8,6 @@
  * @version     v.1.0 (2019/08/17)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../../../gui/vendor/fields-algorithms/vendor/filter/filter.php');
-require_once (__DIR__ . '/../../../../../gui/vendor/fields-algorithms/fields-algorithms.php');
-require_once (__DIR__ . '/../../../../../gui/vendor/form-builder/form-builder.php');
-
-require_once (__DIR__ . '/../../../crud-service-model/crud-service-model.php');
-require_once (__DIR__ . '/../../crud-service-logic.php');
 
 /**
  * Fake securoity provider

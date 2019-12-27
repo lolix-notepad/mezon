@@ -10,8 +10,6 @@ namespace Mezon\CRUDService;
  * @version v.1.0 (2019/08/13)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../cache/cache.php');
-require_once (__DIR__ . '/../../../service/vendor/service-client/service-client.php');
 
 /**
  * Class for basic CRUD API client.

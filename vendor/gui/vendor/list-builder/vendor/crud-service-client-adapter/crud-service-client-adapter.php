@@ -10,7 +10,6 @@ namespace Mezon\GUI\ListBuilder;
  * @version v.1.0 (2019/09/11)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../list-builder-adapter/list-builder-adapter.php');
 
 /**
  * Logic adapter for list builder

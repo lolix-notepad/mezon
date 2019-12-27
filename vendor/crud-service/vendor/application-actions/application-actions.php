@@ -9,13 +9,6 @@ namespace Mezon\CRUDService;
  * @version     v.1.0 (2019/08/12)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../gentella-template/gentella-template.php');
-require_once (__DIR__ . '/../../../gui/vendor/fields-algorithms/fields-algorithms.php');
-require_once (__DIR__ . '/../../../gui/vendor/list-builder/list-builder.php');
-require_once (__DIR__ . '/../../../gui/vendor/list-builder/vendor/crud-service-client-adapter/crud-service-client-adapter.php');
-require_once (__DIR__ . '/../../../service/vendor/service-client/service-client.php');
-
-require_once (__DIR__ . '/../crud-service-client/crud-service-client.php');
 
 define('FIELD_NAME_DOMAIN_ID', 'domain_id');
 

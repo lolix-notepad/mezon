@@ -10,13 +10,6 @@ namespace Mezon\GUI\Field;
  * @version v.1.0 (2019/09/13)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../../../crud-service/vendor/crud-service-client/crud-service-client.php');
-require_once (__DIR__ . '/../../../fields-algorithms/fields-algorithms.php');
-require_once (__DIR__ . '/../../../form-builder/form-builder.php');
-require_once (__DIR__ . '/../../../../../functional/functional.php');
-require_once (__DIR__ . '/../../../../../template-engine/template-engine.php');
-
-require_once (__DIR__ . '/../remote-field/remote-field.php');
 
 /**
  * Checkboxes field control

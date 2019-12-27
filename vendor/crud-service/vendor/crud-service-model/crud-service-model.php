@@ -10,15 +10,13 @@ namespace Mezon\CRUDService;
  * @version v.1.0 (2019/08/17)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../functional/functional.php');
-require_once (__DIR__ . '/../../../service/vendor/db-service-model/db-service-model.php');
 
 /**
  * CRUD service's default model
  *
  * @author Dodonov A.A.
  */
-class CRUDServiceModel extends \Mezon\Service\DBServiceModel
+class CRUDServiceModel extends \Mezon\Service\DbServiceModel
 {
 
     /**

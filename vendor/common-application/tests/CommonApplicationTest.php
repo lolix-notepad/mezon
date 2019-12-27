@@ -1,7 +1,4 @@
 <?php
-require_once (__DIR__ . '/../../conf/conf.php');
-require_once (__DIR__ . '/../../html-template/html-template.php');
-require_once (__DIR__ . '/../common-application.php');
 
 /**
  * View class
@@ -135,7 +132,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
         $Application = new TestCommonApplication();
         $Output = '';
         try {
-            throw (new \Mezon\Service\ServiceRESTTransport\RESTException('', 0, 200, ''));
+            throw (new \Mezon\Service\ServiceRestTransport\RestException('', 0, 200, ''));
         } catch (Exception $e) {
             // test body
             ob_start();

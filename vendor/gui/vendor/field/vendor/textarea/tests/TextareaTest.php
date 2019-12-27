@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../textarea.php');
 
 class TextareaTest extends PHPUnit\Framework\TestCase
 {

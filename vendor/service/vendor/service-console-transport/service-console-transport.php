@@ -10,7 +10,6 @@ namespace Mezon\Service;
  * @version v.1.0 (2019/08/07)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../service-transport/service-transport.php');
 
 /**
  * Console transport for all services

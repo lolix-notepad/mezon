@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../rest-exception.php');
 
 class RestExceptionUnitTest extends PHPUnit\Framework\TestCase
 {
@@ -9,7 +8,7 @@ class RestExceptionUnitTest extends PHPUnit\Framework\TestCase
 	 */
 	public function testConstructor()
 	{
-		$Object = new \Mezon\Service\ServiceRESTTransport\RESTException('msg', 1, 200, 'body', 'http://ya.ru', [
+	    $Object = new \Mezon\Service\ServiceRestTransport\RestException('msg', 1, 200, 'body', 'http://ya.ru', [
 			1,
 			2
 		]);

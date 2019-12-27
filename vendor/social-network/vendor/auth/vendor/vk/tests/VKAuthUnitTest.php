@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../vk.php');
 
 class VKAuthUnitTest extends PHPUnit\Framework\TestCase
 {

@@ -12,7 +12,6 @@ namespace Mezon\GUI;
  */
 define('DEFAULT_DATE_MASK', 'Y-m-d');
 
-// TODO add camel-case
 /**
  * Class provides dati-time routines
  */

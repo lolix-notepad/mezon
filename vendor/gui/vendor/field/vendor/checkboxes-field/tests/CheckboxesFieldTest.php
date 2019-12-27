@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../checkboxes-field.php');
 
 class CheckboxesFieldTest extends PHPUnit\Framework\TestCase
 {

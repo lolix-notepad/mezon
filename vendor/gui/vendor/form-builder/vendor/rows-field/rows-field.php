@@ -9,7 +9,6 @@ namespace Mezon\GUI\FormBuilder;
  * @version     v.1.0 (2019/09/22)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../field/field.php');
 
 /**
  * Rows field control

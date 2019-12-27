@@ -10,9 +10,6 @@
  * @copyright   Copyright (c) 2019, aeon.org
  */
 
-require_once(__DIR__.'/../../../functional/functional.php');
-require_once(__DIR__.'/../service-client/service-client.php');
-
 /**
  * Predefined set of tests for service.
  */

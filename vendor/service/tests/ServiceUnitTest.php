@@ -1,7 +1,4 @@
 <?php
-require_once (__DIR__ . '/../vendor/service-unit-tests/service-unit-tests.php');
-
-require_once (__DIR__ . '/test-service.php');
 
 class ServiceUnitTest extends ServiceUnitTests
 {

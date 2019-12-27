@@ -11,14 +11,12 @@ namespace Mezon\Service;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-require_once (__DIR__ . '/../../../service/vendor/db-service-model/db-service-model.php');
-
 /**
  * Model for content entities
  *
  * @author Dodonov A.A.
  */
-class ContentServiceModel extends \Mezon\Service\DBServiceModel
+class ContentServiceModel extends \Mezon\Service\DbServiceModel
 {
 
     /**

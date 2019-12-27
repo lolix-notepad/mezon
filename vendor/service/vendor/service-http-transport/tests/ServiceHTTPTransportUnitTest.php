@@ -1,11 +1,5 @@
 <?php
 
-require_once (__DIR__ . '/../../service-logic/service-logic.php');
-require_once (__DIR__ . '/../../service-security-provider/service-security-provider.php');
-require_once (__DIR__ . '/../../service-mock-security-provider/service-mock-security-provider.php');
-require_once (__DIR__ . '/../vendor/http-request-params/http-request-params.php');
-require_once (__DIR__ . '/../service-http-transport.php');
-
 class FakeSecurityProvider
 {
 }
@@ -20,7 +14,7 @@ class TestingServiceLogic extends \Mezon\Service\ServiceLogic
     {}
 }
 
-class ServiceHTTPTransportTest extends PHPUnit\Framework\TestCase
+class ServiceHttpTransportTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -43,11 +37,11 @@ class ServiceHTTPTransportTest extends PHPUnit\Framework\TestCase
     /**
      * Getting mock object.
      *
-     * @return object ServiceRESTTransport mocked object.
+     * @return object ServiceRestTransport mocked object.
      */
     protected function getTransportMock()
     {
-        $Mock = $this->getMockBuilder(\Mezon\Service\ServiceHTTPTransport::class)
+        $Mock = $this->getMockBuilder(\Mezon\Service\ServiceHttpTransport::class)
             ->setMethods([
             'header',
             'createSession'
@@ -65,7 +59,7 @@ class ServiceHTTPTransportTest extends PHPUnit\Framework\TestCase
      */
     public function testConstructor()
     {
-        new \Mezon\Service\ServiceHTTPTransport();
+        new \Mezon\Service\ServiceHttpTransport();
 
         $this->addToAssertionCount(1);
     }
@@ -75,7 +69,7 @@ class ServiceHTTPTransportTest extends PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitDefault()
     {
-        $Transport = new \Mezon\Service\ServiceHTTPTransport();
+        $Transport = new \Mezon\Service\ServiceHttpTransport();
         $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $Transport->SecurityProvider);
     }
 
@@ -84,7 +78,7 @@ class ServiceHTTPTransportTest extends PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitString()
     {
-        $Transport = new \Mezon\Service\ServiceHTTPTransport('FakeSecurityProvider');
+        $Transport = new \Mezon\Service\ServiceHttpTransport(FakeSecurityProvider::class);
         $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
     }
 
@@ -93,7 +87,7 @@ class ServiceHTTPTransportTest extends PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitObject()
     {
-        $Transport = new \Mezon\Service\ServiceHTTPTransport(new FakeSecurityProvider());
+        $Transport = new \Mezon\Service\ServiceHttpTransport(new FakeSecurityProvider());
         $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
     }
 

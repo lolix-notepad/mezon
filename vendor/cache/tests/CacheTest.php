@@ -1,7 +1,4 @@
 <?php
-require_once (__DIR__ . '/../../functional/functional.php');
-require_once (__DIR__ . '/../../singleton/singleton.php');
-require_once (__DIR__ . '/../cache.php');
 
 class CacheFoo extends \Mezon\Cache
 {

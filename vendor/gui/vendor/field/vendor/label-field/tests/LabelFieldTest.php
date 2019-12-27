@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../label-field.php');
 
 class LabelFieldTest extends PHPUnit\Framework\TestCase
 {

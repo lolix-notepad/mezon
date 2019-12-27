@@ -10,7 +10,6 @@ namespace Mezon\Service;
  * @version v.1.0 (2019/12/09)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../service-rest-transport/service-rest-transport.php');
 
 /**
  * Base service class
@@ -48,7 +47,7 @@ class ServiceBase
      * @param mixed $ServiceModel
      *            Service's model
      */
-    public function __construct($ServiceTransport = 'ServiceRESTTransport', $SecurityProvider = 'ServiceMockSecurityProvider', $ServiceLogic = 'ServiceBaseLogic', $ServiceModel = 'ServiceModel')
+    public function __construct($ServiceTransport = 'ServiceRestTransport', $SecurityProvider = 'ServiceMockSecurityProvider', $ServiceLogic = 'ServiceBaseLogic', $ServiceModel = 'ServiceModel')
     {
         $this->initTransport($ServiceTransport, $SecurityProvider);
 

@@ -8,9 +8,7 @@
  * @version     v.1.0 (2019/09/20)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../service-client.php');
 
-require_once (__DIR__ . '/dns.php');
 //TODO replace fast-auth service
 /**
  * Basic tests for service client

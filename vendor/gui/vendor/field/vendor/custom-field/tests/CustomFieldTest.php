@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../custom-field.php');
 
 class CustomFieldTest extends PHPUnit\Framework\TestCase
 {

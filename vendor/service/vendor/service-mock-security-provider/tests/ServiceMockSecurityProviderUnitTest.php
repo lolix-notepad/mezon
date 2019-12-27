@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../service-mock-security-provider.php');
 
 class ServiceMockSecurityProviderUnitTest extends PHPUnit\Framework\TestCase
 {

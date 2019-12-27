@@ -2,12 +2,6 @@
 /**
  * Tests for the class ServiceTransport.
  */
-use Mezon\Service\ServiceRequestParams;
-
-require_once (__DIR__ . '/../service-transport.php');
-require_once (__DIR__ . '/../../service-base-logic-interface/service-base-logic-interface.php');
-require_once (__DIR__ . '/../../service-http-transport/vendor/http-request-params/http-request-params.php');
-require_once (__DIR__ . '/../../service-mock-security-provider/service-mock-security-provider.php');
 
 class FakeService implements \Mezon\Service\ServiceBaseLogicInterface
 {
@@ -46,7 +40,7 @@ class FakeServiceLogic extends \Mezon\Service\ServiceLogic
 
     public function __construct(\Mezon\Router &$Router)
     {
-        parent::__construct(new \Mezon\Service\ServiceHTTPTransport\HTTPRequestParams($Router), new \Mezon\Service\ServiceMockSecurityProvider());
+        parent::__construct(new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($Router), new \Mezon\Service\ServiceMockSecurityProvider());
     }
 
     public function test()

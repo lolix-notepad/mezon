@@ -9,7 +9,6 @@ namespace Mezon\Application;
  * @version     v.1.0 (2019/09/27)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../application.php');
 
 /**
  * Base class of the ajax-application

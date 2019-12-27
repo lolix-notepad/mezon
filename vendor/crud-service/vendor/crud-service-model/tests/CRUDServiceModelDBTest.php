@@ -1,9 +1,4 @@
 <?php
-require_once (__DIR__ . '/../../../../conf/conf.php');
-require_once (__DIR__ . '/../../../../functional/functional.php');
-require_once (__DIR__ . '/../../../../pdo-crud/pdo-crud.php');
-
-require_once (__DIR__ . '/../crud-service-model.php');
 
 class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
 {

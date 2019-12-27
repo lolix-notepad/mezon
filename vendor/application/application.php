@@ -10,7 +10,6 @@ namespace Mezon;
  * @version v.1.0 (2019/08/13)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../router/router.php');
 
 /**
  * Base class of the application

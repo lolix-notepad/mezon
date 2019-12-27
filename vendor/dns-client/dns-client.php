@@ -16,7 +16,7 @@ namespace Mezon;
  *
  * For example the call DNS::resolveHost('example') will return URL of the example service
  */
-class DNS
+class DnsClient
 {
 
     /**

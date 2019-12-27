@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../auth.php');
 
 class AuthUnitTest extends PHPUnit\Framework\TestCase
 {

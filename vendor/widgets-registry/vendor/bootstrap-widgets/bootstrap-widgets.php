@@ -10,7 +10,6 @@ namespace Mezon\WidgetsRegistry;
  * @version v.1.0 (2019/09/02)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../widgets-registry-base/widgets-registry-base.php');
 
 /**
  * Bootstrap widgets

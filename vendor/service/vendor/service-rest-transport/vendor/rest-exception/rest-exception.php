@@ -1,21 +1,20 @@
 <?php
-namespace Mezon\Service\ServiceRESTTransport;
+namespace Mezon\Service\ServiceRestTransport;
 
 /**
- * Class RESTException
+ * Class RestException
  *
  * @package Mezon
- * @subpackage RESTException
+ * @subpackage RestException
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/15)
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO add camel-case
 /**
  * Class for rest exceptions
  */
-class RESTException extends \Exception
+class RestException extends \Exception
 {
 
     /**

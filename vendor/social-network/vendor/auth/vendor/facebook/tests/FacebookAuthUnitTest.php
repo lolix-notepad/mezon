@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../facebook.php');
 
 class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
 {

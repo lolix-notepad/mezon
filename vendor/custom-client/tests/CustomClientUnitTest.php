@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../custom-client.php');
 
 class CustomClientUnitTest extends PHPUnit\Framework\TestCase
 {

@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../record-field.php');
 
 class RecordFieldTest extends PHPUnit\Framework\TestCase
 {

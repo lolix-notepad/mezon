@@ -1,8 +1,6 @@
 <?php
-require_once (__DIR__ . '/../db-service-model.php');
-require_once (__DIR__ . '/../../../../gui/vendor/fields-algorithms/fields-algorithms.php');
 
-class DBServiceModelUnitTest extends PHPUnit\Framework\TestCase
+class DbServiceModelUnitTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -48,7 +46,7 @@ class DBServiceModelUnitTest extends PHPUnit\Framework\TestCase
     public function testConstructor($Data, string $Origin)
     {
         // setup and test body
-        $Model = new \Mezon\Service\DBServiceModel($Data, 'entity_name');
+        $Model = new \Mezon\Service\DbServiceModel($Data, 'entity_name');
 
         // assertions
         $this->assertTrue($Model->hasField($Origin), 'Invalid contruction');
@@ -61,7 +59,7 @@ class DBServiceModelUnitTest extends PHPUnit\Framework\TestCase
     {
         try {
             // setup and test body
-            new \Mezon\Service\DBServiceModel(new stdClass(), 'entity_name');
+            new \Mezon\Service\DbServiceModel(new stdClass(), 'entity_name');
             // assertions
             $this->fail('Exception in constructor must be thrown');
         } catch (Exception $e) {

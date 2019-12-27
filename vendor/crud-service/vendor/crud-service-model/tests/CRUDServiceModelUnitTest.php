@@ -1,6 +1,4 @@
 <?php
-require_once (__DIR__ . '/../crud-service-model.php');
-require_once (__DIR__ . '/../../../../gui/vendor/fields-algorithms/fields-algorithms.php');
 
 class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
 {

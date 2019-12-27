@@ -8,20 +8,6 @@
  * @version     v.1.0 (2019/08/13)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../custom-client/custom-client.php');
-require_once (__DIR__ . '/../../../router/router.php');
-require_once (__DIR__ . '/../../../service/vendor/service-client/service-client.php');
-require_once (__DIR__ . '/../../../service/vendor/service-rest-transport/service-rest-transport.php');
-require_once (__DIR__ . '/../../../service/vendor/service-console-transport/service-console-transport.php');
-require_once (__DIR__ . '/../../../service/vendor/service-console-transport/vendor/console-request-params/console-request-params.php');
-require_once (__DIR__ . '/../../../service/vendor/service-security-provider/service-security-provider.php');
-require_once (__DIR__ . '/../../../service/vendor/service-logic/service-logic.php');
-require_once (__DIR__ . '/../../../service/vendor/service-mock-security-provider/service-mock-security-provider.php');
-require_once (__DIR__ . '/../../../service/service.php');
-
-require_once (__DIR__ . '/../crud-service-model/crud-service-model.php');
-require_once (__DIR__ . '/../crud-service-logic/crud-service-logic.php');
-require_once (__DIR__ . '/../../crud-service.php');
 
 define('GET_STRING', 1);
 define('GET_OBJECT', 2);

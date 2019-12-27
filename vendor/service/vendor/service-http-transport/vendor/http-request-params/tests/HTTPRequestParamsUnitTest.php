@@ -1,11 +1,8 @@
 <?php
 
 /**
- * Unit tests for the class HTTPRequestParams.
+ * Unit tests for the class HttpRequestParams.
  */
-require_once (__DIR__ . '/../../../../../../router/router.php');
-
-require_once (__DIR__ . '/../http-request-params.php');
 
 define('SESSION_ID_FIELD_NAME', 'session_id');
 
@@ -22,7 +19,7 @@ function getallheaders()
  *
  * @author Dodonov A.A.
  */
-class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
+class HttpRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 {
 
 	/**
@@ -32,7 +29,7 @@ class HTTPRequestParamsUnitTest extends PHPUnit\Framework\TestCase
 	{
 		$Router = new \Mezon\Router();
 
-		return (new \Mezon\Service\ServiceHTTPTransport\HTTPRequestParams($Router));
+		return (new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($Router));
 	}
 
 	/**

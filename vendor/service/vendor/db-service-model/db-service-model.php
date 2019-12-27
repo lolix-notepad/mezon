@@ -2,25 +2,21 @@
 namespace Mezon\Service;
 
 /**
- * Class DBServiceModel
+ * Class DbServiceModel
  *
  * @package Service
- * @subpackage DBServiceModel
+ * @subpackage DbServiceModel
  * @author Dodonov A.A.
  * @version v.1.0 (2019/10/18)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../functional/functional.php');
-require_once (__DIR__ . '/../../../gui/vendor/fields-algorithms/fields-algorithms.php');
-require_once (__DIR__ . '/../../../mezon/mezon.php');
-require_once (__DIR__ . '/../../../service/vendor/service-model/service-model.php');
 
 /**
  * CRUD service's default model
  *
  * @author Dodonov A.A.
  */
-class DBServiceModel extends ServiceModel
+class DbServiceModel extends ServiceModel
 {
 
     /**

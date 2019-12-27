@@ -10,7 +10,6 @@ namespace Mezon;
  * @version v.1.0 (2019/08/17)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/vendor/service-base/service-base.php');
 
 /**
  * Service class
@@ -34,7 +33,7 @@ class Service extends Service\ServiceBase
      * @param mixed $ServiceModel
      *            Service's model
      */
-    public function __construct($ServiceTransport = '\Mezon\Service\ServiceRESTTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\Service\ServiceLogic', $ServiceModel = '\Mezon\Service\ServiceModel')
+    public function __construct($ServiceTransport = '\Mezon\Service\ServiceRestTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\Service\ServiceLogic', $ServiceModel = '\Mezon\Service\ServiceModel')
     {
         parent::__construct($ServiceTransport, $SecurityProvider, $ServiceLogic, $ServiceModel);
 
@@ -71,7 +70,7 @@ class Service extends Service\ServiceBase
      * @return Service Created service
      * @deprecated See Service::run
      */
-    public static function launch($Service, $ServiceTransport = '\Mezon\Service\ServiceRESTTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\Service\ServiceLogic', $ServiceModel = '\Mezon\Service\ServiceModel', bool $RunService = true): Service\ServiceBase
+    public static function launch($Service, $ServiceTransport = '\Mezon\Service\ServiceRestTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\Service\ServiceLogic', $ServiceModel = '\Mezon\Service\ServiceModel', bool $RunService = true): Service\ServiceBase
     {
         if (is_string($Service)) {
             $Service = new $Service($ServiceTransport, $SecurityProvider, $ServiceLogic, $ServiceModel);
@@ -103,7 +102,7 @@ class Service extends Service\ServiceBase
      *            Shold be service lanched
      * @return Service Created service
      */
-    public static function start($Service, $ServiceLogic = '\Mezon\Service\ServiceLogic', $ServiceModel = '\Mezon\Service\ServiceModel', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceTransport = '\Mezon\Service\ServiceRESTTransport', bool $RunService = true): Service\ServiceBase
+    public static function start($Service, $ServiceLogic = '\Mezon\Service\ServiceLogic', $ServiceModel = '\Mezon\Service\ServiceModel', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceTransport = '\Mezon\Service\ServiceRestTransport', bool $RunService = true): Service\ServiceBase
     {
         if (is_string($Service)) {
             $Service = new $Service($ServiceTransport, $SecurityProvider, $ServiceLogic, $ServiceModel);

@@ -10,7 +10,6 @@ namespace Mezon\Service;
  * @version v.1.0 (2019/12/11)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../service-request-params/service-request-params.php');
 
 /**
  * Interface for all transports

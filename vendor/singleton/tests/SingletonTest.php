@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../singleton.php');
 
 class SingletonFoo extends \Mezon\Singleton
 {

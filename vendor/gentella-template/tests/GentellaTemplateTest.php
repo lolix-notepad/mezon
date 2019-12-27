@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../gentella-template.php');
 
 class GentellaTemplateTest extends PHPUnit\Framework\TestCase
 {

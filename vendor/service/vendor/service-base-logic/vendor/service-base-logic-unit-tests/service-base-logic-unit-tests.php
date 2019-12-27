@@ -9,9 +9,6 @@
  * @version v.1.0 (2019/08/17)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../../../service-security-provider/service-security-provider.php');
-require_once (__DIR__ . '/../../../service-logic/service-logic.php');
-require_once (__DIR__ . '/../../../service-mock-security-provider/service-mock-security-provider.php');
 
 /**
  * Mock parameter fetcher

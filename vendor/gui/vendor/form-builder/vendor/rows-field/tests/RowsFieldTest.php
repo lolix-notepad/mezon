@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../rows-field.php');
 
 class RowsFieldTest extends PHPUnit\Framework\TestCase
 {

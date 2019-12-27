@@ -10,9 +10,7 @@ namespace Mezon\GUI\Field;
  * @version v.1.0 (2019/09/04)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/../text-field/text-field.php');
 
-// TODO add camel-case
 /**
  * Form header control
  */

@@ -1,6 +1,4 @@
 <?php
-require_once (__DIR__ . '/../filter.php');
-require_once (__DIR__ . '/../../../../../../functional/functional.php');
 
 class FilterUnitTest extends PHPUnit\Framework\TestCase
 {

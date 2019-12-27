@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__ . '/../select.php');
 
 class SelectTest extends PHPUnit\Framework\TestCase
 {

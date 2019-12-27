@@ -1,6 +1,4 @@
 <?php
-require_once (__DIR__ . '/../application-actions.php');
-require_once (__DIR__ . '/../../../../common-application/common-application.php');
 
 define('ENTITY_NAME', 'entity');
 

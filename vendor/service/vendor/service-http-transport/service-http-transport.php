@@ -2,24 +2,21 @@
 namespace Mezon\Service;
 
 /**
- * Class ServiceHTTPTransport
+ * Class ServiceHttpTransport
  *
  * @package Service
- * @subpackage ServiceHTTPTransport
+ * @subpackage ServiceHttpTransport
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/13)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/vendor/http-request-params/http-request-params.php');
-require_once (__DIR__ . '/../service-transport/service-transport.php');
-require_once (__DIR__ . '/../service-mock-security-provider/service-mock-security-provider.php');
 
 /**
  * HTTP transport for all services
  *
  * @author Dodonov A.A.
  */
-class ServiceHTTPTransport extends ServiceTransport implements ServiceTransportInterface
+class ServiceHttpTransport extends ServiceTransport implements ServiceTransportInterface
 {
 
     /**
@@ -58,7 +55,7 @@ class ServiceHTTPTransport extends ServiceTransport implements ServiceTransportI
      */
     public function createFetcher(): ServiceRequestParams
     {
-        return (new \Mezon\Service\ServiceHTTPTransport\HTTPRequestParams($this->Router));
+        return (new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($this->Router));
     }
 
     /**

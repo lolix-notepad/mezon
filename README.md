@@ -12,5 +12,5 @@ Free PHP framework for creating
 Just type
 
 ```
-composer mezon/mezon
+composer require mezon/mezon
 ```
