@@ -25,13 +25,8 @@ spl_autoload_register(function ($Class) {
 
     $File = $BaseDir . '/' . $Class . '/' . $ClassName . '.php';
 
-    //print('try : '.$File);
     if (file_exists($File)) {
-        //print(' Done<br>'."\r\n");
         require ($File);
     }
-    //else{
-    //    print(' Fail<br>'."\r\n");
-    //}
 });
 ?>
