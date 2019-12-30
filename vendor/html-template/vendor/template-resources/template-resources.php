@@ -1,5 +1,5 @@
 <?php
-namespace Mezon;
+namespace Mezon\HtmlTemplate;
 
 /**
  * Class TemplateResources
@@ -10,9 +10,6 @@ namespace Mezon;
  * @version v.1.0 (2019/08/17)
  * @copyright Copyright (c) 2019, aeon.org
  */
-
-// TODO do we need this class?
-// TODO may be we should move it somewhere?
 
 /**
  * Class collects resources for page.

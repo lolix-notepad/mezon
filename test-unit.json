@@ -52,10 +52,9 @@
 	"service-transport" : {"component-dir":"./vendor/service/vendor/service-transport","tests-dir":"./tests"} , 
 	"singleton" : {"component-dir":"./vendor/singleton","tests-dir":"./tests"} , 
 	"template-engine" : {"component-dir":"./vendor/template-engine","tests-dir":"./tests"} , 
-	"template-resources" : {"component-dir":"./vendor/template-resources","tests-dir":"./tests"} , 
+	"template-resources" : {"component-dir":"./vendor/html-template/vendor/template-resources","tests-dir":"./tests"} , 
 	"text-field" : {"component-dir":"./vendor/gui/vendor/field/vendor/text-field","tests-dir":"./tests"} , 
 	"textarea" : {"component-dir":"./vendor/gui/vendor/field/vendor/textarea","tests-dir":"./tests"} , 
-	"utils" : {"component-dir":"./vendor/utils","tests-dir":"./tests"} , 
 	"view" : {"component-dir":"./vendor/view","tests-dir":"./tests"} , 
 	"vk" : {"component-dir":"./vendor/social-network/vendor/base-auth/vendor/vkontakte","tests-dir":"./tests"} , 
 
@@ -115,7 +114,6 @@
         { "step" : "template-resources" , "type" : "test-suite" } , 
         { "step" : "text-field" , "type" : "test-suite" } , 
         { "step" : "textarea" , "type" : "test-suite" } , 
-        { "step" : "utils" , "type" : "test-suite" } , 
         { "step" : "view" , "type" : "test-suite" } , 
         { "step" : "vk" , "type" : "test-suite" }
     ]

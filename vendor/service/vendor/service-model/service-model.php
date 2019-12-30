@@ -11,9 +11,8 @@ namespace Mezon\Service;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-//TODO change to interface
 /**
- * Base service model class.
+ * Base service model class
  *
  * @author Dodonov A.A.
  */

@@ -59,7 +59,7 @@ class HtmlTemplate
 
         $this->resetLayout($Template);
 
-        $this->Resources = new \Mezon\TemplateResources();
+        $this->Resources = new \Mezon\HtmlTemplate\TemplateResources();
 
         $this->Blocks = [];
 
