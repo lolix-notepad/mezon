@@ -1,4 +1,6 @@
 <?php
+require_once (__DIR__ . '/../../../../../autoloader.php');
+
 /**
  * Tests for the class ServiceTransport.
  */
@@ -24,7 +26,7 @@ class ConcreteFetcher implements \Mezon\Service\ServiceRequestParams
 class ConcreteServiceTransport extends \Mezon\Service\ServiceTransport
 {
 
-    public function createFetcher(): ServiceRequestParams
+    public function createFetcher(): \Mezon\Service\ServiceRequestParams
     {
         return (new ConcreteFetcher());
     }

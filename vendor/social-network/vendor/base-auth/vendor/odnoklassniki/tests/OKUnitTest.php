@@ -1,6 +1,7 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class OKAuthUnitTest extends PHPUnit\Framework\TestCase
+class OKUnitTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -24,7 +25,7 @@ class OKAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetUserInfoUri()
     {
         // setup
-        $Auth = new OKAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth\Odnoklassniki($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/api.odnoklassniki.ru/fb.do?application_key=', $Auth->get_user_info_uri());
@@ -37,7 +38,7 @@ class OKAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetTokenUri()
     {
         // setup
-        $Auth = new OKAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth\Odnoklassniki($this->getSettings());
 
         // test body and assertions
         $this->assertContains('/api.odnoklassniki.ru/oauth/token.do?grant_type=authorization_code&', $Auth->get_token_uri());
@@ -49,7 +50,7 @@ class OKAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testDispatchUserInfo()
     {
         // setup
-        $Auth = new OKAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth\Odnoklassniki($this->getSettings());
 
         // test body
         $Result = $Auth->dispatch_user_info([
@@ -74,7 +75,7 @@ class OKAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetTokenParams()
     {
         // setup
-        $Auth = new OKAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth\Odnoklassniki($this->getSettings());
 
         // test body
         $Params = $Auth->get_token_params(123);

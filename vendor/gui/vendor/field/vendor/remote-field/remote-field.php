@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\GUI\Field;
+namespace Mezon\Gui\Field;
 
 /**
  * Class RemoteField
@@ -14,7 +14,7 @@ namespace Mezon\GUI\Field;
 /**
  * Remote field control
  */
-class RemoteField extends \Mezon\GUI\Field
+class RemoteField extends \Mezon\Gui\Field
 {
 
     /**
@@ -81,12 +81,12 @@ class RemoteField extends \Mezon\GUI\Field
     /**
      * Getting service client
      *
-     * @return \Mezon\CRUDService\CRUDServiceClient Service client
+     * @return \Mezon\CrudService\CrudServiceClient Service client
      */
-    protected function getClient(): \Mezon\CRUDService\CRUDServiceClient
+    protected function getClient(): \Mezon\CrudService\CrudServiceClient
     {
         // @codeCoverageIgnoreStart
-        $ExternalRecords = new \Mezon\CRUDService\CRUDServiceClient($this->RemoteSource);
+        $ExternalRecords = new \Mezon\CrudService\CrudServiceClient($this->RemoteSource);
         $ExternalRecords->setToken($this->SessionId);
         return ($ExternalRecords);
         // @codeCoverageIgnoreEnd

@@ -1,20 +1,22 @@
 <?php
+namespace Mezon\SocialNetwork\BaseAuth;
+
 /**
- * Class VKAuth
+ * Class Vkontakte
  *
- * @package     Auth
- * @subpackage  VKAuth
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package BaseAuth
+ * @subpackage Vkontakte
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
  * Class provides integration with VK.
- * 
+ *
  * @author Dodonov A.A.
  */
-class VKAuth extends SocialNetworkAuth
+class Vkontakte extends \Mezon\SocialNetwork\BaseAuth
 {
 
     /**
@@ -68,14 +70,14 @@ class VKAuth extends SocialNetworkAuth
      */
     public function dispatch_user_info(array $UserInfo): array
     {
-    	$Response = $UserInfo['response'][0];
+        $Response = $UserInfo['response'][0];
 
-    	$Response['email'] = $Response['email'] ?? '';
+        $Response['email'] = $Response['email'] ?? '';
 
         $Return = [
-        	'id' => $Response['id'],
-        	'first_name' => $Response['first_name'],
-        	'last_name' => $Response['last_name'],
+            'id' => $Response['id'],
+            'first_name' => $Response['first_name'],
+            'last_name' => $Response['last_name'],
             'picture' => $Response['photo_100'],
             'email' => $Response['email']
         ];

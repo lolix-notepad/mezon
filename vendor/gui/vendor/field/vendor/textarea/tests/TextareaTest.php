@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
 class TextareaTest extends PHPUnit\Framework\TestCase
 {
@@ -9,7 +10,7 @@ class TextareaTest extends PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\GUI\Field\Textarea([
+        $Field = new \Mezon\Gui\Field\Textarea([
             'name' => 'name',
             'required' => 1,
             'disabled' => 1,

@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../functional.php');
 
 /**
  * Transformation function multiplies 'foo' field.

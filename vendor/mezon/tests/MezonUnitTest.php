@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../autoloader.php');
 
 class MezonUnitTest extends PHPUnit\Framework\TestCase
 {
@@ -10,7 +11,7 @@ class MezonUnitTest extends PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        \Mezon\addConnectionToConfig('default-db-connection', 'mysql:dbname=record;host=localhost', 'root', '');
+        \Mezon\Conf::addConnectionToConfig('default-db-connection', 'mysql:dbname=record;host=localhost', 'root', '');
     }
 
     /**

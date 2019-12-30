@@ -1,19 +1,23 @@
 <?php
+namespace Mezon\Service\ServiceClient;
+
 /**
  * Class ServiceClientUnitTests
  *
- * @package     ServiceClient
- * @subpackage  ServiceClientUnitTests
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/20)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package ServiceClient
+ * @subpackage ServiceClientUnitTests
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/20)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
-//TODO replace fast-auth service
+// TODO replace fast-auth service
+require_once (__DIR__ . '/dns.php');
+
 /**
  * Basic tests for service client
  */
-class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
+class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -109,7 +113,7 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
             $Client = new $this->ClientClassName('auth');
 
             $this->fail('Exception must be thrown ' . serialize($Client));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addToAssertionCount(1);
         }
     }
@@ -191,7 +195,7 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
         try {
             $Mock->setToken('');
             $this->fail('Empty token must cause throwing of the exception');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addToAssertionCount(1);
         }
     }
@@ -239,7 +243,7 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
             $Mock->loginAs('registered', 'login');
             // assertions
             $this->fail();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addToAssertionCount(1);
         }
     }
@@ -257,7 +261,7 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
             $Mock->loginAs('registered', 'id');
             // assertions
             $this->fail();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addToAssertionCount(1);
         }
     }
@@ -289,7 +293,7 @@ class ServiceClientUnitTests extends PHPUnit\Framework\TestCase
         try {
             $Mock->__construct('http://fast-auth.gdzone.ru/', 'login', 'password');
             $this->fail('Exception must be thrown');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addToAssertionCount(1);
         }
     }

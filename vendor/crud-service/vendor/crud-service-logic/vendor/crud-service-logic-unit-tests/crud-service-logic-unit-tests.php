@@ -1,13 +1,16 @@
 <?php
+namespace Mezon\CrudService\CrudServiceLogic;
+
 /**
- * Class CRUDServiceLogicUnitTests
+ * Class CrudServiceLogicUnitTests
  *
- * @package     CRUDServiceLogic
- * @subpackage  CRUDServiceLogicUnitTests
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package CrudServiceLogic
+ * @subpackage CrudServiceLogicUnitTests
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
+require_once (__DIR__ . '/../../../../../../autoloader.php');
 
 /**
  * Fake securoity provider
@@ -40,7 +43,7 @@ class FakeParametersFetcher implements \Mezon\Service\ServiceRequestParams
 /**
  * Fake service model
  */
-class FakeServiceModel extends \Mezon\CRUDService\CRUDServiceModel
+class FakeServiceModel extends \Mezon\CrudService\CrudServiceModel
 {
 
     /**
@@ -100,9 +103,9 @@ class FakeServiceModel extends \Mezon\CRUDService\CRUDServiceModel
 }
 
 /**
- * Common CRUDServiceLogic unit tests
+ * Common CrudServiceLogic unit tests
  */
-class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
+class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogicUnitTests
 {
 
     /**
@@ -110,7 +113,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
      */
     public function __construct()
     {
-        parent::__construct('\Mezon\CRUDService\CRUDServiceLogic');
+        parent::__construct('\Mezon\CrudService\CrudServiceLogic');
     }
 
     /**
@@ -122,7 +125,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
      */
     protected function getServiceModelMock(array $Methods = [])
     {
-        $Model = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceModel')
+        $Model = $this->getMockBuilder('\Mezon\CrudService\CrudServiceModel')
             ->setConstructorArgs([
             [
                 'id' => [
@@ -156,17 +159,17 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
     }
 
     /**
-     * Method creates full functional CRUDServiceLogic object
+     * Method creates full functional CrudServiceLogic object
      *
      * @param mixed $Model
      *            List of models or single model
-     * @return \Mezon\CRUDService\CRUDServiceLogic object
+     * @return \Mezon\CrudService\CrudServiceLogic object
      */
-    protected function getServiceLogic($Model): \Mezon\CRUDService\CRUDServiceLogic
+    protected function getServiceLogic($Model): \Mezon\CrudService\CrudServiceLogic
     {
         $Transport = new \Mezon\Service\ServiceConsoleTransport();
 
-        $Logic = new \Mezon\CRUDService\CRUDServiceLogic($Transport->ParamsFetcher, new \Mezon\Service\ServiceMockSecurityProvider(), $Model);
+        $Logic = new \Mezon\CrudService\CrudServiceLogic($Transport->ParamsFetcher, new \Mezon\Service\ServiceMockSecurityProvider(), $Model);
 
         return ($Logic);
     }
@@ -294,7 +297,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
             $ServiceLogic->recordsCountByField();
 
             $this->fail('Exception must be thrown, but it was not ' . serialize($argv));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addToAssertionCount(1);
         }
     }
@@ -304,10 +307,10 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
      */
     public function testConstruct()
     {
-        $ServiceLogic = new \Mezon\CRUDService\CRUDServiceLogic(new FakeParametersFetcher(), new FakeSecurityProvider());
+        $ServiceLogic = new \Mezon\CrudService\CrudServiceLogic(new FakeParametersFetcher(), new FakeSecurityProvider());
 
-        $this->assertInstanceOf('FakeParametersFetcher', $ServiceLogic->ParamsFetcher);
-        $this->assertInstanceOf('FakeSecurityProvider', $ServiceLogic->SecurityProvider);
+        $this->assertInstanceOf(FakeParametersFetcher::class, $ServiceLogic->ParamsFetcher);
+        $this->assertInstanceOf(FakeSecurityProvider::class, $ServiceLogic->SecurityProvider);
     }
 
     /**
@@ -378,7 +381,7 @@ class CRUDServiceLogicUnitTests extends ServiceLogicUnitTests
         try {
             $ServiceLogic->newRecordsSince();
             $this->fail('Exception must be thrown');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addToAssertionCount(1);
         }
     }

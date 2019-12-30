@@ -1,15 +1,15 @@
 <?php
-namespace Mezon\GUI;
+namespace Mezon\Gui;
+
 /**
  * Class ListBuilder
  *
- * @package     CRUDService
- * @subpackage  ListBuilder
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/12)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package CrudService
+ * @subpackage ListBuilder
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/12)
+ * @copyright Copyright (c) 2019, aeon.org
  */
-
 define('DESCRIPTION_FIELD_NAME', 'description');
 
 /**
@@ -28,7 +28,7 @@ class ListBuilder
     /**
      * Service logic adapter
      *
-     * @var \Mezon\GUI\ListBuilder\ListBuilderAdapter
+     * @var \Mezon\Gui\ListBuilder\ListBuilderAdapter
      */
     var $ListBuilderAdapter = false;
 
@@ -44,10 +44,10 @@ class ListBuilder
      *
      * @param array $Fields
      *            List of fields
-     * @param \Mezon\GUI\ListBuilder\ListBuilderAdapter $ListBuilderAdapter
+     * @param \Mezon\Gui\ListBuilder\ListBuilderAdapter $ListBuilderAdapter
      *            Adapter for the data source
      */
-    public function __construct(array $Fields, \Mezon\GUI\ListBuilder\ListBuilderAdapter $ListBuilderAdapter)
+    public function __construct(array $Fields, \Mezon\Gui\ListBuilder\ListBuilderAdapter $ListBuilderAdapter)
     {
         $this->Fields = $Fields;
 

@@ -1,10 +1,10 @@
 <?php
-namespace Mezon\GUI;
+namespace Mezon\Gui;
 
 /**
  * Class DateTimeUtils
  *
- * @package GUI
+ * @package Gui
  * @subpackage DateTimeUtils
  * @author Dodonov A.A.
  * @version v.1.0 (2019/09/18)

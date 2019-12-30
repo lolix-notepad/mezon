@@ -43,7 +43,7 @@ class ServiceTests extends PHPUnit\Framework\TestCase
 	{
 		parent::__construct();
 
-		$this->ServerPath = \Mezon\DNS::resolveHost($Service);
+		$this->ServerPath = \Mezon\DnsClient::resolveHost($Service);
 	}
 
 	/**

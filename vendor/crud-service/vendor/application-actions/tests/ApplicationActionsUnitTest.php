@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../autoloader.php');
 
 define('ENTITY_NAME', 'entity');
 
@@ -38,14 +39,14 @@ class TestApplication extends \Mezon\CommonApplication
 
     public function __construct()
     {
-        parent::__construct(new \Mezon\HTMLTemplate(__DIR__));
+        parent::__construct(new \Mezon\HtmlTemplate(__DIR__));
     }
 
     public function redirectTo($URL): void
     {}
 }
 
-class TestApplicationActions extends \Mezon\CRUDService\ApplicationActions
+class TestApplicationActions extends \Mezon\CrudService\ApplicationActions
 {
 
     public function getSelfId(): string
@@ -66,7 +67,7 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
     {
         $Object = new TestApplicationActions(ENTITY_NAME);
 
-        $Object->CRUDServiceClient = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceClient')
+        $Object->CrudServiceClient = $this->getMockBuilder('\Mezon\CrudService\CrudServiceClient')
             ->setMethods([
             'getList',
             'delete',
@@ -75,15 +76,15 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $Object->CRUDServiceClient->method('getList')->willReturn([
+        $Object->CrudServiceClient->method('getList')->willReturn([
             [
                 'id' => 1
             ]
         ]);
 
-        $Object->CRUDServiceClient->method('delete')->willReturn('');
+        $Object->CrudServiceClient->method('delete')->willReturn('');
 
-        $Object->CRUDServiceClient->method('getRemoteCreationFormFields')->willReturn([
+        $Object->CrudServiceClient->method('getRemoteCreationFormFields')->willReturn([
             'fields' => [
                 'id' => [
                     'type' => 'integer',

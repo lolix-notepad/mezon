@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\GUI\Field;
+namespace Mezon\Gui\Field;
 /**
  * Class InputText
  *
@@ -13,7 +13,7 @@ namespace Mezon\GUI\Field;
 /**
  * Input field control
  */
-class InputText extends \Mezon\GUI\Field
+class InputText extends \Mezon\Gui\Field
 {
 
     /**

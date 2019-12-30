@@ -1,30 +1,32 @@
 <?php
+namespace Mezon\CrudService\CrudServiceClient;
+
 /**
- * Class CRUDServiceClientUnitTests
+ * Class CrudServiceClientUnitTests
  *
- * @package     CRUDServiceClient
- * @subpackage  CRUDServiceClientUnitTests
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/18)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package CrudServiceClient
+ * @subpackage CrudServiceClientUnitTests
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/18)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
- * Common unit tests for CRUDServiceClient and all derived client classes
+ * Common unit tests for CrudServiceClient and all derived client classes
  *
  * @author Dodonov A.A.
  */
-class CRUDServiceClientUnitTests extends ServiceClientUnitTests
+class CrudServiceClientUnitTests extends \Mezon\Service\ServiceClient\ServiceClientUnitTests
 {
 
     /**
-     * Getting mock object for CRUD service client
+     * Getting mock object for Crud service client
      *
      * @return object Mock object
      */
     protected function getCrudServiceClientMock()
     {
-        $Mock = $this->getMockBuilder(\Mezon\CRUDService\CRUDServiceClient::class)
+        $Mock = $this->getMockBuilder(\Mezon\CrudService\CrudServiceClient::class)
             ->setMethods([
             'getRequest',
             'postRequest'
@@ -167,7 +169,7 @@ class CRUDServiceClientUnitTests extends ServiceClientUnitTests
     public function testInstance()
     {
         // setup and test body
-        $Client = \Mezon\CRUDService\CRUDServiceClient::instance('http://auth', 'token');
+        $Client = \Mezon\CrudService\CrudServiceClient::instance('http://auth', 'token');
 
         // assertions
         $this->assertEquals('token', $Client->getToken());

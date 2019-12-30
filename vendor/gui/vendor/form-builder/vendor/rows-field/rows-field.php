@@ -1,19 +1,20 @@
 <?php
-namespace Mezon\GUI\FormBuilder;
+namespace Mezon\Gui\FormBuilder;
+
 /**
  * Class RowsField
  *
- * @package     FormBuidler
- * @subpackage  RowsField
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/22)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package FormBuidler
+ * @subpackage RowsField
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/22)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
  * Rows field control
  */
-class RowsField extends \Mezon\GUI\Field
+class RowsField extends \Mezon\Gui\Field
 {
 
     /**

@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
 class TextFieldTest extends PHPUnit\Framework\TestCase
 {
@@ -9,7 +10,7 @@ class TextFieldTest extends PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\GUI\Field\TextField([
+        $Field = new \Mezon\Gui\Field\TextField([
             'text' => 'name'
         ]);
 

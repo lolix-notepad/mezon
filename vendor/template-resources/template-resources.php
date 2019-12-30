@@ -55,7 +55,7 @@ class TemplateResources
     {
         // additing only unique paths
         if (array_search($CSSFile, self::$CSSFiles) === false) {
-            self::$CSSFiles[] = \Mezon\_expandString($CSSFile);
+            self::$CSSFiles[] = \Mezon\Conf::expandString($CSSFile);
         }
     }
 
@@ -90,7 +90,7 @@ class TemplateResources
     {
         // additing only unique paths
         if (array_search($JSFile, self::$JSFiles) === false) {
-            self::$JSFiles[] = \Mezon\_expandString($JSFile);
+            self::$JSFiles[] = \Mezon\Conf::expandString($JSFile);
         }
     }
 

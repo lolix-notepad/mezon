@@ -50,9 +50,9 @@ class ServiceClient extends \Mezon\CustomClient
      */
     public function __construct(string $Service, string $Login = '', string $Password = '', array $Headers = [])
     {
-        if (\Mezon\DNS::serviceExists($Service)) {
+        if (\Mezon\DnsClient::serviceExists($Service)) {
             $this->Service = $Service;
-            parent::__construct(\Mezon\DNS::resolveHost($Service), $Headers);
+            parent::__construct(\Mezon\DnsClient::resolveHost($Service), $Headers);
         } elseif (strpos($Service, 'http://') === false && strpos($Service, 'https://') === false) {
             throw (new \Exception('Service ' . $Service . ' was not found in DNS'));
         } else {

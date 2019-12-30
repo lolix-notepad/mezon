@@ -1,14 +1,15 @@
 <?php
+namespace Mezon\Service;
+
 /**
  * Class ServiceUnitTests
  *
- * @package     Service
- * @subpackage  ServiceUnitTests
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage ServiceUnitTests
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
-
 define('AS_STRING', 1);
 define('AS_OBJECT', 2);
 
@@ -35,7 +36,7 @@ class FakeRequestParams implements \Mezon\Service\ServiceRequestParams
  *
  * @author Dodonov A.A.
  */
-class ServiceUnitTests extends PHPUnit\Framework\TestCase
+class ServiceUnitTests extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -116,7 +117,7 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
             return ('\Mezon\Service\ServiceLogic');
         }
         if ($Mode == AS_OBJECT) {
-            return (new \Mezon\Service\ServiceLogic(new FakeRequestParams(), new stdClass(), $this->getModel(AS_OBJECT)));
+            return (new \Mezon\Service\ServiceLogic(new FakeRequestParams(), new \stdClass(), $this->getModel(AS_OBJECT)));
         }
         return (null);
     }
@@ -178,7 +179,7 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing launcher with transport
      *
-     * @see Mezon\Service::launch
+     * @see \Mezon\Service::launch
      */
     public function testLaunchWithRransport()
     {
@@ -201,7 +202,7 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing launcher with security provider
      *
-     * @see Mezon\Service::launch
+     * @see \Mezon\Service::launch
      */
     public function testLaunchWithSecurityProvider()
     {
@@ -247,7 +248,7 @@ class ServiceUnitTests extends PHPUnit\Framework\TestCase
     /**
      * Testing launcher with transport
      *
-     * @see Mezon\Service::start
+     * @see \Mezon\Service::start
      */
     public function testStartWithTransport()
     {

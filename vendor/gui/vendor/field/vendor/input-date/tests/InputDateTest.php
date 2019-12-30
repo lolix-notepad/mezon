@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
 class InputDateTest extends PHPUnit\Framework\TestCase
 {
@@ -9,7 +10,7 @@ class InputDateTest extends PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\GUI\Field\InputDate([
+        $Field = new \Mezon\Gui\Field\InputDate([
             'name' => 'name',
             'required' => 1,
             'disabled' => 1,

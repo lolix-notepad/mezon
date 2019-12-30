@@ -1,6 +1,8 @@
 <?php
 
-class AuthUnitTest extends PHPUnit\Framework\TestCase
+require_once (__DIR__ . '/../../../../../autoloader.php');
+
+class BaseAuthUnitTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -23,7 +25,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup and test body
-        $Auth = new SocialNetworkAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
 
         // assertions
         $this->assertEquals(3, count($Auth->Settings), 'Setting were not set');
@@ -35,7 +37,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetLink()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
 
         // test body
         $Link = $Auth->get_link();
@@ -50,7 +52,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetLinkException()
     {
         // setup
-        $Auth = new SocialNetworkAuth([]);
+        $Auth = new \Mezon\SocialNetwork\BaseAuth([]);
 
         try {
             // test body and assertions
@@ -67,7 +69,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetUserInfoUri()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
 
         // test body
         $Link = $Auth->get_user_info_uri();
@@ -82,7 +84,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetTokenParams()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
 
         // test body
         $Params = $Auth->get_token_params(123);
@@ -100,7 +102,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetTokenUri()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
 
         // test body
         $Link = $Auth->get_token_uri();
@@ -115,7 +117,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetDesiredFields()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
 
         // test body
         $Fields = $Auth->get_desired_fields();
@@ -130,7 +132,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     public function testDispatchUserInfo()
     {
         // setup
-        $Auth = new SocialNetworkAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth($this->getSettings());
         $UserInfo = [
             'picture' => [
                 'data' => [
@@ -152,7 +154,7 @@ class AuthUnitTest extends PHPUnit\Framework\TestCase
     public function testAuth()
     {
         // setup
-        $Auth = $this->getMockBuilder('SocialNetworkAuth')
+        $Auth = $this->getMockBuilder(\Mezon\SocialNetwork\BaseAuth::class)
             ->setMethods([
             'get_request',
             'request_token'

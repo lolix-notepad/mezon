@@ -1,6 +1,7 @@
 <?php
+require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class CRUDServiceClientUnitTest extends CRUDServiceClientUnitTests
+class CrudServiceClientUnitTest extends \Mezon\CrudService\CrudServiceClient\CrudServiceClientUnitTests
 {
 }
 

@@ -1,11 +1,11 @@
 <?php
-namespace Mezon\GUI\ListBuilder;
+namespace Mezon\Gui\ListBuilder;
 
 /**
- * Class CRUDServiceClientAdapter
+ * Class CrudServiceClientAdapter
  *
  * @package ListBuilder
- * @subpackage CRUDServiceClientAdapter
+ * @subpackage CrudServiceClientAdapter
  * @author Dodonov A.A.
  * @version v.1.0 (2019/09/11)
  * @copyright Copyright (c) 2019, aeon.org
@@ -14,15 +14,15 @@ namespace Mezon\GUI\ListBuilder;
 /**
  * Logic adapter for list builder
  */
-class CRUDServiceClientAdapter implements ListBuilderAdapter
+class CrudServiceClientAdapter implements ListBuilderAdapter
 {
 
     /**
-     * CRUD Service Client object
+     * Crud Service Client object
      *
-     * @var \Mezon\CRUDService\CRUDServiceClient
+     * @var \Mezon\CrudService\CrudServiceClient
      */
-    var $CRUDServiceClient = null;
+    var $CrudServiceClient = null;
 
     /**
      * Service name
@@ -67,26 +67,26 @@ class CRUDServiceClientAdapter implements ListBuilderAdapter
     /**
      * Method returns client to service
      *
-     * @return \Mezon\CRUDService\CRUDServiceClient Client
+     * @return \Mezon\CrudService\CrudServiceClient Client
      */
-    protected function getClient(): \Mezon\CRUDService\CRUDServiceClient
+    protected function getClient(): \Mezon\CrudService\CrudServiceClient
     {
-        if ($this->CRUDServiceClient === null) {
-            $this->CRUDServiceClient = new \Mezon\CRUDService\CRUDServiceClient($this->Service, $this->Login, $this->Password);
+        if ($this->CrudServiceClient === null) {
+            $this->CrudServiceClient = new \Mezon\CrudService\CrudServiceClient($this->Service, $this->Login, $this->Password);
         }
 
-        return ($this->CRUDServiceClient);
+        return ($this->CrudServiceClient);
     }
 
     /**
      * Method sets service client
      *
-     * @param \Mezon\CRUDService\CRUDServiceClient $CRUDServiceClient
+     * @param \Mezon\CrudService\CrudServiceClient $CrudServiceClient
      *            Service client
      */
-    public function setClient(\Mezon\CRUDService\CRUDServiceClient $CRUDServiceClient)
+    public function setClient(\Mezon\CrudService\CrudServiceClient $CrudServiceClient)
     {
-        $this->CRUDServiceClient = $CRUDServiceClient;
+        $this->CrudServiceClient = $CrudServiceClient;
     }
 
     /**

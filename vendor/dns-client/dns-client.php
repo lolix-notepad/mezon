@@ -20,9 +20,11 @@ class DnsClient
 {
 
     /**
-     * Method returns list of available services.
+     * Method returns list of available services
+     *
+     * @return string List of services
      */
-    public static function getServices()
+    public static function getServices(): string
     {
         global $DNSRecords;
 
@@ -34,8 +36,9 @@ class DnsClient
      *
      * @param string $ServiceName
      *            Service name
+     *            return bool Does service exists
      */
-    public static function serviceExists($ServiceName)
+    public static function serviceExists(string $ServiceName): bool
     {
         global $DNSRecords;
 
@@ -47,8 +50,9 @@ class DnsClient
      *
      * @param string $ServiceName
      *            Service name
+     * @return string Service URL
      */
-    public static function resolveHost($ServiceName)
+    public static function resolveHost(string $ServiceName): string
     {
         global $DNSRecords;
 
@@ -61,6 +65,21 @@ class DnsClient
         } else {
             throw (new \Exception('Invalid URL "' . serialize($DNSRecords[$ServiceName]) . '"', - 1));
         }
+    }
+
+    /**
+     * Method saves service URL
+     *
+     * @param string $ServiceName
+     *            Service name
+     * @param string $ServiceUrl
+     *            Service URL
+     */
+    public static function setService(string $ServiceName, string $ServiceUrl): void
+    {
+        global $DNSRecords;
+
+        $DNSRecords[$ServiceName] = $ServiceUrl;
     }
 }
 

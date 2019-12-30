@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
 class InputTextTest extends PHPUnit\Framework\TestCase
 {
@@ -9,7 +10,7 @@ class InputTextTest extends PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\GUI\Field\InputText([
+        $Field = new \Mezon\Gui\Field\InputText([
             'name' => 'name',
             'required' => 1,
             'disabled' => 1,

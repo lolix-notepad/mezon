@@ -1,10 +1,10 @@
 <?php
-namespace Mezon\GUI;
+namespace Mezon\Gui;
 
 /**
  * Class FieldsAlgorithms
  *
- * @package CRUDService
+ * @package Gui
  * @subpackage FieldsAlgorithms
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/08)
@@ -295,34 +295,34 @@ class FieldsAlgorithms
     protected function initObject(array $Field)
     {
         if (isset($Field['items'])) {
-            $Control = new \Mezon\GUI\Field\Select($Field);
+            $Control = new \Mezon\Gui\Field\Select($Field);
         } elseif (isset($Field['control']) && $Field['control'] == 'textarea') {
-            $Control = new \Mezon\GUI\Field\Textarea($Field);
+            $Control = new \Mezon\Gui\Field\Textarea($Field);
         } elseif ($Field['type'] == 'external') {
             $Field['session-id'] = $this->SessionId;
-            $Control = new \Mezon\GUI\Field\CheckboxesField($Field);
+            $Control = new \Mezon\Gui\Field\CheckboxesField($Field);
         } elseif ($Field['type'] == 'records') {
             $Field['session-id'] = $this->SessionId;
-            $Control = new \Mezon\GUI\Field\RecordField($Field);
+            $Control = new \Mezon\Gui\Field\RecordField($Field);
         } elseif ($Field['type'] == 'file') {
-            $Control = new \Mezon\GUI\Field\InputFile($Field);
+            $Control = new \Mezon\Gui\Field\InputFile($Field);
         } elseif ($Field['type'] == 'date') {
-            $Control = new \Mezon\GUI\Field\InputDate($Field);
+            $Control = new \Mezon\Gui\Field\InputDate($Field);
         } elseif ($Field['type'] == 'custom') {
-            $Control = new \Mezon\GUI\Field\CustomField($Field);
+            $Control = new \Mezon\Gui\Field\CustomField($Field);
         } elseif ($Field['type'] == 'header') {
-            $Control = new \Mezon\GUI\Field\FormHeader($Field);
+            $Control = new \Mezon\Gui\Field\FormHeader($Field);
         } elseif ($Field['type'] == 'label') {
-            $Control = new \Mezon\GUI\Field\LabelField($Field);
+            $Control = new \Mezon\Gui\Field\LabelField($Field);
         } elseif ($Field['type'] == 'rows') {
             $ControlHTML = '';
             foreach ($Field['type']['rows'] as $RowFieldName) {
                 $Control = $this->getObject($RowFieldName);
                 $ControlHTML .= $Control->html();
             }
-            $Control = new \Mezon\GUI\FormBuilder\RowsField($Field, $ControlHTML);
+            $Control = new \Mezon\Gui\FormBuilder\RowsField($Field, $ControlHTML);
         } else {
-            $Control = new \Mezon\GUI\Field\InputText($Field);
+            $Control = new \Mezon\Gui\Field\InputText($Field);
         }
 
         return ($Control);
@@ -333,7 +333,7 @@ class FieldsAlgorithms
      *
      * @param string $Name
      *            Field name
-     * @return \Mezon\GUI\Field Field object
+     * @return \Mezon\Gui\Field Field object
      */
     public function getObject(string $Name): Field
     {

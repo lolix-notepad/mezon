@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../autoloader.php');
 
 class DbServiceModelUnitTest extends PHPUnit\Framework\TestCase
 {
@@ -24,7 +25,7 @@ class DbServiceModelUnitTest extends PHPUnit\Framework\TestCase
                 '*'
             ],
             [
-                new \Mezon\GUI\FieldsAlgorithms([
+                new \Mezon\Gui\FieldsAlgorithms([
                     'id' => [
                         'type' => 'intger'
                     ]

@@ -1,6 +1,7 @@
 <?php
+require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class FakeAdapter implements \Mezon\GUI\ListBuilder\ListBuilderAdapter
+class FakeAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdapter
 {
 
     /**
@@ -85,11 +86,11 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Method creates service logic
      *
-     * @return \Mezon\CRUDService\CRUDServiceLogic CRUD service logic object
+     * @return \Mezon\CrudService\CrudServiceLogic Crud service logic object
      */
     protected function getServiceLogic()
     {
-        return (new \Mezon\CRUDService\CRUDServiceLogic(new FakeRequestParams(), new stdClass()));
+        return (new \Mezon\CrudService\CrudServiceLogic(new FakeRequestParams(), new stdClass()));
     }
 
     /**
@@ -98,7 +99,7 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     public function testConstructorValid()
     {
         // setup and test body
-        $ListBuilder = new \Mezon\GUI\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
+        $ListBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
 
         // assertions
         $this->assertIsArray($ListBuilder->Fields, 'Invalid fields list type');
@@ -110,7 +111,7 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     public function testListingForm()
     {
         // setup
-        $ListBuilder = new \Mezon\GUI\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
+        $ListBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
 
         // test body
         $Content = $ListBuilder->listingForm();
@@ -127,7 +128,7 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
     public function test_simple_listing_form()
     {
         // setup
-        $ListBuilder = new \Mezon\GUI\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
+        $ListBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
 
         // test body
         $Content = $ListBuilder->simpleListingForm();

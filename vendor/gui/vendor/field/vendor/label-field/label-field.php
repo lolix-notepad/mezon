@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\GUI\Field;
+namespace Mezon\Gui\Field;
 
 /**
  * Class LabelField
@@ -44,7 +44,7 @@ class LabelField extends TextField
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\GUI\Control::fillAllRow()
+     * @see \Mezon\Gui\Control::fillAllRow()
      */
     public function fillAllRow(): bool
     {

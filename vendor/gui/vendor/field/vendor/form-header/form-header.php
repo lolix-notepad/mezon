@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\GUI\Field;
+namespace Mezon\Gui\Field;
 
 /**
  * Class FormHeader
@@ -14,7 +14,7 @@ namespace Mezon\GUI\Field;
 /**
  * Form header control
  */
-class FormHeader extends \Mezon\GUI\Field\TextField
+class FormHeader extends \Mezon\Gui\Field\TextField
 {
 
     /**

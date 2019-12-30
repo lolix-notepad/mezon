@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\GUI\Field;
+namespace Mezon\Gui\Field;
 
 /**
  * Class TextField
@@ -14,7 +14,7 @@ namespace Mezon\GUI\Field;
 /**
  * Text field control
  */
-class TextField implements \Mezon\GUI\Control
+class TextField implements \Mezon\Gui\Control
 {
 
     /**

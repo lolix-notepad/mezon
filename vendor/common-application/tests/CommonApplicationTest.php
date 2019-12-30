@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../autoloader.php');
 
 /**
  * View class
@@ -32,7 +33,7 @@ class TestCommonApplication extends \Mezon\CommonApplication
      */
     function __construct()
     {
-        parent::__construct(new \Mezon\HTMLTemplate(__DIR__, 'index'));
+        parent::__construct(new \Mezon\HtmlTemplate(__DIR__, 'index'));
     }
 
     function actionArrayResult()
@@ -122,7 +123,7 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
         $this->assertContains('host', $Output);
         $this->assertEquals('undefined', $Output['host']);
     }
-    
+
     /**
      * Testing handle_rest_exception method
      */

@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\GUI\Field;
+namespace Mezon\Gui\Field;
 
 /**
  * Class Select
@@ -14,7 +14,7 @@ namespace Mezon\GUI\Field;
 /**
  * Text area control
  */
-class Select extends \Mezon\GUI\Field
+class Select extends \Mezon\Gui\Field
 {
 
     /**

@@ -1,4 +1,5 @@
 <?php
+namespace Mezon\Service\ServiceBaseLogic;
 
 /**
  * Service logic utin tests
@@ -110,7 +111,7 @@ class MockModel
  *
  * @author Dodonov A.A.
  */
-class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
+class ServiceBaseLogicUnitTests extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -140,9 +141,9 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
      */
     protected function checkLogicParts(object $Logic, string $Msg): void
     {
-        $this->assertInstanceOf('MockParamsFetcher', $Logic->ParamsFetcher, $Msg);
-        $this->assertInstanceOf('MockSecurityProvider', $Logic->SecurityProvider, $Msg);
-        $this->assertInstanceOf('MockModel', $Logic->Model, $Msg);
+        $this->assertInstanceOf(MockParamsFetcher::class, $Logic->ParamsFetcher, $Msg);
+        $this->assertInstanceOf(MockSecurityProvider::class, $Logic->SecurityProvider, $Msg);
+        $this->assertInstanceOf(MockModel::class, $Logic->Model, $Msg);
     }
 
     /**
@@ -156,8 +157,8 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
 
         $Msg = 'Construction failed for default model';
 
-        $this->assertInstanceOf('MockParamsFetcher', $Logic->ParamsFetcher, $Msg);
-        $this->assertInstanceOf('MockSecurityProvider', $Logic->SecurityProvider, $Msg);
+        $this->assertInstanceOf(MockParamsFetcher::class, $Logic->ParamsFetcher, $Msg);
+        $this->assertInstanceOf(MockSecurityProvider::class, $Logic->SecurityProvider, $Msg);
         $this->assertEquals(null, $Logic->Model, $Msg);
     }
 
@@ -182,7 +183,7 @@ class ServiceBaseLogicUnitTests extends PHPUnit\Framework\TestCase
     {
         $ServiceLogicClassName = $this->ClassName;
 
-        $Logic = new $ServiceLogicClassName(new MockParamsFetcher(), new MockSecurityProvider(), 'MockModel');
+        $Logic = new $ServiceLogicClassName(new MockParamsFetcher(), new MockSecurityProvider(), MockModel::class);
 
         $Msg = 'Construction failed for defined model name';
 

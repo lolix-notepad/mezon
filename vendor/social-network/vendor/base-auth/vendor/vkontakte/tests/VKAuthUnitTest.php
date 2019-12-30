@@ -1,6 +1,7 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
+class VKAuthUnitTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -20,13 +21,13 @@ class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Testing get_user_info_uri
      */
-    public function testGetUserInfoUri()
+    public function testGetUerInfoUri()
     {
         // setup
-        $Auth = new FacebookAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth\Vkontakte($this->getSettings());
 
         // test body and assertions
-        $this->assertContains('/graph.facebook.com/me?', $Auth->get_user_info_uri());
+        $this->assertContains('/api.vk.com/method/users.get?v=5.0&', $Auth->get_user_info_uri());
     }
 
     /**
@@ -35,10 +36,10 @@ class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetTokenUri()
     {
         // setup
-        $Auth = new FacebookAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth\Vkontakte($this->getSettings());
 
         // test body and assertions
-        $this->assertContains('/graph.facebook.com/oauth/access_token?', $Auth->get_token_uri());
+        $this->assertContains('/oauth.vk.com/access_token?v=5.0&', $Auth->get_token_uri());
     }
 
     /**
@@ -47,10 +48,17 @@ class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testGetDesiredFields()
     {
         // setup
-        $Auth = new FacebookAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth\Vkontakte($this->getSettings());
 
-        // test body and assertions
-        $this->assertContains('id,first_name,last_name,email,picture.width(120).height(120)', $Auth->get_desired_fields());
+        // test body
+        $Fields = $Auth->get_desired_fields();
+
+        // assertions
+        $this->assertContains('id', $Fields);
+        $this->assertContains('first_name', $Fields);
+        $this->assertContains('last_name', $Fields);
+        $this->assertContains('email', $Fields);
+        $this->assertContains('photo_100', $Fields);
     }
 
     /**
@@ -59,17 +67,17 @@ class FacebookAuthUnitTest extends PHPUnit\Framework\TestCase
     public function testDispatchUserInfo()
     {
         // setup
-        $Auth = new FacebookAuth($this->getSettings());
+        $Auth = new \Mezon\SocialNetwork\BaseAuth\Vkontakte($this->getSettings());
 
         // test body
         $Result = $Auth->dispatch_user_info([
-            'id' => '',
-            'first_name' => '',
-            'last_name' => '',
-            'pic190x190' => '',
-            'picture' => [
-                'data' => [
-                    'url' => 'url'
+            'response' => [
+                [
+                    'id' => '',
+                    'first_name' => '',
+                    'last_name' => '',
+                    'photo_100' => '',
+                    'email' => ''
                 ]
             ]
         ]);

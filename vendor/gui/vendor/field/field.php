@@ -1,10 +1,10 @@
 <?php
-namespace Mezon\GUI;
+namespace Mezon\Gui;
 
 /**
  * Class Field
  *
- * @package GUI
+ * @package Gui
  * @subpackage Field
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/20)

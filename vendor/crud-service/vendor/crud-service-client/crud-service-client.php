@@ -1,22 +1,22 @@
 <?php
-namespace Mezon\CRUDService;
+namespace Mezon\CrudService;
 
 /**
- * Class CRUDServiceClient
+ * Class CrudServiceClient
  *
- * @package CRUDService
- * @subpackage CRUDServiceClient
+ * @package CrudService
+ * @subpackage CrudServiceClient
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/13)
  * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
- * Class for basic CRUD API client.
+ * Class for basic Crud API client.
  *
  * @author Dodonov A.A.
  */
-class CRUDServiceClient extends \Mezon\Service\ServiceClient
+class CrudServiceClient extends \Mezon\Service\ServiceClient
 {
 
     /**
@@ -278,17 +278,17 @@ class CRUDServiceClient extends \Mezon\Service\ServiceClient
     }
 
     /**
-     * Method creates instance if the CRUDServiceClient class
+     * Method creates instance if the CrudServiceClient class
      *
      * @param string $Service
      *            Service to be connected to
      * @param string $Token
      *            Connection token
-     * @return CRUDServiceClient Instance of the CRUDServiceClient class
+     * @return CrudServiceClient Instance of the CrudServiceClient class
      */
-    public static function instance(string $Service, string $Token): CRUDServiceClient
+    public static function instance(string $Service, string $Token): CrudServiceClient
     {
-        $Connection = new CRUDServiceClient($Service);
+        $Connection = new CrudServiceClient($Service);
 
         $Connection->setToken($Token);
 

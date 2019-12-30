@@ -1,19 +1,19 @@
 <?php
-namespace Mezon\CRUDService;
+namespace Mezon\CrudService;
+
 /**
  * Class ApplicationActions
  *
- * @package     CRUDService
- * @subpackage  ApplicationActions
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/12)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package CrudService
+ * @subpackage ApplicationActions
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/12)
+ * @copyright Copyright (c) 2019, aeon.org
  */
-
 define('FIELD_NAME_DOMAIN_ID', 'domain_id');
 
 /**
- * Class for basic CRUD client
+ * Class for basic Crud client
  */
 class ApplicationActions
 {
@@ -46,9 +46,9 @@ class ApplicationActions
     /**
      * Service client
      *
-     * @var \Mezon\CRUDService\CRUDServiceClient
+     * @var \Mezon\CrudService\CrudServiceClient
      */
-    var $CRUDServiceClient = null;
+    var $CrudServiceClient = null;
 
     /**
      * Constructor
@@ -62,7 +62,7 @@ class ApplicationActions
      */
     public function __construct(string $EntityName, string $Login = '', string $Password = '')
     {
-        $this->CRUDServiceClient = new CRUDServiceClient($EntityName, $Login, $Password);
+        $this->CrudServiceClient = new CrudServiceClient($EntityName, $Login, $Password);
 
         $this->EntityName = $EntityName;
 
@@ -112,20 +112,20 @@ class ApplicationActions
      * List builder creation function
      *
      * @param array $Options
-     * @return \Mezon\GUI\ListBuilder
+     * @return \Mezon\Gui\ListBuilder
      */
-    protected function createListBuilder(array $Options): \Mezon\GUI\ListBuilder
+    protected function createListBuilder(array $Options): \Mezon\Gui\ListBuilder
     {
         // create adapter
-        $CRUDServiceClientAdapter = new \Mezon\GUI\ListBuilder\CRUDServiceClientAdapter();
-        $CRUDServiceClientAdapter->setClient($this->CRUDServiceClient);
+        $CrudServiceClientAdapter = new \Mezon\Gui\ListBuilder\CrudServiceClientAdapter();
+        $CrudServiceClientAdapter->setClient($this->CrudServiceClient);
 
         if (isset($Options['default-fields']) === false) {
             throw (new \Exception('List of fields must be defined in the $Options[\'default-fields\']', - 1));
         }
 
         // create list builder
-        $ListBuilder = new \Mezon\GUI\ListBuilder(explode(',', $Options['default-fields']), $CRUDServiceClientAdapter);
+        $ListBuilder = new \Mezon\Gui\ListBuilder(explode(',', $Options['default-fields']), $CrudServiceClientAdapter);
 
         return ($ListBuilder);
     }
@@ -217,7 +217,7 @@ class ApplicationActions
         $Options[FIELD_NAME_DOMAIN_ID] = $this->getSelfId();
 
         $AppObject->$MethodName = function (...$Params) use ($AppObject, $Options) {
-            $this->CRUDServiceClient->delete($Params[1]['id'], $Options[FIELD_NAME_DOMAIN_ID]);
+            $this->CrudServiceClient->delete($Params[1]['id'], $Options[FIELD_NAME_DOMAIN_ID]);
 
             $AppObject->redirectTo('../../list/');
         };
@@ -235,13 +235,13 @@ class ApplicationActions
     protected function getCompiledForm(string $Type = 'creation', int $id = 0): array
     {
         // get fields
-        $Data = $this->CRUDServiceClient->getRemoteCreationFormFields();
+        $Data = $this->CrudServiceClient->getRemoteCreationFormFields();
 
         // construct $FieldsAlgorithms
-        $FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms(\Mezon\Functional::getField($Data, 'fields'), $this->EntityName);
+        $FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms(\Mezon\Functional::getField($Data, 'fields'), $this->EntityName);
 
         // create form builder object
-        $FormBuilder = new \Mezon\GUI\FormBuilder($FieldsAlgorithms, false, $this->EntityName, \Mezon\Functional::getField($Data, 'layout'));
+        $FormBuilder = new \Mezon\Gui\FormBuilder($FieldsAlgorithms, false, $this->EntityName, \Mezon\Functional::getField($Data, 'layout'));
 
         // compile form
         if ($Type == 'creation') {
@@ -250,7 +250,7 @@ class ApplicationActions
             ];
         } else {
             $Result = [
-                'main' => $FormBuilder->updatingForm($this->CRUDServiceClient->getSessionId(), $this->CRUDServiceClient->getById($id, $this->getSelfId()))
+                'main' => $FormBuilder->updatingForm($this->CrudServiceClient->getSessionId(), $this->CrudServiceClient->getById($id, $this->getSelfId()))
             ];
         }
 
@@ -275,7 +275,7 @@ class ApplicationActions
 
                 $Data = $this->pretransformData(array_merge($_POST, $_FILES));
 
-                $this->CRUDServiceClient->create($Data);
+                $this->CrudServiceClient->create($Data);
 
                 $AppObject->redirectTo('../list/');
             } else {
@@ -326,7 +326,7 @@ class ApplicationActions
 
                 $this->postRequest('/update/' . $Params[1]['id'] . '/', $_POST);
 
-                $this->CRUDServiceClient->update($Params[1]['id'], $_POST, $_POST[FIELD_NAME_DOMAIN_ID]);
+                $this->CrudServiceClient->update($Params[1]['id'], $_POST, $_POST[FIELD_NAME_DOMAIN_ID]);
 
                 $AppObject->redirectTo('../../list/');
             } else {

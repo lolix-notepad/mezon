@@ -4,7 +4,7 @@ namespace Mezon\Service;
 /**
  * Class ContentServiceModel
  *
- * @package CRUDService
+ * @package CrudService
  * @subpackage ContentServiceModel
  * @author Dodonov A.A.
  * @version v.1.0 (2019/11/06)

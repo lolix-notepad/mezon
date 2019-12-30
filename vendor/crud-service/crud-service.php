@@ -2,10 +2,10 @@
 namespace Mezon;
 
 /**
- * Class CRUDService
+ * Class CrudService
  *
  * @package Mezon
- * @subpackage CRUDService
+ * @subpackage CrudService
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/17)
  * @copyright Copyright (c) 2019, aeon.org
@@ -16,7 +16,7 @@ namespace Mezon;
  *
  * @author Dodonov A.A.
  */
-class CRUDService extends Service
+class CrudService extends Service
 {
 
     /**
@@ -33,12 +33,12 @@ class CRUDService extends Service
      * @param mixed $ServiceModel
      *            Service's model
      */
-    public function __construct(array $Entity, $ServiceTransport = '\Mezon\Service\ServiceRestTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\CRUDService\CRUDServiceLogic', $ServiceModel = '\Mezon\CRUDService\CRUDServiceModel')
+    public function __construct(array $Entity, $ServiceTransport = '\Mezon\Service\ServiceRestTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\CrudService\CrudServiceLogic', $ServiceModel = '\Mezon\CrudService\CrudServiceModel')
     {
         try {
             parent::__construct($ServiceTransport, $SecurityProvider, $ServiceLogic, $this->initModel($Entity, $ServiceModel));
 
-            $this->initCRUDRoutes();
+            $this->initCrudRoutes();
         } catch (\Exception $e) {
             $this->ServiceTransport->handleException($e);
         }
@@ -49,7 +49,7 @@ class CRUDService extends Service
      *
      * @param array $Entity
      *            Entity description
-     * @param string|\Mezon\CRUDService\CRUDServiceModel $ServiceModel
+     * @param string|\Mezon\CrudService\CrudServiceModel $ServiceModel
      *            Service's model
      */
     protected function initModel(array $Entity, $ServiceModel)
@@ -82,7 +82,7 @@ class CRUDService extends Service
     /**
      * Method inits common servoce's routes
      */
-    protected function initCRUDRoutes(): void
+    protected function initCrudRoutes(): void
     {
         $this->ServiceTransport->addRoute('/list/', 'listRecord', 'GET');
         $this->ServiceTransport->addRoute('/all/', 'all', 'GET');

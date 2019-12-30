@@ -12,7 +12,7 @@ namespace Mezon\Service;
  */
 
 /**
- * CRUD service's default model
+ * Default DB model for the service
  *
  * @author Dodonov A.A.
  */
@@ -51,15 +51,15 @@ class DbServiceModel extends ServiceModel
         $this->EntityName = $EntityName;
 
         if (is_string($Fields)) {
-            $this->FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms([
+            $this->FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms([
                 '*' => [
                     'type' => 'string',
                     'title' => 'All fields'
                 ]
             ], $TableName);
         } elseif (is_array($Fields)) {
-            $this->FieldsAlgorithms = new \Mezon\GUI\FieldsAlgorithms($Fields, $TableName);
-        } elseif ($Fields instanceof \Mezon\GUI\FieldsAlgorithms) {
+            $this->FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms($Fields, $TableName);
+        } elseif ($Fields instanceof \Mezon\Gui\FieldsAlgorithms) {
             $this->FieldsAlgorithms = $Fields;
         } else {
             throw (new \Exception('Invalid fields description', - 1));

@@ -1,16 +1,14 @@
 <?php
+
 /**
  * DNS for unit-tests
  *
- * @package     Service
- * @subpackage  ServiceClient
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/21)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage ServiceClient
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/21)
+ * @copyright Copyright (c) 2019, aeon.org
  */
-
-$DNSRecords = [
-	'existing-service' => 'existing-service-srv'
-];
+\Mezon\DnsClient::setService('existing-service', 'existing-service-srv');
 
 ?>

@@ -1,11 +1,11 @@
 <?php
-namespace Mezon\CRUDService;
+namespace Mezon\CrudService;
 
 /**
- * Class CRUDServiceCollection
+ * Class CrudServiceCollection
  *
- * @package CRUDService
- * @subpackage CRUDServiceCollection
+ * @package CrudService
+ * @subpackage CrudServiceCollection
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/13)
  * @copyright Copyright (c) 2019, aeon.org
@@ -16,7 +16,7 @@ namespace Mezon\CRUDService;
  *
  * @author Dodonov A.A.
  */
-class CRUDServiceCollection
+class CrudServiceCollection
 {
 
     /**
@@ -27,9 +27,9 @@ class CRUDServiceCollection
     var $Collection = [];
 
     /**
-     * Connection to the CRUD service
+     * Connection to the Crud service
      *
-     * @var CRUDServiceClient
+     * @var CrudServiceClient
      */
     var $Connector;
 
@@ -53,11 +53,11 @@ class CRUDServiceCollection
      *            Service title
      * @param string $Token
      *            Acccess token
-     * @return CRUDServiceClient Connector to the service
+     * @return CrudServiceClient Connector to the service
      */
     protected function constructClient(string $Service, string $Token)
     {
-        $Client = new CRUDServiceClient($Service);
+        $Client = new CrudServiceClient($Service);
 
         $Client->setToken($Token);
 
@@ -67,7 +67,7 @@ class CRUDServiceCollection
     /**
      * Method sets new connector
      *
-     * @param CRUDServiceClient $NewConnector
+     * @param CrudServiceClient $NewConnector
      *            New connector
      */
     public function setConnector($NewConnector)

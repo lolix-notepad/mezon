@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\GUI\Field;
+namespace Mezon\Gui\Field;
 /**
  * Class Textarea
  *
@@ -13,7 +13,7 @@ namespace Mezon\GUI\Field;
 /**
  * Text area control
  */
-class Textarea extends \Mezon\GUI\Field
+class Textarea extends \Mezon\Gui\Field
 {
 
     /**

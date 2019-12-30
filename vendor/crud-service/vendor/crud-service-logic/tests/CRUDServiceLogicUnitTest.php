@@ -1,11 +1,12 @@
 <?php
+require_once (__DIR__ . '/../../../../../autoloader.php');
 
 /**
- * CRUD service logic unit tests.
- * 
+ * Crud service logic unit tests.
+ *
  * @author Dodonov A.A.
  */
-class CRUDServiceLogicUnitTest extends CRUDServiceLogicUnitTests
+class CrudServiceLogicUnitTest extends \Mezon\CrudService\CrudServiceLogic\CrudServiceLogicUnitTests
 {
 }
 

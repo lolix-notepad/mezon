@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../autoloader.php');
 
 /**
  * View class for testing purposes
@@ -12,7 +13,7 @@ class TestingView extends \Mezon\View
     {
         return ('rendered content');
     }
-    
+
     public function viewTest2(): string
     {
         return ('rendered content 2');

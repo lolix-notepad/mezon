@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
 class RowsFieldTest extends PHPUnit\Framework\TestCase
 {
@@ -9,7 +10,7 @@ class RowsFieldTest extends PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\GUI\FormBuilder\RowsField([
+        $Field = new \Mezon\Gui\FormBuilder\RowsField([
             'text' => 'name'
         ], 'author');
 

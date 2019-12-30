@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
 class CustomFieldTest extends PHPUnit\Framework\TestCase
 {
@@ -10,7 +11,7 @@ class CustomFieldTest extends PHPUnit\Framework\TestCase
      */
     protected function getFieldMock(): object
     {
-        $Mock = $this->getMockBuilder('\Mezon\GUI\Field\CustomField')
+        $Mock = $this->getMockBuilder('\Mezon\Gui\Field\CustomField')
             ->setConstructorArgs([
             [
                 'name' => 'name',

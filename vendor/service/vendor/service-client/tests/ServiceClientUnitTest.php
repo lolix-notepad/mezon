@@ -1,6 +1,7 @@
 <?php
+require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class ServiceClientUnitTest extends ServiceClientUnitTests
+class ServiceClientUnitTest extends \Mezon\Service\ServiceClient\ServiceClientUnitTests
 {
 }
 

@@ -1,5 +1,7 @@
 <?php
 
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
+
 class CheckboxesFieldTest extends PHPUnit\Framework\TestCase
 {
 
@@ -10,7 +12,7 @@ class CheckboxesFieldTest extends PHPUnit\Framework\TestCase
      */
     protected function getFieldMock(): object
     {
-        $Mock = $this->getMockBuilder('\Mezon\GUI\Field\CheckboxesField')
+        $Mock = $this->getMockBuilder('\Mezon\Gui\Field\CheckboxesField')
             ->setConstructorArgs([
             [
                 'name' => 'name',

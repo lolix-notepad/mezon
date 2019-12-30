@@ -1,10 +1,10 @@
 <?php
 namespace Mezon;
 /**
- * Class HTMLTemplate
+ * Class HtmlTemplate
  *
  * @package     Mezon
- * @subpackage  HTMLTemplate
+ * @subpackage  HtmlTemplate
  * @author      Dodonov A.A.
  * @version     v.1.0 (2019/08/07)
  * @copyright   Copyright (c) 2019, aeon.org
@@ -15,7 +15,7 @@ namespace Mezon;
  *
  * @author Dodonov A.A.
  */
-class HTMLTemplate
+class HtmlTemplate
 {
 
     /**
@@ -169,8 +169,8 @@ class HTMLTemplate
     public function compile(): string
     {
         $this->setPageVar('resources', $this->getResources());
-        $this->setPageVar('mezon-http-path', \Mezon\getConfigValue('@mezon-http-path'));
-        $this->setPageVar('service-http-path', \Mezon\getConfigValue('@service-http-path'));
+        $this->setPageVar('mezon-http-path', \Mezon\Conf::getConfigValue('@mezon-http-path'));
+        $this->setPageVar('service-http-path', \Mezon\Conf::getConfigValue('@service-http-path'));
         if (isset($_SERVER['HTTP_HOST'])) {
             $this->setPageVar('host', $_SERVER['HTTP_HOST']);
         }

@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\GUI\Field;
+namespace Mezon\Gui\Field;
 
 /**
  * Class CustomField
@@ -14,7 +14,7 @@ namespace Mezon\GUI\Field;
 /**
  * Custom field control
  */
-class CustomField extends \Mezon\GUI\Field
+class CustomField extends \Mezon\Gui\Field
 {
 
     /**

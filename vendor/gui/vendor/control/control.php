@@ -1,9 +1,9 @@
 <?php
-namespace Mezon\GUI;
+namespace Mezon\Gui;
 /**
  * Interface Control
  *
- * @package     GUI
+ * @package     Gui
  * @subpackage  Control
  * @author      Dodonov A.A.
  * @version     v.1.0 (2019/09/14)

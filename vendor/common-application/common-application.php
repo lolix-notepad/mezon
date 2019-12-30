@@ -36,17 +36,17 @@ class CommonApplication extends Application
     /**
      * Application's template
      * 
-     * @var \Mezon\HTMLTemplate
+     * @var \Mezon\HtmlTemplate
      */
     protected $Template = false;
 
     /**
      * Constructor
      *
-     * @param HTMLTemplate $Template
+     * @param HtmlTemplate $Template
      *            Template
      */
-    public function __construct(HTMLTemplate $Template)
+    public function __construct(HtmlTemplate $Template)
     {
         parent::__construct();
 
@@ -177,9 +177,9 @@ class CommonApplication extends Application
     /**
      * Getting template
      *
-     * @return HTMLTemplate Application's template
+     * @return HtmlTemplate Application's template
      */
-    public function getRemplate(): HTMLTemplate
+    public function getRemplate(): HtmlTemplate
     {
         return ($this->Template);
     }

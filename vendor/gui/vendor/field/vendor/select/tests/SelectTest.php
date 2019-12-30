@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
 class SelectTest extends PHPUnit\Framework\TestCase
 {
@@ -9,7 +10,7 @@ class SelectTest extends PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\GUI\Field\Select([
+        $Field = new \Mezon\Gui\Field\Select([
             'name' => 'name',
             'required' => 1,
             'disabled' => 1,

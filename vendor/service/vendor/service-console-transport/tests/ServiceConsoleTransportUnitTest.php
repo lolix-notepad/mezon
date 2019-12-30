@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../autoloader.php');
 
 class FakeSecurityProvider
 {
@@ -18,7 +19,7 @@ class TestingServiceLogic extends \Mezon\Service\ServiceLogic
     }
 }
 
-class ServiceConsoleTransportUnitTest extends PHPUnit\Framework\TestCase
+class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

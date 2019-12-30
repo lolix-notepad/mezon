@@ -1,6 +1,7 @@
 <?php
+require_once (__DIR__ . '/../../../autoloader.php');
 
-class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
+class HtmlTemplateUnitTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -9,7 +10,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     public function testConstructor1()
     {
         // setup and test body
-        $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/', 'index', [
+        $Template = new \Mezon\HtmlTemplate(__DIR__ . '/test-data/', 'index', [
             'main'
         ]);
 
@@ -26,7 +27,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     public function testConstructor2()
     {
         // setup and test body
-        $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/res/', 'index2', [
+        $Template = new \Mezon\HtmlTemplate(__DIR__ . '/test-data/res/', 'index2', [
             'main'
         ]);
 
@@ -44,7 +45,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     {
         try {
             // setup and test body
-            $Template = new \Mezon\HTMLTemplate(__DIR__, 'index2', [
+            $Template = new \Mezon\HtmlTemplate(__DIR__, 'index2', [
                 'main'
             ]);
             $this->fail('Exception must be thrown ' . serialize($Template));
@@ -59,7 +60,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     public function testCompile()
     {
         // setup
-        $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/res/', 'index2', [
+        $Template = new \Mezon\HtmlTemplate(__DIR__ . '/test-data/res/', 'index2', [
             'main'
         ]);
         $_SERVER['HTTP_HOST'] = 'host';
@@ -77,7 +78,7 @@ class HTMLTemplateUnitTest extends PHPUnit\Framework\TestCase
     public function testGetUnexistingBlock()
     {
         // setup and test body
-        $Template = new \Mezon\HTMLTemplate(__DIR__ . '/test-data/', 'index', [
+        $Template = new \Mezon\HtmlTemplate(__DIR__ . '/test-data/', 'index', [
             'main'
         ]);
 

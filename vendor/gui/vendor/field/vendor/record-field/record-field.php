@@ -1,13 +1,14 @@
 <?php
-namespace Mezon\GUI\Field;
+namespace Mezon\Gui\Field;
+
 /**
  * Class RecordField
  *
- * @package     Field
- * @subpackage  RecordField
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/13)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Field
+ * @subpackage RecordField
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/13)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -97,11 +98,11 @@ class RecordField extends RemoteField
     public function html(): string
     {
         // getting fields
-        $FormFields = new \Mezon\GUI\FieldsAlgorithms($this->getFields(), $this->NamePrefix);
+        $FormFields = new \Mezon\Gui\FieldsAlgorithms($this->getFields(), $this->NamePrefix);
         $FormFields->removeField($this->BindField);
 
         // getting form
-        $FormBuilder = new \Mezon\GUI\FormBuilder($FormFields, $this->SessionId, $this->NamePrefix, $this->Layout, $this->Batch);
+        $FormBuilder = new \Mezon\Gui\FormBuilder($FormFields, $this->SessionId, $this->NamePrefix, $this->Layout, $this->Batch);
 
         // getting HTML
         return ($FormBuilder->compileFormFields());

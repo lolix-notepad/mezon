@@ -1,10 +1,10 @@
 <?php
-namespace Mezon\GUI;
+namespace Mezon\Gui;
 
 /**
  * Class FormBuilder
  *
- * @package CRUDService
+ * @package Gui
  * @subpackage FormBuilder
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/13)

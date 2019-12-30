@@ -1,11 +1,11 @@
 <?php
-namespace Mezon\CRUDService;
+namespace Mezon\CrudService;
 
 /**
- * Class CRUDServiceLogic
+ * Class CrudServiceLogic
  *
- * @package CRUDService
- * @subpackage CRUDServiceLogic
+ * @package CrudService
+ * @subpackage CrudServiceLogic
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/13)
  * @copyright Copyright (c) 2019, aeon.org
@@ -22,11 +22,11 @@ define('ENTITY_FIELD_NAME', 'entity');
 define('FIELDS_FIELD_NAME', 'fields');
 
 /**
- * Class handles CRUD logic.
+ * Class handles Crud logic.
  *
  * @author Dodonov A.A.
  */
-class CRUDServiceLogic extends \Mezon\Service\ServiceLogic
+class CrudServiceLogic extends \Mezon\Service\ServiceLogic
 {
 
     /**
@@ -42,7 +42,7 @@ class CRUDServiceLogic extends \Mezon\Service\ServiceLogic
     public function deleteRecord()
     {
         $DomainId = $this->getDomainId();
-        $Where = \Mezon\GUI\FieldsAlgorithms\Filter::addFilterCondition([
+        $Where = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([
             'id = ' . intval($this->ParamsFetcher->getParam('id'))
         ]);
 
@@ -55,7 +55,7 @@ class CRUDServiceLogic extends \Mezon\Service\ServiceLogic
     public function deleteFiltered()
     {
         $DomainId = $this->getDomainId();
-        $Where = \Mezon\GUI\FieldsAlgorithms\Filter::addFilterCondition([]);
+        $Where = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([]);
 
         return ($this->Model->deleteFiltered($DomainId, $Where));
     }
@@ -75,7 +75,7 @@ class CRUDServiceLogic extends \Mezon\Service\ServiceLogic
      */
     public function getRecords($DomainId, $Order, $From, $Limit): array
     {
-        $Records = $this->Model->getSimpleRecords($DomainId, $From, $Limit, \Mezon\GUI\FieldsAlgorithms\Filter::addFilterCondition([]), $Order);
+        $Records = $this->Model->getSimpleRecords($DomainId, $From, $Limit, \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([]), $Order);
 
         return ($Records);
     }
@@ -178,7 +178,7 @@ class CRUDServiceLogic extends \Mezon\Service\ServiceLogic
     {
         $DomainId = $this->getDomainId();
         $Count = $this->ParamsFetcher->getParam('count');
-        $Filter = \Mezon\GUI\FieldsAlgorithms\Filter::addFilterCondition([
+        $Filter = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([
             '1 = 1'
         ]);
 
@@ -319,7 +319,7 @@ class CRUDServiceLogic extends \Mezon\Service\ServiceLogic
 
         $Field = \Mezon\Security::getStringValue($this->ParamsFetcher->getParam(FIELD_FIELD_NAME));
 
-        $Where = \Mezon\GUI\FieldsAlgorithms\Filter::addFilterCondition([]);
+        $Where = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([]);
 
         return ($this->Model->recordsCountByField($DomainId, $Field, $Where));
     }

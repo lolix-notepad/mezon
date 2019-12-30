@@ -1,12 +1,14 @@
 <?php
+namespace Mezon\SocialNetwork\BaseAuth;
+
 /**
- * Class OKAuth
+ * Class Odnoklassniki
  *
- * @package     Auth
- * @subpackage  OKAuth
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package BaseAuth
+ * @subpackage Odnoklassniki
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -14,7 +16,7 @@
  *
  * @author Dodonov A.A.
  */
-class OKAuth extends SocialNetworkAuth
+class Odnoklassniki extends \Mezon\SocialNetwork\BaseAuth
 {
 
     /**

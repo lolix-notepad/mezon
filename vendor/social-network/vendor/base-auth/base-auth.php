@@ -1,13 +1,14 @@
 <?php
+namespace Mezon\SocialNetwork;
 
 /**
  * Class SocialNetworkAuth
  *
- * @package     SocialNetwork
- * @subpackage  SocialNetworkAuth
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package SocialNetwork
+ * @subpackage SocialNetworkAuth
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 // TODO exclude to separate project
 /**
@@ -15,7 +16,7 @@
  *
  * @author Dodonov A.A.
  */
-class SocialNetworkAuth
+class BaseAuth
 {
 
     /**
@@ -112,7 +113,7 @@ class SocialNetworkAuth
             return ($this->get_oauth_uri() . $Query);
         }
 
-        throw (new Exception('Social network\'s authorization URL was not found.'));
+        throw (new \Exception('Social network\'s authorization URL was not found.'));
     }
 
     /**

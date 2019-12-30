@@ -1,22 +1,22 @@
 <?php
-namespace Mezon\CRUDService;
+namespace Mezon\CrudService;
 
 /**
- * Class CRUDServiceModel
+ * Class CrudServiceModel
  *
- * @package CRUDService
- * @subpackage CRUDServiceModel
+ * @package CrudService
+ * @subpackage CrudServiceModel
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/17)
  * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
- * CRUD service's default model
+ * Crud service's default model
  *
  * @author Dodonov A.A.
  */
-class CRUDServiceModel extends \Mezon\Service\DbServiceModel
+class CrudServiceModel extends \Mezon\Service\DbServiceModel
 {
 
     /**

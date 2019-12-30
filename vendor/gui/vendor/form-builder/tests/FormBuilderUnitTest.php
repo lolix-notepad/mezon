@@ -1,5 +1,7 @@
 <?php
 
+require_once (__DIR__ . '/../../../../../autoloader.php');
+
 define('SESSION_ID', 'session-id');
 define('ENTITY_NAME', 'test-record');
 
@@ -21,11 +23,11 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
     /**
      * Method constructs FieldsAlgorithms object
      *
-     * @return \Mezon\GUI\FieldsAlgorithms Fields algorithms object
+     * @return \Mezon\Gui\FieldsAlgorithms Fields algorithms object
      */
     protected function getFieldsAlgorithms()
     {
-        return (new \Mezon\GUI\FieldsAlgorithms($this->getJson('setup'), 'entity'));
+        return (new \Mezon\Gui\FieldsAlgorithms($this->getJson('setup'), 'entity'));
     }
 
     /**
@@ -49,7 +51,7 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function getFormBuilder(bool $HasLayout = true): object
     {
-        $FormBuilder = $this->getMockBuilder('\Mezon\GUI\FormBuilder')
+        $FormBuilder = $this->getMockBuilder('\Mezon\Gui\FormBuilder')
             ->setMethods([
             'get_external_records'
         ])

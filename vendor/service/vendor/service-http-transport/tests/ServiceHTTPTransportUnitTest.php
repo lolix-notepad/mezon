@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../autoloader.php');
 
 class FakeSecurityProvider
 {
@@ -202,7 +203,7 @@ class ServiceHttpTransportTest extends PHPUnit\Framework\TestCase
         $Mock->expects($this->never())
             ->method('createSession');
 
-            $Mock->addRoute('public-method', 'publicMethod', 'GET', 'public_call');
+        $Mock->addRoute('public-method', 'publicMethod', 'GET', 'public_call');
 
         $Mock->Router->callRoute('/public-method/');
     }
@@ -219,7 +220,7 @@ class ServiceHttpTransportTest extends PHPUnit\Framework\TestCase
         $Mock->expects($this->once())
             ->method('createSession');
 
-            $Mock->addRoute('private-method', 'privateMethod', 'GET', 'private_call');
+        $Mock->addRoute('private-method', 'privateMethod', 'GET', 'private_call');
 
         $Mock->Router->callRoute('/private-method/');
     }

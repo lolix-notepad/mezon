@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
 class FormHeaderTest extends PHPUnit\Framework\TestCase
 {
@@ -9,7 +10,7 @@ class FormHeaderTest extends PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\GUI\Field\FormHeader([
+        $Field = new \Mezon\Gui\Field\FormHeader([
             'text' => 'name'
         ]);
 

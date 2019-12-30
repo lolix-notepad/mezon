@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\GUI\Field;
+namespace Mezon\Gui\Field;
 
 /**
  * Class InputDate
@@ -14,7 +14,7 @@ namespace Mezon\GUI\Field;
 /**
  * Input field control
  */
-class InputDate extends \Mezon\GUI\Field
+class InputDate extends \Mezon\Gui\Field
 {
 
     /**

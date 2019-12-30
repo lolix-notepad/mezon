@@ -1,5 +1,7 @@
 <?php
 
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
+
 class FilterUnitTest extends PHPUnit\Framework\TestCase
 {
     /**
@@ -8,7 +10,7 @@ class FilterUnitTest extends PHPUnit\Framework\TestCase
     function testAddFilterConditionFromArr()
     {
         // setup and test body
-        $Result = \Mezon\GUI\FieldsAlgorithms\Filter::addFilterConditionFromArr([
+        $Result = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterConditionFromArr([
             [
                 'arg1' => '$id',
                 'op' => '>',
@@ -26,7 +28,7 @@ class FilterUnitTest extends PHPUnit\Framework\TestCase
     function testAddFilterConditionFromArr_simple()
     {
         // setup and test body
-        $Result = \Mezon\GUI\FieldsAlgorithms\Filter::addFilterConditionFromArr([
+        $Result = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterConditionFromArr([
             'field1' => 1 ,
             'field2'=> 'null',
             'field3'=>'not null',

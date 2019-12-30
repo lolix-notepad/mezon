@@ -1,7 +1,9 @@
 <?php
+require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
+class CrudServiceModelDBTest extends PHPUnit\Framework\TestCase
 {
+
     /**
      * Setting up testing environment
      */
@@ -19,7 +21,7 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
      */
     protected function getModelMock($Connection)
     {
-        $Mock = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceModel')
+        $Mock = $this->getMockBuilder('\Mezon\CrudService\CrudServiceModel')
             ->setMethods([
             'getConnection'
         ])
@@ -120,7 +122,7 @@ class CRUDServiceModelDBTest extends PHPUnit\Framework\TestCase
      */
     public function testGetSimpleRecords()
     {
-        $Model = new \Mezon\CRUDService\CRUDServiceModel('id', 'records');
+        $Model = new \Mezon\CrudService\CrudServiceModel('id', 'records');
         $Records = $Model->getSimpleRecords(false, 0, 1, [], [
             'field' => 'id',
             'order' => 'asc'

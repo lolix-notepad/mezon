@@ -1,6 +1,8 @@
 <?php
+require_once (__DIR__ . '/../crud-service-model.php');
+require_once (__DIR__ . '/../../../../gui/vendor/fields-algorithms/fields-algorithms.php');
 
-class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
+class CrudServiceModelUnitTest extends PHPUnit\Framework\TestCase
 {
 
     /**
@@ -82,7 +84,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function getModelMock($ConnectionMock)
     {
-        $Mock = $this->getMockBuilder('\Mezon\CRUDService\CRUDServiceModel')
+        $Mock = $this->getMockBuilder('\Mezon\CrudService\CrudServiceModel')
             ->setConstructorArgs([
             [
                 'id' => [
@@ -221,7 +223,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
                 '*'
             ],
             [
-                new \Mezon\GUI\FieldsAlgorithms([
+                new \Mezon\Gui\FieldsAlgorithms([
                     'id' => [
                         'type' => 'intger'
                     ]
@@ -243,7 +245,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     public function testConstructor($Data, string $Origin)
     {
         // setup and test body
-        $Model = new \Mezon\CRUDService\CRUDServiceModel($Data, 'entity_name');
+        $Model = new \Mezon\CrudService\CrudServiceModel($Data, 'entity_name');
 
         // assertions
         $this->assertTrue($Model->hasField($Origin), 'Invalid contruction');
@@ -256,7 +258,7 @@ class CRUDServiceModelUnitTest extends PHPUnit\Framework\TestCase
     {
         try {
             // setup and test body
-            new \Mezon\CRUDService\CRUDServiceModel(new stdClass(), 'entity_name');
+            new \Mezon\CrudService\CrudServiceModel(new stdClass(), 'entity_name');
             // assertions
             $this->fail('Exception in constructor must be thrown');
         } catch (Exception $e) {

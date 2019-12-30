@@ -1,13 +1,14 @@
 <?php
 namespace Mezon;
+
 /**
  * Class Mezon
  *
- * @package     Mezon
- * @subpackage  Mezon
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage Mezon
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -19,12 +20,13 @@ class Mezon
     /**
      * Connection to DB.
      */
-    protected static $CRUD = false;
+    protected static $Crud = false;
 
     /**
      * Method validates dsn fields
-     * 
-     * @param string $ConnectionName Connectio name
+     *
+     * @param string $ConnectionName
+     *            Connectio name
      */
     protected static function validateDsn(string $ConnectionName)
     {
@@ -43,26 +45,27 @@ class Mezon
 
     /**
      * Method returns database connection
-     * 
-     * @param string $ConnectionName Connectio name
+     *
+     * @param string $ConnectionName
+     *            Connectio name
      */
     public static function getDbConnection(string $ConnectionName = 'default-db-connection')
     {
-        if (self::$CRUD !== false) {
-            return (self::$CRUD);
+        if (self::$Crud !== false) {
+            return (self::$Crud);
         }
 
         self::validateDsn($ConnectionName);
 
-        self::$CRUD = new PDOCrud();
+        self::$Crud = new PdoCrud();
 
-        self::$CRUD->connect([
+        self::$Crud->connect([
             'dsn' => getConfigValue($ConnectionName . '/dsn'),
             'user' => getConfigValue($ConnectionName . '/user'),
             'password' => getConfigValue($ConnectionName . '/password')
         ]);
 
-        return (self::$CRUD);
+        return (self::$Crud);
     }
 }
 

@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\GUI\ListBuilder;
+namespace Mezon\Gui\ListBuilder;
 
 /**
  * Interface ListBuilderAdapter

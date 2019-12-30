@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
 class LabelFieldTest extends PHPUnit\Framework\TestCase
 {
@@ -9,7 +10,7 @@ class LabelFieldTest extends PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\GUI\Field\LabelField([
+        $Field = new \Mezon\Gui\Field\LabelField([
             'text' => 'name'
         ]);
 
@@ -26,7 +27,7 @@ class LabelFieldTest extends PHPUnit\Framework\TestCase
     public function testGetType(): void
     {
         // setup
-        $Field = new \Mezon\GUI\Field\LabelField([
+        $Field = new \Mezon\Gui\Field\LabelField([
             'text' => 'name'
         ]);
 
@@ -40,7 +41,7 @@ class LabelFieldTest extends PHPUnit\Framework\TestCase
     public function testFillAllRow(): void
     {
         // setup
-        $Field = new \Mezon\GUI\Field\LabelField([
+        $Field = new \Mezon\Gui\Field\LabelField([
             'text' => 'name'
         ]);
 

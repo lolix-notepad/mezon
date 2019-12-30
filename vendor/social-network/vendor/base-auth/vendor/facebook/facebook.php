@@ -1,4 +1,6 @@
 <?php
+namespace Mezon\SocialNetwork\BaseAuth;
+
 /**
  * Class FacebookAuth
  *
@@ -15,7 +17,7 @@
  *
  * @author Dodonov A.A.
  */
-class FacebookAuth extends SocialNetworkAuth
+class Facebook extends \Mezon\SocialNetwork\BaseAuth
 {
 
     /**
