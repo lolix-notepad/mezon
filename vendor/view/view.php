@@ -1,13 +1,14 @@
 <?php
 namespace Mezon;
+
 /**
  * Class View
  *
- * @package     Mezon
- * @subpackage  View
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/06)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage View
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/06)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -36,7 +37,7 @@ class View
 
     /**
      * Method renders content from view
-     * 
+     *
      * @param string $ViewName
      *            View name to be rendered
      * @return string Generated content
