@@ -134,7 +134,7 @@ class Security
      *            If the file was not encodded in base64
      * @return string Path to file or null if the image was not loaded
      */
-    public static function store_file(string $FilePath, string $PathPrefix, bool $Decoded = false): ?string
+    public static function storeFile(string $FilePath, string $PathPrefix, bool $Decoded = false): ?string
     {
         $FileContent = @file_get_contents($FilePath);
 
@@ -142,7 +142,7 @@ class Security
             return (null);
         }
 
-        return (self::store_file_content($FileContent, $PathPrefix, $Decoded));
+        return (self::storeFileContent($FileContent, $PathPrefix, $Decoded));
     }
 }
 
