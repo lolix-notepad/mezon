@@ -2,7 +2,7 @@
 require_once (__DIR__ . '/../functional.php');
 
 /**
- * Transformation function multiplies 'foo' field.
+ * Transformation function multiplies 'foo' field
  */
 function transform2x($Object)
 {
@@ -170,7 +170,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Method will test transformation function.
+     * Method will test transformation function
      */
     public function testTransform(): void
     {
@@ -200,7 +200,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing recursive fields summation.
+     * Testing recursive fields summation
      */
     public function testRecursiveSum(): void
     {
@@ -227,7 +227,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * This method is testing filtration function.
+     * This method is testing filtration function
      */
     public function testFilterSimple(): void
     {
@@ -252,7 +252,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * This method is testing filtration function in a recursive mode.
+     * This method is testing filtration function in a recursive mode
      */
     public function testFilterRecursive(): void
     {
@@ -279,7 +279,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * This method is testing filtration function in a recursive mode.
+     * This method is testing filtration function in a recursive mode
      */
     public function testGetFieldRecursive(): void
     {
@@ -300,7 +300,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing fields replacing in arrays.
+     * Testing fields replacing in arrays
      */
     public function testReplaceFieldInArrays(): void
     {
@@ -326,7 +326,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing fields replacing in objects.
+     * Testing fields replacing in objects
      */
     public function testReplaceFieldInObjects(): void
     {
@@ -426,7 +426,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing children setting.
+     * Testing children setting
      */
     public function testSetChildren(): void
     {
@@ -463,7 +463,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Method tests records expansion.
+     * Method tests records expansion
      */
     public function testExpandingRecords(): void
     {
@@ -499,7 +499,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing records sorting.
+     * Testing records sorting
      */
     function testRecordsSorting(): void
     {
@@ -520,40 +520,44 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         \Mezon\Functional::sortRecords($Arr, 'i');
 
         // assertions
-        $this->assertEquals(1, $Arr[0]['i'], 'Array was not sorted');
-        $this->assertEquals(2, $Arr[1]['i'], 'Array was not sorted');
-        $this->assertEquals(3, $Arr[2]['i'], 'Array was not sorted');
+        $this->assertEquals(1, $Arr[0]['i']);
+        $this->assertEquals(2, $Arr[1]['i']);
+        $this->assertEquals(3, $Arr[2]['i']);
     }
 
     /**
      * Testing records sorting
      */
-    function testRecordsSortingDesc(): void
+    function testRecordsSortingReverse(): void
     {
         // setup
         $Arr = [
             [
-                'i' => 2
+                'i' => 1
             ],
             [
                 'i' => 1
             ],
             [
                 'i' => 3
+            ],
+            [
+                'i' => 2
             ]
         ];
 
         // test body
-        \Mezon\Functional::sortRecordsDesc($Arr, 'i');
+        \Mezon\Functional::sortRecords($Arr, 'i', \Mezon\Functional::SORT_DIRECTION_DESC);
 
         // assertions
-        $this->assertEquals(3, $Arr[0]['i'], 'Array was not sorted');
-        $this->assertEquals(2, $Arr[1]['i'], 'Array was not sorted');
-        $this->assertEquals(1, $Arr[2]['i'], 'Array was not sorted');
+        $this->assertEquals(3, $Arr[0]['i']);
+        $this->assertEquals(2, $Arr[1]['i']);
+        $this->assertEquals(1, $Arr[2]['i']);
+        $this->assertEquals(1, $Arr[3]['i']);
     }
 
     /**
-     * Method tests nested record's addition.
+     * Method tests nested record's addition
      */
     function testSetChild(): void
     {
@@ -587,7 +591,7 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Method checks does the field exists.
+     * Method checks does the field exists
      */
     function testFieldExistsPlain(): void
     {
@@ -596,11 +600,15 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
             'f1' => 1,
             'f2' => 2
         ];
+        $Arr2 = new stdClass();
+        $Arr2->f3 = 3;
 
         // test body and assertions
         $this->assertTrue(\Mezon\Functional::fieldExists($Arr, 'f1'));
         $this->assertTrue(\Mezon\Functional::fieldExists($Arr, 'f2'));
         $this->assertFalse(\Mezon\Functional::fieldExists($Arr, 'f3'));
+        $this->assertTrue(\Mezon\Functional::fieldExists($Arr2, 'f3'));
+        $this->assertFalse(\Mezon\Functional::fieldExists($Arr2, 'f4'));
     }
 
     /**

@@ -11,7 +11,6 @@ namespace Mezon\Service\ServiceClient;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO replace fast-auth service
 require_once (__DIR__ . '/dns.php');
 
 /**
@@ -85,7 +84,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         $Mock = $this->getServiceClientMock('construct-with-login');
 
         // test body
-        $Mock->__construct('http://fast-auth.gdzone.ru/', 'login', 'password');
+        $Mock->__construct('http://example.com/', 'login', 'password');
 
         // assertions
         $this->assertEquals('login', $Mock->getStoredLogin(), 'Login was not set');
@@ -98,7 +97,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testSetHeader(): void
     {
         // setup
-        $Client = new $this->ClientClassName('http://fast-auth.gdzone.ru/');
+        $Client = new $this->ClientClassName('http://example.com/');
 
         // test body and assertions
         $this->assertEquals('', $Client->Service, 'Field was init but it must not');
@@ -291,7 +290,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
 
         // test body and assertions
         try {
-            $Mock->__construct('http://fast-auth.gdzone.ru/', 'login', 'password');
+            $Mock->__construct('http://example.com/', 'login', 'password');
             $this->fail('Exception must be thrown');
         } catch (\Exception $e) {
             $this->addToAssertionCount(1);

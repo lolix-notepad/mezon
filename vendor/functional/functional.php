@@ -388,29 +388,11 @@ class Functional
     }
 
     /**
-     * Method sorts records by the specified field
-     *
-     * @param array $Objects
-     *            Records to be sorted
-     * @param string $Field
-     *            Field name
+     * Sorting directions
      */
-    public static function sortRecords(array &$Objects, string $Field)
-    {
-        //TODO add sorting direction in parameters, now it iss sorting in the ascending order
-        usort($Objects, function ($e1, $e2) use ($Field) {
-            $Value1 = self::getField($e1, $Field, false);
-            $Value2 = self::getField($e2, $Field, false);
+    public const SORT_DIRECTION_ASC = 0;
 
-            if ($Value1 < $Value2) {
-                return (- 1);
-            } elseif ($Value1 == $Value2) {
-                return (0);
-            } else {
-                return (1);
-            }
-        });
-    }
+    public const SORT_DIRECTION_DESC = 1;
 
     /**
      * Method sorts records by the specified field
@@ -420,19 +402,23 @@ class Functional
      * @param string $Field
      *            Field name
      */
-    public static function sortRecordsDesc(array &$Objects, string $Field)
+    public static function sortRecords(array &$Objects, string $Field, int $Direction = Functional::SORT_DIRECTION_ASC)
     {
-        usort($Objects, function ($e1, $e2) use ($Field) {
+        usort($Objects, function ($e1, $e2) use ($Field, $Direction) {
             $Value1 = self::getField($e1, $Field, false);
             $Value2 = self::getField($e2, $Field, false);
 
-            if ($Value1 > $Value2) {
-                return (- 1);
+            $Result = 0;
+
+            if ($Value1 < $Value2) {
+                $Result = - 1;
             } elseif ($Value1 == $Value2) {
-                return (0);
+                $Result = 0;
             } else {
-                return (1);
+                $Result = 1;
             }
+
+            return ($Direction === Functional::SORT_DIRECTION_ASC ? $Result : - 1 * $Result);
         });
     }
 
