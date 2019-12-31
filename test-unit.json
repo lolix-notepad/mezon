@@ -1,7 +1,6 @@
 {
 	"application" : {"component-dir":"./vendor/application","tests-dir":"./tests"} , 
 	"application-actions" : {"component-dir":"./vendor/crud-service/vendor/application-actions","tests-dir":"./tests"} , 
-	"base-auth" : {"component-dir":"./vendor/social-network/vendor/base-auth","tests-dir":"./tests"} , 
 	"bootstrap-widgets" : {"component-dir":"./vendor/widgets-registry/vendor/bootstrap-widgets","tests-dir":"./tests"} , 
 	"cache" : {"component-dir":"./vendor/cache","tests-dir":"./tests"} , 
 	"checkboxes-field" : {"component-dir":"./vendor/gui/vendor/field/vendor/checkboxes-field","tests-dir":"./tests"} , 
@@ -17,7 +16,6 @@
 	"custom-field" : {"component-dir":"./vendor/gui/vendor/field/vendor/custom-field","tests-dir":"./tests"} , 
 	"db-service-model" : {"component-dir":"./vendor/service/vendor/db-service-model","tests-dir":"./tests"} , 
 	"dns-client" : {"component-dir":"./vendor/dns-client","tests-dir":"./tests"} , 
-	"facebook" : {"component-dir":"./vendor/social-network/vendor/base-auth/vendor/facebook","tests-dir":"./tests"} , 
 	"field" : {"component-dir":"./vendor/gui/vendor/field","tests-dir":"./tests"} , 
 	"fields-algorithms" : {"component-dir":"./vendor/gui/vendor/fields-algorithms","tests-dir":"./tests"} , 
 	"filter" : {"component-dir":"./vendor/gui/vendor/fields-algorithms/vendor/filter","tests-dir":"./tests"} , 
@@ -33,7 +31,6 @@
 	"label-field" : {"component-dir":"./vendor/gui/vendor/field/vendor/label-field","tests-dir":"./tests"} , 
 	"list-builder" : {"component-dir":"./vendor/gui/vendor/list-builder","tests-dir":"./tests"} , 
 	"mezon" : {"component-dir":"./vendor/mezon","tests-dir":"./tests"} , 
-	"ok" : {"component-dir":"./vendor/social-network/vendor/base-auth/vendor/odnoklassniki","tests-dir":"./tests"} , 
 	"pdo-crud" : {"component-dir":"./vendor/pdo-crud","tests-dir":"./tests"} , 
 	"record-field" : {"component-dir":"./vendor/gui/vendor/field/vendor/record-field","tests-dir":"./tests"} , 
 	"report-builder" : {"component-dir":"./vendor/crud-service/vendor/report-builder","tests-dir":"./tests"} , 
@@ -56,7 +53,6 @@
 	"text-field" : {"component-dir":"./vendor/gui/vendor/field/vendor/text-field","tests-dir":"./tests"} , 
 	"textarea" : {"component-dir":"./vendor/gui/vendor/field/vendor/textarea","tests-dir":"./tests"} , 
 	"view" : {"component-dir":"./vendor/view","tests-dir":"./tests"} , 
-	"vk" : {"component-dir":"./vendor/social-network/vendor/base-auth/vendor/vkontakte","tests-dir":"./tests"} , 
 
 	"order" : [
         { "step" : "application" , "type" : "test-suite" } , 
