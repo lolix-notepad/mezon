@@ -214,23 +214,14 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidConnect()
     {
-        try {
-            // authorization
-            $Data = $this->getUserData();
-            $Data['password'] = '1234';
+        // authorization
+        $Data = $this->getUserData();
+        $Data['password'] = '1234';
 
-            $URL = $this->ServerPath . '/connect/';
+        $URL = $this->ServerPath . '/connect/';
 
-            $this->postHttpRequest($Data, $URL);
-
-            $this->fail('Exception was not thrown');
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'User with login "alexey@dodonov.pro" and ' . 'password "1234" was not found',
-                $e->getMessage(),
-                'Invalid error message');
-            $this->assertEquals(- 1, $e->getCode(), 'Invalid error code');
-        }
+        $this->expectException(Exception::class);
+        $this->postHttpRequest($Data, $URL);
     }
 
     /**

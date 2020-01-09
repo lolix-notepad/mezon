@@ -18,22 +18,14 @@ class ServiceUnitTest extends \Mezon\Service\ServiceUnitTests
             $this->getSecurityProvider(AS_STRING),
             TestLogic::class);
 
-        try {
-            // route from routes.php
-            $_GET['r'] = 'test';
-            $Service->run();
-            $this->addToAssertionCount(1);
-        } catch (Exception $e) {
-            $this->fail('Route "test" was not handled');
-        }
+        // route from routes.php
+        $this->expectException(Exception::class);
+        $_GET['r'] = 'test';
+        $Service->run();
 
-        try {
-            // route from routes.json
-            $_GET['r'] = 'test2';
-            $Service->run();
-            $this->addToAssertionCount(1);
-        } catch (Exception $e) {
-            $this->fail('Route "test2" was not handled');
-        }
+        // route from routes.json
+        $this->expectException(Exception::class);
+        $_GET['r'] = 'test2';
+        $Service->run();
     }
 }

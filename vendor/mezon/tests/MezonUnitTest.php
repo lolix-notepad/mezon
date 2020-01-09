@@ -7,9 +7,9 @@ class MezonUnitTest extends \PHPUnit\Framework\TestCase
     /**
      *
      * {@inheritdoc}
-     * @see \PHPUnit\Framework\TestCase::setUp()
+     * @see \PHPUnit\Framework\TestCase::setUp():void
      */
-    public function setUp()
+    public function setUp(): void
     {
         \Mezon\Conf::addConnectionToConfig('default-db-connection', 'mysql:dbname=record;host=localhost', 'root', '');
     }

@@ -2,7 +2,6 @@
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
 define('SESSION_ID', 'session-id');
-define('ENTITY_NAME', 'test-record');
 
 class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
 {
@@ -58,7 +57,7 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
             [
                 $this->getFieldsAlgorithms(),
                 SESSION_ID,
-                ENTITY_NAME,
+                'test-record',
                 $HasLayout ? $this->getJson('layout') : []
             ])
             ->getMock();

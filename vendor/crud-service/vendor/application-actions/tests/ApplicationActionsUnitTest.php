@@ -1,10 +1,8 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-define('ENTITY_NAME', 'entity');
-
 $DNSRecords = [
-    ENTITY_NAME => 'http://entity.local/',
+    'entity' => 'http://entity.local/',
 ];
 
 /**
@@ -34,7 +32,7 @@ function getDnsStr($Service, $Key1 = false)
  *
  * @author Dodonov A.A.
  */
-class TestApplication extends \Mezon\CommonApplication
+class TestExtendingApplication extends \Mezon\CommonApplication
 {
 
     public function __construct()
@@ -65,7 +63,7 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getApplicationActions(): object
     {
-        $Object = new TestApplicationActions(ENTITY_NAME);
+        $Object = new TestApplicationActions('entity');
 
         $CrudServiceClient = $this->getMockBuilder(\Mezon\CrudService\CrudServiceClient::class)
             ->setMethods([
@@ -108,17 +106,14 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
         // setup
         $Object = $this->getApplicationActions();
 
-        $Application = new TestApplication();
+        $Application = new TestExtendingApplication();
 
-        // test body
-        try {
-            $Object->attachListPage($Application, []);
-            $Application->entityListingPage();
-            // assertions
-            $this->fail();
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        // test body and assertions
+        $this->expectException(Exception::class);
+
+        $Object->attachListPage($Application, []);
+        $Application->entityListingPage();
+
     }
 
     /**
@@ -129,7 +124,7 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
         // setup
         $Object = $this->getApplicationActions();
 
-        $Application = new TestApplication();
+        $Application = new TestExtendingApplication();
 
         // test body
         $Object->attachListPage($Application, [
@@ -140,8 +135,8 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
 
         // assertions
         $this->assertTrue(isset($Application->entityListingPage), 'Method "entityListingPage" does not exist');
-        $this->assertContains('>1<', $Result['main']);
-        $this->assertContains('>id<', $Result['main']);
+        $this->assertStringContainsString('>1<', $Result['main']);
+        $this->assertStringContainsString('>id<', $Result['main']);
     }
 
     /**
@@ -151,7 +146,7 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $Object = $this->getApplicationActions();
-        $Application = new TestApplication();
+        $Application = new TestExtendingApplication();
 
         // test body
         $Object->attachSimpleListPage($Application, [
@@ -172,7 +167,7 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $Object = $this->getApplicationActions();
-        $Application = new TestApplication();
+        $Application = new TestExtendingApplication();
 
         // test body
         $Object->attachDeleteRecord($Application, []);
@@ -192,7 +187,7 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $Object = $this->getApplicationActions();
-        $Application = new TestApplication();
+        $Application = new TestExtendingApplication();
 
         // test body
         $Object->attachCreateRecord($Application, []);
@@ -209,7 +204,7 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $Object = $this->getApplicationActions();
-        $Application = new TestApplication();
+        $Application = new TestExtendingApplication();
 
         // test body
         $Object->attachUpdateRecord($Application, []);

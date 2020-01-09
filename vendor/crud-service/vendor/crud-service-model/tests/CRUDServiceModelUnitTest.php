@@ -256,15 +256,9 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructorException()
     {
-        try {
-            // setup and test body
-            new \Mezon\CrudService\CrudServiceModel(new stdClass(), 'entity_name');
-            // assertions
-            $this->fail('Exception in constructor must be thrown');
-        } catch (Exception $e) {
-            // assertions
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+
+        new \Mezon\CrudService\CrudServiceModel(new stdClass(), 'entity_name');
     }
 
     /**
@@ -390,12 +384,9 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
         $Model = $this->getModelMock($Connection);
 
         // test body and assertions
-        try {
-            $Model->fetchRecordsByIds("1,2", false);
-            $this->fail('Exception mustbe thrown');
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+
+        $Model->fetchRecordsByIds("1,2", false);
     }
 
     /**

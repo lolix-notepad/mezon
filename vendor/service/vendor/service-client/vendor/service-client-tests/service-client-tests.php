@@ -70,13 +70,8 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
      */
     public function testInValidConnect()
     {
-        try {
-            $this->construct_client('1234567');
-
-            $this->fail('No exception was thrown');
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+        $this->construct_client('1234567');
     }
 
     /**
@@ -113,13 +108,8 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
     {
         $Client = new $this->ClientClassName();
 
-        try {
-            $Client->setToken('unexistingtoken');
-
-            $this->fail('Invalid token was set');
-        } catch (Exception $e) {
-            $this->assertEquals(1, 1, 'Token was not set(3)');
-        }
+        $this->expectException(Exception::class);
+        $Client->setToken('unexistingtoken');
     }
 
     /**
@@ -143,13 +133,8 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
     {
         $Client = $this->construct_client();
 
-        try {
-            $Client->loginAs('alexey@dodonov.none');
-
-            $this->fail('Unexisting user logged in');
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+        $Client->loginAs('alexey@dodonov.none');
     }
 
     /**

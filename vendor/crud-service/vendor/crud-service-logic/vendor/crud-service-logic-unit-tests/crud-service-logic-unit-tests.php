@@ -15,7 +15,7 @@ require_once (__DIR__ . '/../../../../../../autoloader.php');
 /**
  * Fake securoity provider
  */
-class FakeSecurityProvider implements \Mezon\Service\ServiceSecurityProvider
+class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProvider
 {
 
     /**
@@ -27,72 +27,72 @@ class FakeSecurityProvider implements \Mezon\Service\ServiceSecurityProvider
     {}
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProvider::validatePermit()
      */
     public function validatePermit(string $Token, string $Permit)
     {}
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProvider::getSelfLogin()
      */
     public function getSelfLogin(string $Token): string
     {}
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProvider::getLoginFieldName()
      */
     public function getLoginFieldName(): string
     {}
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProvider::setToken()
      */
     public function setToken(string $Token): string
     {}
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProvider::getSessionIdFieldName()
      */
     public function getSessionIdFieldName(): string
     {}
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProvider::getSelfId()
      */
     public function getSelfId(string $Token): int
     {}
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProvider::loginAs()
      */
     public function loginAs(string $Token, string $LoginOrId, string $Field): string
     {}
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProvider::createSession()
      */
     public function createSession(string $Token = ''): string
     {}
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProvider::connect()
      */
     public function connect(string $Login, string $Password): string
@@ -377,13 +377,9 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogic
         $argv['field'] = 'unexisting';
 
         // test body and assertions
-        try {
-            $ServiceLogic->recordsCountByField();
+        $this->expectException(\Exception::class);
 
-            $this->fail('Exception must be thrown, but it was not ' . serialize($argv));
-        } catch (\Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $ServiceLogic->recordsCountByField();
     }
 
     /**
@@ -391,10 +387,12 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogic
      */
     public function testConstruct()
     {
-        $ServiceLogic = new \Mezon\CrudService\CrudServiceLogic(new FakeParametersFetcher(), new FakeSecurityProvider());
+        $ServiceLogic = new \Mezon\CrudService\CrudServiceLogic(
+            new FakeParametersFetcher(),
+            new FakeSecurityProviderForLogic());
 
         $this->assertInstanceOf(FakeParametersFetcher::class, $ServiceLogic->getParamsFetcher());
-        $this->assertInstanceOf(FakeSecurityProvider::class, $ServiceLogic->getSecurityProvider());
+        $this->assertInstanceOf(FakeSecurityProviderForLogic::class, $ServiceLogic->getSecurityProvider());
     }
 
     /**
@@ -462,12 +460,9 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogic
         $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
         // test body
-        try {
-            $ServiceLogic->newRecordsSince();
-            $this->fail('Exception must be thrown');
-        } catch (\Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(\Exception::class);
+
+        $ServiceLogic->newRecordsSince();
     }
 
     /**

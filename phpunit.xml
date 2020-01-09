@@ -8,8 +8,8 @@
 	</php>
 
 	<testsuites>
-		<testsuite name="Test Suite">
-			<directory>tests</directory>
+		<testsuite name="All Tests">
+			<directory suffix="UnitTest.php">./vendor/crud-service/tests</directory>
 		</testsuite>
 	</testsuites>
 
@@ -17,9 +17,9 @@
 		<whitelist>
 			<directory>./</directory>
 			<exclude>
-				<directory>./vendor</directory>
 				<directory>./tests</directory>
 				<directory>./dns</directory>
+				<file>autoloader.php</file>
 			</exclude>
 		</whitelist>
 	</filter>

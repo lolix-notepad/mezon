@@ -51,13 +51,9 @@ class CrudServiceClientTests extends ServiceClientTests
      */
     public function testInValidConnect()
     {
-        try {
-            $this->constructClient('1234567');
+        $this->expectException(Exception::class);
 
-            $this->fail('No exception was thrown');
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->constructClient('1234567');
     }
 
     /**
@@ -94,13 +90,9 @@ class CrudServiceClientTests extends ServiceClientTests
     {
         $Client = new $this->ClientClassName();
 
-        try {
-            $Client->setToken('unexistingtoken');
+        $this->expectException(Exception::class);
 
-            $this->fail('Invalid token was set');
-        } catch (Exception $e) {
-            $this->assertEquals(1, 1, 'Token was not set(3)');
-        }
+        $Client->setToken('unexistingtoken');
     }
 
     /**
@@ -124,13 +116,9 @@ class CrudServiceClientTests extends ServiceClientTests
     {
         $Client = $this->construct_client();
 
-        try {
-            $Client->loginAs('alexey@dodonov.none');
+        $this->expectException(Exception::class);
 
-            $this->fail('Unexisting user logged in');
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $Client->loginAs('alexey@dodonov.none');
     }
 
     /**

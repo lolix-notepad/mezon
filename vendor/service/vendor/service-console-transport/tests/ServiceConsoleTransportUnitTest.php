@@ -1,11 +1,11 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class FakeSecurityProvider
+class FakeSecurityProviderForConsoleTransport
 {
 }
 
-class TestingServiceLogic extends \Mezon\Service\ServiceLogic
+class TestingServiceLogicForConsoleTransport extends \Mezon\Service\ServiceLogic
 {
 
     public function privateMethod()
@@ -45,7 +45,7 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getServiceLogicMock(): object
     {
-        $Mock = $this->getMockBuilder('TestingServiceLogic')
+        $Mock = $this->getMockBuilder(TestingServiceLogicForConsoleTransport::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'connect'
@@ -79,8 +79,8 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitString(): void
     {
-        $Transport = new \Mezon\Service\ServiceConsoleTransport(FakeSecurityProvider::class);
-        $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
+        $Transport = new \Mezon\Service\ServiceConsoleTransport(FakeSecurityProviderForConsoleTransport::class);
+        $this->assertInstanceOf(FakeSecurityProviderForConsoleTransport::class, $Transport->SecurityProvider);
     }
 
     /**
@@ -88,8 +88,8 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitObject(): void
     {
-        $Transport = new \Mezon\Service\ServiceConsoleTransport(new FakeSecurityProvider());
-        $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
+        $Transport = new \Mezon\Service\ServiceConsoleTransport(new FakeSecurityProviderForConsoleTransport());
+        $this->assertInstanceOf(FakeSecurityProviderForConsoleTransport::class, $Transport->SecurityProvider);
     }
 
     /**

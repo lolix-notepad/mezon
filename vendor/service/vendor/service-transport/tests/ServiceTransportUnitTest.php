@@ -121,16 +121,8 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
         $ServiceTransport = new ConcreteServiceTransport();
         $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
 
-        try {
-            $ServiceTransport->addRoute('unexisting', 'unexisting', 'GET');
-            $this->fail('Exception must be thrown');
-        } catch (Exception $e) {
-            $this->assertEquals(
-                - 1,
-                $e->getCode(),
-                'Illeagal error code was returned. Probably invalid exception was thrown.');
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+        $ServiceTransport->addRoute('unexisting', 'unexisting', 'GET');
     }
 
     /**
@@ -207,14 +199,8 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
         $ServiceTransport->ServiceLogic = null;
 
         // test body
-        try {
-            $ServiceTransport->loadRoute($Route);
-
-            // assertions
-            $this->fail('Exception must be thrown');
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+        $ServiceTransport->loadRoute($Route);
     }
 
     /**

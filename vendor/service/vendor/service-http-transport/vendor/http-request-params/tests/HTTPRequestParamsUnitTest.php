@@ -89,13 +89,8 @@ class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
 
         $RequestParams = $this->getRequestParamsMock();
 
-        try {
-            $RequestParams->getParam(SESSION_ID_FIELD_NAME);
-
-            $this->fail('Exception must be thrown');
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+        $RequestParams->getParam(SESSION_ID_FIELD_NAME);
     }
 
     /**

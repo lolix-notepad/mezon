@@ -73,11 +73,8 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
 
         $Msg = '';
 
-        try {
-            $Application->loadRoutesFromConfig(__DIR__ . '/test-invalid-routes-1.php');
-        } catch (Exception $e) {
-            $Msg = $e->getMessage();
-        }
+        $this->expectException(Exception::class);
+        $Application->loadRoutesFromConfig(__DIR__ . '/test-invalid-routes-1.php');
 
         $this->assertEquals('Field "route" must be set', $Msg, 'Invalid behavior for config validation');
     }
@@ -174,7 +171,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
         $Mock = $this->getMockBuilder(\Mezon\Application::class)
             ->disableOriginalConstructor()
             ->setMethods([
-            'handle_exception'
+            'handleException'
         ])
             ->getMock();
 
@@ -186,15 +183,12 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnexistingRouter()
     {
-        try {
-            $Application = $this->getMock();
+        $this->expectException(Exception::class);
 
-            $Application->run();
+        $Application = $this->getMock();
+        $Application->method('handleException')->willThrowException(new Exception());
 
-            $this->fail();
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $Application->run();
     }
 
     /**

@@ -43,15 +43,12 @@ class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidConstructor()
     {
-        try {
-            // setup and test body
-            $Template = new \Mezon\HtmlTemplate(__DIR__, 'index2', [
-                'main'
-            ]);
-            $this->fail('Exception must be thrown ' . serialize($Template));
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+
+        // setup and test body
+        new \Mezon\HtmlTemplate(__DIR__, 'index2', [
+            'main'
+        ]);
     }
 
     /**
@@ -82,15 +79,9 @@ class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
             'main'
         ]);
 
-        try {
-            // test body
-            $Template->getBlock('unexisting');
+        $this->expectException(Exception::class);
 
-            // assertions
-            $this->fail('Exception wile block reading must be thrown but it was not');
-        } catch (Exception $e) {
-            // assertions
-            $this->addToAssertionCount(1);
-        }
+        // test body
+        $Template->getBlock('unexisting');
     }
 }

@@ -58,14 +58,8 @@ class DbServiceModelUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructorException()
     {
-        try {
-            // setup and test body
-            new \Mezon\Service\DbServiceModel(new stdClass(), 'entity_name');
-            // assertions
-            $this->fail('Exception in constructor must be thrown');
-        } catch (Exception $e) {
-            // assertions
-            $this->addToAssertionCount(1);
-        }
+        // setup and test body
+        $this->expectException(Exception::class);
+        new \Mezon\Service\DbServiceModel(new stdClass(), 'entity_name');
     }
 }

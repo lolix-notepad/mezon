@@ -11,12 +11,9 @@ class CustomClientTest extends \PHPUnit\Framework\TestCase
     {
         $Client = new \Mezon\CustomClient('http://yandex.ru/');
 
-        try {
-            $Client->getRequest('unexisting');
-            $this->fail('Exception was not thrown');
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+
+        $Client->getRequest('unexisting');
     }
 
     /**
@@ -26,11 +23,8 @@ class CustomClientTest extends \PHPUnit\Framework\TestCase
     {
         $Client = new \Mezon\CustomClient('http://yandex.ru/');
 
-        try {
-            $Client->postRequest('unexisting');
-            $this->fail('Exception was not thrown');
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+
+        $Client->postRequest('unexisting');
     }
 }

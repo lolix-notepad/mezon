@@ -93,12 +93,12 @@ class CommonApplicationTest extends \PHPUnit\Framework\TestCase
         ob_end_clean();
 
         // assertions
-        $this->assertContains('View result', $Output, 'Template compilation failed (3)');
-        $this->assertContains('Test view result', $Output, 'Template compilation failed (4)');
+        $this->assertStringContainsString('View result', $Output, 'Template compilation failed (3)');
+        $this->assertStringContainsString('Test view result', $Output, 'Template compilation failed (4)');
     }
 
     /**
-     * Testing handle_exception method
+     * Testing handleException method
      */
     public function testHandleException()
     {
@@ -152,7 +152,7 @@ class CommonApplicationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing handle_exception method
+     * Testing handleException method
      */
     public function testHandleExceptionWithHost()
     {

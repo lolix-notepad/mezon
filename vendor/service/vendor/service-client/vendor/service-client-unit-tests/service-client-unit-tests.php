@@ -108,13 +108,8 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
      */
     public function testNoServiceFound(): void
     {
-        try {
-            $Client = new $this->ClientClassName('auth');
-
-            $this->fail('Exception must be thrown ' . serialize($Client));
-        } catch (\Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(\Exception::class);
+        new $this->ClientClassName('auth');
     }
 
     /**
@@ -191,12 +186,8 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         $Mock = $this->getServiceClientRawMock(); // we need this function, as we need mock without any extra setup
 
         // test body and assertions
-        try {
-            $Mock->setToken('');
-            $this->fail('Empty token must cause throwing of the exception');
-        } catch (\Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(\Exception::class);
+        $Mock->setToken('');
     }
 
     /**
@@ -238,13 +229,8 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
         // test body
-        try {
-            $Mock->loginAs('registered', 'login');
-            // assertions
-            $this->fail();
-        } catch (\Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(\Exception::class);
+        $Mock->loginAs('registered', 'login');
     }
 
     /**
@@ -256,13 +242,8 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
         // test body
-        try {
-            $Mock->loginAs('registered', 'id');
-            // assertions
-            $this->fail();
-        } catch (\Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(\Exception::class);
+        $Mock->loginAs('registered', 'id');
     }
 
     /**
@@ -289,11 +270,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
         // test body and assertions
-        try {
-            $Mock->__construct('http://example.com/', 'login', 'password');
-            $this->fail('Exception must be thrown');
-        } catch (\Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(\Exception::class);
+        $Mock->__construct('http://example.com/', 'login', 'password');
     }
 }

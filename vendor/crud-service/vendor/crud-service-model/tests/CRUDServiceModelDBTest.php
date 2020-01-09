@@ -7,9 +7,9 @@ class CrudServiceModelDBTest extends \PHPUnit\Framework\TestCase
     /**
      * Setting up testing environment
      */
-    public function setUp()
+    public function setUp(): void
     {
-        \Mezon\addConnectionToConfig('default-db-connection', 'mysql:host=localhost;dbname=record', 'root', '');
+        \Mezon\Conf::addConnectionToConfig('default-db-connection', 'mysql:host=localhost;dbname=record', 'root', '');
     }
 
     /**

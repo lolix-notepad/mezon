@@ -11,7 +11,7 @@ class CurlWrapperTest extends \PHPUnit\Framework\TestCase
     {
         list ($Body, $Code) = \Mezon\CustomClient\CurlWrapper::sendRequest('http://google.com', [], 'GET');
 
-        $this->assertContains('', $Body, 'Invalid HTML was returned');
+        $this->assertStringContainsString('', $Body, 'Invalid HTML was returned');
         $this->assertEquals(301, $Code, 'Invalid HTTP code');
     }
 
@@ -28,7 +28,7 @@ class CurlWrapperTest extends \PHPUnit\Framework\TestCase
                 'data' => 1
             ]);
 
-        $this->assertContains('', $Body, 'Invalid HTML was returned');
+        $this->assertStringContainsString('', $Body, 'Invalid HTML was returned');
         $this->assertEquals(405, $Code, 'Invalid HTTP code');
     }
 }

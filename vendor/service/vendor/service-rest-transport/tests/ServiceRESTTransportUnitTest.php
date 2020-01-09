@@ -1,11 +1,11 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class FakeSecurityProvider
+class FakeSecurityProviderForRestTransport
 {
 }
 
-class TestingServiceLogic extends \Mezon\Service\ServiceLogic
+class TestingServiceLogicForRestTransport extends \Mezon\Service\ServiceLogic
 {
 
     public function privateMethod()
@@ -55,7 +55,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     protected function getServiceLogicMock()
     {
-        $Mock = $this->getMockBuilder(TestingServiceLogic::class)
+        $Mock = $this->getMockBuilder(TestingServiceLogicForRestTransport::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'connect'
@@ -89,8 +89,8 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitString()
     {
-        $Transport = new \Mezon\Service\ServiceRestTransport(FakeSecurityProvider::class);
-        $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
+        $Transport = new \Mezon\Service\ServiceRestTransport(FakeSecurityProviderForRestTransport::class);
+        $this->assertInstanceOf(FakeSecurityProviderForRestTransport::class, $Transport->SecurityProvider);
     }
 
     /**
@@ -98,8 +98,8 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitObject()
     {
-        $Transport = new \Mezon\Service\ServiceRestTransport(new FakeSecurityProvider());
-        $this->assertInstanceOf(FakeSecurityProvider::class, $Transport->SecurityProvider);
+        $Transport = new \Mezon\Service\ServiceRestTransport(new FakeSecurityProviderForRestTransport());
+        $this->assertInstanceOf(FakeSecurityProviderForRestTransport::class, $Transport->SecurityProvider);
     }
 
     /**
@@ -206,13 +206,9 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         // setup
         $Mock = $this->setupMethod('methodException');
 
-        try {
-            // test body and assertions
-            $Mock->Router->callRoute('/public-method/');
-            $this->fail();
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+        // test body and assertions
+        $Mock->Router->callRoute('/public-method/');
     }
 
     /**
@@ -223,15 +219,9 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         // setup
         $Mock = $this->setupMethod('methodRestException');
 
-        try {
-            // test body and assertions
-            $Mock->Router->callRoute('/public-method/');
-            $this->fail();
-        } catch (\Mezon\Service\ServiceRestTransport\RestException $e) {
-            $this->addToAssertionCount(1);
-        } catch (Exception $e) {
-            $this->addToAssertionCount(0);
-        }
+        $this->expectException(Exception::class);
+        // test body and assertions
+        $Mock->Router->callRoute('/public-method/');
     }
 
     /**
@@ -242,13 +232,10 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         // setup
         $Mock = $this->setupPrivateMethod('methodException');
 
-        try {
-            // test body and assertions
-            $Mock->Router->callRoute('/private-method/');
-            $this->fail();
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
+
+        // test body and assertions
+        $Mock->Router->callRoute('/private-method/');
     }
 
     /**
@@ -259,14 +246,9 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         // setup
         $Mock = $this->setupPrivateMethod('methodRestException');
 
-        try {
-            // test body and assertions
-            $Mock->Router->callRoute('/private-method/');
-            $this->fail();
-        } catch (\Mezon\Service\ServiceRestTransport\RestException $e) {
-            $this->addToAssertionCount(1);
-        } catch (Exception $e) {
-            $this->addToAssertionCount(0);
-        }
+        $this->expectException(Exception::class);
+
+        // test body and assertions
+        $Mock->Router->callRoute('/private-method/');
     }
 }

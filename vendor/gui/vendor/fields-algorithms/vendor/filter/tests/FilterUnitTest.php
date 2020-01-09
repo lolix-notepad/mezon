@@ -21,7 +21,7 @@ class FilterUnitTest extends \PHPUnit\Framework\TestCase
             []);
 
         // asssertions
-        $this->assertContains('id > 1', $Result, 'Compilation error');
+        $this->assertStringContainsString('id > 1', $Result, 'Compilation error');
     }
 
     /**
@@ -40,9 +40,9 @@ class FilterUnitTest extends \PHPUnit\Framework\TestCase
             []);
 
         // asssertions
-        $this->assertContains('field1 = 1', $Result, 'Integer compilation error');
-        $this->assertContains('field2 IS NULL', $Result, 'Null compilation error');
-        $this->assertContains('field3 IS NOT NULL', $Result, 'Not null compilation error');
-        $this->assertContains('field4 LIKE "some string"', $Result, 'String compilation error');
+        $this->assertStringContainsString('field1 = 1', $Result, 'Integer compilation error');
+        $this->assertStringContainsString('field2 IS NULL', $Result, 'Null compilation error');
+        $this->assertStringContainsString('field3 IS NOT NULL', $Result, 'Not null compilation error');
+        $this->assertStringContainsString('field4 LIKE "some string"', $Result, 'String compilation error');
     }
 }

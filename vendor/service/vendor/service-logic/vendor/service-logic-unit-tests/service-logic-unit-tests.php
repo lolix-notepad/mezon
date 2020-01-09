@@ -79,16 +79,8 @@ class ServiceLogicUnitTests extends \Mezon\Service\ServiceBaseLogic\ServiceBaseL
             new \Mezon\Service\ServiceBaseLogic\MockParamsFetcher(false),
             $SecurityProviderMock);
 
-        try {
-            $Logic->connect();
-
-            $this->fail('Exception was not thrown');
-        } catch (\Exception $e) {
-            $this->assertEquals(
-                'Fields login and/or password were not set',
-                $e->getMessage(),
-                'Connection error processing failed');
-        }
+        $this->expectException(\Exception::class);
+        $Logic->connect();
     }
 
     /**

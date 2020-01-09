@@ -9,19 +9,13 @@ class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructorInvalid(): void
     {
-        try {
-            $Client = new \Mezon\CustomClient(false);
-            $this->fail('Exception was not thrown ' . serialize($Client));
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        $this->expectException(Exception::class);
 
-        try {
-            $Client = new \Mezon\CustomClient('');
-            $this->fail('Exception was not thrown ' . serialize($Client));
-        } catch (Exception $e) {
-            $this->addToAssertionCount(1);
-        }
+        new \Mezon\CustomClient(false);
+
+        $this->expectException(Exception::class);
+
+        new \Mezon\CustomClient('');
     }
 
     /**
