@@ -221,6 +221,7 @@ class Functional
         $Return = [];
 
         foreach ($Objects as $Object) {
+            // TODO make availabale any operations. not only the specified ones
             if (is_array($Object) && $Recursive === true) {
                 $Return = array_merge($Return, self::filter($Object, $Field, $Operation, $Value));
             } elseif ($Operation == '==' && self::getField($Object, $Field) == $Value) {
