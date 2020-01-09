@@ -143,13 +143,13 @@ class TemplateEngine
     /**
      * Getting macro start
      *
-     * @param integer $TmpStartPos
+     * @param int $TmpStartPos
      *            Search temporary starting position
-     * @param integer $TmpEndPos
+     * @param int $TmpEndPos
      *            Search temporary ending position
-     * @param integer $StartPos
+     * @param int $StartPos
      *            Search starting position
-     * @param integer $Counter
+     * @param int $Counter
      *            Brackets counter
      */
     protected static function handleMacroStart(int $TmpStartPos, int $TmpEndPos, int &$StartPos, int &$Counter)
@@ -171,15 +171,15 @@ class TemplateEngine
     /**
      * Getting macro end
      *
-     * @param integer $TmpStartPos
+     * @param int $TmpStartPos
      *            Search temporary starting position
-     * @param integer $TmpEndPos
+     * @param int $TmpEndPos
      *            Search temporary ending position
-     * @param integer $StartPos
+     * @param int $StartPos
      *            Search starting position
-     * @param integer $Counter
+     * @param int $Counter
      *            Brackets counter
-     * @param integer $MacroStartPos
+     * @param int $MacroStartPos
      *            Position of the macro
      */
     protected static function handleMacroEnd(
@@ -210,15 +210,15 @@ class TemplateEngine
      *
      * @param string $StringData
      *            Parsing string
-     * @param integer $TmpStartPos
+     * @param int $TmpStartPos
      *            Search temporary starting position
-     * @param integer $TmpEndPos
+     * @param int $TmpEndPos
      *            Search temporary ending position
-     * @param integer $StartPos
+     * @param int $StartPos
      *            Search starting position
-     * @param integer $Counter
+     * @param int $Counter
      *            Brackets counter
-     * @param integer $MacroStartPos
+     * @param int $MacroStartPos
      *            Position of the macro
      */
     protected static function handleMacroStartEnd(
@@ -242,17 +242,17 @@ class TemplateEngine
      *
      * @param string $StringData
      *            Parsing string
-     * @param integer $TmpStartPos
+     * @param int $TmpStartPos
      *            Search temporary starting position
-     * @param integer $TmpEndPos
+     * @param int $TmpEndPos
      *            Search temporary ending position
-     * @param integer $StartPos
+     * @param int $StartPos
      *            Search starting position
-     * @param integer $Counter
+     * @param int $Counter
      *            Brackets counter
-     * @param integer $MacroStartPos
+     * @param int $MacroStartPos
      *            Position of the macro
-     * @param integer $ParamStartPos
+     * @param int $ParamStartPos
      *            Position of macro's parameters
      * @return string Macro parameters or false otherwise
      */
@@ -283,7 +283,7 @@ class TemplateEngine
      *            string to be parsed
      * @param string $Name
      *            macro name
-     * @param integer $StartPos
+     * @param int $StartPos
      *            starting position of the search
      * @return mixed Macro parameters or false if the macro was not found
      */

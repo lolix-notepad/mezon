@@ -38,7 +38,7 @@ class CustomFieldsModel
     /**
      * Method returns connection to the DB.
      *
-     * @return boolean|\Mezon\PdoCrud - PDO DB connection or false on error.
+     * @return bool|\Mezon\PdoCrud - PDO DB connection or false on error.
      */
     protected function getConnection(): \Mezon\PdoCrud
     {

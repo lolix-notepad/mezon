@@ -63,9 +63,9 @@ class PdoCrud
      *            List of tables
      * @param string $Where
      *            Condition
-     * @param integer $From
+     * @param int $From
      *            First record in query
-     * @param integer $Limit
+     * @param int $Limit
      *            Count of records
      * @return array List of records
      */
@@ -140,9 +140,9 @@ class PdoCrud
      *            Updating records
      * @param string $Where
      *            Condition
-     * @param integer $Limit
+     * @param int $Limit
      *            Liti for afffecting records
-     * @return integer Count of updated records
+     * @return int Count of updated records
      */
     public function update(string $TableName, array $Record, string $Where, int $Limit = 10000000)
     {
@@ -162,9 +162,9 @@ class PdoCrud
      *            Table name
      * @param string $Where
      *            Condition
-     * @param integer $Limit
+     * @param int $Limit
      *            Liti for afffecting records
-     * @return integer Count of deleted records
+     * @return int Count of deleted records
      */
     public function delete($TableName, $Where, $Limit = 10000000)
     {
@@ -302,7 +302,7 @@ class PdoCrud
      *            Table name
      * @param array $Record
      *            Inserting record
-     * @return integer New record's id
+     * @return int New record's id
      */
     public function insert(string $TableName, array $Record): int
     {
@@ -322,7 +322,7 @@ class PdoCrud
      *            Table name
      * @param array $Records
      *            Inserting records
-     * @return integer New record's id
+     * @return int New record's id
      */
     public function insertMultyple(string $TableName, array $Records)
     {

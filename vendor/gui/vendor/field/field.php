@@ -90,14 +90,14 @@ class Field
     /**
      * Visible field or not
      *
-     * @var boolean
+     * @var bool
      */
     protected $Visible = true;
 
     /**
      * Does field have got label or not
      *
-     * @var boolean
+     * @var bool
      */
     protected $HasLabel = false;
 

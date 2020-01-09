@@ -121,11 +121,11 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
     /**
      * Method fetches records before transformation
      *
-     * @param integer|boolean $DomainId
+     * @param int|bool $DomainId
      *            Id of the domain
-     * @param integer $From
+     * @param int $From
      *            Starting record
-     * @param integer $Limit
+     * @param int $Limit
      *            Fetch limit
      * @param array $Where
      *            Fetch condition
@@ -165,11 +165,11 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
     /**
      * Method fetches records after transformation
      *
-     * @param integer|boolean $DomainId
+     * @param int|bool $DomainId
      *            Id of the domain
-     * @param integer $From
+     * @param int $From
      *            Starting record
-     * @param integer $Limit
+     * @param int $Limit
      *            Fetch limit
      * @param array $Where
      *            Fetch condition
@@ -205,9 +205,9 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
     /**
      * Method returns last $Count records
      *
-     * @param integer|boolean $DomainId
+     * @param int|bool $DomainId
      *            Id of the domain
-     * @param integer $Count
+     * @param int $Count
      *            Amount of records to be returned
      * @param array $Where
      *            Filter conditions
@@ -243,7 +243,7 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
     /**
      * Method fetches records bythe specified fields
      *
-     * @param integer|bool $DomainId
+     * @param int|bool $DomainId
      *            Domain id
      * @param string $ids
      *            ids of records to be fetched
@@ -274,7 +274,7 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
     /**
      * Method returns amount of records in table, grouped by the specified field
      *
-     * @param integer|bool $DomainId
+     * @param int|bool $DomainId
      *            Domain id
      * @param string $FieldName
      *            Grouping field

@@ -8,7 +8,7 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
     /**
      * Method returns mock of the DB connection
      *
-     * @param integer $Mode
+     * @param int $Mode
      *            - Mock creation mode
      * @param array $Methods
      *            - Methods tto be mocked

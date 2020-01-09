@@ -22,7 +22,7 @@ class ContentServiceModel extends \Mezon\Service\DbServiceModel
     /**
      * Method increments ammount of views
      *
-     * @param integer $id
+     * @param int $id
      *            Id of the record
      */
     public function incrementViews($id): void

@@ -85,7 +85,7 @@ class ListBuilder
     /**
      * Method displays list of possible buttons
      *
-     * @param integer $id
+     * @param int $id
      *            Id of the record
      * @return string Compiled list buttons
      */

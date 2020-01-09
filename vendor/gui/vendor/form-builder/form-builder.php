@@ -158,7 +158,7 @@ class FormBuilder
     /**
      * Method returns amount of columns in the form
      *
-     * @return string|integer Width of the column
+     * @return string|int Width of the column
      */
     protected function getFormWidth()
     {

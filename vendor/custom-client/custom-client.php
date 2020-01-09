@@ -84,7 +84,7 @@ class CustomClient
      *
      * @param string $URL
      *            Request URL
-     * @param integer $Code
+     * @param int $Code
      *            Response HTTP code
      * @return mixed Request result
      */

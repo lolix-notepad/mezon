@@ -54,7 +54,7 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
     /**
      * Method returns session user's id
      *
-     * @return integer Session user's id
+     * @return int Session user's id
      */
     public function getSelfId(): array
     {
@@ -114,7 +114,7 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
     /**
      * Method returns self id
      *
-     * @return integer Session user's id
+     * @return int Session user's id
      */
     public function getSelfIdValue(): int
     {

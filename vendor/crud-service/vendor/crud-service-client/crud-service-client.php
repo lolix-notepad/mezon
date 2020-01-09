@@ -24,7 +24,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
      *
      * @param array $Filter
      *            Filter
-     * @param boolean $Amp
+     * @param bool $Amp
      *            Do we need &
      * @return string Compiled filter
      */
@@ -72,7 +72,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
      *
      * @param array $Filter
      *            Filtering settings
-     * @param integer $CrossDomain
+     * @param int $CrossDomain
      *            Cross domain security settings
      * @return array List of records
      * @codeCoverageIgnore
@@ -87,7 +87,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
     /**
      * Method returns record by it's id
      *
-     * @param integer $id
+     * @param int $id
      *            Id of the fetching record
      * @param number $CrossDomain
      *            Domain id
@@ -134,7 +134,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
      *
      * @param array $Data
      *            data for creating record
-     * @return integer id of the created record
+     * @return int id of the created record
      */
     public function create($Data)
     {
@@ -146,11 +146,11 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
     /**
      * Method updates new record
      *
-     * @param integer $id
+     * @param int $id
      *            Id of the updating record
      * @param array $Data
      *            Data to be posted
-     * @param integer $CrossDomain
+     * @param int $CrossDomain
      *            Cross domain policy
      * @return mixed Result of the RPC call
      * @codeCoverageIgnore
@@ -204,7 +204,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
     /**
      * Method returns last $Count records
      *
-     * @param integer $Count
+     * @param int $Count
      *            Amount of records to be fetched
      * @param array $Filter
      *            Filter data
@@ -221,7 +221,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
     /**
      * Method deletes record with $id
      *
-     * @param integer $id
+     * @param int $id
      *            Id of the deleting record
      * @param int $CrossDomain
      *            Break domain's bounds or not
@@ -264,7 +264,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
     /**
      * Method deletes records by filter
      *
-     * @param integer $CrossDomain
+     * @param int $CrossDomain
      *            Cross domain security settings
      * @param array $Filter
      *            Filtering settings
@@ -298,11 +298,11 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
     /**
      * Method returns some records of the user's domain
      *
-     * @param integer $From
+     * @param int $From
      *            The beginnig of the fetching sequence
-     * @param integer $Limit
+     * @param int $Limit
      *            Size of the fetching sequence
-     * @param integer $CrossDomain
+     * @param int $CrossDomain
      *            Cross domain security settings
      * @param array $Filter
      *            Filtering settings
@@ -342,9 +342,9 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
      *
      * @param mixed $Value
      *            Uploading data
-     * @return boolean True if the $Value is the uploading file. False otherwise
+     * @return bool True if the $Value is the uploading file. False otherwise
      */
-    protected function isFile($Value)
+    protected function isFile($Value):bool
     {
         if ((is_array($Value) || is_object($Value)) === false) {
             // it is not a file, it is a scalar
@@ -363,11 +363,11 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
     /**
      * Transforming data before sending to service
      *
-     * @param string $Data
+     * @param array $Data
      *            Data to be transformed
      * @return string Transformed data
      */
-    protected function pretransformData($Data)
+    protected function pretransformData(array $Data):array
     {
         foreach ($Data as $Key => $Value) {
             if ($this->isFile($Value)) {

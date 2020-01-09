@@ -20,7 +20,7 @@ class RestException extends \Exception
     /**
      * HTTP response code
      *
-     * @var integer
+     * @var int
      */
     protected $HTTPCode = 0;
 
@@ -50,9 +50,9 @@ class RestException extends \Exception
      *
      * @param string $Message
      *            Error description
-     * @param integer $Code
+     * @param int $Code
      *            Code of the error
-     * @param integer $HTTPCode
+     * @param int $HTTPCode
      *            Response HTTP code
      * @param string $HTTPBody
      *            Body of the response
@@ -83,7 +83,7 @@ class RestException extends \Exception
     /**
      * Method returns HTTP code
      *
-     * @return integer HTTP code
+     * @return int HTTP code
      */
     public function getHttpCode(): int
     {

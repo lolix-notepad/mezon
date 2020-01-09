@@ -141,7 +141,7 @@ class FakeServiceModel extends \Mezon\CrudService\CrudServiceModel
     /**
      * Method returns amount of records in table, grouped by the specified field
      *
-     * @param integer|bool $DomainId
+     * @param int|bool $DomainId
      *            Domain id
      * @param string $FieldName
      *            Grouping field
@@ -166,9 +166,9 @@ class FakeServiceModel extends \Mezon\CrudService\CrudServiceModel
     /**
      * Method returns last $Count records
      *
-     * @param integer|boolean $DomainId
+     * @param int|bool $DomainId
      *            Id of the domain
-     * @param integer $Count
+     * @param int $Count
      *            Amount of records to be returned
      * @param array $Where
      *            Filter conditions

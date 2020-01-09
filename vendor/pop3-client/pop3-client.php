@@ -32,9 +32,9 @@ class Pop3Client
      *            Login
      * @param string $Password
      *            Password
-     * @param integer $TimeOut
+     * @param int $TimeOut
      *            Timeout
-     * @param integer $Port
+     * @param int $Port
      *            Port number
      */
     public function connect(string $Server, string $Login, string $Password, int $TimeOut = 5, int $Port = 110)
@@ -87,9 +87,9 @@ class Pop3Client
      *            Login
      * @param string $Password
      *            Password
-     * @param integer $TimeOut
+     * @param int $TimeOut
      *            Timeout
-     * @param integer $Port
+     * @param int $Port
      *            Port number
      */
     public function __construct(string $Server, string $Login, string $Password, int $TimeOut = 5, int $Port = 110)
@@ -212,7 +212,7 @@ class Pop3Client
     /**
      * Method returns message's subject
      *
-     * @param integer $i
+     * @param int $i
      *            Line number
      * @return string Decoded data
      */

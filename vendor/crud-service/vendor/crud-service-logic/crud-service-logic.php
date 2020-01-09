@@ -36,7 +36,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     /**
      * Method deletes the specified record
      *
-     * @return integer id of the deleted record
+     * @return int id of the deleted record
      */
     public function deleteRecord()
     {
@@ -63,13 +63,13 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     /**
      * Method returns records
      *
-     * @param integer $DomainId
+     * @param int $DomainId
      *            Domain id
      * @param array $Order
      *            Sorting settings
-     * @param integer $From
+     * @param int $From
      *            Starting record
-     * @param integer $Limit
+     * @param int $Limit
      *            Fetch limit
      * @return array of records after all transformations
      */
@@ -88,7 +88,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     /**
      * Method returns domain id.
      *
-     * @return integer Domain id.
+     * @return int Domain id.
      */
     public function getDomainId()
     {
@@ -171,7 +171,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     /**
      * Method returns records count
      *
-     * @return integer Records count
+     * @return int Records count
      */
     public function recordsCount(): int
     {
@@ -199,7 +199,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     /**
      * Method compiles basic update record
      *
-     * @param integer $id
+     * @param int $id
      *            Id of the updating record
      * @return array with updated fields
      */
@@ -222,7 +222,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     /**
      * Method updates custom fields
      *
-     * @param integer $id
+     * @param int $id
      *            Id of the updating record
      * @param array|object $Record
      *            Updating data
@@ -325,7 +325,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     /**
      * Method returns records count, grouped by the specified field.
      *
-     * @return integer Records count.
+     * @return int Records count.
      */
     public function recordsCountByField()
     {
