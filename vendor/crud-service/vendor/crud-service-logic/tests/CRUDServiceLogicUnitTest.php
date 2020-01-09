@@ -9,5 +9,3 @@ require_once (__DIR__ . '/../../../../../autoloader.php');
 class CrudServiceLogicUnitTest extends \Mezon\CrudService\CrudServiceLogic\CrudServiceLogicUnitTests
 {
 }
-
-?>

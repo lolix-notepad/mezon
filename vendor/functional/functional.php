@@ -211,7 +211,12 @@ class Functional
      *            Recursive mode
      * @return array List of filtered records
      */
-    public static function filter(array &$Objects, string $Field, string $Operation = '==', $Value = false, bool $Recursive = true): array
+    public static function filter(
+        array &$Objects,
+        string $Field,
+        string $Operation = '==',
+        $Value = false,
+        bool $Recursive = true): array
     {
         $Return = [];
 
@@ -327,10 +332,18 @@ class Functional
      *            Filtering field
      * @return array List of tramsformed records
      */
-    public static function setChildren(string $Field, array &$Objects, string $ObjectField, array $Records, string $RecordField): void
+    public static function setChildren(
+        string $Field,
+        array &$Objects,
+        string $ObjectField,
+        array $Records,
+        string $RecordField): void
     {
         foreach ($Objects as &$Object) {
-            self::setField($Object, $Field, self::filter($Records, $RecordField, '==', self::getField($Object, $ObjectField, false), false));
+            self::setField(
+                $Object,
+                $Field,
+                self::filter($Records, $RecordField, '==', self::getField($Object, $ObjectField, false), false));
         }
     }
 
@@ -349,7 +362,12 @@ class Functional
      *            Filtering field
      * @return array List of tramsformed records
      */
-    public static function setChild(string $Field, array &$Objects, string $ObjectField, array $Records, string $RecordField)
+    public static function setChild(
+        string $Field,
+        array &$Objects,
+        string $ObjectField,
+        array $Records,
+        string $RecordField)
     {
         foreach ($Objects as &$Object) {
             foreach ($Records as $Record) {
@@ -404,22 +422,24 @@ class Functional
      */
     public static function sortRecords(array &$Objects, string $Field, int $Direction = Functional::SORT_DIRECTION_ASC)
     {
-        usort($Objects, function ($e1, $e2) use ($Field, $Direction) {
-            $Value1 = self::getField($e1, $Field, false);
-            $Value2 = self::getField($e2, $Field, false);
+        usort(
+            $Objects,
+            function ($e1, $e2) use ($Field, $Direction) {
+                $Value1 = self::getField($e1, $Field, false);
+                $Value2 = self::getField($e2, $Field, false);
 
-            $Result = 0;
-
-            if ($Value1 < $Value2) {
-                $Result = - 1;
-            } elseif ($Value1 == $Value2) {
                 $Result = 0;
-            } else {
-                $Result = 1;
-            }
 
-            return ($Direction === Functional::SORT_DIRECTION_ASC ? $Result : - 1 * $Result);
-        });
+                if ($Value1 < $Value2) {
+                    $Result = - 1;
+                } elseif ($Value1 == $Value2) {
+                    $Result = 0;
+                } else {
+                    $Result = 1;
+                }
+
+                return ($Direction === Functional::SORT_DIRECTION_ASC ? $Result : - 1 * $Result);
+            });
     }
 
     /**
@@ -470,5 +490,3 @@ class Functional
         return (self::fieldExistsPlain($Record, $Field));
     }
 }
-
-?>

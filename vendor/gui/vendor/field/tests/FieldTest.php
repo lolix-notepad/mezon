@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class FieldTest extends PHPUnit\Framework\TestCase
+class FieldTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -43,5 +43,3 @@ class FieldTest extends PHPUnit\Framework\TestCase
         $this->assertContains('prefixfield-name1111select2', $Field->html(), 'Invalid field "name" value');
     }
 }
-
-?>

@@ -20,7 +20,7 @@ function getallheaders()
  *
  * @author Dodonov A.A.
  */
-class HttpRequestParamsUnitTest extends PHPUnit\Framework\TestCase
+class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -143,5 +143,3 @@ class HttpRequestParamsUnitTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('get value', $Param, 'Value from $_GET must be fetched but it was not');
     }
 }
-
-?>

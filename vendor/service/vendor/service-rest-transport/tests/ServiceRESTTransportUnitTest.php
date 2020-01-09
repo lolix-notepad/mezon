@@ -25,7 +25,7 @@ class TestingServiceLogic extends \Mezon\Service\ServiceLogic
     }
 }
 
-class ServiceRestTransportTest extends PHPUnit\Framework\TestCase
+class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -270,5 +270,3 @@ class ServiceRestTransportTest extends PHPUnit\Framework\TestCase
         }
     }
 }
-
-?>

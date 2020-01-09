@@ -75,5 +75,3 @@ class DateTimeUtils
         return (date('d', $DateTime) . ' ' . $Dictionary[date('n', $DateTime)]);
     }
 }
-
-?>

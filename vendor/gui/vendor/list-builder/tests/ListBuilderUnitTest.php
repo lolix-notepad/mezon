@@ -13,10 +13,10 @@ class FakeAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdapter
     {
         return ([
             [
-                'id' => 1
+                'id' => 1,
             ],
             [
-                'id' => 2
+                'id' => 2,
             ]
         ]);
     }
@@ -68,7 +68,7 @@ class FakeRequestParams implements \Mezon\Service\ServiceRequestParams
     }
 }
 
-class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
+class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -102,7 +102,7 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
         $ListBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
 
         // assertions
-        $this->assertIsArray($ListBuilder->Fields, 'Invalid fields list type');
+        $this->assertIsArray($ListBuilder->getFields(), 'Invalid fields list type');
     }
 
     /**
@@ -139,5 +139,3 @@ class ListBuilderUnitTest extends PHPUnit\Framework\TestCase
         $this->assertContains('>2<', $Content, 'Invalid cell content');
     }
 }
-
-?>

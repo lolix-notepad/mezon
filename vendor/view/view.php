@@ -22,7 +22,7 @@ class View
      *
      * @var string
      */
-    var $ViewName = '';
+    protected $ViewName = '';
 
     /**
      * Constructor
@@ -61,6 +61,14 @@ class View
 
         throw (new \Exception('View ' . $ViewName . ' was not found'));
     }
-}
 
-?>
+    /**
+     * Method returns view name
+     *
+     * @return string view name
+     */
+    public function getViewName(): string
+    {
+        return ($this->ViewName);
+    }
+}

@@ -1,17 +1,18 @@
 <?php
 namespace Mezon\Service;
+
 /**
  * Class ServiceSimpleRequestParams
  *
- * @package     Service
- * @subpackage  ServiceSimpleRequestParams
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/10/31)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage ServiceSimpleRequestParams
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/10/31)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
- * Request params fetcher.
+ * Request params fetcher
  */
 class ServiceSimpleRequestParams implements ServiceRequestParams
 {
@@ -54,5 +55,3 @@ class ServiceSimpleRequestParams implements ServiceRequestParams
         return ($Return);
     }
 }
-
-?>

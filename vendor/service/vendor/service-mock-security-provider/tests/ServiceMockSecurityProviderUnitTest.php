@@ -1,20 +1,18 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class ServiceMockSecurityProviderUnitTest extends PHPUnit\Framework\TestCase
+class ServiceMockSecurityProviderUnitTest extends \PHPUnit\Framework\TestCase
 {
 
-	/**
-	 * Testing session creation.
-	 */
-	public function testCreateSession1()
-	{
-		$Provider = new \Mezon\Service\ServiceMockSecurityProvider();
+    /**
+     * Testing session creation.
+     */
+    public function testCreateSession1()
+    {
+        $Provider = new \Mezon\Service\ServiceMockSecurityProvider();
 
-		$Token = $Provider->createSession();
+        $Token = $Provider->createSession();
 
-		$this->assertEquals(32, strlen($Token), 'Invalid token was returned');
-	}
+        $this->assertEquals(32, strlen($Token), 'Invalid token was returned');
+    }
 }
-
-?>

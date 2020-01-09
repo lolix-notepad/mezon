@@ -18,7 +18,7 @@ class MockRouter extends \Mezon\Router
     }
 }
 
-class RouterTest extends PHPUnit\Framework\TestCase
+class RouterTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -280,10 +280,12 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testValidInvalidTypes()
     {
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[i:cat_id]/item/[unexisting-type-trace:item_id]/', array(
-            $this,
-            'helloWorldOutput'
-        ));
+        $Router->addRoute(
+            '/catalog/[i:cat_id]/item/[unexisting-type-trace:item_id]/',
+            array(
+                $this,
+                'helloWorldOutput'
+            ));
 
         try {
             $Router->callRoute('/catalog/1024/item/2048/');
@@ -429,9 +431,11 @@ class RouterTest extends PHPUnit\Framework\TestCase
     public function testValidExtractedParameters()
     {
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[a:cat_id]/[i:item_id]', function ($Route, $Parameters) {
-            return ($Parameters['cat_id'] . $Parameters['item_id']);
-        });
+        $Router->addRoute(
+            '/catalog/[a:cat_id]/[i:item_id]',
+            function ($Route, $Parameters) {
+                return ($Parameters['cat_id'] . $Parameters['item_id']);
+            });
 
         $Result = $Router->callRoute('/catalog/foo/1024/');
 
@@ -1148,5 +1152,3 @@ class RouterTest extends PHPUnit\Framework\TestCase
         $this->assertFalse($Router->hasParam('unexisting'));
     }
 }
-
-?>

@@ -364,5 +364,3 @@ function addConnectionToConfig(string $Name, string $DSN, string $User, string $
     setConfigValue($Name . '/user', $User);
     setConfigValue($Name . '/password', $Password);
 }
-
-?>

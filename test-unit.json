@@ -57,7 +57,6 @@
 	"order" : [
         { "step" : "application" , "type" : "test-suite" } , 
         { "step" : "application-actions" , "type" : "test-suite" } , 
-        { "step" : "base-auth" , "type" : "test-suite" } , 
         { "step" : "bootstrap-widgets" , "type" : "test-suite" } , 
         { "step" : "cache" , "type" : "test-suite" } , 
         { "step" : "checkboxes-field" , "type" : "test-suite" } , 
@@ -73,7 +72,6 @@
         { "step" : "custom-field" , "type" : "test-suite" } , 
         { "step" : "db-service-model" , "type" : "test-suite" } , 
         { "step" : "dns-client" , "type" : "test-suite" } , 
-        { "step" : "facebook" , "type" : "test-suite" } , 
         { "step" : "field" , "type" : "test-suite" } , 
         { "step" : "fields-algorithms" , "type" : "test-suite" } , 
         { "step" : "filter" , "type" : "test-suite" } , 
@@ -89,7 +87,6 @@
         { "step" : "label-field" , "type" : "test-suite" } ,
         { "step" : "list-builder" , "type" : "test-suite" } ,
         { "step" : "mezon" , "type" : "test-suite" } , 
-        { "step" : "ok" , "type" : "test-suite" } , 
         { "step" : "pdo-crud" , "type" : "test-suite" } ,
         { "step" : "record-field" , "type" : "test-suite" } , 
         { "step" : "rest-exception" , "type" : "test-suite" } , 
@@ -110,7 +107,6 @@
         { "step" : "template-resources" , "type" : "test-suite" } , 
         { "step" : "text-field" , "type" : "test-suite" } , 
         { "step" : "textarea" , "type" : "test-suite" } , 
-        { "step" : "view" , "type" : "test-suite" } , 
-        { "step" : "vk" , "type" : "test-suite" }
+        { "step" : "view" , "type" : "test-suite" }
     ]
 }

@@ -1,13 +1,14 @@
 <?php
 namespace Mezon\Service;
+
 /**
  * Class ServiceRestTransport
  *
- * @package     Service
- * @subpackage  ServiceRestTransport
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage ServiceRestTransport
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -121,7 +122,7 @@ class ServiceRestTransport extends ServiceHttpTransport
      * @param $e \Exception
      *            object
      */
-    public function handleException($e):void
+    public function handleException($e): void
     {
         // @codeCoverageIgnoreStart
         header('Content-type:application/json');
@@ -130,5 +131,3 @@ class ServiceRestTransport extends ServiceHttpTransport
         // @codeCoverageIgnoreEnd
     }
 }
-
-?>

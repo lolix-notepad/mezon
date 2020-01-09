@@ -51,5 +51,3 @@ class LabelField extends TextField
         return (true);
     }
 }
-
-?>

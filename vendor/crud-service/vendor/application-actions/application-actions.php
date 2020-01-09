@@ -21,34 +21,34 @@ class ApplicationActions
     /**
      * Entity nam
      */
-    var $EntityName = '';
+    protected $EntityName = '';
 
     /**
      * Entity name for method names
      */
-    var $SafeEntityName = '';
+    protected $SafeEntityName = '';
 
     /**
      * Show create button
      */
-    var $CreateButton = false;
+    protected $CreateButton = false;
 
     /**
      * Show update button
      */
-    var $UpdateButton = false;
+    protected $UpdateButton = false;
 
     /**
      * Show delete button
      */
-    var $DeleteButton = false;
+    protected $DeleteButton = false;
 
     /**
      * Service client
      *
      * @var \Mezon\CrudService\CrudServiceClient
      */
-    var $CrudServiceClient = null;
+    protected $CrudServiceClient = null;
 
     /**
      * Constructor
@@ -99,7 +99,7 @@ class ApplicationActions
      * @param string|array $Method
      *            HTTP method name GET or POST
      */
-    protected function loadRoute(\Mezon\CommonApplication &$AppObject, string $Route, string $Callback, $Method)
+    protected function loadRoute(\Mezon\CommonApplication &$AppObject, string $Route, string $Callback, $Method): void
     {
         $AppObject->loadRoute([
             'route' => $Route,
@@ -138,7 +138,7 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    public function attachListPage(\Mezon\CommonApplication &$AppObject, array $Options)
+    public function attachListPage(\Mezon\CommonApplication &$AppObject, array $Options): void
     {
         $MethodName = $this->SafeEntityName . 'ListingPage';
 
@@ -173,7 +173,7 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    public function attachSimpleListPage(\Mezon\CommonApplication $AppObject, array $Options)
+    public function attachSimpleListPage(\Mezon\CommonApplication $AppObject, array $Options): void
     {
         $MethodName = $this->SafeEntityName . 'SimpleListingPage';
 
@@ -204,7 +204,7 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    public function attachDeleteRecord(\Mezon\CommonApplication &$AppObject, array $Options)
+    public function attachDeleteRecord(\Mezon\CommonApplication &$AppObject, array $Options): void
     {
         $this->DeleteButton = true;
 
@@ -238,10 +238,16 @@ class ApplicationActions
         $Data = $this->CrudServiceClient->getRemoteCreationFormFields();
 
         // construct $FieldsAlgorithms
-        $FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms(\Mezon\Functional::getField($Data, 'fields'), $this->EntityName);
+        $FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms(
+            \Mezon\Functional::getField($Data, 'fields'),
+            $this->EntityName);
 
         // create form builder object
-        $FormBuilder = new \Mezon\Gui\FormBuilder($FieldsAlgorithms, false, $this->EntityName, \Mezon\Functional::getField($Data, 'layout'));
+        $FormBuilder = new \Mezon\Gui\FormBuilder(
+            $FieldsAlgorithms,
+            false,
+            $this->EntityName,
+            \Mezon\Functional::getField($Data, 'layout'));
 
         // compile form
         if ($Type == 'creation') {
@@ -250,7 +256,9 @@ class ApplicationActions
             ];
         } else {
             $Result = [
-                'main' => $FormBuilder->updatingForm($this->CrudServiceClient->getSessionId(), $this->CrudServiceClient->getById($id, $this->getSelfId()))
+                'main' => $FormBuilder->updatingForm(
+                    $this->CrudServiceClient->getSessionId(),
+                    $this->CrudServiceClient->getById($id, $this->getSelfId()))
             ];
         }
 
@@ -265,7 +273,7 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    protected function addCreateRecordMethod(\Mezon\CommonApplication &$AppObject, array $Options)
+    protected function addCreateRecordMethod(\Mezon\CommonApplication &$AppObject, array $Options): void
     {
         $MethodName = $this->SafeEntityName . 'CreateRecord';
 
@@ -292,13 +300,14 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    public function attachCreateRecord(\Mezon\CommonApplication &$AppObject, array $Options)
+    public function attachCreateRecord(\Mezon\CommonApplication &$AppObject, array $Options): void
     {
         $this->CreateButton = true;
 
         $Options = $Options === false ? [] : $Options;
 
-        $Route = isset($Options['create-page-endpoint']) ? $Options['create-page-endpoint'] : $this->EntityName . '/create/';
+        $Route = isset($Options['create-page-endpoint']) ? $Options['create-page-endpoint'] : $this->EntityName .
+            '/create/';
 
         $this->loadRoute($AppObject, $Route, $this->SafeEntityName . 'CreateRecord', [
             'POST',
@@ -316,7 +325,7 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    protected function addUpdateRecordMethod(\Mezon\CommonApplication &$AppObject, array $Options)
+    protected function addUpdateRecordMethod(\Mezon\CommonApplication &$AppObject, array $Options): void
     {
         $MethodName = $this->SafeEntityName . 'UpdateRecord';
 
@@ -343,13 +352,14 @@ class ApplicationActions
      * @param array $Options
      *            Options
      */
-    public function attachUpdateRecord(\Mezon\CommonApplication &$AppObject, array $Options)
+    public function attachUpdateRecord(\Mezon\CommonApplication &$AppObject, array $Options): void
     {
         $this->UpdateButton = true;
 
         $Options = $Options === false ? [] : $Options;
 
-        $Route = isset($Options['update-record-endpoint']) ? $Options['update-record-endpoint'] : $this->EntityName . '/update/[i:id]/';
+        $Route = isset($Options['update-record-endpoint']) ? $Options['update-record-endpoint'] : $this->EntityName .
+            '/update/[i:id]/';
 
         $this->loadRoute($AppObject, $Route, $this->SafeEntityName . 'UpdateRecord', [
             'POST',
@@ -358,6 +368,16 @@ class ApplicationActions
 
         $this->addUpdateRecordMethod($AppObject, $Options);
     }
-}
 
-?>
+    /**
+     * Method sets service client
+     *
+     * @param \Mezon\CrudService\CrudServiceClient $CrudServiceClient
+     *            CRUD service client
+     */
+    public function setServiceClient(\Mezon\CrudService\CrudServiceClient $CrudServiceClient): void
+    {
+        // TODO add interface CrudServiceClientInterface
+        $this->CrudServiceClient = $CrudServiceClient;
+    }
+}

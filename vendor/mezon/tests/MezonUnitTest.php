@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../autoloader.php');
 
-class MezonUnitTest extends PHPUnit\Framework\TestCase
+class MezonUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -24,5 +24,3 @@ class MezonUnitTest extends PHPUnit\Framework\TestCase
         $this->assertInstanceOf(\Mezon\PDOCrud::class, $Connection);
     }
 }
-
-?>

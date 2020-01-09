@@ -15,7 +15,7 @@ class TestingServiceLogic extends \Mezon\Service\ServiceLogic
     {}
 }
 
-class ServiceHttpTransportTest extends PHPUnit\Framework\TestCase
+class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -225,5 +225,3 @@ class ServiceHttpTransportTest extends PHPUnit\Framework\TestCase
         $Mock->Router->callRoute('/private-method/');
     }
 }
-
-?>

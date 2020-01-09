@@ -1,13 +1,14 @@
 <?php
 namespace Mezon\Gui\FieldsAlgorithms;
+
 /**
  * Class Filter
  *
- * @package     FieldsAlgorithms
- * @subpackage  Filter
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/15)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package FieldsAlgorithms
+ * @subpackage Filter
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/15)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -160,5 +161,3 @@ class Filter
         return (self::addFilterConditionFromArr($_GET['filter'], $Where));
     }
 }
-
-?>

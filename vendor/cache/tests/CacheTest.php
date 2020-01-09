@@ -10,7 +10,7 @@ class CacheFoo extends \Mezon\Cache
     }
 }
 
-class CacheTest extends PHPUnit\Framework\TestCase
+class CacheTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -48,5 +48,3 @@ class CacheTest extends PHPUnit\Framework\TestCase
         $this->assertFalse($Cache->exists('unexisting'), 'Existence check failed');
     }
 }
-
-?>

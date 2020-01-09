@@ -23,21 +23,21 @@ class ListBuilder
      *
      * @var array
      */
-    var $Fields = [];
+    protected $Fields = [];
 
     /**
      * Service logic adapter
      *
      * @var \Mezon\Gui\ListBuilder\ListBuilderAdapter
      */
-    var $ListBuilderAdapter = false;
+    protected $ListBuilderAdapter = false;
 
     /**
      * List item transformation callback
      *
      * @var array
      */
-    var $RecordTransformer = [];
+    protected $RecordTransformer = [];
 
     /**
      * Constructor
@@ -252,7 +252,10 @@ class ListBuilder
     {
         $Content = $this->listingHeaderContent();
 
-        $Content = str_replace('{description}', isset($_GET[DESCRIPTION_FIELD_NAME]) ? $_GET[DESCRIPTION_FIELD_NAME] : 'Выберите необходимое действие', $Content);
+        $Content = str_replace(
+            '{description}',
+            isset($_GET[DESCRIPTION_FIELD_NAME]) ? $_GET[DESCRIPTION_FIELD_NAME] : 'Выберите необходимое действие',
+            $Content);
 
         $Content = str_replace('{cells}', $this->listingHeaderCells(), $Content);
 
@@ -268,7 +271,10 @@ class ListBuilder
     {
         $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('simple-listing-header');
 
-        $Content = str_replace('{description}', isset($_GET[DESCRIPTION_FIELD_NAME]) ? $_GET[DESCRIPTION_FIELD_NAME] : 'Выберите необходимое действие', $Content);
+        $Content = str_replace(
+            '{description}',
+            isset($_GET[DESCRIPTION_FIELD_NAME]) ? $_GET[DESCRIPTION_FIELD_NAME] : 'Выберите необходимое действие',
+            $Content);
 
         $Content = str_replace('{cells}', $this->listingHeaderCells(false), $Content);
 
@@ -287,7 +293,10 @@ class ListBuilder
         $Content = '';
 
         foreach ($Records as $Record) {
-            $Content .= str_replace('{items}', $this->listingItemsCells(false), \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-row'));
+            $Content .= str_replace(
+                '{items}',
+                $this->listingItemsCells(false),
+                \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-row'));
 
             $Record = $this->transformRecord($Record);
 
@@ -344,6 +353,14 @@ class ListBuilder
             return (\Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-no-items'));
         }
     }
-}
 
-?>
+    /**
+     * Method returns fields of the list
+     *
+     * @return array fields list
+     */
+    public function getFields(): array
+    {
+        return ($this->Fields);
+    }
+}

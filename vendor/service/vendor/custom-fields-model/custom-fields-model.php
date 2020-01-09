@@ -1,21 +1,24 @@
 <?php
 namespace Mezon\Service;
+
 /**
  * Class CustomFieldsModel
  *
- * @package     Service
- * @subpackage  CustomFieldsModel
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/11/08)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage CustomFieldsModel
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/11/08)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
  * Model for processing custom fields
- * 
+ *
  * @author Dodonov A.A.
  */
-class CustomFieldsModel {
+class CustomFieldsModel
+{
+
     /**
      * Table name
      */
@@ -37,7 +40,7 @@ class CustomFieldsModel {
      *
      * @return boolean|\Mezon\PdoCrud - PDO DB connection or false on error.
      */
-    protected function getConnection():\Mezon\PdoCrud
+    protected function getConnection(): \Mezon\PdoCrud
     {
         // @codeCoverageIgnoreStart
         return (\Mezon\Mezon::getDbConnection());
@@ -69,7 +72,10 @@ class CustomFieldsModel {
     {
         $Result = [];
 
-        $CustomFields = $this->getConnection()->select('*', $this->getCustomFieldsTemplateBame(), 'object_id = ' . $ObjectId);
+        $CustomFields = $this->getConnection()->select(
+            '*',
+            $this->getCustomFieldsTemplateBame(),
+            'object_id = ' . $ObjectId);
 
         foreach ($CustomFields as $Field) {
             $FieldName = \Mezon\Functional::getField($Field, 'field_name');
@@ -112,7 +118,7 @@ class CustomFieldsModel {
      * @param string $FieldValue
      *            Field value
      */
-    public function setFieldForObject(int $ObjectId, string $FieldName, string $FieldValue):void
+    public function setFieldForObject(int $ObjectId, string $FieldName, string $FieldValue): void
     {
         $Connection = $this->getConnection();
 
@@ -126,7 +132,10 @@ class CustomFieldsModel {
         if (count($this->getCustomFieldsForObject($ObjectId, [
             $FieldName
         ])) > 0) {
-            $Connection->update($this->getCustomFieldsTemplateBame(), $Record, 'field_name LIKE "' . $FieldName . '" AND object_id = ' . $ObjectId);
+            $Connection->update(
+                $this->getCustomFieldsTemplateBame(),
+                $Record,
+                'field_name LIKE "' . $FieldName . '" AND object_id = ' . $ObjectId);
         } else {
             // in the previous line we have tried to update unexisting field, so create it
             $Record['field_name'] = $FieldName;
@@ -151,5 +160,3 @@ class CustomFieldsModel {
         return ($Records);
     }
 }
-
-?>

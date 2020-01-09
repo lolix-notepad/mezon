@@ -10,7 +10,7 @@ class ResultMock
     }
 }
 
-class ProCrudTest extends PHPUnit\Framework\TestCase
+class ProCrudTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -20,7 +20,7 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
      */
     protected function getUnsetupPdoMock(): object
     {
-        $Mock = $this->getMockBuilder('\Mezon\PdoCrud')
+        $Mock = $this->getMockBuilder(\Mezon\PdoCrud::class)
             ->setMethods([
             'query',
             'processQueryError',
@@ -192,5 +192,3 @@ class ProCrudTest extends PHPUnit\Framework\TestCase
         $Mock->update('som-record', [], '1=1');
     }
 }
-
-?>

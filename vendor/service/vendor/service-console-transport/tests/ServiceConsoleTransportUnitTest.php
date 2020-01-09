@@ -128,6 +128,7 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
     public function testPublicCall(): void
     {
         // setup
+        $_GET['r'] = '/public-method/';
         $Mock = $this->getTransportMock();
 
         $Mock->ServiceLogic = $this->getServiceLogicMock();
@@ -138,7 +139,7 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
         $Mock->addRoute('public-method', 'publicMethod', 'GET', 'public_call');
 
         // test body and assertions
-        $Mock->Router->callRoute('/public-method/');
+        $Mock->run();
     }
 
     /**
@@ -147,6 +148,7 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
     public function testPrivateCall(): void
     {
         // setup
+        $_GET['r'] = '/private-method/';
         $Mock = $this->getTransportMock();
 
         $Mock->ServiceLogic = $this->getServiceLogicMock();
@@ -157,7 +159,7 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
         $Mock->addRoute('private-method', 'privateMethod', 'GET', 'private_call');
 
         // test body and assertions
-        $Mock->Router->callRoute('/private-method/');
+        $Mock->run();
     }
 
     /**
@@ -183,5 +185,3 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('public', $Mock->Result);
     }
 }
-
-?>

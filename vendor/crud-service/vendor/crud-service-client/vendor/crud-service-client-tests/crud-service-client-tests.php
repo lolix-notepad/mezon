@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class CrudServiceClientTests
  *
@@ -11,7 +12,7 @@
 
 /**
  * Common unit tests for CrudServiceClient and all derived client classes
- * 
+ *
  * @author Dodonov A.A.
  */
 class CrudServiceClientTests extends ServiceClientTests
@@ -20,18 +21,18 @@ class CrudServiceClientTests extends ServiceClientTests
     /**
      * Client class name
      */
-    var $ClientClassName = '';
+    protected $ClientClassName = '';
 
     /**
      * Method creates client object
-     * 
+     *
      * @param string $Password
      */
     protected function constructClient(string $Password = 'root')
     {
-    	$Client = new $this->ClientClassName(EXISTING_LOGIN, $Password);
+        $Client = new $this->ClientClassName(EXISTING_LOGIN, $Password);
 
-    	return($Client);
+        return ($Client);
     }
 
     /**
@@ -39,7 +40,7 @@ class CrudServiceClientTests extends ServiceClientTests
      */
     public function testValidConnect()
     {
-    	$Client = $this->constructClient();
+        $Client = $this->constructClient();
 
         $this->assertNotEquals($Client->getSessionId(), false, 'Connection failed');
         $this->assertEquals($Client->Login, EXISTING_LOGIN, 'Login was not saved');
@@ -51,7 +52,7 @@ class CrudServiceClientTests extends ServiceClientTests
     public function testInValidConnect()
     {
         try {
-        	$this->constructClient('1234567');
+            $this->constructClient('1234567');
 
             $this->fail('No exception was thrown');
         } catch (Exception $e) {
@@ -64,7 +65,7 @@ class CrudServiceClientTests extends ServiceClientTests
      */
     public function testSetValidToken()
     {
-    	$Client = $this->constructClient();
+        $Client = $this->constructClient();
 
         $NewClient = new $this->ClientClassName();
         $NewClient->setToken($Client->getSessionId());
@@ -77,7 +78,7 @@ class CrudServiceClientTests extends ServiceClientTests
      */
     public function testSetValidTokenAndLogin()
     {
-    	$Client = $this->constructClient();
+        $Client = $this->constructClient();
 
         $NewClient = new $this->ClientClassName();
         $NewClient->setToken($Client->getSessionId(), 'alexey@dodonov.none');
@@ -107,10 +108,10 @@ class CrudServiceClientTests extends ServiceClientTests
      */
     public function testLoginAs()
     {
-    	$Client = $this->construct_client();
+        $Client = $this->construct_client();
 
         try {
-        	$Client->loginAs(EXISTING_LOGIN);
+            $Client->loginAs(EXISTING_LOGIN);
         } catch (Exception $e) {
             $this->assertEquals(0, 1, 'Login was was not called properly');
         }
@@ -121,7 +122,7 @@ class CrudServiceClientTests extends ServiceClientTests
      */
     public function testFailedLoginAs()
     {
-    	$Client = $this->construct_client();
+        $Client = $this->construct_client();
 
         try {
             $Client->loginAs('alexey@dodonov.none');
@@ -140,5 +141,3 @@ class CrudServiceClientTests extends ServiceClientTests
         $this->assertEquals(0, 1, 'Test was not created');
     }
 }
-
-?>

@@ -33,10 +33,19 @@ class CrudService extends Service
      * @param mixed $ServiceModel
      *            Service's model
      */
-    public function __construct(array $Entity, $ServiceTransport = '\Mezon\Service\ServiceRestTransport', $SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider', $ServiceLogic = '\Mezon\CrudService\CrudServiceLogic', $ServiceModel = '\Mezon\CrudService\CrudServiceModel')
+    public function __construct(
+        array $Entity,
+        $ServiceTransport = \Mezon\Service\ServiceRestTransport::class,
+        $SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
+        $ServiceLogic = \Mezon\CrudService\CrudServiceLogic::class,
+        $ServiceModel = \Mezon\CrudService\CrudServiceModel::class)
     {
         try {
-            parent::__construct($ServiceTransport, $SecurityProvider, $ServiceLogic, $this->initModel($Entity, $ServiceModel));
+            parent::__construct(
+                $ServiceTransport,
+                $SecurityProvider,
+                $ServiceLogic,
+                $this->initModel($Entity, $ServiceModel));
 
             $this->initCrudRoutes();
         } catch (\Exception $e) {
@@ -99,5 +108,3 @@ class CrudService extends Service
         $this->ServiceTransport->addRoute('/records/count/[s:field]/', 'recordsCountByField', 'GET');
     }
 }
-
-?>

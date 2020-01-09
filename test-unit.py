@@ -1,4 +1,5 @@
 import builder
-import mbc
+
+builder.threshold = 78
 
 builder.run()

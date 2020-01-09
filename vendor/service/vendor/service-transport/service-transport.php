@@ -24,21 +24,22 @@ abstract class ServiceTransport implements ServiceTransportInterface
      *
      * @var ServiceRequestParams
      */
-    var $ParamsFetcher = false;
+    public $ParamsFetcher = false;
 
     /**
      * Service's logic
      *
      * @var ServiceLogic
      */
-    var $ServiceLogic = false;
+    public $ServiceLogic = false;
 
     /**
      * Router
      *
      * @var \Mezon\Router
+     * // TODO make router protected
      */
-    var $Router = false;
+    public $Router = false;
 
     /**
      * Security provider
@@ -68,7 +69,9 @@ abstract class ServiceTransport implements ServiceTransportInterface
             if (method_exists($this->ServiceLogic, $Method)) {
                 return ($this->ServiceLogic);
             } else {
-                throw (new \Exception('The method "' . $Method . '" was not found in the "' . get_class($this->ServiceLogic) . '"', - 1));
+                throw (new \Exception(
+                    'The method "' . $Method . '" was not found in the "' . get_class($this->ServiceLogic) . '"',
+                    - 1));
             }
         } elseif (is_array($this->ServiceLogic)) {
             foreach ($this->ServiceLogic as $Logic) {
@@ -115,13 +118,19 @@ abstract class ServiceTransport implements ServiceTransportInterface
         $LocalServiceLogic = $this->getNecessaryLogic($Method);
 
         if ($CallType == 'public_call') {
-            $this->Router->addRoute($Route, function () use ($LocalServiceLogic, $Method) {
-                return ($this->callPublicLogic($LocalServiceLogic, $Method, []));
-            }, $Request);
+            $this->Router->addRoute(
+                $Route,
+                function () use ($LocalServiceLogic, $Method) {
+                    return ($this->callPublicLogic($LocalServiceLogic, $Method, []));
+                },
+                $Request);
         } else {
-            $this->Router->addRoute($Route, function () use ($LocalServiceLogic, $Method) {
-                return ($this->callLogic($LocalServiceLogic, $Method, []));
-            }, $Request);
+            $this->Router->addRoute(
+                $Route,
+                function () use ($LocalServiceLogic, $Method) {
+                    return ($this->callLogic($LocalServiceLogic, $Method, []));
+                },
+                $Request);
         }
     }
 
@@ -267,7 +276,8 @@ abstract class ServiceTransport implements ServiceTransportInterface
         $Stack = $e->getTrace();
 
         foreach ($Stack as $i => $Call) {
-            $Stack[$i] = (@$Call['file'] == '' ? 'lambda : ' : @$Call['file'] . ' (' . $Call['line'] . ') : ') . (@$Call['class'] == '' ? '' : $Call['class'] . '->') . $Call['function'];
+            $Stack[$i] = (@$Call['file'] == '' ? 'lambda : ' : @$Call['file'] . ' (' . $Call['line'] . ') : ') .
+                (@$Call['class'] == '' ? '' : $Call['class'] . '->') . $Call['function'];
         }
 
         return ($Stack);
@@ -315,13 +325,19 @@ abstract class ServiceTransport implements ServiceTransportInterface
                     '-'
                 ], $Method);
 
-                $this->Router->addRoute($Route, function () use ($ActionsSource, $Method) {
-                    return ($this->callPublicLogic($ActionsSource, $Method, []));
-                }, 'GET');
+                $this->Router->addRoute(
+                    $Route,
+                    function () use ($ActionsSource, $Method) {
+                        return ($this->callPublicLogic($ActionsSource, $Method, []));
+                    },
+                    'GET');
 
-                $this->Router->addRoute($Route, function () use ($ActionsSource, $Method) {
-                    return ($this->callPublicLogic($ActionsSource, $Method, []));
-                }, 'POST');
+                $this->Router->addRoute(
+                    $Route,
+                    function () use ($ActionsSource, $Method) {
+                        return ($this->callPublicLogic($ActionsSource, $Method, []));
+                    },
+                    'POST');
             }
         }
     }
@@ -340,5 +356,3 @@ abstract class ServiceTransport implements ServiceTransportInterface
         return ($this->ParamsFetcher = $this->createFetcher());
     }
 }
-
-?>

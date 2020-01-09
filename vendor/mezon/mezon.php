@@ -59,14 +59,13 @@ class Mezon
 
         self::$Crud = new PdoCrud();
 
-        self::$Crud->connect([
-            'dsn' => getConfigValue($ConnectionName . '/dsn'),
-            'user' => getConfigValue($ConnectionName . '/user'),
-            'password' => getConfigValue($ConnectionName . '/password')
-        ]);
+        self::$Crud->connect(
+            [
+                'dsn' => getConfigValue($ConnectionName . '/dsn'),
+                'user' => getConfigValue($ConnectionName . '/user'),
+                'password' => getConfigValue($ConnectionName . '/password')
+            ]);
 
         return (self::$Crud);
     }
 }
-
-?>

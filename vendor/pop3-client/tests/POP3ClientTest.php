@@ -1,23 +1,23 @@
 <?php
 require_once (__DIR__ . '/../../../autoloader.php');
 
-class Pop3ClientTest extends PHPUnit\Framework\TestCase
+class Pop3ClientTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
      * Email server.
      */
-    var $Server = 'ssl://pop.yandex.ru';
+    protected $Server = 'ssl://pop.yandex.ru';
 
     /**
      * Email login.
      */
-    var $Login = 'pop-m-test@yandex.ru';
+    protected $Login = 'pop-m-test@yandex.ru';
 
     /**
      * Email password.
      */
-    var $Password = 'pop3test';
+    protected $Password = 'pop3test';
 
     /**
      * Invalid server.
@@ -123,5 +123,3 @@ class Pop3ClientTest extends PHPUnit\Framework\TestCase
         $this->assertNotEquals($MessageId, $MessageId2, 'Message was not deleted');
     }
 }
-
-?>

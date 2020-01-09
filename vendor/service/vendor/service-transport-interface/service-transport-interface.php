@@ -26,5 +26,3 @@ interface ServiceTransportInterface
      */
     public function createFetcher(): ServiceRequestParams;
 }
-
-?>

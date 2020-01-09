@@ -13,280 +13,292 @@
 /**
  * Predefined set of tests for service.
  */
-class ServiceTests extends PHPUnit\Framework\TestCase
+class ServiceTests extends \PHPUnit\Framework\TestCase
 {
 
-	/**
-	 * Session id.
-	 */
-	var $SessionId = false;
+    /**
+     * Session id.
+     */
+    protected $SessionId = false;
 
-	/**
-	 * Server path.
-	 */
-	var $ServerPath = false;
+    /**
+     * Server path.
+     */
+    protected $ServerPath = false;
 
-	/**
-	 * Headers.
-	 *
-	 * @var string
-	 */
-	var $Headers = false;
+    /**
+     * Headers.
+     *
+     * @var string
+     */
+    protected $Headers = false;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param string $Service
-	 *        	- Service name.
-	 */
-	public function __construct(string $Service)
-	{
-		parent::__construct();
+    /**
+     * Constructor.
+     *
+     * @param string $Service
+     *            - Service name.
+     */
+    public function __construct(string $Service)
+    {
+        parent::__construct();
 
-		$this->ServerPath = \Mezon\DnsClient::resolveHost($Service);
-	}
+        $this->ServerPath = \Mezon\DnsClient::resolveHost($Service);
+    }
 
-	/**
-	 * Method asserts for errors and warnings in the html code.
-	 *
-	 * @param string $Content
-	 *        	- Asserting content.
-	 * @param string $Message
-	 *        	- Message to be displayed in case of error.
-	 */
-	protected function assertErrors($Content, $Message)
-	{
-		if (strpos($Content, 'Warning') !== false || strpos($Content, 'Error') !== false || strpos($Content, 'Fatal error') !== false || strpos($Content, 'Access denied') !== false || strpos($Content, "doesn't exist in statement") !== false) {
-			throw (new Exception($Message . "\r\n" . $Content));
-		}
+    /**
+     * Method asserts for errors and warnings in the html code.
+     *
+     * @param string $Content
+     *            - Asserting content.
+     * @param string $Message
+     *            - Message to be displayed in case of error.
+     */
+    protected function assertErrors($Content, $Message)
+    {
+        if (strpos($Content, 'Warning') !== false || strpos($Content, 'Error') !== false ||
+            strpos($Content, 'Fatal error') !== false || strpos($Content, 'Access denied') !== false ||
+            strpos($Content, "doesn't exist in statement") !== false) {
+            throw (new Exception($Message . "\r\n" . $Content));
+        }
 
-		$this->addToAssertionCount(1);
-	}
+        $this->addToAssertionCount(1);
+    }
 
-	/**
-	 * Method asserts JSON.
-	 *
-	 * @param mixed $JSONResult
-	 *        	- Result of the call;
-	 * @param string $Result
-	 *        	- Raw result of the call.
-	 */
-	protected function assertJson($JSONResult, string $Result)
-	{
-		if ($JSONResult === null && $Result !== '') {
-			throw (new Exception("JSON result is invalid because of:\r\n$Result"));
-		}
+    /**
+     * Method asserts JSON.
+     *
+     * @param mixed $JSONResult
+     *            - Result of the call;
+     * @param string $Result
+     *            - Raw result of the call.
+     */
+    protected function assertJson($JSONResult, string $Result)
+    {
+        if ($JSONResult === null && $Result !== '') {
+            throw (new Exception("JSON result is invalid because of:\r\n$Result"));
+        }
 
-		if (isset($JSONResult->message)) {
-			throw (new Exception($JSONResult->message, $JSONResult->code));
-		}
-	}
+        if (isset($JSONResult->message)) {
+            throw (new Exception($JSONResult->message, $JSONResult->code));
+        }
+    }
 
-	/**
-	 * Method sends post request.
-	 *
-	 * @param array $Data
-	 *        	- Request data;
-	 * @param string $URL
-	 *        	- Requesting endpoint.
-	 * @return mixed Request result.
-	 */
-	protected function postHttpRequest(array $Data, string $URL)
-	{
-		$Options = [
-			'http' => [
-				'header' => "Content-type: application/x-www-form-urlencoded\r\n" . "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0\r\n" . ($this->SessionId !== false ? "Cgi-Authorization: Basic " . $this->SessionId . "\r\n" : '') . ($this->Headers !== false ? implode("\r\n", $this->Headers) . "\r\n" : ''),
-				'method' => 'POST',
-				'content' => http_build_query($Data)
-			]
-		];
+    /**
+     * Method sends post request.
+     *
+     * @param array $Data
+     *            - Request data;
+     * @param string $URL
+     *            - Requesting endpoint.
+     * @return mixed Request result.
+     */
+    protected function postHttpRequest(array $Data, string $URL)
+    {
+        $Options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n" .
+                "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0\r\n" .
+                ($this->SessionId !== false ? "Cgi-Authorization: Basic " . $this->SessionId . "\r\n" : '') .
+                ($this->Headers !== false ? implode("\r\n", $this->Headers) . "\r\n" : ''),
+                'method' => 'POST',
+                'content' => http_build_query($Data)
+            ]
+        ];
 
-		$Context = stream_context_create($Options);
-		$Result = file_get_contents($URL, false, $Context);
+        $Context = stream_context_create($Options);
+        $Result = file_get_contents($URL, false, $Context);
 
-		$this->assertErrors($Result, 'Request have returned warnings/errors');
+        $this->assertErrors($Result, 'Request have returned warnings/errors');
 
-		$JSONResult = json_decode($Result);
+        $JSONResult = json_decode($Result);
 
-		$this->assertJson($JSONResult, $Result);
+        $this->assertJson($JSONResult, $Result);
 
-		return ($JSONResult);
-	}
+        return ($JSONResult);
+    }
 
-	/**
-	 * Method prepares GET request options.
-	 */
-	protected function prepareGetOptions()
-	{
-		$Options = [
-			'http' => [
-				'header' => "Content-type: application/x-www-form-urlencoded\r\n" . "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0\r\n" . ($this->SessionId !== false ? "Cgi-Authorization: Basic " . $this->SessionId . "\r\n" : '') . ($this->Headers !== false ? implode("\r\n", $this->Headers) . "\r\n" : ''),
-				'method' => 'GET'
-			]
-		];
+    /**
+     * Method prepares GET request options.
+     */
+    protected function prepareGetOptions()
+    {
+        $Options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n" .
+                "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0\r\n" .
+                ($this->SessionId !== false ? "Cgi-Authorization: Basic " . $this->SessionId . "\r\n" : '') .
+                ($this->Headers !== false ? implode("\r\n", $this->Headers) . "\r\n" : ''),
+                'method' => 'GET'
+            ]
+        ];
 
-		return ($Options);
-	}
+        return ($Options);
+    }
 
-	/**
-	 * Method sends GET request
-	 *
-	 * @param string $URL
-	 *        	Requesting URL
-	 * @return mixed Result off the request
-	 */
-	protected function getHtmlRequest(string $URL)
-	{
-		$Options = $this->prepareGetOptions();
+    /**
+     * Method sends GET request
+     *
+     * @param string $URL
+     *            Requesting URL
+     * @return mixed Result off the request
+     */
+    protected function getHtmlRequest(string $URL)
+    {
+        $Options = $this->prepareGetOptions();
 
-		$Context = stream_context_create($Options);
-		$Result = file_get_contents($URL, false, $Context);
+        $Context = stream_context_create($Options);
+        $Result = file_get_contents($URL, false, $Context);
 
-		$this->assertErrors($Result, 'Request have returned warnings/errors');
+        $this->assertErrors($Result, 'Request have returned warnings/errors');
 
-		$JSONResult = json_decode($Result);
+        $JSONResult = json_decode($Result);
 
-		$this->assertJson($JSONResult, $Result);
+        $this->assertJson($JSONResult, $Result);
 
-		return ($JSONResult);
-	}
+        return ($JSONResult);
+    }
 
-	/**
-	 * Method returns test data
-	 *
-	 * @return array Test data
-	 */
-	protected function getUserData(): array
-	{
-		return ([
-			'login' => 'alexey@dodonov.pro',
-			'password' => 'root'
-		]);
-	}
+    /**
+     * Method returns test data
+     *
+     * @return array Test data
+     */
+    protected function getUserData(): array
+    {
+        return ([
+            'login' => 'alexey@dodonov.pro',
+            'password' => 'root'
+        ]);
+    }
 
-	/**
-	 * Method performs valid connect.
-	 *
-	 * @return mixed Result of the connection.
-	 */
-	protected function validConnect()
-	{
-		$Data = $this->getUserData();
+    /**
+     * Method performs valid connect.
+     *
+     * @return mixed Result of the connection.
+     */
+    protected function validConnect()
+    {
+        $Data = $this->getUserData();
 
-		$URL = $this->ServerPath . '/connect/';
+        $URL = $this->ServerPath . '/connect/';
 
-		$Result = $this->postHttpRequest($Data, $URL);
+        $Result = $this->postHttpRequest($Data, $URL);
 
-		if (isset($Result->session_id) !== false) {
-			$this->SessionId = $Result->session_id;
-		}
+        if (isset($Result->session_id) !== false) {
+            $this->SessionId = $Result->session_id;
+        }
 
-		return ($Result);
-	}
+        return ($Result);
+    }
 
-	/**
-	 * Testing API connection.
-	 */
-	public function testValidConnect()
-	{
-		// authorization
-		$Result = $this->validConnect();
+    /**
+     * Testing API connection.
+     */
+    public function testValidConnect()
+    {
+        // authorization
+        $Result = $this->validConnect();
 
-		$this->assertNotEquals($Result, null, 'Connection failed');
+        $this->assertNotEquals($Result, null, 'Connection failed');
 
-		if (isset($Result->session_id) === false) {
-			$this->assertEquals(true, false, 'Field "session_id" was not set');
-		}
+        if (isset($Result->session_id) === false) {
+            $this->assertEquals(true, false, 'Field "session_id" was not set');
+        }
 
-		$this->SessionId = $Result->session_id;
-	}
+        $this->SessionId = $Result->session_id;
+    }
 
-	/**
-	 * Testing API invalid connection.
-	 */
-	public function testInvalidConnect()
-	{
-		try {
-			// authorization
-			$Data = $this->getUserData();
-			$Data['password'] = '1234';
+    /**
+     * Testing API invalid connection.
+     */
+    public function testInvalidConnect()
+    {
+        try {
+            // authorization
+            $Data = $this->getUserData();
+            $Data['password'] = '1234';
 
-			$URL = $this->ServerPath . '/connect/';
+            $URL = $this->ServerPath . '/connect/';
 
-			$this->postHttpRequest($Data, $URL);
+            $this->postHttpRequest($Data, $URL);
 
-			$this->fail('Exception was not thrown');
-		} catch (Exception $e) {
-			$this->assertEquals('User with login "alexey@dodonov.pro" and ' . 'password "1234" was not found', $e->getMessage(), 'Invalid error message');
-			$this->assertEquals(- 1, $e->getCode(), 'Invalid error code');
-		}
-	}
+            $this->fail('Exception was not thrown');
+        } catch (Exception $e) {
+            $this->assertEquals(
+                'User with login "alexey@dodonov.pro" and ' . 'password "1234" was not found',
+                $e->getMessage(),
+                'Invalid error message');
+            $this->assertEquals(- 1, $e->getCode(), 'Invalid error code');
+        }
+    }
 
-	/**
-	 * Testing setting valid token.
-	 */
-	public function testSetValidToken()
-	{
-		$this->testValidConnect();
+    /**
+     * Testing setting valid token.
+     */
+    public function testSetValidToken()
+    {
+        $this->testValidConnect();
 
-		$Data = [
-			'token' => $this->SessionId
-		];
+        $Data = [
+            'token' => $this->SessionId
+        ];
 
-		$URL = $this->ServerPath . '/token/' . $this->SessionId . '/';
+        $URL = $this->ServerPath . '/token/' . $this->SessionId . '/';
 
-		$Result = $this->postHttpRequest($Data, $URL);
+        $Result = $this->postHttpRequest($Data, $URL);
 
-		$this->assertEquals(isset($Result->session_id), true, 'Connection failed');
-	}
+        $this->assertEquals(isset($Result->session_id), true, 'Connection failed');
+    }
 
-	/**
-	 * Testing setting invalid token.
-	 */
-	public function testSetInvalidToken()
-	{
-		try {
-			$this->testValidConnect();
+    /**
+     * Testing setting invalid token.
+     */
+    public function testSetInvalidToken()
+    {
+        try {
+            $this->testValidConnect();
 
-			$Data = [
-				'token' => ''
-			];
+            $Data = [
+                'token' => ''
+            ];
 
-			$URL = $this->ServerPath . '/token/unexisting/';
+            $URL = $this->ServerPath . '/token/unexisting/';
 
-			$this->postHttpRequest($Data, $URL);
-		} catch (Exception $e) {
-			// set token method either throws exception or not
-			// both is correct behaviour
-			$this->assertEquals($e->getMessage(), 'Invalid session token', 'Invalid error message');
-			$this->assertEquals($e->getCode(), 2, 'Invalid error code');
-		}
-	}
+            $this->postHttpRequest($Data, $URL);
+        } catch (Exception $e) {
+            // set token method either throws exception or not
+            // both is correct behaviour
+            $this->assertEquals($e->getMessage(), 'Invalid session token', 'Invalid error message');
+            $this->assertEquals($e->getCode(), 2, 'Invalid error code');
+        }
+    }
 
-	/**
-	 * Testing login under another user
-	 */
-	public function testLoginAs()
-	{
-		// setup
-		$this->testValidConnect();
+    /**
+     * Testing login under another user
+     */
+    public function testLoginAs()
+    {
+        // setup
+        $this->testValidConnect();
 
-		// test body
-		$Data = [
-			'login' => 'alexey@dodonov.none'
-		];
+        // test body
+        $Data = [
+            'login' => 'alexey@dodonov.none'
+        ];
 
-		$URL = $this->ServerPath . '/login-as/';
+        $URL = $this->ServerPath . '/login-as/';
 
-		$this->postHttpRequest($Data, $URL);
+        $this->postHttpRequest($Data, $URL);
 
-		// assertions
-		$URL = $this->ServerPath . '/self/login/';
+        // assertions
+        $URL = $this->ServerPath . '/self/login/';
 
-		$Result = $this->get_html_request($URL);
+        $Result = $this->get_html_request($URL);
 
-		$this->assertEquals('alexey@dodonov.none', \Mezon\Functional::getField($Result, 'login'), 'Session user must be alexey@dodonov.none');
-	}
+        $this->assertEquals(
+            'alexey@dodonov.none',
+            \Mezon\Functional::getField($Result, 'login'),
+            'Session user must be alexey@dodonov.none');
+    }
 }
-
-?>

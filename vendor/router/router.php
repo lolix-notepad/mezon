@@ -153,7 +153,7 @@ class Router
                 $this->addRoute($Route, $Callback, $r);
             }
         } else {
-            $Routes = &$this->getRoutesForMethod($Request);
+            $Routes = &$this->_getRoutesForMethod($Request);
             $Routes[$Route] = $Callback;
         }
     }
@@ -165,7 +165,7 @@ class Router
      *            Route
      * @return string Trimmed route
      */
-    private function prepareRoute($Route): string
+    private function _prepareRoute($Route): string
     {
         if (is_array($Route) && $Route[0] === '') {
             $Route = $_SERVER['REQUEST_URI'];
@@ -189,7 +189,7 @@ class Router
      *            Object to be descripted
      * @return string Description
      */
-    private function getCallableDescription($Processor): string
+    private function _getCallableDescription($Processor): string
     {
         if (is_string($Processor)) {
             return ($Processor);
@@ -209,7 +209,7 @@ class Router
      *            Route
      * @return mixed Result of the router processor
      */
-    private function findStaticRouteProcessor(&$Processors, string $Route)
+    private function _findStaticRouteProcessor(&$Processors, string $Route)
     {
         foreach ($Processors as $i => $Processor) {
             // exact router or 'all router'
@@ -220,15 +220,16 @@ class Router
 
                 $FunctionName = $Processor[1];
 
-                if (is_callable($Processor) && (method_exists($Processor[0], $FunctionName) || isset($Processor[0]->$FunctionName))) {
+                if (is_callable($Processor) &&
+                    (method_exists($Processor[0], $FunctionName) || isset($Processor[0]->$FunctionName))) {
                     // passing route path and parameters
                     return (call_user_func($Processor, $Route, []));
                 } elseif (method_exists($Processor[0], $FunctionName) === false) {
-                    $CallableDescription = $this->getCallableDescription($Processor);
+                    $CallableDescription = $this->_getCallableDescription($Processor);
 
                     throw (new \Exception("'$CallableDescription' does not exists"));
                 } else {
-                    $CallableDescription = $this->getCallableDescription($Processor);
+                    $CallableDescription = $this->_getCallableDescription($Processor);
 
                     throw (new \Exception("'$CallableDescription' must be callable entity"));
                 }
@@ -245,7 +246,7 @@ class Router
      *            HTTP Method
      * @return array Routes
      */
-    private function &getRoutesForMethod(string $Method): array
+    private function &_getRoutesForMethod(string $Method): array
     {
         switch ($Method) {
             case ('GET'):
@@ -278,11 +279,11 @@ class Router
      *            Route
      * @return mixed Result of the router processor
      */
-    private function tryStaticRoutes($Route)
+    private function _tryStaticRoutes($Route)
     {
-        $Routes = $this->getRoutesForMethod($this->getRequestMethod());
+        $Routes = $this->_getRoutesForMethod($this->getRequestMethod());
 
-        return ($this->findStaticRouteProcessor($Routes, $Route));
+        return ($this->_findStaticRouteProcessor($Routes, $Route));
     }
 
     /**
@@ -292,7 +293,7 @@ class Router
      *            String to be validated
      * @return bool Does we have parameter
      */
-    private function isParameter($String): bool
+    private function _isParameter($String): bool
     {
         return ($String[0] == '[' && $String[strlen($String) - 1] == ']');
     }
@@ -306,7 +307,7 @@ class Router
      *            Parameter to be matched
      * @return string Matched url parameter
      */
-    private function matchParameterAndComponent(&$Component, string $Parameter)
+    private function _matchParameterAndComponent(&$Component, string $Parameter)
     {
         $ParameterData = explode(':', trim($Parameter, '[]'));
         $Return = false;
@@ -348,7 +349,7 @@ class Router
      *            Route pattern
      * @return array Array of route's parameters
      */
-    private function matchRouteAndPattern(array $CleanRoute, array $CleanPattern)
+    private function _matchRouteAndPattern(array $CleanRoute, array $CleanPattern)
     {
         if (count($CleanRoute) !== count($CleanPattern)) {
             return (false);
@@ -357,8 +358,8 @@ class Router
         $Paremeters = [];
 
         for ($i = 0; $i < count($CleanPattern); $i ++) {
-            if ($this->isParameter($CleanPattern[$i])) {
-                $ParameterName = $this->matchParameterAndComponent($CleanRoute[$i], $CleanPattern[$i]);
+            if ($this->_isParameter($CleanPattern[$i])) {
+                $ParameterName = $this->_matchParameterAndComponent($CleanRoute[$i], $CleanPattern[$i]);
 
                 // it's a parameter
                 if ($ParameterName !== false) {
@@ -387,14 +388,14 @@ class Router
      *            Route
      * @return string Result of the router'scall or false if any error occured
      */
-    private function findDynamicRouteProcessor(array &$Processors, string $Route)
+    private function _findDynamicRouteProcessor(array &$Processors, string $Route)
     {
         $CleanRoute = explode('/', trim($Route, '/'));
 
         foreach ($Processors as $i => $Processor) {
             $CleanPattern = explode('/', trim($i, '/'));
 
-            if ($this->matchRouteAndPattern($CleanRoute, $CleanPattern) !== false) {
+            if ($this->_matchRouteAndPattern($CleanRoute, $CleanPattern) !== false) {
                 return (call_user_func($Processor, $Route, $this->Parameters)); // return result of the router
             }
         }
@@ -409,23 +410,23 @@ class Router
      *            Route
      * @return string Result of the route call
      */
-    private function tryDynamicRoutes(string $Route)
+    private function _tryDynamicRoutes(string $Route)
     {
         switch ($this->getRequestMethod()) {
             case ('GET'):
-                $Result = $this->findDynamicRouteProcessor($this->GetRoutes, $Route);
+                $Result = $this->_findDynamicRouteProcessor($this->GetRoutes, $Route);
                 break;
 
             case ('POST'):
-                $Result = $this->findDynamicRouteProcessor($this->PostRoutes, $Route);
+                $Result = $this->_findDynamicRouteProcessor($this->PostRoutes, $Route);
                 break;
 
             case ('PUT'):
-                $Result = $this->findDynamicRouteProcessor($this->PutRoutes, $Route);
+                $Result = $this->_findDynamicRouteProcessor($this->PutRoutes, $Route);
                 break;
 
             case ('DELETE'):
-                $Result = $this->findDynamicRouteProcessor($this->DeleteRoutes, $Route);
+                $Result = $this->_findDynamicRouteProcessor($this->DeleteRoutes, $Route);
                 break;
 
             default:
@@ -438,9 +439,12 @@ class Router
     /**
      * Method rturns all available routes
      */
-    private function getAllRoutesTrace()
+    private function _getAllRoutesTrace()
     {
-        return ((count($this->GetRoutes) ? 'GET:' . implode(', ', array_keys($this->GetRoutes)) . '; ' : '') . (count($this->PostRoutes) ? 'POST:' . implode(', ', array_keys($this->PostRoutes)) . '; ' : '') . (count($this->PutRoutes) ? 'PUT:' . implode(', ', array_keys($this->PutRoutes)) . '; ' : '') . (count($this->DeleteRoutes) ? 'DELETE:' . implode(', ', array_keys($this->DeleteRoutes)) : ''));
+        return ((count($this->GetRoutes) ? 'GET:' . implode(', ', array_keys($this->GetRoutes)) . '; ' : '') .
+            (count($this->PostRoutes) ? 'POST:' . implode(', ', array_keys($this->PostRoutes)) . '; ' : '') .
+            (count($this->PutRoutes) ? 'PUT:' . implode(', ', array_keys($this->PutRoutes)) . '; ' : '') .
+            (count($this->DeleteRoutes) ? 'DELETE:' . implode(', ', array_keys($this->DeleteRoutes)) : ''));
     }
 
     /**
@@ -451,7 +455,8 @@ class Router
      */
     public function noProcessorFoundErrorHandler(string $Route)
     {
-        throw (new \Exception('The processor was not found for the route ' . $Route . ' in ' . $this->getAllRoutesTrace()));
+        throw (new \Exception(
+            'The processor was not found for the route ' . $Route . ' in ' . $this->_getAllRoutesTrace()));
     }
 
     /**
@@ -477,13 +482,13 @@ class Router
      */
     public function callRoute($Route)
     {
-        $Route = $this->prepareRoute($Route);
+        $Route = $this->_prepareRoute($Route);
 
-        if (($Result = $this->tryStaticRoutes($Route)) !== false) {
+        if (($Result = $this->_tryStaticRoutes($Route)) !== false) {
             return ($Result);
         }
 
-        if (($Result = $this->tryDynamicRoutes($Route)) !== false) {
+        if (($Result = $this->_tryDynamicRoutes($Route)) !== false) {
             return ($Result);
         }
 
@@ -556,5 +561,3 @@ class Router
         return (isset($this->Parameters[$Name]));
     }
 }
-
-?>

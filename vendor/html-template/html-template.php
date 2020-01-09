@@ -1,13 +1,14 @@
 <?php
 namespace Mezon;
+
 /**
  * Class HtmlTemplate
  *
- * @package     Mezon
- * @subpackage  HtmlTemplate
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/07)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage HtmlTemplate
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/07)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -142,7 +143,7 @@ class HtmlTemplate
      *
      * @return string Compiled resources includers
      */
-    private function getResources(): string
+    private function _getResources(): string
     {
         $Content = '';
 
@@ -168,7 +169,7 @@ class HtmlTemplate
      */
     public function compile(): string
     {
-        $this->setPageVar('resources', $this->getResources());
+        $this->setPageVar('resources', $this->_getResources());
         $this->setPageVar('mezon-http-path', \Mezon\Conf::getConfigValue('@mezon-http-path'));
         $this->setPageVar('service-http-path', \Mezon\Conf::getConfigValue('@service-http-path'));
         if (isset($_SERVER['HTTP_HOST'])) {
@@ -227,5 +228,3 @@ class HtmlTemplate
         return ($this->readBlock($BlockName));
     }
 }
-
-?>

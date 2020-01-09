@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class RowsFieldTest extends PHPUnit\Framework\TestCase
+class RowsFieldTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -11,7 +11,7 @@ class RowsFieldTest extends PHPUnit\Framework\TestCase
     {
         // setup
         $Field = new \Mezon\Gui\FormBuilder\RowsField([
-            'text' => 'name'
+            'text' => 'name',
         ], 'author');
 
         // test body
@@ -21,5 +21,3 @@ class RowsFieldTest extends PHPUnit\Framework\TestCase
         $this->assertContains('add_element_by_template', $Content, 'Necessary JavaScripts were not found');
     }
 }
-
-?>

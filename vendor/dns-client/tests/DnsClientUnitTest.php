@@ -7,7 +7,7 @@ $DNSRecords = [
     'invalid' => 1
 ];
 
-class DnsClientUnitTest extends PHPUnit\Framework\TestCase
+class DnsClientUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -82,5 +82,3 @@ class DnsClientUnitTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(\Mezon\DnsClient::serviceExists('service-name'));
     }
 }
-
-?>

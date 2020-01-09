@@ -28,7 +28,7 @@ class TestApplication extends \Mezon\Application
     }
 }
 
-class ApplicationTest extends PHPUnit\Framework\TestCase
+class ApplicationTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -59,7 +59,9 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
         $Output = ob_get_contents();
         ob_end_clean();
 
-        $this->assertTrue(strpos($Output, 'The processor was not found for the route') !== false, 'Invalid behavior with incorrect route');
+        $this->assertTrue(
+            strpos($Output, 'The processor was not found for the route') !== false,
+            'Invalid behavior with incorrect route');
     }
 
     /**
@@ -169,7 +171,7 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
      */
     protected function getMock()
     {
-        $Mock = $this->getMockBuilder('\Mezon\Application')
+        $Mock = $this->getMockBuilder(\Mezon\Application::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'handle_exception'
@@ -235,5 +237,3 @@ class ApplicationTest extends PHPUnit\Framework\TestCase
         $this->addToAssertionCount(1);
     }
 }
-
-?>

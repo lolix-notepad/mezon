@@ -2,8 +2,6 @@
 return ([
     [
         '/test/',
-        'callback' => 'existing'
+        'callback' => 'existing',
     ]
 ]);
-
-?>

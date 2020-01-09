@@ -49,7 +49,10 @@ class CustomClient
     public function __construct(string $URL, array $Headers = [])
     {
         if ($URL === false || $URL === '') {
-            throw (new \Exception('Service URL must be set in class ' . __CLASS__ . ' extended in ' . get_called_class() . ' and called from ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'], - 23));
+            throw (new \Exception(
+                'Service URL must be set in class ' . __CLASS__ . ' extended in ' . get_called_class() .
+                ' and called from ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'],
+                - 23));
         }
 
         $this->URL = rtrim($URL, '/');
@@ -214,5 +217,3 @@ class CustomClient
         return ($this->Headers);
     }
 }
-
-?>

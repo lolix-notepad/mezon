@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class CustomFieldTest extends PHPUnit\Framework\TestCase
+class CustomFieldTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -11,28 +11,30 @@ class CustomFieldTest extends PHPUnit\Framework\TestCase
      */
     protected function getFieldMock(): object
     {
-        $Mock = $this->getMockBuilder('\Mezon\Gui\Field\CustomField')
-            ->setConstructorArgs([
+        $Mock = $this->getMockBuilder(\Mezon\Gui\Field\CustomField::class)
+            ->setConstructorArgs(
             [
-                'name' => 'name',
-                'required' => 1,
-                'disabled' => 1,
-                'custom' => 1,
-                'name-prefix' => 'prefix',
-                'batch' => 1,
-                'toggler' => 'toggler-name',
-                'toggle-value' => 3,
-                'type' => 'integer',
-                'fields' => []
-            ],
-            ''
-        ])
+                [
+                    'name' => 'name',
+                    'required' => 1,
+                    'disabled' => 1,
+                    'custom' => 1,
+                    'name-prefix' => 'prefix',
+                    'batch' => 1,
+                    'toggler' => 'toggler-name',
+                    'toggle-value' => 3,
+                    'type' => 'integer',
+                    'fields' => []
+                ],
+                ''
+            ])
             ->setMethods([
             'get_field_template'
         ])
             ->getMock();
 
-        $Mock->method('get_field_template')->willReturn('name:{name} required:{required} disabled:{disabled} custom:{custom} name-prefix:{name-prefix} batch:{batch} toggler:{toggler} toggler:{toggle-value}');
+        $Mock->method('get_field_template')->willReturn(
+            'name:{name} required:{required} disabled:{disabled} custom:{custom} name-prefix:{name-prefix} batch:{batch} toggler:{toggler} toggler:{toggle-value}');
 
         return ($Mock);
     }
@@ -59,5 +61,3 @@ class CustomFieldTest extends PHPUnit\Framework\TestCase
         $this->assertContains('toggler:3', $Content, 'Toggler value was not substitute');
     }
 }
-
-?>

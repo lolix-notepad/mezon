@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../autoloader.php');
 
-class CustomClientUnitTest extends PHPUnit\Framework\TestCase
+class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -56,7 +56,7 @@ class CustomClientUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function getMock(): object
     {
-        $Mock = $this->getMockBuilder('\Mezon\CustomClient')
+        $Mock = $this->getMockBuilder(\Mezon\CustomClient::class)
             ->setMethods([
             'sendRequest'
         ])
@@ -104,5 +104,3 @@ class CustomClientUnitTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('result', $Result);
     }
 }
-
-?>

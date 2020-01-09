@@ -19,5 +19,3 @@ class ContentServiceModelTest
         $Mock->increment_views(false, 1);
     }
 }
-
-?>

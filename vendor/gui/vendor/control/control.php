@@ -1,13 +1,14 @@
 <?php
 namespace Mezon\Gui;
+
 /**
  * Interface Control
  *
- * @package     Gui
- * @subpackage  Control
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/14)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Gui
+ * @subpackage Control
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/14)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -28,5 +29,3 @@ interface Control
      */
     public function fillAllRow(): bool;
 }
-
-?>

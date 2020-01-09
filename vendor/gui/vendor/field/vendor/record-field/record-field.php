@@ -22,14 +22,14 @@ class RecordField extends RemoteField
      *
      * @var string
      */
-    var $BindField = '';
+    protected $BindField = '';
 
     /**
      * Layout
      *
      * @var array
      */
-    var $Layout = [];
+    protected $Layout = [];
 
     /**
      * Method fetches bind field property from the description
@@ -102,11 +102,14 @@ class RecordField extends RemoteField
         $FormFields->removeField($this->BindField);
 
         // getting form
-        $FormBuilder = new \Mezon\Gui\FormBuilder($FormFields, $this->SessionId, $this->NamePrefix, $this->Layout, $this->Batch);
+        $FormBuilder = new \Mezon\Gui\FormBuilder(
+            $FormFields,
+            $this->SessionId,
+            $this->NamePrefix,
+            $this->Layout,
+            $this->Batch);
 
         // getting HTML
         return ($FormBuilder->compileFormFields());
     }
 }
-
-?>

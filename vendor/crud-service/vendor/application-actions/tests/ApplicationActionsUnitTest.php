@@ -4,7 +4,7 @@ require_once (__DIR__ . '/../../../../../autoloader.php');
 define('ENTITY_NAME', 'entity');
 
 $DNSRecords = [
-    ENTITY_NAME => 'http://entity.local/'
+    ENTITY_NAME => 'http://entity.local/',
 ];
 
 /**
@@ -55,7 +55,7 @@ class TestApplicationActions extends \Mezon\CrudService\ApplicationActions
     }
 }
 
-class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
+class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -67,7 +67,7 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
     {
         $Object = new TestApplicationActions(ENTITY_NAME);
 
-        $Object->CrudServiceClient = $this->getMockBuilder('\Mezon\CrudService\CrudServiceClient')
+        $CrudServiceClient = $this->getMockBuilder(\Mezon\CrudService\CrudServiceClient::class)
             ->setMethods([
             'getList',
             'delete',
@@ -76,37 +76,28 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $Object->CrudServiceClient->method('getList')->willReturn([
+        $CrudServiceClient->method('getList')->willReturn([
             [
                 'id' => 1
             ]
         ]);
 
-        $Object->CrudServiceClient->method('delete')->willReturn('');
+        $CrudServiceClient->method('delete')->willReturn('');
 
-        $Object->CrudServiceClient->method('getRemoteCreationFormFields')->willReturn([
-            'fields' => [
-                'id' => [
-                    'type' => 'integer',
-                    'title' => 'id'
-                ]
-            ],
-            'layout' => []
-        ]);
+        $CrudServiceClient->method('getRemoteCreationFormFields')->willReturn(
+            [
+                'fields' => [
+                    'id' => [
+                        'type' => 'integer',
+                        'title' => 'id'
+                    ]
+                ],
+                'layout' => []
+            ]);
+
+        $Object->setServiceClient($CrudServiceClient);
 
         return ($Object);
-    }
-
-    /**
-     * Testing invalid construction
-     */
-    public function testConstructorValid()
-    {
-        // setup and test body
-        $Object = $this->getApplicationActions();
-
-        // assertions
-        $this->assertEquals(ENTITY_NAME, $Object->EntityName, 'EntityName was not initialized');
     }
 
     /**
@@ -169,7 +160,9 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
         $Application->entitySimpleListingPage();
 
         // assertions
-        $this->assertTrue(isset($Application->entitySimpleListingPage), 'Method "entitySimpleListingPage" does not exist');
+        $this->assertTrue(
+            isset($Application->entitySimpleListingPage),
+            'Method "entitySimpleListingPage" does not exist');
     }
 
     /**
@@ -225,5 +218,3 @@ class ApplicationActionsUnitTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(isset($Application->entityUpdateRecord), 'Method "entityUpdateRecord" does not exist');
     }
 }
-
-?>

@@ -16,7 +16,7 @@ namespace Mezon\Service;
  *
  * @author Dodonov A.A.
  */
-class ServiceHttpTransport extends ServiceTransport implements ServiceTransportInterface
+class ServiceHttpTransport extends ServiceTransport
 {
 
     /**
@@ -25,7 +25,7 @@ class ServiceHttpTransport extends ServiceTransport implements ServiceTransportI
      * @param mixed $SecurityProvider
      *            Security provider
      */
-    public function __construct($SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider')
+    public function __construct($SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class)
     {
         parent::__construct();
 
@@ -108,5 +108,3 @@ class ServiceHttpTransport extends ServiceTransport implements ServiceTransportI
         return (parent::callPublicLogic($ServiceLogic, $Method, $Params));
     }
 }
-
-?>

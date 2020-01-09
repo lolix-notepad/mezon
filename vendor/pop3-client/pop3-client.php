@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class POP3Client
  *
@@ -12,7 +13,7 @@
 // TODO exclude to separate project
 
 /**
- *	POP3 protocol client.
+ * POP3 protocol client.
  */
 class Pop3Client
 {
@@ -20,16 +21,21 @@ class Pop3Client
     /**
      * Connection.
      */
-    var $Connection = false;
+    protected $Connection = false;
 
     /**
      * Method connects to server
-     * 
-     * @param string $Server Server domain
-     * @param string $Login Login
-     * @param string $Password Password
-     * @param integer $TimeOut Timeout
-     * @param integer $Port Port number
+     *
+     * @param string $Server
+     *            Server domain
+     * @param string $Login
+     *            Login
+     * @param string $Password
+     *            Password
+     * @param integer $TimeOut
+     *            Timeout
+     * @param integer $Port
+     *            Port number
      */
     public function connect(string $Server, string $Login, string $Password, int $TimeOut = 5, int $Port = 110)
     {
@@ -41,7 +47,13 @@ class Pop3Client
             ]
         ]);
 
-        $this->Connection = stream_socket_client($Server . ":$Port", $ErrorCode, $ErrorMessage, $TimeOut, STREAM_CLIENT_CONNECT, $Context);
+        $this->Connection = stream_socket_client(
+            $Server . ":$Port",
+            $ErrorCode,
+            $ErrorMessage,
+            $TimeOut,
+            STREAM_CLIENT_CONNECT,
+            $Context);
 
         $Result = fgets($this->Connection, 1024);
 
@@ -68,12 +80,17 @@ class Pop3Client
 
     /**
      * Constructor
-     * 
-     * @param string $Server Server domain
-     * @param string $Login Login
-     * @param string $Password Password
-     * @param integer $TimeOut Timeout
-     * @param integer $Port Port number
+     *
+     * @param string $Server
+     *            Server domain
+     * @param string $Login
+     *            Login
+     * @param string $Password
+     *            Password
+     * @param integer $TimeOut
+     *            Timeout
+     * @param integer $Port
+     *            Port number
      */
     public function __construct(string $Server, string $Login, string $Password, int $TimeOut = 5, int $Port = 110)
     {
@@ -83,7 +100,7 @@ class Pop3Client
     /**
      * Method returns emails count.
      */
-    public function get_count():int
+    public function get_count(): int
     {
         fputs($this->Connection, "STAT\r\n");
 
@@ -100,10 +117,10 @@ class Pop3Client
 
     /**
      * Method returns data from connection
-     * 
+     *
      * @return string Fetched data
      */
-    protected function get_data():string
+    protected function get_data(): string
     {
         $Data = '';
 
@@ -116,8 +133,7 @@ class Pop3Client
 
             $Data .= "$Buffer\r\n";
 
-            if (trim($Buffer) == '.')
-            {
+            if (trim($Buffer) == '.') {
                 break;
             }
         }
@@ -127,11 +143,12 @@ class Pop3Client
 
     /**
      * Method returns email's headers
-     * 
-     * @param int $i Number of the message
+     *
+     * @param int $i
+     *            Number of the message
      * @return string Headers
      */
-    public function get_message_headers(int $i):string
+    public function get_message_headers(int $i): string
     {
         fputs($this->Connection, "TOP $i 3\r\n");
 
@@ -140,11 +157,12 @@ class Pop3Client
 
     /**
      * Method deletes email
-     * 
-     * @param int $i Number of the message
+     *
+     * @param int $i
+     *            Number of the message
      * @return string Result of the deletion
      */
-    public function delete_message($i):string
+    public function delete_message($i): string
     {
         fputs($this->Connection, "DELE $i\r\n");
 
@@ -161,14 +179,18 @@ class Pop3Client
 
     /**
      * Method parses subject with any prefix
-     * 
-     * @param string $Line Line of the email
-     * @param int $i Line cursor
-     * @param array $Headers Email headers
-     * @param string $Type Mime type
+     *
+     * @param string $Line
+     *            Line of the email
+     * @param int $i
+     *            Line cursor
+     * @param array $Headers
+     *            Email headers
+     * @param string $Type
+     *            Mime type
      * @return string Decoded data
      */
-    protected function parse_any_type(string $Line, int $i, array $Headers, string $Type):string
+    protected function parse_any_type(string $Line, int $i, array $Headers, string $Type): string
     {
         $Subject = substr($Line, 0, strlen($Line) - 2);
 
@@ -189,11 +211,12 @@ class Pop3Client
 
     /**
      * Method returns message's subject
-     * 
-     * @param integer $i Line number
+     *
+     * @param integer $i
+     *            Line number
      * @return string Decoded data
      */
-    public function get_message_subject(int $i):string
+    public function get_message_subject(int $i): string
     {
         $Headers = $this->get_message_headers($i);
 
@@ -212,11 +235,12 @@ class Pop3Client
 
     /**
      * Method returns true if the mail with the specified subject exists
-     * 
-     * @param string $Subject Searching subject
-     * @return bool Email exists 
+     *
+     * @param string $Subject
+     *            Searching subject
+     * @return bool Email exists
      */
-    public function message_with_subject_exists(string $Subject):bool
+    public function message_with_subject_exists(string $Subject): bool
     {
         $Count = $this->get_count();
 
@@ -234,7 +258,8 @@ class Pop3Client
     /**
      * Method removes all the mails with the specified subject
      *
-     * @param string $Subject subject of emails to be deleted
+     * @param string $Subject
+     *            subject of emails to be deleted
      */
     public function delete_messages_with_subject(string $Subject)
     {
@@ -252,10 +277,11 @@ class Pop3Client
     /**
      * Method returns Message-ID
      *
-     * @param string $Headers email headers
+     * @param string $Headers
+     *            email headers
      * @return string Message-ID
      */
-    public static function get_message_id(array $Headers):string
+    public static function get_message_id(array $Headers): string
     {
         $Matches = [];
 
@@ -264,5 +290,3 @@ class Pop3Client
         return ($Matches[1]);
     }
 }
-
-?>

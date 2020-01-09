@@ -19,13 +19,17 @@ class ServiceClient extends \Mezon\CustomClient
 
     /**
      * Service name
+     * 
+     * @var string
      */
-    var $Service = '';
+    protected $Service = '';
 
     /**
      * Last logged in user
      * This is used for performance improvements in ServiceClient::loginAs method
      * For optimisation purposes only! Do not use in the client code
+     * 
+     * @var string
      */
     private $Login = false;
 
@@ -225,6 +229,14 @@ class ServiceClient extends \Mezon\CustomClient
 
         return ($Result);
     }
-}
 
-?>
+    /**
+     * Method returns service
+     * 
+     * @return string service
+     */
+    public function getService():string
+    {
+        return($this->Service);
+    }
+}

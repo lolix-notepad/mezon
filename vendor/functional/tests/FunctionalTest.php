@@ -11,7 +11,7 @@ function transform2x($Object)
     return ($Object);
 }
 
-class FunctionalTest extends PHPUnit\Framework\TestCase
+class FunctionalTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -632,5 +632,3 @@ class FunctionalTest extends PHPUnit\Framework\TestCase
         $this->assertFalse(\Mezon\Functional::fieldExists($Arr, 'f22', false));
     }
 }
-
-?>

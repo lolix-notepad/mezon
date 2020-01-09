@@ -46,5 +46,3 @@ interface ListBuilderAdapter
      */
     public function preprocessListItem(array $Record): array;
 }
-
-?>

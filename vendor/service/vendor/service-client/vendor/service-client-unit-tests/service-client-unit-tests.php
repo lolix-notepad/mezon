@@ -10,7 +10,6 @@ namespace Mezon\Service\ServiceClient;
  * @version v.1.0 (2019/09/20)
  * @copyright Copyright (c) 2019, aeon.org
  */
-
 require_once (__DIR__ . '/dns.php');
 
 /**
@@ -22,7 +21,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     /**
      * Client class name
      */
-    var $ClientClassName = '';
+    protected $ClientClassName = '';
 
     /**
      * Constructor
@@ -30,7 +29,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
      * @param string $ClientClassName
      *            Service client class name
      */
-    public function __construct(string $ClientClassName = '\Mezon\Service\ServiceClient')
+    public function __construct(string $ClientClassName = \Mezon\Service\ServiceClient::class)
     {
         parent::__construct();
 
@@ -70,7 +69,8 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
             'sendRequest'
         ]);
 
-        $Mock->method('sendRequest')->will($this->returnValue(json_decode(file_get_contents(__DIR__ . '/conf/' . $DataFile . '.json'), true)));
+        $Mock->method('sendRequest')->will(
+            $this->returnValue(json_decode(file_get_contents(__DIR__ . '/conf/' . $DataFile . '.json'), true)));
 
         return ($Mock);
     }
@@ -100,7 +100,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         $Client = new $this->ClientClassName('http://example.com/');
 
         // test body and assertions
-        $this->assertEquals('', $Client->Service, 'Field was init but it must not');
+        $this->assertEquals('', $Client->getService(), 'Field was init but it must not');
     }
 
     /**
@@ -124,7 +124,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     {
         $Client = new $this->ClientClassName('existing-service');
 
-        $this->assertEquals('existing-service', $Client->Service, 'Field was init but it must not');
+        $this->assertEquals('existing-service', $Client->getService(), 'Field was init but it must not');
     }
 
     /**
@@ -297,5 +297,3 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         }
     }
 }
-
-?>

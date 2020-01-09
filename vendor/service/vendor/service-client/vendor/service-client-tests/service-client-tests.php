@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class ServiceClientTests
  *
@@ -14,13 +15,13 @@
  *
  * @author Dodonov A.A.
  */
-class ServiceClientTests extends PHPUnit\Framework\TestCase
+class ServiceClientTests extends \PHPUnit\Framework\TestCase
 {
 
     /**
      * Client class name
      */
-    var $ClientClassName = '';
+    protected $ClientClassName = '';
 
     /**
      * Existing user's login
@@ -159,5 +160,3 @@ class ServiceClientTests extends PHPUnit\Framework\TestCase
         $this->assertEquals(0, 1, 'Test was not created');
     }
 }
-
-?>

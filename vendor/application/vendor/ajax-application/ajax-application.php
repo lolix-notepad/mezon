@@ -1,13 +1,14 @@
 <?php
 namespace Mezon\Application;
+
 /**
  * Class AjaxApplication
  *
- * @package     Application
- * @subpackage  AjaxApplication
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/09/27)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Application
+ * @subpackage AjaxApplication
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/09/27)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -80,9 +81,7 @@ class AjaxApplication extends \Mezon\Application
         }
         $Error->call_stack = $this->formatCallStack($e);
         $Error->host = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        
+
         print(json_encode($Error, JSON_PRETTY_PRINT));
     }
 }
-
-?>

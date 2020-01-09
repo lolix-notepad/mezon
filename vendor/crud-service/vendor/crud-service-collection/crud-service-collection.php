@@ -24,14 +24,14 @@ class CrudServiceCollection
      *
      * @var array
      */
-    var $Collection = [];
+    protected $Collection = [];
 
     /**
      * Connection to the Crud service
      *
-     * @var CrudServiceClient
+     * @var \Mezon\CrudService\CrudServiceClient
      */
-    var $Connector;
+    protected $Connector;
 
     /**
      * Constructor
@@ -53,9 +53,9 @@ class CrudServiceCollection
      *            Service title
      * @param string $Token
      *            Acccess token
-     * @return CrudServiceClient Connector to the service
+     * @return \Mezon\CrudService\CrudServiceClient Connector to the service
      */
-    protected function constructClient(string $Service, string $Token)
+    protected function constructClient(string $Service, string $Token): \Mezon\CrudService\CrudServiceClient
     {
         $Client = new CrudServiceClient($Service);
 
@@ -70,9 +70,19 @@ class CrudServiceCollection
      * @param CrudServiceClient $NewConnector
      *            New connector
      */
-    public function setConnector($NewConnector)
+    public function setConnector($NewConnector): void
     {
         $this->Connector = $NewConnector;
+    }
+
+    /**
+     * Method returns connector to service
+     *
+     * @return \Mezon\CrudService\CrudServiceClient
+     */
+    public function getConnector(): \Mezon\CrudService\CrudServiceClient
+    {
+        return ($this->Connector);
     }
 
     /**
@@ -80,7 +90,7 @@ class CrudServiceCollection
      *
      * @param string $DateTime
      */
-    public function newRecordsSince(string $DateTime)
+    public function newRecordsSince(string $DateTime): void
     {
         $this->Collection = $this->Connector->newRecordsSince($DateTime);
     }
@@ -95,13 +105,21 @@ class CrudServiceCollection
      * @param string $Order
      *            Sorting order
      */
-    public function topByField(int $Count, string $Field, string $Order = 'DESC')
+    public function topByField(int $Count, string $Field, string $Order = 'DESC'): void
     {
         $this->Collection = $this->Connector->getList(0, $Count, 0, false, [
             'field' => $Field,
             'order' => $Order
         ]);
     }
-}
 
-?>
+    /**
+     * Method returns previosly fetched collection
+     *
+     * @return array previosly fetched collection
+     */
+    public function getCollection(): array
+    {
+        return ($this->Collection);
+    }
+}

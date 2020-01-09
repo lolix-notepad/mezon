@@ -22,28 +22,28 @@ class CrudServiceClientAdapter implements ListBuilderAdapter
      *
      * @var \Mezon\CrudService\CrudServiceClient
      */
-    var $CrudServiceClient = null;
+    protected $CrudServiceClient = null;
 
     /**
      * Service name
      *
      * @var string
      */
-    var $Service = '';
+    protected $Service = '';
 
     /**
      * Login
      *
      * @var string
      */
-    var $Login = '';
+    protected $Login = '';
 
     /**
      * Password
      *
      * @var string
      */
-    var $Password;
+    protected $Password;
 
     /**
      * Constructor
@@ -72,7 +72,10 @@ class CrudServiceClientAdapter implements ListBuilderAdapter
     protected function getClient(): \Mezon\CrudService\CrudServiceClient
     {
         if ($this->CrudServiceClient === null) {
-            $this->CrudServiceClient = new \Mezon\CrudService\CrudServiceClient($this->Service, $this->Login, $this->Password);
+            $this->CrudServiceClient = new \Mezon\CrudService\CrudServiceClient(
+                $this->Service,
+                $this->Login,
+                $this->Password);
         }
 
         return ($this->CrudServiceClient);
@@ -128,5 +131,3 @@ class CrudServiceClientAdapter implements ListBuilderAdapter
         return ($Record);
     }
 }
-
-?>

@@ -129,7 +129,10 @@ class TemplateEngine
         list ($StartPos, $EndPos) = self::getBlockPositions($String, $BlockStart, $BlockEnd);
 
         if ($StartPos !== false) {
-            $BlockData = substr($String, $StartPos + strlen('{' . $BlockStart . '}'), $EndPos - $StartPos - strlen('{' . $BlockStart . '}'));
+            $BlockData = substr(
+                $String,
+                $StartPos + strlen('{' . $BlockStart . '}'),
+                $EndPos - $StartPos - strlen('{' . $BlockStart . '}'));
 
             return ($BlockData);
         } else {
@@ -179,7 +182,12 @@ class TemplateEngine
      * @param integer $MacroStartPos
      *            Position of the macro
      */
-    protected static function handleMacroEnd(int $TmpStartPos, int $TmpEndPos, int &$StartPos, int &$Counter, int $MacroStartPos)
+    protected static function handleMacroEnd(
+        int $TmpStartPos,
+        int $TmpEndPos,
+        int &$StartPos,
+        int &$Counter,
+        int $MacroStartPos)
     {
         if ($TmpStartPos !== false && $TmpEndPos === false) {
             $Counter ++;
@@ -213,7 +221,13 @@ class TemplateEngine
      * @param integer $MacroStartPos
      *            Position of the macro
      */
-    protected static function handleMacroStartEnd(&$StringData, &$TmpStartPos, &$TmpEndPos, &$StartPos, &$Counter, $MacroStartPos)
+    protected static function handleMacroStartEnd(
+        &$StringData,
+        &$TmpStartPos,
+        &$TmpEndPos,
+        &$StartPos,
+        &$Counter,
+        $MacroStartPos)
     {
         $TmpStartPos = strpos($StringData, '{', $StartPos + 1);
         $TmpEndPos = strpos($StringData, '}', $StartPos + 1);
@@ -242,7 +256,14 @@ class TemplateEngine
      *            Position of macro's parameters
      * @return string Macro parameters or false otherwise
      */
-    public static function findMacro(&$StringData, &$TmpStartPos, &$TmpEndPos, &$StartPos, &$Counter, $MacroStartPos, $ParamStartPos)
+    public static function findMacro(
+        &$StringData,
+        &$TmpStartPos,
+        &$TmpEndPos,
+        &$StartPos,
+        &$Counter,
+        $MacroStartPos,
+        $ParamStartPos)
     {
         do {
             self::handleMacroStartEnd($StringData, $TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos);
@@ -275,7 +296,14 @@ class TemplateEngine
             $MacroStartPos = $StartPos;
             $ParamStartPos = $MacroStartPos + strlen('{' . $Name . ':');
 
-            $Result = self::findMacro($String, $TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos, $ParamStartPos);
+            $Result = self::findMacro(
+                $String,
+                $TmpStartPos,
+                $TmpEndPos,
+                $StartPos,
+                $Counter,
+                $MacroStartPos,
+                $ParamStartPos);
 
             if ($Result !== false) {
                 return ($Result);
@@ -356,7 +384,11 @@ class TemplateEngine
         list ($StartPos, $EndPos) = self::getBlockPositions($Str, $BlockStart, $BlockEnd);
 
         if ($StartPos !== false) {
-            $Str = substr_replace($Str, $Content, $StartPos, $EndPos - $StartPos + strlen(chr(123) . $BlockEnd . chr(125)));
+            $Str = substr_replace(
+                $Str,
+                $Content,
+                $StartPos,
+                $EndPos - $StartPos + strlen(chr(123) . $BlockEnd . chr(125)));
         }
 
         return ($Str);
@@ -522,5 +554,3 @@ class TemplateEngine
         return ($String);
     }
 }
-
-?>

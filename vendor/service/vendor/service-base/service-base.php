@@ -26,14 +26,14 @@ class ServiceBase
      *
      * @var object Service transport object
      */
-    var $ServiceTransport = false;
+    protected $ServiceTransport = false;
 
     /**
      * Service's logic
      *
-     * @var \Mezon\Service\ServiceLogic object
+     * @var \Mezon\Service\ServiceLogic|array Login object or list of logic objects
      */
-    var $ServiceLogic = false;
+    protected $ServiceLogic = false;
 
     /**
      * Constructor
@@ -47,7 +47,11 @@ class ServiceBase
      * @param mixed $ServiceModel
      *            Service's model
      */
-    public function __construct($ServiceTransport = 'ServiceRestTransport', $SecurityProvider = 'ServiceMockSecurityProvider', $ServiceLogic = 'ServiceBaseLogic', $ServiceModel = 'ServiceModel')
+    public function __construct(
+        $ServiceTransport = 'ServiceRestTransport',
+        $SecurityProvider = 'ServiceMockSecurityProvider',
+        $ServiceLogic = 'ServiceBaseLogic',
+        $ServiceModel = 'ServiceModel')
     {
         $this->initTransport($ServiceTransport, $SecurityProvider);
 
@@ -78,7 +82,7 @@ class ServiceBase
      * @param mixed $SecurityProvider
      *            Service's security provider
      */
-    protected function initTransport($ServiceTransport, $SecurityProvider)
+    protected function initTransport($ServiceTransport, $SecurityProvider): void
     {
         if (is_string($ServiceTransport)) {
             $this->ServiceTransport = new $ServiceTransport($SecurityProvider);
@@ -99,7 +103,10 @@ class ServiceBase
     protected function constructServiceLogic($ServiceLogic, $ServiceModel)
     {
         if (is_string($ServiceLogic)) {
-            $Result = new $ServiceLogic($this->ServiceTransport->getParamsFetcher(), $this->ServiceTransport->SecurityProvider, $ServiceModel);
+            $Result = new $ServiceLogic(
+                $this->ServiceTransport->getParamsFetcher(),
+                $this->ServiceTransport->SecurityProvider,
+                $ServiceModel);
         } else {
             $Result = $ServiceLogic;
         }
@@ -115,7 +122,7 @@ class ServiceBase
      * @param mixed $ServiceModel
      *            Service's Model
      */
-    protected function initServiceLogic($ServiceLogic, $ServiceModel)
+    protected function initServiceLogic($ServiceLogic, $ServiceModel): void
     {
         if (is_array($ServiceLogic)) {
             $this->ServiceLogic = [];
@@ -133,7 +140,7 @@ class ServiceBase
     /**
      * Method inits custom routes if necessary
      */
-    protected function initCustomRoutes()
+    protected function initCustomRoutes(): void
     {
         $Reflector = new \ReflectionClass(get_class($this));
         $ClassPath = dirname($Reflector->getFileName());
@@ -150,10 +157,38 @@ class ServiceBase
     /**
      * Running $this->ServiceTransport run loop
      */
-    public function run()
+    public function run(): void
     {
         $this->ServiceTransport->run();
     }
-}
 
-?>
+    /**
+     * Method sets transport
+     *
+     * @param \Mezon\Service\ServiceTransport $Transport
+     */
+    public function setTransport(\Mezon\Service\ServiceTransport $Transport): void
+    {
+        $this->ServiceTransport = $Transport;
+    }
+
+    /**
+     * Method returns transport
+     *
+     * @return \Mezon\Service\ServiceTransport
+     */
+    public function getTransport(): \Mezon\Service\ServiceTransport
+    {
+        return ($this->ServiceTransport);
+    }
+
+    /**
+     * Method returns logic
+     * 
+     * @return \Mezon\Service\ServiceLogic|array
+     */
+    public function getLogic()
+    {
+        return($this->ServiceLogic);
+    }
+}

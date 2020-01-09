@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Test routes
@@ -9,13 +9,10 @@
  * @version     v.1.0 (2019/08/17)
  * @copyright   Copyright (c) 2019, aeon.org
  */
-
 return ([
-	[
-		'route' => '/test/',
-		'callback' => 'test',
-		'method' => 'GET'
-	]
+    [
+        'route' => '/test/',
+        'callback' => 'test',
+        'method' => 'GET',
+    ],
 ]);
-
-?>

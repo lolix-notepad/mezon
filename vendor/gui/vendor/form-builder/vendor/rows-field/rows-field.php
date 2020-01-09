@@ -22,7 +22,7 @@ class RowsField extends \Mezon\Gui\Field
      *
      * @var string
      */
-    var $RowedField = '';
+    protected $RowedField = '';
 
     /**
      * Constructor
@@ -45,7 +45,8 @@ class RowsField extends \Mezon\Gui\Field
     public function html(): string
     {
         $Content = '<div><div class="form-group col-md-12">';
-        $Content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $this->Name . '\' )">+</button>';
+        $Content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $this->Name .
+            '\' )">+</button>';
         $Content .= '</div></div>';
 
         $Content = str_replace('{_creation_form_items_counter}', '0', $Content);
@@ -53,7 +54,8 @@ class RowsField extends \Mezon\Gui\Field
         $Content .= '<template class="' . $this->Name . '"><div>';
         $Content .= $this->RowedField;
         $Content .= '<div class="form-group col-md-12">';
-        $Content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $this->Name . '\' );">+</button>';
+        $Content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $this->Name .
+            '\' );">+</button>';
         $Content .= '<button class="btn btn-danger col-md-2" onclick="remove_element_by_template( this );">-</button>';
         $Content .= '</div></div>';
         $Content .= '</template>';
@@ -69,5 +71,3 @@ class RowsField extends \Mezon\Gui\Field
         return (true);
     }
 }
-
-?>

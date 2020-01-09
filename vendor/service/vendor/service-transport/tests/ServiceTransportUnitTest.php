@@ -4,7 +4,6 @@ require_once (__DIR__ . '/../../../../../autoloader.php');
 /**
  * Tests for the class ServiceTransport.
  */
-
 class FakeService implements \Mezon\Service\ServiceBaseLogicInterface
 {
 
@@ -42,7 +41,9 @@ class FakeServiceLogic extends \Mezon\Service\ServiceLogic
 
     public function __construct(\Mezon\Router &$Router)
     {
-        parent::__construct(new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($Router), new \Mezon\Service\ServiceMockSecurityProvider());
+        parent::__construct(
+            new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($Router),
+            new \Mezon\Service\ServiceMockSecurityProvider());
     }
 
     public function test()
@@ -55,7 +56,7 @@ class FakeServiceLogic extends \Mezon\Service\ServiceLogic
  *
  * @author Dodonov A.A.
  */
-class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
+class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -65,7 +66,7 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
     {
         $ServiceTransport = new ConcreteServiceTransport();
 
-        $this->assertInstanceOf('\Mezon\Router', $ServiceTransport->Router, 'Router was not created');
+        $this->assertInstanceOf(\Mezon\Router::class, $ServiceTransport->Router, 'Router was not created');
     }
 
     /**
@@ -124,7 +125,10 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
             $ServiceTransport->addRoute('unexisting', 'unexisting', 'GET');
             $this->fail('Exception must be thrown');
         } catch (Exception $e) {
-            $this->assertEquals(- 1, $e->getCode(), 'Illeagal error code was returned. Probably invalid exception was thrown.');
+            $this->assertEquals(
+                - 1,
+                $e->getCode(),
+                'Illeagal error code was returned. Probably invalid exception was thrown.');
             $this->addToAssertionCount(1);
         }
     }
@@ -250,5 +254,3 @@ class ServiceTransportUnitTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(is_object($ServiceTransport->Router->getRoute('/hello-world/')), 'Route does not exists');
     }
 }
-
-?>

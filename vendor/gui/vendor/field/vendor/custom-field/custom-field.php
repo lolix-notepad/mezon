@@ -64,16 +64,18 @@ class CustomField extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        $Content = \Mezon\TemplateEngine::printRecord($this->get_field_template(), [
-            'name' => $this->Name,
-            'name-prefix' => $this->NamePrefix,
-            'disabled' => $this->Disabled ? 1 : 0,
-            'batch' => $this->Batch ? 1 : 0,
-            'custom' => $this->Custom,
-            'required' => $this->Required ? 1 : 0,
-            'toggler' => $this->Toggler,
-            'toggle-value' => $this->ToggleValue
-        ]);
+        $Content = \Mezon\TemplateEngine::printRecord(
+            $this->get_field_template(),
+            [
+                'name' => $this->Name,
+                'name-prefix' => $this->NamePrefix,
+                'disabled' => $this->Disabled ? 1 : 0,
+                'batch' => $this->Batch ? 1 : 0,
+                'custom' => $this->Custom,
+                'required' => $this->Required ? 1 : 0,
+                'toggler' => $this->Toggler,
+                'toggle-value' => $this->ToggleValue
+            ]);
 
         return ($Content);
     }
@@ -88,5 +90,3 @@ class CustomField extends \Mezon\Gui\Field
         return ($this->Fields);
     }
 }
-
-?>

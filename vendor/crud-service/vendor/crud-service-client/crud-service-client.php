@@ -316,7 +316,8 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
 
         $Order = $this->getCompiledOrder($Order);
 
-        return ($this->getRequest('/list/?from=' . $From . '&limit=' . $Limit . '&cross_domain=' . $CrossDomain . $Filter . $Order));
+        return ($this->getRequest(
+            '/list/?from=' . $From . '&limit=' . $Limit . '&cross_domain=' . $CrossDomain . $Filter . $Order));
     }
 
     /**
@@ -350,7 +351,9 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
             return (false);
         }
 
-        if (\Mezon\Functional::getField($Value, 'name') !== null && \Mezon\Functional::getField($Value, 'size') !== null && \Mezon\Functional::getField($Value, 'type') !== null && \Mezon\Functional::getField($Value, 'tmp_name') !== null) {
+        if (\Mezon\Functional::getField($Value, 'name') !== null && \Mezon\Functional::getField($Value, 'size') !== null &&
+            \Mezon\Functional::getField($Value, 'type') !== null &&
+            \Mezon\Functional::getField($Value, 'tmp_name') !== null) {
             return (true);
         }
 
@@ -397,5 +400,3 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
         return ($this->getRequest('/fields/'));
     }
 }
-
-?>

@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../autoloader.php');
 
-class ConfTest extends PHPUnit\Framework\TestCase
+class ConfTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -280,5 +280,3 @@ class ConfTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('password', $Value, 'Key connection/password was not found');
     }
 }
-
-?>

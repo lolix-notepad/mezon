@@ -20,27 +20,27 @@ class FormBuilder
     /**
      * Fields algorithms
      */
-    var $FieldsAlgorithms = false;
+    protected $FieldsAlgorithms = false;
 
     /**
      * Session id
      */
-    var $SessionId = false;
+    protected $SessionId = false;
 
     /**
      * Entity name
      */
-    var $EntityName = false;
+    protected $EntityName = false;
 
     /**
      * Layout
      */
-    var $Layout = false;
+    protected $Layout = false;
 
     /**
      * Multiple forms
      */
-    var $Batch = false;
+    protected $Batch = false;
 
     /**
      * Constructor
@@ -56,7 +56,12 @@ class FormBuilder
      * @param bool $Batch
      *            Batch operations available
      */
-    public function __construct(FieldsAlgorithms $FieldsAlgorithms, string $SessionId, string $EntityName, array $Layout, bool $Batch = false)
+    public function __construct(
+        FieldsAlgorithms $FieldsAlgorithms,
+        string $SessionId,
+        string $EntityName,
+        array $Layout,
+        bool $Batch = false)
     {
         $this->FieldsAlgorithms = $FieldsAlgorithms;
 
@@ -82,11 +87,14 @@ class FormBuilder
 
         foreach ($this->FieldsAlgorithms->getFieldsNames() as $Name) {
             $Field = $this->FieldsAlgorithms->getObject($Name);
-            if ($Name == 'id' || $Name == 'domain_id' || $Name == 'creation_date' || $Name == 'modification_date' || $Field->isVisible() === false) {
+            if ($Name == 'id' || $Name == 'domain_id' || $Name == 'creation_date' || $Name == 'modification_date' ||
+                $Field->isVisible() === false) {
                 continue;
             }
 
-            $Content .= '<div class="form-group ' . $this->EntityName . '">' . '<label class="control-label" >' . $Field->getTitle() . ($Field->isRequired($Name) ? ' <span class="required">*</span>' : '') . '</label>' . $Field->html() . '</div>';
+            $Content .= '<div class="form-group ' . $this->EntityName . '">' . '<label class="control-label" >' .
+                $Field->getTitle() . ($Field->isRequired($Name) ? ' <span class="required">*</span>' : '') . '</label>' .
+                $Field->html() . '</div>';
         }
 
         return ($Content);
@@ -118,7 +126,8 @@ class FormBuilder
         $Content = '<div class="form-group ' . $this->EntityName . ' col-md-' . $Field['width'] . '">';
 
         if ($FieldObject->hasLabel()) {
-            $Content .= '<label class="control-label" style="text-align: left;">' . $FieldObject->getTitle() . ($FieldObject->isRequired($Name) ? ' <span class="required">*</span>' : '') . '</label>';
+            $Content .= '<label class="control-label" style="text-align: left;">' . $FieldObject->getTitle() .
+                ($FieldObject->isRequired($Name) ? ' <span class="required">*</span>' : '') . '</label>';
         }
 
         $Content .= $Control . '</div>';
@@ -224,12 +233,10 @@ class FormBuilder
         $Content .= file_get_contents(__DIR__ . '/res/templates/updating_form.tpl');
 
         $this->SessionId = $SessionId;
-        $this->FieldsAlgorithms->SessionId = $SessionId;
+        $this->FieldsAlgorithms->setSessionId($SessionId);
 
         $Content = str_replace('{fields}', $this->compileFormFields($Record), $Content);
 
         return ($Content);
     }
 }
-
-?>

@@ -22,21 +22,21 @@ class FieldsAlgorithms
      *
      * @var array
      */
-    var $FieldObjects = [];
+    protected $FieldObjects = [];
 
     /**
      * Entity name
      *
      * @var string
      */
-    var $EntityName = false;
+    protected $EntityName = false;
 
     /**
      * Session Id
      *
      * @var string
      */
-    var $SessionId = '';
+    protected $SessionId = '';
 
     /**
      * Constructor
@@ -354,40 +354,6 @@ class FieldsAlgorithms
     }
 
     /**
-     * Method compiles rows field
-     *
-     * @param string $Name
-     *            field name
-     * @param array $Record
-     *            Data source
-     * @return string Compiled control
-     */
-    protected function compileRowsField(string $Name, array $Record): string
-    {
-        $FieldObject = $this->getObject($Name);
-
-        $Content = ($FieldObject->hasLabel() ? '<div class="form-group ' . $this->EntityName . ' col-md-12">' . '<label class="control-label">' . $FieldObject->get_title() . ($FieldObject->is_required($Name) ? ' <span class="required">*</span>' : '') . '</label></div>' : '');
-
-        $Content .= '<div>' . ($Template = $this->getCompiledField($Name, $Record)) . '</div>';
-
-        $Content .= '<div><div class="form-group col-md-12">';
-        $Content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $Name . '\' )">Добавить</button>';
-        $Content .= '</div></div>';
-
-        $Content = str_replace('{_creation_form_items_counter}', '0', $Content);
-
-        $Content .= '<template class="' . $Name . '"><div>';
-        $Content .= $Template;
-        $Content .= '<div class="form-group col-md-12">';
-        $Content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $Name . '\' );">Добавить</button>';
-        $Content .= '<button class="btn btn-danger col-md-2" onclick="remove_element_by_template( this );">Удалить</button>';
-        $Content .= '</div></div>';
-        $Content .= '</template>';
-
-        return ($Content);
-    }
-
-    /**
      * Method returns array of fields names
      *
      * @return array
@@ -410,6 +376,25 @@ class FieldsAlgorithms
         return (isset($this->FieldObjects[$FieldName]));
         // @codeCoverageIgnoreEnd
     }
-}
 
-?>
+    /**
+     * Method returns entity name
+     *
+     * @return string
+     */
+    public function getEntityName(): string
+    {
+        return ($this->EntityName);
+    }
+
+    /**
+     * Method sets session id
+     *
+     * @param string $SessionId
+     *            new session id
+     */
+    public function setSessionId(string $SessionId): void
+    {
+        $this->SessionId = $SessionId;
+    }
+}

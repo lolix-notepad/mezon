@@ -53,7 +53,7 @@ class TestCommonApplication extends \Mezon\CommonApplication
     }
 }
 
-class CommonApplicationTest extends PHPUnit\Framework\TestCase
+class CommonApplicationTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -176,5 +176,3 @@ class CommonApplicationTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('some hostsome uri', $Output['host']);
     }
 }
-
-?>

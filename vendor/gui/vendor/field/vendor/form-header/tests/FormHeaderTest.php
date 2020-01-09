@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class FormHeaderTest extends PHPUnit\Framework\TestCase
+class FormHeaderTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -21,5 +21,3 @@ class FormHeaderTest extends PHPUnit\Framework\TestCase
         $this->assertContains('<h3>name</h3>', $Content, 'Header was not built');
     }
 }
-
-?>

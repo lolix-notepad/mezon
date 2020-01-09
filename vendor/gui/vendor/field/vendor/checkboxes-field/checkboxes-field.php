@@ -60,12 +60,11 @@ class CheckboxesField extends RemoteField
             $id = \Mezon\Functional::getField($Item, 'id');
 
             $Content .= '<label>
-                <input type="checkbox" class="js-switch" name="' . $this->NamePrefix . '-' . $this->Name . '[]" value="' . $id . '" /> ' . $this->getExternalTitle($Item) . '
+                <input type="checkbox" class="js-switch" name="' . $this->NamePrefix . '-' . $this->Name . '[]" value="' .
+                $id . '" /> ' . $this->getExternalTitle($Item) . '
             </label><br>';
         }
 
         return ($Content);
     }
 }
-
-?>

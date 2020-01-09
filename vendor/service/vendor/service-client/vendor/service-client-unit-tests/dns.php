@@ -10,5 +10,3 @@
  * @copyright Copyright (c) 2019, aeon.org
  */
 \Mezon\DnsClient::setService('existing-service', 'existing-service-srv');
-
-?>

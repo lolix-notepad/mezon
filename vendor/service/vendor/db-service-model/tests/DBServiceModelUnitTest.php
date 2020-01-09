@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class DbServiceModelUnitTest extends PHPUnit\Framework\TestCase
+class DbServiceModelUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -15,14 +15,14 @@ class DbServiceModelUnitTest extends PHPUnit\Framework\TestCase
             [
                 [
                     'id' => [
-                        'type' => 'intger'
-                    ]
+                        'type' => 'intger',
+                    ],
                 ],
-                'id'
+                'id',
             ],
             [
                 '*',
-                '*'
+                '*',
             ],
             [
                 new \Mezon\Gui\FieldsAlgorithms([
@@ -30,8 +30,8 @@ class DbServiceModelUnitTest extends PHPUnit\Framework\TestCase
                         'type' => 'intger'
                     ]
                 ]),
-                'id'
-            ]
+                'id',
+            ],
         ]);
     }
 
@@ -69,5 +69,3 @@ class DbServiceModelUnitTest extends PHPUnit\Framework\TestCase
         }
     }
 }
-
-?>

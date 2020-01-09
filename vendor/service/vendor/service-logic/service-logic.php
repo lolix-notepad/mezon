@@ -46,7 +46,8 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
     public function setToken(): array
     {
         return ([
-            $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->setToken($this->getParam('token'))
+            $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->setToken(
+                $this->getParam('token'))
         ]);
     }
 
@@ -103,7 +104,10 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
         }
 
         return ([
-            $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->loginAs($this->getSessionId(), $LoginOrId, $LoginFieldName)
+            $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->loginAs(
+                $this->getSessionId(),
+                $LoginOrId,
+                $LoginFieldName)
         ]);
     }
 
@@ -150,5 +154,3 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
         $this->SecurityProvider->validatePermit($this->getSessionId(), $Permit);
     }
 }
-
-?>

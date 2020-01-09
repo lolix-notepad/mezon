@@ -10,7 +10,6 @@ namespace Mezon\CrudService;
  * @version v.1.0 (2019/08/13)
  * @copyright Copyright (c) 2019, aeon.org
  */
-
 define('NOW', 'NOW()');
 define('CREATION_DATE_FIELD_NAME', 'creation_date');
 define('DOMAIN_ID_FIELD_NAME', 'domain_id');
@@ -32,7 +31,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     /**
      * Form builder
      */
-    var $FormBuilder = false;
+    protected $FormBuilder = false;
 
     /**
      * Method deletes the specified record
@@ -42,9 +41,10 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     public function deleteRecord()
     {
         $DomainId = $this->getDomainId();
-        $Where = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([
-            'id = ' . intval($this->ParamsFetcher->getParam('id'))
-        ]);
+        $Where = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition(
+            [
+                'id = ' . intval($this->ParamsFetcher->getParam('id'))
+            ]);
 
         return ($this->Model->deleteFiltered($DomainId, $Where));
     }
@@ -75,7 +75,12 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
      */
     public function getRecords($DomainId, $Order, $From, $Limit): array
     {
-        $Records = $this->Model->getSimpleRecords($DomainId, $From, $Limit, \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([]), $Order);
+        $Records = $this->Model->getSimpleRecords(
+            $DomainId,
+            $From,
+            $Limit,
+            \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([]),
+            $Order);
 
         return ($Records);
     }
@@ -96,7 +101,9 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
             if ($this->hasPermit($this->Model->getEntityName() . '-manager')) {
                 $DomainId = false;
             } else {
-                throw (new \Exception('User "' . $this->getSelfLoginValue() . '" has no permit "' . $this->Model->getEntityName() . '-manager"'));
+                throw (new \Exception(
+                    'User "' . $this->getSelfLoginValue() . '" has no permit "' . $this->Model->getEntityName() .
+                    '-manager"'));
             }
         } else {
             $DomainId = $this->getSelfIdValue();
@@ -113,10 +120,12 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     public function listRecord(): array
     {
         $DomainId = $this->getDomainId();
-        $Order = $this->ParamsFetcher->getParam(ORDER_FIELD_NAME, [
-            FIELD_FIELD_NAME => 'id',
-            ORDER_FIELD_NAME => 'ASC'
-        ]);
+        $Order = $this->ParamsFetcher->getParam(
+            ORDER_FIELD_NAME,
+            [
+                FIELD_FIELD_NAME => 'id',
+                ORDER_FIELD_NAME => 'ASC'
+            ]);
 
         $From = $this->ParamsFetcher->getParam('from', 0);
         $Limit = $this->ParamsFetcher->getParam('limit', 1000000000);
@@ -132,10 +141,12 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     public function all(): array
     {
         $DomainId = $this->getDomainId();
-        $Order = $this->ParamsFetcher->getParam(ORDER_FIELD_NAME, [
-            FIELD_FIELD_NAME => 'id',
-            ORDER_FIELD_NAME => 'ASC'
-        ]);
+        $Order = $this->ParamsFetcher->getParam(
+            ORDER_FIELD_NAME,
+            [
+                FIELD_FIELD_NAME => 'id',
+                ORDER_FIELD_NAME => 'ASC'
+            ]);
 
         return ($this->getRecords($DomainId, $Order, 0, 1000000000));
     }
@@ -271,7 +282,12 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
             $FieldName = $this->Model->getEntityName() . '-' . $Name;
             if ($Field['type'] == 'external' && $this->ParamsFetcher->getParam($FieldName, false) !== false) {
                 $Ids = $this->ParamsFetcher->getParam($FieldName);
-                $Record = $this->Model->insertExternalFields($Record, $this->ParamsFetcher->getParam('session_id'), $Name, $Field, $Ids);
+                $Record = $this->Model->insertExternalFields(
+                    $Record,
+                    $this->ParamsFetcher->getParam('session_id'),
+                    $Name,
+                    $Field,
+                    $Ids);
             }
         }
 
@@ -337,5 +353,3 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
         ]);
     }
 }
-
-?>

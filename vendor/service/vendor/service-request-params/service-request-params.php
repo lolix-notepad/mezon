@@ -28,5 +28,3 @@ interface ServiceRequestParams
      */
     public function getParam($Param, $Default = false);
 }
-
-?>

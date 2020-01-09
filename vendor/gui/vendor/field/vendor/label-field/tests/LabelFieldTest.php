@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class LabelFieldTest extends PHPUnit\Framework\TestCase
+class LabelFieldTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -49,5 +49,3 @@ class LabelFieldTest extends PHPUnit\Framework\TestCase
         $this->assertTrue($Field->fillAllRow());
     }
 }
-
-?>

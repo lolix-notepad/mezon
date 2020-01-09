@@ -22,14 +22,14 @@ class RemoteField extends \Mezon\Gui\Field
      *
      * @var string
      */
-    var $SessionId = '';
+    protected $SessionId = '';
 
     /**
      * Remote source of records
      *
      * @var string
      */
-    var $RemoteSource = '';
+    protected $RemoteSource = '';
 
     /**
      * Method fetches session id from the description
@@ -92,5 +92,3 @@ class RemoteField extends \Mezon\Gui\Field
         // @codeCoverageIgnoreEnd
     }
 }
-
-?>

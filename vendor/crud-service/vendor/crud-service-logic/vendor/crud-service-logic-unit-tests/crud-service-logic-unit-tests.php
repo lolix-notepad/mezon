@@ -15,8 +15,88 @@ require_once (__DIR__ . '/../../../../../../autoloader.php');
 /**
  * Fake securoity provider
  */
-class FakeSecurityProvider
+class FakeSecurityProvider implements \Mezon\Service\ServiceSecurityProvider
 {
+
+    /**
+     *
+     * {@inheritdoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::hasPermit()
+     */
+    public function hasPermit(string $Token, string $Permit): bool
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::validatePermit()
+     */
+    public function validatePermit(string $Token, string $Permit)
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::getSelfLogin()
+     */
+    public function getSelfLogin(string $Token): string
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::getLoginFieldName()
+     */
+    public function getLoginFieldName(): string
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::setToken()
+     */
+    public function setToken(string $Token): string
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::getSessionIdFieldName()
+     */
+    public function getSessionIdFieldName(): string
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::getSelfId()
+     */
+    public function getSelfId(string $Token): int
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::loginAs()
+     */
+    public function loginAs(string $Token, string $LoginOrId, string $Field): string
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::createSession()
+     */
+    public function createSession(string $Token = ''): string
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::connect()
+     */
+    public function connect(string $Login, string $Password): string
+    {}
 }
 
 /**
@@ -113,7 +193,7 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogic
      */
     public function __construct()
     {
-        parent::__construct('\Mezon\CrudService\CrudServiceLogic');
+        parent::__construct(\Mezon\CrudService\CrudServiceLogic::class);
     }
 
     /**
@@ -125,21 +205,22 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogic
      */
     protected function getServiceModelMock(array $Methods = [])
     {
-        $Model = $this->getMockBuilder('\Mezon\CrudService\CrudServiceModel')
-            ->setConstructorArgs([
+        $Model = $this->getMockBuilder(\Mezon\CrudService\CrudServiceModel::class)
+            ->setConstructorArgs(
             [
-                'id' => [
-                    'type' => 'integer'
+                [
+                    'id' => [
+                        'type' => 'integer'
+                    ],
+                    'domain_id' => [
+                        'type' => 'integer'
+                    ],
+                    'creation_date' => [
+                        'type' => 'date'
+                    ]
                 ],
-                'domain_id' => [
-                    'type' => 'integer'
-                ],
-                'creation_date' => [
-                    'type' => 'date'
-                ]
-            ],
-            'record'
-        ])
+                'record'
+            ])
             ->setMethods($Methods)
             ->getMock();
 
@@ -169,7 +250,10 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogic
     {
         $Transport = new \Mezon\Service\ServiceConsoleTransport();
 
-        $Logic = new \Mezon\CrudService\CrudServiceLogic($Transport->ParamsFetcher, new \Mezon\Service\ServiceMockSecurityProvider(), $Model);
+        $Logic = new \Mezon\CrudService\CrudServiceLogic(
+            $Transport->ParamsFetcher,
+            new \Mezon\Service\ServiceMockSecurityProvider(),
+            $Model);
 
         return ($Logic);
     }
@@ -309,8 +393,8 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogic
     {
         $ServiceLogic = new \Mezon\CrudService\CrudServiceLogic(new FakeParametersFetcher(), new FakeSecurityProvider());
 
-        $this->assertInstanceOf(FakeParametersFetcher::class, $ServiceLogic->ParamsFetcher);
-        $this->assertInstanceOf(FakeSecurityProvider::class, $ServiceLogic->SecurityProvider);
+        $this->assertInstanceOf(FakeParametersFetcher::class, $ServiceLogic->getParamsFetcher());
+        $this->assertInstanceOf(FakeSecurityProvider::class, $ServiceLogic->getSecurityProvider());
     }
 
     /**
@@ -501,5 +585,3 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogic
         $Mock->createRecord();
     }
 }
-
-?>

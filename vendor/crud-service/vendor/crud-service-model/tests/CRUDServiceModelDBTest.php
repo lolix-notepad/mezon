@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class CrudServiceModelDBTest extends PHPUnit\Framework\TestCase
+class CrudServiceModelDBTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -21,7 +21,7 @@ class CrudServiceModelDBTest extends PHPUnit\Framework\TestCase
      */
     protected function getModelMock($Connection)
     {
-        $Mock = $this->getMockBuilder('\Mezon\CrudService\CrudServiceModel')
+        $Mock = $this->getMockBuilder(\Mezon\CrudService\CrudServiceModel::class)
             ->setMethods([
             'getConnection'
         ])
@@ -130,5 +130,3 @@ class CrudServiceModelDBTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(1, count($Records), 'getSimpleRecords have returned nothing');
     }
 }
-
-?>

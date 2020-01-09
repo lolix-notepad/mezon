@@ -39,5 +39,3 @@ class FormHeader extends \Mezon\Gui\Field\TextField
         return (false);
     }
 }
-
-?>

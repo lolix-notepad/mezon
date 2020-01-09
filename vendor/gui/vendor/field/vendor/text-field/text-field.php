@@ -22,7 +22,7 @@ class TextField implements \Mezon\Gui\Control
      *
      * @var string
      */
-    var $Text = '';
+    protected $Text = '';
 
     /**
      * Constructor
@@ -55,5 +55,3 @@ class TextField implements \Mezon\Gui\Control
         return (true);
     }
 }
-
-?>

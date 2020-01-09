@@ -1,13 +1,14 @@
 <?php
 namespace Mezon;
+
 /**
  * Class CommonApplication
  *
- * @package     Mezon
- * @subpackage  CommonApplication
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/07)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage CommonApplication
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/07)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -35,7 +36,7 @@ class CommonApplication extends Application
 
     /**
      * Application's template
-     * 
+     *
      * @var \Mezon\HtmlTemplate
      */
     protected $Template = false;
@@ -90,7 +91,8 @@ class CommonApplication extends Application
         $Stack = $e->getTrace();
 
         foreach ($Stack as $i => $Call) {
-            $Stack[$i] = (@$Call['file'] == '' ? 'lambda : ' : @$Call['file'] . ' (' . $Call['line'] . ') : ') . (@$Call['class'] == '' ? '' : $Call['class'] . '->') . $Call['function'];
+            $Stack[$i] = (@$Call['file'] == '' ? 'lambda : ' : @$Call['file'] . ' (' . $Call['line'] . ') : ') .
+                (@$Call['class'] == '' ? '' : $Call['class'] . '->') . $Call['function'];
         }
 
         return ($Stack);
@@ -195,5 +197,3 @@ class CommonApplication extends Application
         $this->Template = $Template;
     }
 }
-
-?>

@@ -42,7 +42,7 @@ class Security
      *            Prefix to file path
      * @return string File path
      */
-    private static function prepareFs(string $FilePrefix): string
+    private static function _prepareFs(string $FilePrefix): string
     {
         @mkdir($FilePrefix . '/data/');
 
@@ -81,9 +81,10 @@ class Security
         }
 
         if ($StoreFiles) {
-            $Dir = '.' . self::prepareFs('.');
+            $Dir = '.' . self::_prepareFs('.');
 
-            $UploadFile = $Dir . md5($Value['name'] . microtime(true)) . '.' . pathinfo($Value['name'], PATHINFO_EXTENSION);
+            $UploadFile = $Dir . md5($Value['name'] . microtime(true)) . '.' .
+                pathinfo($Value['name'], PATHINFO_EXTENSION);
 
             if (isset($Value['file'])) {
                 file_put_contents($UploadFile, base64_decode($Value['file']));
@@ -110,7 +111,7 @@ class Security
      */
     public static function storeFileContent(string $FileContent, string $PathPrefix, bool $Decoded = false): string
     {
-        $Dir = self::prepareFs($PathPrefix);
+        $Dir = self::_prepareFs($PathPrefix);
 
         $FileName = md5(microtime(true));
 
@@ -145,5 +146,3 @@ class Security
         return (self::storeFileContent($FileContent, $PathPrefix, $Decoded));
     }
 }
-
-?>

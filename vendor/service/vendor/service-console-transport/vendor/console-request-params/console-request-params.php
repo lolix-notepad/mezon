@@ -12,7 +12,7 @@ namespace Mezon\Service\ServiceConsoleTransport;
  */
 
 /**
- * Request params fetcher.
+ * Request params fetcher
  */
 class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParams
 {
@@ -65,5 +65,3 @@ class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParams
         return ($Default);
     }
 }
-
-?>

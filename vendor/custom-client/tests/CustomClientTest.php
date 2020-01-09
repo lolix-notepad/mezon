@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../autoloader.php');
 
-class CustomClientTest extends PHPUnit\Framework\TestCase
+class CustomClientTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -34,5 +34,3 @@ class CustomClientTest extends PHPUnit\Framework\TestCase
         }
     }
 }
-
-?>

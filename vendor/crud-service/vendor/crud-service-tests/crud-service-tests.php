@@ -116,5 +116,3 @@ class CrudServiceTests extends ServiceTests
         $this->assertEquals(count($Result), 0, 'Invalid records counting (0)');
     }
 }
-
-?>

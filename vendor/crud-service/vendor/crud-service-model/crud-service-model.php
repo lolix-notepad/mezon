@@ -106,7 +106,10 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
     {
         $Where = $this->addDomainIdCondition($DomainId, $Where);
 
-        $Records = $this->getConnection()->select('COUNT( * ) AS records_count', $this->TableName, implode(' AND ', $Where));
+        $Records = $this->getConnection()->select(
+            'COUNT( * ) AS records_count',
+            $this->TableName,
+            implode(' AND ', $Where));
 
         if (count($Records) === 0) {
             return (0);
@@ -137,7 +140,13 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
     {
         $Where = $this->addDomainIdCondition($DomainId, $Where);
 
-        $Records = $this->getConnection()->select($this->getFieldsNames(), $this->TableName, implode(' AND ', $Where) . ' ORDER BY ' . htmlspecialchars($Order['field']) . ' ' . htmlspecialchars($Order['order']), $From, $Limit);
+        $Records = $this->getConnection()->select(
+            $this->getFieldsNames(),
+            $this->TableName,
+            implode(' AND ', $Where) . ' ORDER BY ' . htmlspecialchars($Order['field']) . ' ' .
+            htmlspecialchars($Order['order']),
+            $From,
+            $Limit);
 
         return ($Records);
     }
@@ -208,7 +217,12 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
     {
         $Where = $this->addDomainIdCondition($DomainId, $Where);
 
-        $Records = $this->getConnection()->select($this->getFieldsNames(), $this->TableName, implode(' AND ', $Where) . ' ORDER BY id DESC', 0, $Count);
+        $Records = $this->getConnection()->select(
+            $this->getFieldsNames(),
+            $this->TableName,
+            implode(' AND ', $Where) . ' ORDER BY id DESC',
+            0,
+            $Count);
 
         $this->lastRecordsTransformer($Records);
 
@@ -246,7 +260,10 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
         $Records = $this->getConnection()->select($this->getFieldsNames(), $this->TableName, $Where);
 
         if (count($Records) == 0) {
-            throw (new \Exception('Record with id in ' . $ids . ' and domain = ' . ($DomainId === false ? 'false' : $DomainId) . ' was not found', - 1));
+            throw (new \Exception(
+                'Record with id in ' . $ids . ' and domain = ' . ($DomainId === false ? 'false' : $DomainId) .
+                ' was not found',
+                - 1));
         }
 
         $this->fetchRecordsByIdsTransformer($Records);
@@ -269,7 +286,10 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
     {
         $Where = $this->addDomainIdCondition($DomainId, $Where);
 
-        $Records = $this->getConnection()->select($FieldName . ' , COUNT( * ) AS records_count', $this->TableName, implode(' AND ', $Where) . ' GROUP BY ' . $FieldName);
+        $Records = $this->getConnection()->select(
+            $FieldName . ' , COUNT( * ) AS records_count',
+            $this->TableName,
+            implode(' AND ', $Where) . ' GROUP BY ' . $FieldName);
 
         if (count($Records) === 0) {
             return ([
@@ -293,7 +313,9 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
         if ($DomainId === false) {
             return ($this->getConnection()->delete($this->TableName, implode(' AND ', $Where)));
         } else {
-            return ($this->getConnection()->delete($this->TableName, implode(' AND ', $Where) . ' AND domain_id = ' . intval($DomainId)));
+            return ($this->getConnection()->delete(
+                $this->TableName,
+                implode(' AND ', $Where) . ' AND domain_id = ' . intval($DomainId)));
         }
     }
 
@@ -373,5 +395,3 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
         return ($Record);
     }
 }
-
-?>

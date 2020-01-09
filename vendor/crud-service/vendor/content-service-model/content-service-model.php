@@ -38,5 +38,3 @@ class ContentServiceModel extends \Mezon\Service\DbServiceModel
         ], implode(' AND ', $Where));
     }
 }
-
-?>

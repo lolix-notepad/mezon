@@ -12,13 +12,13 @@ define('INTEGER_TYPE_NAME', 'integer');
 define('DATE_TYPE_NAME', 'date');
 define('EXTERNAL_TYPE_NAME', 'external');
 
-class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
+class FieldsAlgorithmsUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
      * Post test processing
      */
-    public function tearDown():void
+    public function tearDown(): void
     {
         unset($_GET[FIELDS_FIELD_NAME]);
     }
@@ -61,7 +61,7 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
         $FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms($this->getFields1(), ENTITY_NAME);
 
         // assertions
-        $this->assertEquals(ENTITY_NAME, $FieldsAlgorithms->EntityName, 'EntityName was not set');
+        $this->assertEquals(ENTITY_NAME, $FieldsAlgorithms->getEntityName(), 'EntityName was not set');
         $this->assertTrue($FieldsAlgorithms->hasCustomFields(), 'Data was not loaded');
     }
 
@@ -99,18 +99,40 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
         $FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms($this->getFields1(), ENTITY_NAME);
 
         // assertions int
-        $this->assertEquals(1, $FieldsAlgorithms->getTypedValue(INTEGER_TYPE_NAME, '1'), 'Type was not casted properly for integer');
-        $this->assertTrue(is_int($FieldsAlgorithms->getTypedValue(INTEGER_TYPE_NAME, '1')), 'Type was not casted properly for integer');
+        $this->assertEquals(
+            1,
+            $FieldsAlgorithms->getTypedValue(INTEGER_TYPE_NAME, '1'),
+            'Type was not casted properly for integer');
+        $this->assertTrue(
+            is_int($FieldsAlgorithms->getTypedValue(INTEGER_TYPE_NAME, '1')),
+            'Type was not casted properly for integer');
 
         // assertions string
-        $this->assertEquals('1', $FieldsAlgorithms->getTypedValue(STRING_TYPE_NAME, '1'), 'Type was not casted properly for string');
-        $this->assertTrue(is_string($FieldsAlgorithms->getTypedValue(STRING_TYPE_NAME, '1')), 'Return type is not correct');
-        $this->assertEquals('&amp;', $FieldsAlgorithms->getTypedValue(STRING_TYPE_NAME, '&'), 'Type was not casted properly for string');
-        $this->assertEquals('', $FieldsAlgorithms->getTypedValue(STRING_TYPE_NAME, '""'), 'Default brunch for string is not working');
+        $this->assertEquals(
+            '1',
+            $FieldsAlgorithms->getTypedValue(STRING_TYPE_NAME, '1'),
+            'Type was not casted properly for string');
+        $this->assertTrue(
+            is_string($FieldsAlgorithms->getTypedValue(STRING_TYPE_NAME, '1')),
+            'Return type is not correct');
+        $this->assertEquals(
+            '&amp;',
+            $FieldsAlgorithms->getTypedValue(STRING_TYPE_NAME, '&'),
+            'Type was not casted properly for string');
+        $this->assertEquals(
+            '',
+            $FieldsAlgorithms->getTypedValue(STRING_TYPE_NAME, '""'),
+            'Default brunch for string is not working');
 
         // assertions date
-        $this->assertEquals('2019-01-01', $FieldsAlgorithms->getTypedValue(DATE_TYPE_NAME, '2019-01-01'), 'Type was not casted properly for date');
-        $this->assertEquals('', $FieldsAlgorithms->getTypedValue(DATE_TYPE_NAME, '""'), 'Default date for string is not working');
+        $this->assertEquals(
+            '2019-01-01',
+            $FieldsAlgorithms->getTypedValue(DATE_TYPE_NAME, '2019-01-01'),
+            'Type was not casted properly for date');
+        $this->assertEquals(
+            '',
+            $FieldsAlgorithms->getTypedValue(DATE_TYPE_NAME, '""'),
+            'Default date for string is not working');
 
         // assertions file
         $this->assertArraySubset([
@@ -118,10 +140,12 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
         ], $FieldsAlgorithms->getTypedValue('file', [
             'value'
         ], false), 'Type was returned properly');
-        $this->assertFileExists($Path = $FieldsAlgorithms->getTypedValue('file', [
-            'name' => 'test.txt',
-            'file' => '1234'
-        ], true), 'File was not saved');
+        $this->assertFileExists(
+            $Path = $FieldsAlgorithms->getTypedValue('file', [
+                'name' => 'test.txt',
+                'file' => '1234'
+            ], true),
+            'File was not saved');
         unlink($Path);
 
         // assertions external
@@ -327,23 +351,26 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
         $Fields = $FieldsAlgorithms->getFieldsNames();
 
         // assertions
-        $this->assertArraySubset([
-            'id',
-            'title',
-            'user_id',
-            "label",
-            'description',
-            'created',
-            'avatar',
-            'parts',
-            'extensions'
-        ], $Fields);
+        $this->assertArraySubset(
+            [
+                'id',
+                'title',
+                'user_id',
+                "label",
+                'description',
+                'created',
+                'avatar',
+                'parts',
+                'extensions'
+            ],
+            $Fields);
     }
 
     /**
      * Testing field compilation
      */
-    public function testGetCompiledField():void{
+    public function testGetCompiledField(): void
+    {
         // setup
         $FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms($this->getFields1(), ENTITY_NAME);
 
@@ -356,5 +383,3 @@ class FieldsAlgorithmsUnitTest extends PHPUnit\Framework\TestCase
         $this->assertStringContainsString('<textarea ', $TextareaField);
     }
 }
-
-?>

@@ -37,7 +37,8 @@ class GentellaTemplate extends \Mezon\HtmlTemplate
      */
     protected static function getCloseButton(): string
     {
-        return ('<button type="button" class="close" data-dismiss="alert" aria-label="Close">' . '<span aria-hidden="true">×</span></button>');
+        return ('<button type="button" class="close" data-dismiss="alert" aria-label="Close">' .
+            '<span aria-hidden="true">×</span></button>');
     }
 
     /**
@@ -103,5 +104,3 @@ class GentellaTemplate extends \Mezon\HtmlTemplate
         return (self::getMessageContent('alert-danger', $Message));
     }
 }
-
-?>

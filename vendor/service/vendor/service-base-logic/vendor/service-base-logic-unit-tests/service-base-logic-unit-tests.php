@@ -24,7 +24,7 @@ class MockParamsFetcher implements \Mezon\Service\ServiceRequestParams
      *
      * @var string
      */
-    var $Value = false;
+    protected $Value = false;
 
     /**
      * Constructor
@@ -57,44 +57,95 @@ class MockParamsFetcher implements \Mezon\Service\ServiceRequestParams
  *
  * @author Dodonov A.A.
  */
-class MockSecurityProvider
+class MockSecurityProvider implements \Mezon\Service\ServiceSecurityProvider
 {
 
     /**
-     * Connection function
-     *
-     * @param string $Login
-     *            Login
-     * @param string $Password
-     *            Password
-     * @return string Result of the connection
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::connect()
      */
-    public function connect(string $Login, string $Password)
+    public function connect(string $Login, string $Password):string
     {
         return ($Login . $Password);
     }
 
     /**
-     * Getter for login field name
-     *
-     * @return string Login field name
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::getLoginFieldName()
      */
-    public function get_login_field_name(): string
+    public function getLoginFieldName(): string
     {
         return ('login');
     }
 
     /**
-     * Setting token
-     *
-     * @param string $Token
-     *            Token
-     * @return string Token
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::setToken()
      */
     public function setToken(string $Token): string
     {
         return ($Token);
     }
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::hasPermit()
+     */
+    public function hasPermit(string $Token, string $Permit): bool
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::validatePermit()
+     */
+    public function validatePermit(string $Token, string $Permit)
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::getSelfLogin()
+     */
+    public function getSelfLogin(string $Token): string
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::getSessionIdFieldName()
+     */
+    public function getSessionIdFieldName(): string
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::getSelfId()
+     */
+    public function getSelfId(string $Token): int
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::loginAs()
+     */
+    public function loginAs(string $Token, string $LoginOrId, string $Field): string
+    {}
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Mezon\Service\ServiceSecurityProvider::createSession()
+     */
+    public function createSession(string $Token = ''): string
+    {}
+
 }
 
 /**
@@ -102,7 +153,7 @@ class MockSecurityProvider
  *
  * @author Dodonov A.A.
  */
-class MockModel
+class MockModel extends \Mezon\Service\ServiceModel
 {
 }
 
@@ -119,12 +170,12 @@ class ServiceBaseLogicUnitTests extends \PHPUnit\Framework\TestCase
      *
      * @var string
      */
-    var $ClassName;
+    protected $ClassName;
 
     /**
      * Constructor
      */
-    public function __construct(string $ClassName = '\Mezon\Service\ServiceBaseLogic')
+    public function __construct(string $ClassName = \Mezon\Service\ServiceBaseLogic::class)
     {
         parent::__construct();
 
@@ -141,9 +192,9 @@ class ServiceBaseLogicUnitTests extends \PHPUnit\Framework\TestCase
      */
     protected function checkLogicParts(object $Logic, string $Msg): void
     {
-        $this->assertInstanceOf(MockParamsFetcher::class, $Logic->ParamsFetcher, $Msg);
-        $this->assertInstanceOf(MockSecurityProvider::class, $Logic->SecurityProvider, $Msg);
-        $this->assertInstanceOf(MockModel::class, $Logic->Model, $Msg);
+        $this->assertInstanceOf(MockParamsFetcher::class, $Logic->getParamsFetcher(), $Msg);
+        $this->assertInstanceOf(MockSecurityProvider::class, $Logic->getSecurityProvider(), $Msg);
+        $this->assertInstanceOf(MockModel::class, $Logic->getModel(), $Msg);
     }
 
     /**
@@ -157,9 +208,9 @@ class ServiceBaseLogicUnitTests extends \PHPUnit\Framework\TestCase
 
         $Msg = 'Construction failed for default model';
 
-        $this->assertInstanceOf(MockParamsFetcher::class, $Logic->ParamsFetcher, $Msg);
-        $this->assertInstanceOf(MockSecurityProvider::class, $Logic->SecurityProvider, $Msg);
-        $this->assertEquals(null, $Logic->Model, $Msg);
+        $this->assertInstanceOf(MockParamsFetcher::class, $Logic->getParamsFetcher(), $Msg);
+        $this->assertInstanceOf(MockSecurityProvider::class, $Logic->getSecurityProvider(), $Msg);
+        $this->assertEquals(null, $Logic->getModel(), $Msg);
     }
 
     /**
@@ -190,5 +241,3 @@ class ServiceBaseLogicUnitTests extends \PHPUnit\Framework\TestCase
         $this->checkLogicParts($Logic, $Msg);
     }
 }
-
-?>

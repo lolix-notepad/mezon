@@ -20,7 +20,7 @@ class ServiceConsoleTransport extends ServiceTransport
     /**
      * Execution result
      */
-    var $Result;
+    public $Result;
 
     /**
      * Constructor
@@ -28,7 +28,7 @@ class ServiceConsoleTransport extends ServiceTransport
      * @param mixed $SecurityProvider
      *            Security provider
      */
-    public function __construct($SecurityProvider = '\Mezon\Service\ServiceMockSecurityProvider')
+    public function __construct($SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class)
     {
         parent::__construct();
 
@@ -57,5 +57,3 @@ class ServiceConsoleTransport extends ServiceTransport
         $this->Result = $this->Router->callRoute($_GET['r']);
     }
 }
-
-?>

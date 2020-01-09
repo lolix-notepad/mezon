@@ -26,5 +26,3 @@ interface WidgetsRegistryBase
      */
     public function getWidget(string $Name): string;
 }
-
-?>

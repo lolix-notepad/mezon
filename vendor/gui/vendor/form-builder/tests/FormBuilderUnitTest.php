@@ -1,11 +1,10 @@
 <?php
-
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
 define('SESSION_ID', 'session-id');
 define('ENTITY_NAME', 'test-record');
 
-class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
+class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -51,16 +50,17 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function getFormBuilder(bool $HasLayout = true): object
     {
-        $FormBuilder = $this->getMockBuilder('\Mezon\Gui\FormBuilder')
+        $FormBuilder = $this->getMockBuilder(\Mezon\Gui\FormBuilder::class)
             ->setMethods([
             'get_external_records'
         ])
-            ->setConstructorArgs([
-            $this->getFieldsAlgorithms(),
-            SESSION_ID,
-            ENTITY_NAME,
-            $HasLayout ? $this->getJson('layout') : []
-        ])
+            ->setConstructorArgs(
+            [
+                $this->getFieldsAlgorithms(),
+                SESSION_ID,
+                ENTITY_NAME,
+                $HasLayout ? $this->getJson('layout') : []
+            ])
             ->getMock();
 
         $FormBuilder->method('get_external_records')->willReturn([
@@ -139,5 +139,3 @@ class FormBuilderUnitTest extends PHPUnit\Framework\TestCase
         $this->assertNotContains('<div class="page-title"', $Content, 'Form title was found');
     }
 }
-
-?>

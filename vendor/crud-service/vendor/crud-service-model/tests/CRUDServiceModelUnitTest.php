@@ -2,7 +2,7 @@
 require_once (__DIR__ . '/../crud-service-model.php');
 require_once (__DIR__ . '/../../../../gui/vendor/fields-algorithms/fields-algorithms.php');
 
-class CrudServiceModelUnitTest extends PHPUnit\Framework\TestCase
+class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -18,7 +18,7 @@ class CrudServiceModelUnitTest extends PHPUnit\Framework\TestCase
         'select'
     ])
     {
-        $Mock = $this->getMockBuilder('\Mezon\PDOCRUD')
+        $Mock = $this->getMockBuilder(\Mezon\PdoCrud::class)
             ->disableOriginalConstructor()
             ->setMethods($Methods)
             ->getMock();
@@ -62,7 +62,7 @@ class CrudServiceModelUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function getConnectionMock()
     {
-        $Mock = $this->getMockBuilder('\Mezon\PDOCRUD')
+        $Mock = $this->getMockBuilder(\Mezon\PdoCrud::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'select',
@@ -84,7 +84,7 @@ class CrudServiceModelUnitTest extends PHPUnit\Framework\TestCase
      */
     protected function getModelMock($ConnectionMock)
     {
-        $Mock = $this->getMockBuilder('\Mezon\CrudService\CrudServiceModel')
+        $Mock = $this->getMockBuilder(\Mezon\CrudService\CrudServiceModel::class)
             ->setConstructorArgs([
             [
                 'id' => [
@@ -507,5 +507,3 @@ class CrudServiceModelUnitTest extends PHPUnit\Framework\TestCase
         ]);
     }
 }
-
-?>

@@ -20,7 +20,7 @@ class TestingView extends \Mezon\View
     }
 }
 
-class ViewTest extends PHPUnit\Framework\TestCase
+class ViewTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -30,7 +30,7 @@ class ViewTest extends PHPUnit\Framework\TestCase
     {
         $View = new TestingView('test');
 
-        $this->assertEquals('test', $View->ViewName, 'Invalid constructor call');
+        $this->assertEquals('test', $View->getViewName(), 'Invalid constructor call');
     }
 
     /**
@@ -44,5 +44,3 @@ class ViewTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('rendered content 2', $View->render('test2'), 'Invalid view renderring');
     }
 }
-
-?>

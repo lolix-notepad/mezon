@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class TemplateResourcesTest extends PHPUnit\Framework\TestCase
+class TemplateResourcesTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -120,5 +120,3 @@ class TemplateResourcesTest extends PHPUnit\Framework\TestCase
         $TemplateResources->clear();
     }
 }
-
-?>

@@ -22,28 +22,28 @@ class RestException extends \Exception
      *
      * @var integer
      */
-    var $HTTPCode = 0;
+    protected $HTTPCode = 0;
 
     /**
      * HTTP response body
      *
      * @var string
      */
-    var $HTTPBody = '';
+    protected $HTTPBody = '';
 
     /**
      * HTTP response URL
      *
      * @var string
      */
-    var $URL = '';
+    protected $URL = '';
 
     /**
      * HTTP request options
      *
      * @var string
      */
-    var $Options = false;
+    protected $Options = false;
 
     /**
      * Constructor
@@ -61,7 +61,13 @@ class RestException extends \Exception
      * @param array $Options
      *            Request options
      */
-    public function __construct(string $Message, int $Code, string $HTTPCode, string $HTTPBody, string $URL = '', array $Options = [])
+    public function __construct(
+        string $Message,
+        int $Code,
+        string $HTTPCode,
+        string $HTTPBody,
+        string $URL = '',
+        array $Options = [])
     {
         parent::__construct($Message, $Code);
 
@@ -114,5 +120,3 @@ class RestException extends \Exception
         return ($this->options);
     }
 }
-
-?>

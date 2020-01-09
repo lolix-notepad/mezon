@@ -1,22 +1,24 @@
 <?php
-
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class FilterUnitTest extends PHPUnit\Framework\TestCase
+class FilterUnitTest extends \PHPUnit\Framework\TestCase
 {
+
     /**
      * Testing addFilterConditionFromArr method
      */
     function testAddFilterConditionFromArr()
     {
         // setup and test body
-        $Result = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterConditionFromArr([
+        $Result = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterConditionFromArr(
             [
-                'arg1' => '$id',
-                'op' => '>',
-                'arg2' => '1'
-            ]
-        ], []);
+                [
+                    'arg1' => '$id',
+                    'op' => '>',
+                    'arg2' => '1',
+                ]
+            ],
+            []);
 
         // asssertions
         $this->assertContains('id > 1', $Result, 'Compilation error');
@@ -28,12 +30,14 @@ class FilterUnitTest extends PHPUnit\Framework\TestCase
     function testAddFilterConditionFromArr_simple()
     {
         // setup and test body
-        $Result = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterConditionFromArr([
-            'field1' => 1 ,
-            'field2'=> 'null',
-            'field3'=>'not null',
-            'field4'=>'some string'
-        ], []);
+        $Result = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterConditionFromArr(
+            [
+                'field1' => 1,
+                'field2' => 'null',
+                'field3' => 'not null',
+                'field4' => 'some string',
+            ],
+            []);
 
         // asssertions
         $this->assertContains('field1 = 1', $Result, 'Integer compilation error');
@@ -42,5 +46,3 @@ class FilterUnitTest extends PHPUnit\Framework\TestCase
         $this->assertContains('field4 LIKE "some string"', $Result, 'String compilation error');
     }
 }
-
-?>

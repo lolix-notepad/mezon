@@ -24,17 +24,19 @@ class ServiceBaseLogic implements ServiceBaseLogicInterface
      *
      * @var ServiceSecurityProvider
      */
-    var $SecurityProvider = null;
+    protected $SecurityProvider = null;
 
     /**
      * Request params fetcher
      */
-    var $ParamsFetcher = false;
+    protected $ParamsFetcher = false;
 
     /**
      * Model
+     *
+     * @var \Mezon\Service\ServiceModel
      */
-    var $Model = false;
+    protected $Model = false;
 
     /**
      * Constructor
@@ -72,6 +74,35 @@ class ServiceBaseLogic implements ServiceBaseLogicInterface
     {
         return ($this->ParamsFetcher->getParam($Param, $Default));
     }
-}
 
-?>
+    /**
+     * Method returns model object
+     * 
+     * @return ?\Mezon\Service\ServiceModel Model
+     */
+    public function getModel(): ?\Mezon\Service\ServiceModel
+    {
+        return ($this->Model);
+    }
+
+    /**
+     * Method return params fetcher
+     *
+     * @return object
+     */
+    public function getParamsFetcher(): object
+    {
+        // TODO add interface ParamsFetcherInterface
+        return ($this->ParamsFetcher);
+    }
+
+    /**
+     * Method returns security provider
+     *
+     * @return \Mezon\Service\ServiceSecurityProvider
+     */
+    public function getSecurityProvider(): \Mezon\Service\ServiceSecurityProvider
+    {
+        return ($this->SecurityProvider);
+    }
+}

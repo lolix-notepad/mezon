@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../autoloader.php');
 
-class HtmlTemplateUnitTest extends PHPUnit\Framework\TestCase
+class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -94,5 +94,3 @@ class HtmlTemplateUnitTest extends PHPUnit\Framework\TestCase
         }
     }
 }
-
-?>

@@ -47,8 +47,10 @@ class CrudServiceClientUnitTests extends \Mezon\Service\ServiceClient\ServiceCli
     {
         $Mock = $this->getCrudServiceClientMock();
 
-        $Mock->method('getRequest')->willReturn(json_decode(file_get_contents(__DIR__ . '/conf/' . $ConfigName . '.json')));
-        $Mock->method('postRequest')->willReturn(json_decode(file_get_contents(__DIR__ . '/conf/' . $ConfigName . '.json')));
+        $Mock->method('getRequest')->willReturn(
+            json_decode(file_get_contents(__DIR__ . '/conf/' . $ConfigName . '.json')));
+        $Mock->method('postRequest')->willReturn(
+            json_decode(file_get_contents(__DIR__ . '/conf/' . $ConfigName . '.json')));
 
         return ($Mock);
     }
@@ -217,18 +219,17 @@ class CrudServiceClientUnitTests extends \Mezon\Service\ServiceClient\ServiceCli
         $Client = $this->getSetupMockWithGetMethod('create');
 
         // test body
-        $Result = $Client->create([
-            'avatar' => [
-                'name' => 'n',
-                'size' => 's',
-                'type' => 't',
-                'tmp_name' => __FILE__
-            ]
-        ]);
+        $Result = $Client->create(
+            [
+                'avatar' => [
+                    'name' => 'n',
+                    'size' => 's',
+                    'type' => 't',
+                    'tmp_name' => __FILE__
+                ]
+            ]);
 
         // assertions
         $this->assertEquals(1, $Result->id);
     }
 }
-
-?>

@@ -1,13 +1,14 @@
 <?php
 namespace Mezon;
+
 /**
  * Class Cache
  *
- * @package     Mezon
- * @subpackage  Cache
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Mezon
+ * @subpackage Cache
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
@@ -25,14 +26,14 @@ class Cache extends Singleton
      *
      * @var string
      */
-    var $Data = null;
+    protected $Data = null;
 
     /**
      * Cache file path
      *
      * @var string
      */
-    var $CachePath = './cache/';
+    protected $CachePath = './cache/';
 
     /**
      * Method inits cache
@@ -62,10 +63,13 @@ class Cache extends Singleton
     {
         $this->init();
 
-        Functional::setField($this->Data, $Key, [
-            // giving us an ability to break reference of the object wich was passed in $Data
-            'data' => json_decode(json_encode($Data))
-        ]);
+        Functional::setField(
+            $this->Data,
+            $Key,
+            [
+                // giving us an ability to break reference of the object wich was passed in $Data
+                'data' => json_decode(json_encode($Data))
+            ]);
     }
 
     /**
@@ -121,5 +125,3 @@ class Cache extends Singleton
         }
     }
 }
-
-?>

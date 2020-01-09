@@ -296,7 +296,8 @@ class Field
      */
     public function html(): string
     {
-        return ($this->NamePrefix . $this->Name . ($this->Required ? 1 : 0) . ($this->Custom ? 1 : 0) . ($this->Batch ? 1 : 0) . ($this->Disabled ? 1 : 0) . $this->Toggler . $this->ToggleValue);
+        return ($this->NamePrefix . $this->Name . ($this->Required ? 1 : 0) . ($this->Custom ? 1 : 0) .
+            ($this->Batch ? 1 : 0) . ($this->Disabled ? 1 : 0) . $this->Toggler . $this->ToggleValue);
     }
 
     /**
@@ -359,5 +360,3 @@ class Field
         return ($this->Type);
     }
 }
-
-?>

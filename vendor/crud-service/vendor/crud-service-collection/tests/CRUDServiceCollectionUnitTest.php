@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class CrudServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
+class CrudServiceCollectionUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -11,7 +11,10 @@ class CrudServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
     {
         $Collection = new \Mezon\CrudService\CrudServiceCollection('http://auth', 'some token');
 
-        $this->assertInstanceOf(\Mezon\CrudService\CrudServiceClient::class, $Collection->Connector, 'Connector was not setup');
+        $this->assertInstanceOf(
+            \Mezon\CrudService\CrudServiceClient::class,
+            $Collection->getConnector(),
+            'Connector was not setup');
     }
 
     /**
@@ -49,7 +52,7 @@ class CrudServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
         $Collection->newRecordsSince('2019-01-01');
 
         // assertions
-        $this->assertEquals(2, count($Collection->Collection), 'Invalid records count');
+        $this->assertEquals(2, count($Collection->getCollection()), 'Invalid records count');
     }
 
     /**
@@ -71,8 +74,6 @@ class CrudServiceCollectionUnitTest extends PHPUnit\Framework\TestCase
         $Collection->topByField(2, 'id', 'DESC');
 
         // assertions
-        $this->assertEquals(2, count($Collection->Collection), 'Invalid records count');
+        $this->assertEquals(2, count($Collection->getCollection()), 'Invalid records count');
     }
 }
-
-?>

@@ -41,5 +41,3 @@ class BootstrapWidgets implements WidgetsRegistryBase
         return (file_get_contents(__DIR__ . '/res/templates/' . $Name . '.tpl'));
     }
 }
-
-?>

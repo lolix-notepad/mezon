@@ -144,5 +144,3 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
         return ('session_id');
     }
 }
-
-?>

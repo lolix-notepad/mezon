@@ -2,8 +2,6 @@
 return ([
     [
         'route' => '/test/',
-        'existing'
+        'existing',
     ]
 ]);
-
-?>

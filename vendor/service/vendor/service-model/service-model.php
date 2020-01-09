@@ -19,5 +19,3 @@ namespace Mezon\Service;
 class ServiceModel
 {
 }
-
-?>

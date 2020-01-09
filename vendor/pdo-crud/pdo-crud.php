@@ -20,7 +20,7 @@ class PdoCrud
     /**
      * PDO object
      */
-    var $PDO = false;
+    protected $PDO = false;
 
     /**
      * Method connects to the database
@@ -69,7 +69,12 @@ class PdoCrud
      *            Count of records
      * @return array List of records
      */
-    public function select(string $Fields, string $TableNames, string $Where = '1 = 1', int $From = 0, int $Limit = 1000000): array
+    public function select(
+        string $Fields,
+        string $TableNames,
+        string $Where = '1 = 1',
+        int $From = 0,
+        int $Limit = 1000000): array
     {
         $Query = "SELECT $Fields FROM $TableNames WHERE $Where LIMIT " . intval($From) . ' , ' . intval($Limit);
 
@@ -340,5 +345,3 @@ class PdoCrud
         unset($this->PDO);
     }
 }
-
-?>

@@ -111,5 +111,3 @@ class HttpRequestParams implements \Mezon\Service\ServiceRequestParams
         return ($Return);
     }
 }
-
-?>

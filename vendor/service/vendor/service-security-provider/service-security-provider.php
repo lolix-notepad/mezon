@@ -16,7 +16,7 @@ namespace Mezon\Service;
  */
 interface ServiceSecurityProvider
 {
-
+    // TODO rename to ServiceSecurityProviderInterface
     /**
      * Method creates session from existing token or fetched from HTTP headers
      *
@@ -112,5 +112,3 @@ interface ServiceSecurityProvider
      */
     public function getSessionIdFieldName(): string;
 }
-
-?>

@@ -57,7 +57,9 @@ class DnsClient
         global $DNSRecords;
 
         if (! isset($DNSRecords[$ServiceName])) {
-            throw (new \Exception('Service "' . $ServiceName . '" was not found among services: ' . self::getServices(), - 1));
+            throw (new \Exception(
+                'Service "' . $ServiceName . '" was not found among services: ' . self::getServices(),
+                - 1));
         }
 
         if (is_string($DNSRecords[$ServiceName])) {
@@ -82,5 +84,3 @@ class DnsClient
         $DNSRecords[$ServiceName] = $ServiceUrl;
     }
 }
-
-?>

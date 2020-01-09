@@ -51,12 +51,14 @@ class DbServiceModel extends ServiceModel
         $this->EntityName = $EntityName;
 
         if (is_string($Fields)) {
-            $this->FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms([
-                '*' => [
-                    'type' => 'string',
-                    'title' => 'All fields'
-                ]
-            ], $TableName);
+            $this->FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms(
+                [
+                    '*' => [
+                        'type' => 'string',
+                        'title' => 'All fields'
+                    ]
+                ],
+                $TableName);
         } elseif (is_array($Fields)) {
             $this->FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms($Fields, $TableName);
         } elseif ($Fields instanceof \Mezon\Gui\FieldsAlgorithms) {
@@ -165,5 +167,3 @@ class DbServiceModel extends ServiceModel
         // @codeCoverageIgnoreEnd
     }
 }
-
-?>
