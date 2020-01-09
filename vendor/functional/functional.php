@@ -229,6 +229,8 @@ class Functional
                 $Return[] = $Object;
             } elseif ($Operation == '<' && self::getField($Object, $Field) < $Value) {
                 $Return[] = $Object;
+            } elseif ($Operation == '!=' && self::getField($Object, $Field) != $Value) {
+                $Return[] = $Object;
             }
         }
 
