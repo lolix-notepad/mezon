@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
+class CheckboxesFieldUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -56,6 +56,6 @@ class CheckboxesFieldTest extends \PHPUnit\Framework\TestCase
         $Content = $Field->html();
 
         // assertions
-        $this->assertContains('type="checkbox"', $Content, 'Name of the remote record was not found');
+        $this->assertStringContainsString('type="checkbox"', $Content, 'Name of the remote record was not found');
     }
 }

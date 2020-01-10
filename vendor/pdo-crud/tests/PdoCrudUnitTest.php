@@ -10,7 +10,7 @@ class ResultMock
     }
 }
 
-class ProCrudTest extends \PHPUnit\Framework\TestCase
+class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

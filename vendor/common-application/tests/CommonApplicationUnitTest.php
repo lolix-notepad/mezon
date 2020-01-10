@@ -53,7 +53,7 @@ class TestCommonApplication extends \Mezon\CommonApplication
     }
 }
 
-class CommonApplicationTest extends \PHPUnit\Framework\TestCase
+class CommonApplicationUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

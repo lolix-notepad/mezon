@@ -19,7 +19,7 @@ class ServiceClient extends \Mezon\CustomClient
 
     /**
      * Service name
-     * 
+     *
      * @var string
      */
     protected $Service = '';
@@ -28,7 +28,7 @@ class ServiceClient extends \Mezon\CustomClient
      * Last logged in user
      * This is used for performance improvements in ServiceClient::loginAs method
      * For optimisation purposes only! Do not use in the client code
-     * 
+     *
      * @var string
      */
     private $Login = false;
@@ -99,6 +99,19 @@ class ServiceClient extends \Mezon\CustomClient
     }
 
     /**
+     * Method validates result
+     *
+     * @param object $ResultResult
+     *            of the authorisation request
+     */
+    protected function validateSessionId(object $Result)
+    {
+        if (isset($Result->session_id) === false) {
+            throw (new \Exception($Result->message ?? 'Undefined message', $Result->code ?? - 1));
+        }
+    }
+
+    /**
      * Method connects to the REST server via login and password pair
      *
      * @param string $Login
@@ -116,9 +129,7 @@ class ServiceClient extends \Mezon\CustomClient
 
         $Result = $this->postRequest('/connect/', $Data);
 
-        if (isset($Result->session_id) === false) {
-            throw (new \Exception($Result->message, $Result->code));
-        }
+        $this->validateSessionId($Result);
 
         $this->Login = $Login;
         $this->SessionId = $Result->session_id;
@@ -191,9 +202,9 @@ class ServiceClient extends \Mezon\CustomClient
             $Result = $this->postRequest('/login-as/', [
                 $Field => $User
             ]);
-            if (isset($Result->session_id) === false) {
-                throw (new \Exception($Result->message, $Result->code));
-            }
+
+            $this->validateSessionId($Result);
+
             $this->SessionId = $Result->session_id;
         }
 
@@ -232,11 +243,11 @@ class ServiceClient extends \Mezon\CustomClient
 
     /**
      * Method returns service
-     * 
+     *
      * @return string service
      */
-    public function getService():string
+    public function getService(): string
     {
-        return($this->Service);
+        return ($this->Service);
     }
 }

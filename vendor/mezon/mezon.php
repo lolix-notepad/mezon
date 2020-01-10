@@ -57,7 +57,7 @@ class Mezon
 
         self::validateDsn($ConnectionName);
 
-        self::$Crud = new PdoCrud();
+        self::$Crud = new \Mezon\PdoCrud();
 
         self::$Crud->connect(
             [

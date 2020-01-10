@@ -10,15 +10,8 @@ namespace Mezon\CrudService;
  * @version v.1.0 (2019/08/13)
  * @copyright Copyright (c) 2019, aeon.org
  */
-define('NOW', 'NOW()');
-define('CREATION_DATE_FIELD_NAME', 'creation_date');
-define('DOMAIN_ID_FIELD_NAME', 'domain_id');
 define('ORDER_FIELD_NAME', 'order');
 define('FIELD_FIELD_NAME', 'field');
-define('FIELD_TYPE_CUSTOM', 'custom');
-define('ITEMS_FIELD_NAME', 'items');
-define('ENTITY_FIELD_NAME', 'entity');
-define('FIELDS_FIELD_NAME', 'fields');
 
 /**
  * Class handles Crud logic.
@@ -93,7 +86,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     public function getDomainId()
     {
         // records are not separated between domains
-        if ($this->Model->hasField(DOMAIN_ID_FIELD_NAME) === false) {
+        if ($this->Model->hasField('domain_id') === false) {
             return (false);
         }
 
@@ -161,7 +154,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
         $DomainId = $this->getDomainId();
         $Date = $this->ParamsFetcher->getParam('date');
 
-        if ($this->Model->hasField(CREATION_DATE_FIELD_NAME) === false) {
+        if ($this->Model->hasField('creation_date') === false) {
             throw (new \Exception('Field "creation_date" was not found'));
         }
 

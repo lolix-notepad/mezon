@@ -29,7 +29,7 @@ function hack()
     return (SingletonParams::getInstance(1));
 }
 
-class SingletonTest extends \PHPUnit\Framework\TestCase
+class SingletonUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

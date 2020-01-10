@@ -1,32 +1,6 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-$DNSRecords = [
-    'entity' => 'http://entity.local/',
-];
-
-/**
- * Method returns service setting.
- */
-function getDnsStr($Service, $Key1 = false)
-{
-    global $DNSRecords;
-
-    if (isset($DNSRecords[$Service])) {
-        if (is_string($DNSRecords[$Service])) {
-            return ($DNSRecords[$Service]);
-        } else {
-            if ($Key1 !== false) {
-                return ($DNSRecords[$Service][$Key1]);
-            } else {
-                return ($DNSRecords[$Service]);
-            }
-        }
-    } else {
-        throw (new Exception('Field "' . $Key1 . '" for "' . $Service . '" service was not set in the DNS'));
-    }
-}
-
 /**
  * Test application
  *
@@ -96,6 +70,15 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
         $Object->setServiceClient($CrudServiceClient);
 
         return ($Object);
+    }
+    
+    /**
+     * Common setup for all tests
+     */
+    public function setUp(): void
+    {
+        \Mezon\DnsClient::clear();
+        \Mezon\DnsClient::setService('entity', 'http://entity.local/');
     }
 
     /**

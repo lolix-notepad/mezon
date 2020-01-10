@@ -18,7 +18,7 @@ class MockRouter extends \Mezon\Router
     }
 }
 
-class RouterTest extends \PHPUnit\Framework\TestCase
+class RouterUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -105,7 +105,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     public function testOneComponentRouterStatic()
     {
         $Router = new \Mezon\Router();
-        $Router->addRoute('/index/', 'RouterTest::staticHelloWorldOutput');
+        $Router->addRoute('/index/', 'RouterUnitTest::staticHelloWorldOutput');
 
         $Content = $Router->callRoute('/index/');
 
@@ -197,7 +197,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
             $this,
             'helloWorldOutput'
         ));
-        $Router->addRoute('/index/', 'RouterTest::staticHelloWorldOutput');
+        $Router->addRoute('/index/', 'RouterUnitTest::staticHelloWorldOutput');
 
         $Content = $Router->callRoute('/some-route/');
 
@@ -214,7 +214,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
             $this,
             'helloWorldOutput'
         ));
-        $Router->addRoute('/index/', 'RouterTest::staticHelloWorldOutput');
+        $Router->addRoute('/index/', 'RouterUnitTest::staticHelloWorldOutput');
 
         $Content = $Router->callRoute('/index/');
 
@@ -227,7 +227,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     public function testSingleAllProcessorExisting()
     {
         $Router = new \Mezon\Router();
-        $Router->addRoute('/index/', 'RouterTest::staticHelloWorldOutput');
+        $Router->addRoute('/index/', 'RouterUnitTest::staticHelloWorldOutput');
         $Router->addRoute('*', array(
             $this,
             'helloWorldOutput'
@@ -244,7 +244,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     public function testSingleAllProcessorUnexisting()
     {
         $Router = new \Mezon\Router();
-        $Router->addRoute('/index/', 'RouterTest::staticHelloWorldOutput');
+        $Router->addRoute('/index/', 'RouterUnitTest::staticHelloWorldOutput');
         $Router->addRoute('*', array(
             $this,
             'helloWorldOutput'
@@ -962,7 +962,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Testing negative integer value
      */
-    public function test_negative_integer_i()
+    public function testNegativeIntegerI()
     {
         $Router = new \Mezon\Router();
         $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
@@ -977,7 +977,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
     /**
      * Testing positive integer value
      */
-    public function test_positive_integer_i()
+    public function testPositiveIntegerI()
     {
         $Router = new \Mezon\Router();
         $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {

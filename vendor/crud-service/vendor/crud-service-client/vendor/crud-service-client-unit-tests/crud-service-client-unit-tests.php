@@ -15,6 +15,7 @@ namespace Mezon\CrudService\CrudServiceClient;
  * Common unit tests for CrudServiceClient and all derived client classes
  *
  * @author Dodonov A.A.
+ * @group baseTests
  */
 class CrudServiceClientUnitTests extends \Mezon\Service\ServiceClient\ServiceClientUnitTests
 {

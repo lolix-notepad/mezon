@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class CurlWrapperTest extends \PHPUnit\Framework\TestCase
+class CurlWrapperUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

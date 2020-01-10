@@ -35,6 +35,7 @@ class FakeRequestParams implements \Mezon\Service\ServiceRequestParams
  * Common service unit tests
  *
  * @author Dodonov A.A.
+ * @group baseTests
  */
 class ServiceUnitTests extends \PHPUnit\Framework\TestCase
 {

@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../autoloader.php');
 
-class ConfTest extends \PHPUnit\Framework\TestCase
+class ConfUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

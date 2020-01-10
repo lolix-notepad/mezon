@@ -20,15 +20,18 @@ class DnsClient
 {
 
     /**
+     * DNS records
+     */
+    public static $DNSRecords = [];
+
+    /**
      * Method returns list of available services
      *
      * @return string List of services
      */
     public static function getServices(): string
     {
-        global $DNSRecords;
-
-        return (implode(', ', array_keys($DNSRecords)));
+        return (implode(', ', array_keys(self::$DNSRecords)));
     }
 
     /**
@@ -40,9 +43,7 @@ class DnsClient
      */
     public static function serviceExists(string $ServiceName): bool
     {
-        global $DNSRecords;
-
-        return (isset($DNSRecords[$ServiceName]));
+        return (isset(self::$DNSRecords[$ServiceName]));
     }
 
     /**
@@ -54,18 +55,16 @@ class DnsClient
      */
     public static function resolveHost(string $ServiceName): string
     {
-        global $DNSRecords;
-
-        if (! isset($DNSRecords[$ServiceName])) {
+        if (! isset(self::$DNSRecords[$ServiceName])) {
             throw (new \Exception(
                 'Service "' . $ServiceName . '" was not found among services: ' . self::getServices(),
                 - 1));
         }
 
-        if (is_string($DNSRecords[$ServiceName])) {
-            return ($DNSRecords[$ServiceName]);
+        if (is_string(self::$DNSRecords[$ServiceName])) {
+            return (self::$DNSRecords[$ServiceName]);
         } else {
-            throw (new \Exception('Invalid URL "' . serialize($DNSRecords[$ServiceName]) . '"', - 1));
+            throw (new \Exception('Invalid URL "' . serialize(self::$DNSRecords[$ServiceName]) . '"', - 1));
         }
     }
 
@@ -79,8 +78,14 @@ class DnsClient
      */
     public static function setService(string $ServiceName, string $ServiceUrl): void
     {
-        global $DNSRecords;
+        self::$DNSRecords[$ServiceName] = $ServiceUrl;
+    }
 
-        $DNSRecords[$ServiceName] = $ServiceUrl;
+    /**
+     * Method clears registry
+     */
+    public static function clear(): void
+    {
+        self::$DNSRecords = [];
     }
 }

@@ -9,16 +9,15 @@
 
 	<testsuites>
 		<testsuite name="All Tests">
-			<directory suffix="UnitTest.php">./vendor/crud-service/tests</directory>
+			<directory suffix="UnitTest.php">./</directory>
 		</testsuite>
 	</testsuites>
 
 	<filter>
-		<whitelist>
+		<whitelist addUncoveredFilesFromWhitelist="false">
 			<directory>./</directory>
 			<exclude>
-				<directory>./tests</directory>
-				<directory>./dns</directory>
+				<directory suffix="Test.php">./</directory>
 				<file>autoloader.php</file>
 			</exclude>
 		</whitelist>
@@ -29,4 +28,8 @@
 		<log type="coverage-text" target="php://stdout"
 			showOnlySummary="true"></log>
 	</logging>
+	<groups>
+		<exclude>
+			<group>baseTests</group>
+		</exclude></groups>
 </phpunit>

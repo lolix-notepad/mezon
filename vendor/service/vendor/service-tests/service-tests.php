@@ -1,17 +1,21 @@
 <?php
+namespace Mezon\Service;
 
 /**
  * Class ServiceTests
  *
- * @package     Service
- * @subpackage  ServiceTests
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package Service
+ * @subpackage ServiceTests
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
- * Predefined set of tests for service.
+ * Predefined set of tests for service
+ *
+ * @author Dodonov A.A.
+ * @group baseTests
  */
 class ServiceTests extends \PHPUnit\Framework\TestCase
 {

@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class InputTextTest extends \PHPUnit\Framework\TestCase
+class InputTextUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -27,15 +27,15 @@ class InputTextTest extends \PHPUnit\Framework\TestCase
         $Content = $Field->html();
 
         // assertions
-        $this->assertContains('<input ', $Content, 'Open tag was not found');
-        $this->assertContains('type="text"', $Content, '"Name" attribute was not found');
-        $this->assertContains(
+        $this->assertStringContainsString('<input ', $Content, 'Open tag was not found');
+        $this->assertStringContainsString('type="text"', $Content, '"Name" attribute was not found');
+        $this->assertStringContainsString(
             'name="prefix-name[{_creation_form_items_counter}]"',
             $Content,
             '"Name" attribute was not found');
-        $this->assertContains('required="required"', $Content, '"Required" attribute was not found');
-        $this->assertContains('disabled', $Content, '"Disabled" attribute was not found');
-        $this->assertContains('toggler="toggler-name"', $Content, '"Toggler" attribute was not found');
-        $this->assertContains('toggle-value="3"', $Content, '"Toggle-value" attribute was not found');
+            $this->assertStringContainsString('required="required"', $Content, '"Required" attribute was not found');
+            $this->assertStringContainsString('disabled', $Content, '"Disabled" attribute was not found');
+            $this->assertStringContainsString('toggler="toggler-name"', $Content, '"Toggler" attribute was not found');
+            $this->assertStringContainsString('toggle-value="3"', $Content, '"Toggle-value" attribute was not found');
     }
 }

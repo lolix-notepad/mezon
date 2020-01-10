@@ -134,11 +134,9 @@ class FieldsAlgorithmsUnitTest extends \PHPUnit\Framework\TestCase
             'Default date for string is not working');
 
         // assertions file
-        $this->assertArraySubset([
+        $this->assertContains('value', $FieldsAlgorithms->getTypedValue('file', [
             'value'
-        ], $FieldsAlgorithms->getTypedValue('file', [
-            'value'
-        ], false), 'Type was returned properly');
+        ], false));
         $this->assertFileExists(
             $Path = $FieldsAlgorithms->getTypedValue('file', [
                 'name' => 'test.txt',
@@ -148,13 +146,13 @@ class FieldsAlgorithmsUnitTest extends \PHPUnit\Framework\TestCase
         unlink($Path);
 
         // assertions external
-        $this->assertArraySubset([
-            1,
-            2
-        ], $FieldsAlgorithms->getTypedValue(EXTERNAL_TYPE_NAME, [
+        $TypedValue = $FieldsAlgorithms->getTypedValue(EXTERNAL_TYPE_NAME, [
             '1',
             '2'
-        ]), true, 'Type was not casted properly');
+        ]);
+        $this->assertContains(1, $TypedValue);
+        $this->assertContains(2, $TypedValue);
+        $this->assertCount(2, $TypedValue);
 
         // assertion unexisting
         $this->expectException(Exception::class);
@@ -162,7 +160,7 @@ class FieldsAlgorithmsUnitTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test test_validateFieldExistance method
+     * Test validateFieldExistance method
      */
     public function testValidateFieldExistance()
     {
@@ -339,19 +337,15 @@ class FieldsAlgorithmsUnitTest extends \PHPUnit\Framework\TestCase
         $Fields = $FieldsAlgorithms->getFieldsNames();
 
         // assertions
-        $this->assertArraySubset(
-            [
-                'id',
-                'title',
-                'user_id',
-                "label",
-                'description',
-                'created',
-                'avatar',
-                'parts',
-                'extensions'
-            ],
-            $Fields);
+        $this->assertContains('id',$Fields);
+        $this->assertContains('title',$Fields);
+        $this->assertContains('user_id',$Fields);
+        $this->assertContains('label',$Fields);
+        $this->assertContains('description',$Fields);
+        $this->assertContains('created',$Fields);
+        $this->assertContains('avatar',$Fields);
+        $this->assertContains('parts',$Fields);
+        $this->assertContains('extensions',$Fields);
     }
 
     /**

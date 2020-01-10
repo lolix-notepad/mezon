@@ -86,13 +86,13 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
         $Content = $FormBuilder->creationForm();
 
         // assertions
-        $this->assertContains('<div class="page-title">', $Content, 'No form title was found');
-        $this->assertContains('<form', $Content, 'No form tag was found');
-        $this->assertContains('<textarea', $Content, 'No textarea tag was found');
-        $this->assertContains('<input', $Content, 'No input tag was found');
-        $this->assertContains('<select', $Content, 'No select tag was found');
-        $this->assertContains('<option', $Content, 'No option tag was found');
-        $this->assertContains('type="file"', $Content, 'No file field was found');
+        $this->assertStringContainsString('<div class="page-title">', $Content, 'No form title was found');
+        $this->assertStringContainsString('<form', $Content, 'No form tag was found');
+        $this->assertStringContainsString('<textarea', $Content, 'No textarea tag was found');
+        $this->assertStringContainsString('<input', $Content, 'No input tag was found');
+        $this->assertStringContainsString('<select', $Content, 'No select tag was found');
+        $this->assertStringContainsString('<option', $Content, 'No option tag was found');
+        $this->assertStringContainsString('type="file"', $Content, 'No file field was found');
     }
 
     /**
@@ -111,13 +111,13 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // assertions
-        $this->assertContains('<div class="page-title">', $Content, 'No form title was found');
-        $this->assertContains('<form', $Content, 'No form tag was found');
-        $this->assertContains('<textarea', $Content, 'No textarea tag was found');
-        $this->assertContains('<input', $Content, 'No input tag was found');
-        $this->assertContains('<select', $Content, 'No select tag was found');
-        $this->assertContains('<option', $Content, 'No option tag was found');
-        $this->assertContains('type="file"', $Content, 'No file field was found');
+        $this->assertStringContainsString('<div class="page-title">', $Content, 'No form title was found');
+        $this->assertStringContainsString('<form', $Content, 'No form tag was found');
+        $this->assertStringContainsString('<textarea', $Content, 'No textarea tag was found');
+        $this->assertStringContainsString('<input', $Content, 'No input tag was found');
+        $this->assertStringContainsString('<select', $Content, 'No select tag was found');
+        $this->assertStringContainsString('<option', $Content, 'No option tag was found');
+        $this->assertStringContainsString('type="file"', $Content, 'No file field was found');
     }
 
     /**
@@ -135,6 +135,6 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
         $Content = $FormBuilder->creationForm();
 
         // assertions
-        $this->assertNotContains('<div class="page-title"', $Content, 'Form title was found');
+        $this->assertStringNotContainsStringIgnoringCase('<div class="page-title"', $Content, 'Form title was found');
     }
 }

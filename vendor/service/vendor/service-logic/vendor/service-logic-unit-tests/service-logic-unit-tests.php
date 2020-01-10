@@ -15,6 +15,7 @@ namespace Mezon\Service\ServiceLogic;
  * Base class for service logic unit tests
  *
  * @author Dodonov A.A.
+ * @group baseTests
  */
 class ServiceLogicUnitTests extends \Mezon\Service\ServiceBaseLogic\ServiceBaseLogicUnitTests
 {

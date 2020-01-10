@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class LabelFieldTest extends \PHPUnit\Framework\TestCase
+class LabelFieldUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -18,7 +18,7 @@ class LabelFieldTest extends \PHPUnit\Framework\TestCase
         $Content = $Field->html();
 
         // assertions
-        $this->assertContains('<label class="control-label">name</label>', $Content, 'Label was not generated');
+        $this->assertStringContainsString('<label class="control-label">name</label>', $Content, 'Label was not generated');
     }
 
     /**
@@ -32,7 +32,7 @@ class LabelFieldTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // test body and assertions
-        $this->assertContains('label', $Field->getType());
+        $this->assertStringContainsString('label', $Field->getType());
     }
 
     /**

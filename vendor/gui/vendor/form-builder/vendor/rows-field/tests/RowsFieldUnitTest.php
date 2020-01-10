@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class RowsFieldTest extends \PHPUnit\Framework\TestCase
+class RowsFieldUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -18,6 +18,6 @@ class RowsFieldTest extends \PHPUnit\Framework\TestCase
         $Content = $Field->html();
 
         // assertions
-        $this->assertContains('add_element_by_template', $Content, 'Necessary JavaScripts were not found');
+        $this->assertStringContainsString('add_element_by_template', $Content, 'Necessary JavaScripts were not found');
     }
 }

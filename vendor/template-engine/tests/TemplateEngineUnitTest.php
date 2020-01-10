@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../autoloader.php');
 
-class TemplateEngineTest extends \PHPUnit\Framework\TestCase
+class TemplateEngineUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

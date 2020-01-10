@@ -17,8 +17,8 @@ class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
         $Content = $Template->compile();
 
         // assertions
-        $this->assertContains('<body>', $Content, 'Layout was not setup');
-        $this->assertContains('<section>', $Content, 'Block was not setup');
+        $this->assertStringContainsString('<body>', $Content, 'Layout was not setup');
+        $this->assertStringContainsString('<section>', $Content, 'Block was not setup');
     }
 
     /**
@@ -34,8 +34,8 @@ class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
         $Content = $Template->compile();
 
         // assertions
-        $this->assertContains('<body>', $Content, 'Layout was not setup');
-        $this->assertContains('<section>', $Content, 'Block was not setup');
+        $this->assertStringContainsString('<body>', $Content, 'Layout was not setup');
+        $this->assertStringContainsString('<section>', $Content, 'Block was not setup');
     }
 
     /**
@@ -66,7 +66,7 @@ class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
         $Result = $Template->compile();
 
         // assertions
-        $this->assertNotContains('{title}', $Result);
+        $this->assertStringNotContainsStringIgnoringCase('{title}', $Result);
     }
 
     /**

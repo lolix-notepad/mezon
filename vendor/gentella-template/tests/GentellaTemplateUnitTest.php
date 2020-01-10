@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../autoloader.php');
 
-class GentellaTemplateTest extends \PHPUnit\Framework\TestCase
+class GentellaTemplateUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

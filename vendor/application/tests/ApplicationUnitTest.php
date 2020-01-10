@@ -28,7 +28,7 @@ class TestApplication extends \Mezon\Application
     }
 }
 
-class ApplicationTest extends \PHPUnit\Framework\TestCase
+class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

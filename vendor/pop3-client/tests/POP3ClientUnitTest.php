@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../autoloader.php');
 
-class Pop3ClientTest extends \PHPUnit\Framework\TestCase
+class Pop3ClientUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

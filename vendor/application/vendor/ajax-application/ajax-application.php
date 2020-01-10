@@ -71,7 +71,7 @@ class AjaxApplication extends \Mezon\Application
      * @param \Exception $e
      *            Exception object.
      */
-    public function handleException(\Exception $e)
+    public function handleException(\Exception $e): void
     {
         $Error = new \stdClass();
         $Error->message = $e->getMessage();

@@ -184,6 +184,8 @@ class FakeServiceModel extends \Mezon\CrudService\CrudServiceModel
 
 /**
  * Common CrudServiceLogic unit tests
+ * 
+ * @group baseTests
  */
 class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogicUnitTests
 {
@@ -263,7 +265,7 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\ServiceLogic\ServiceLogic
      */
     protected function setupLogicForListMethodsTesting()
     {
-        $Connection = $this->getMockBuilder(\Mezon\PDOCRUD::class)
+        $Connection = $this->getMockBuilder(\Mezon\PdoCrud::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'select'

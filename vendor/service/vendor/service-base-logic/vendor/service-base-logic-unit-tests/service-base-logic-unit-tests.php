@@ -15,6 +15,7 @@ namespace Mezon\Service\ServiceBaseLogic;
  * Mock parameter fetcher
  *
  * @author Dodonov A.A.
+ * @group baseTests
  */
 class MockParamsFetcher implements \Mezon\Service\ServiceRequestParams
 {

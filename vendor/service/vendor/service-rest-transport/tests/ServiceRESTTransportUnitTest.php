@@ -16,7 +16,7 @@ class TestingServiceLogicForRestTransport extends \Mezon\Service\ServiceLogic
 
     public function methodException()
     {
-        throw (new Exception('Msg'));
+        throw (new \Exception('Msg'));
     }
 
     public function methodRestException()
@@ -38,12 +38,17 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         $Mock = $this->getMockBuilder(\Mezon\Service\ServiceRestTransport::class)
             ->setMethods([
             'header',
-            'createSession'
+            'createSession',
+            'errorResponse',
+            'parentErrorResponse'
         ])
             ->getMock();
 
         $Mock->expects($this->once())
             ->method('header');
+        $Mock->method('errorResponse')->willThrowException(
+            new \Mezon\Service\ServiceRestTransport\RestException('Msg', 0, 1, 1));
+        $Mock->method('parentErrorResponse')->willThrowException(new \Exception('Msg', 0));
 
         return ($Mock);
     }
@@ -148,6 +153,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         $Mock->expects($this->never())
             ->method('createSession');
 
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $Mock->addRoute('public-method', $MethodName, 'GET', 'public_call');
 
         return ($Mock);
@@ -207,6 +213,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         $Mock = $this->setupMethod('methodException');
 
         $this->expectException(Exception::class);
+
         // test body and assertions
         $Mock->Router->callRoute('/public-method/');
     }

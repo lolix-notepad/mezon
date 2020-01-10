@@ -20,7 +20,7 @@ class TestingView extends \Mezon\View
     }
 }
 
-class ViewTest extends \PHPUnit\Framework\TestCase
+class ViewUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

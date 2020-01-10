@@ -117,15 +117,15 @@ class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
         $Content = $ListBuilder->listingForm();
 
         // assertions
-        $this->assertContains('>id<', $Content, 'Invalid header content');
-        $this->assertContains('>1<', $Content, 'Invalid cell content');
-        $this->assertContains('>2<', $Content, 'Invalid cell content');
+        $this->assertStringContainsString('>id<', $Content, 'Invalid header content');
+        $this->assertStringContainsString('>1<', $Content, 'Invalid cell content');
+        $this->assertStringContainsString('>2<', $Content, 'Invalid cell content');
     }
 
     /**
      * Testing listing form
      */
-    public function test_simple_listing_form()
+    public function testSimpleListingForm()
     {
         // setup
         $ListBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
@@ -134,8 +134,8 @@ class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
         $Content = $ListBuilder->simpleListingForm();
 
         // assertions
-        $this->assertContains('>id<', $Content, 'Invalid header content');
-        $this->assertContains('>1<', $Content, 'Invalid cell content');
-        $this->assertContains('>2<', $Content, 'Invalid cell content');
+        $this->assertStringContainsString('>id<', $Content, 'Invalid header content');
+        $this->assertStringContainsString('>1<', $Content, 'Invalid cell content');
+        $this->assertStringContainsString('>2<', $Content, 'Invalid cell content');
     }
 }

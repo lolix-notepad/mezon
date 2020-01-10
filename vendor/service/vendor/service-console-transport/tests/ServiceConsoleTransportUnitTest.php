@@ -129,6 +129,7 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $_GET['r'] = '/public-method/';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $Mock = $this->getTransportMock();
 
         $Mock->ServiceLogic = $this->getServiceLogicMock();
@@ -149,6 +150,7 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $_GET['r'] = '/private-method/';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $Mock = $this->getTransportMock();
 
         $Mock->ServiceLogic = $this->getServiceLogicMock();
@@ -169,6 +171,7 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $_GET['r'] = 'public-method';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $Mock = $this->getTransportMock();
 
         $Mock->ServiceLogic = $this->getServiceLogicMock();

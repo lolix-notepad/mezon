@@ -10,10 +10,12 @@ namespace Mezon\Service\ServiceClient;
  * @version v.1.0 (2019/09/20)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once (__DIR__ . '/dns.php');
 
 /**
  * Basic tests for service client
+ *
+ * @author Dodonov A.
+ * @group baseTests
  */
 class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
 {
@@ -34,6 +36,15 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         parent::__construct();
 
         $this->ClientClassName = $ClientClassName;
+    }
+
+    /**
+     * Common setup for all tests
+     */
+    public function setUp(): void
+    {
+        \Mezon\DnsClient::clear();
+        \Mezon\DnsClient::setService('existing-service', 'https://existing-service.com');
     }
 
     /**
@@ -109,6 +120,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testNoServiceFound(): void
     {
         $this->expectException(\Exception::class);
+
         new $this->ClientClassName('auth');
     }
 
@@ -228,8 +240,9 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         // setup
         $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
-        // test body
+        // test body and assertions
         $this->expectException(\Exception::class);
+
         $Mock->loginAs('registered', 'login');
     }
 
@@ -242,8 +255,10 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
         // test body
-        $this->expectException(\Exception::class);
         $Mock->loginAs('registered', 'id');
+
+        // assertions
+        $this->assertFalse($Mock->getStoredLogin());
     }
 
     /**

@@ -11,7 +11,7 @@ function transform2x($Object)
     return ($Object);
 }
 
-class FunctionalTest extends \PHPUnit\Framework\TestCase
+class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

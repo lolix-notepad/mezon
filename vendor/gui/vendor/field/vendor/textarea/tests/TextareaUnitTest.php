@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class TextareaTest extends \PHPUnit\Framework\TestCase
+class TextareaUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -27,14 +27,14 @@ class TextareaTest extends \PHPUnit\Framework\TestCase
         $Content = $Field->html();
 
         // assertions
-        $this->assertContains('<textarea ', $Content, 'Open tag was not found');
-        $this->assertContains(
+        $this->assertStringContainsString('<textarea ', $Content, 'Open tag was not found');
+        $this->assertStringContainsString(
             'name="prefix-name[{_creation_form_items_counter}]"',
             $Content,
             '"Name" attribute was not found');
-        $this->assertContains('required="required"', $Content, '"Required" attribute was not found');
-        $this->assertContains('disabled', $Content, '"Disabled" attribute was not found');
-        $this->assertContains('toggler="toggler-name"', $Content, '"Toggler" attribute was not found');
-        $this->assertContains('toggle-value="3"', $Content, '"Toggle-value" attribute was not found');
+            $this->assertStringContainsString('required="required"', $Content, '"Required" attribute was not found');
+            $this->assertStringContainsString('disabled', $Content, '"Disabled" attribute was not found');
+            $this->assertStringContainsString('toggler="toggler-name"', $Content, '"Toggler" attribute was not found');
+            $this->assertStringContainsString('toggle-value="3"', $Content, '"Toggle-value" attribute was not found');
     }
 }

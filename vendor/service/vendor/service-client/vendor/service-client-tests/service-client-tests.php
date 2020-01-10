@@ -1,19 +1,21 @@
 <?php
+namespace Mezon\Service\ServiceClient;
 
 /**
  * Class ServiceClientTests
  *
- * @package     ServiceClient
- * @subpackage  ServiceClientTests
- * @author      Dodonov A.A.
- * @version     v.1.0 (2019/08/17)
- * @copyright   Copyright (c) 2019, aeon.org
+ * @package ServiceClient
+ * @subpackage ServiceClientTests
+ * @author Dodonov A.A.
+ * @version v.1.0 (2019/08/17)
+ * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
  * Common unit tests for ServiceClient and all derived client classes
  *
  * @author Dodonov A.A.
+ * @group baseTests
  */
 class ServiceClientTests extends \PHPUnit\Framework\TestCase
 {

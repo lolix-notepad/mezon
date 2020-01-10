@@ -10,7 +10,7 @@ class CacheFoo extends \Mezon\Cache
     }
 }
 
-class CacheTest extends \PHPUnit\Framework\TestCase
+class CacheUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

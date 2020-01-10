@@ -14,8 +14,9 @@
  * Common unit tests for CrudServiceClient and all derived client classes
  *
  * @author Dodonov A.A.
+ * @group baseTests
  */
-class CrudServiceClientTests extends ServiceClientTests
+class CrudServiceClientTests extends \Mezon\Service\ServiceClient\ServiceClientTests
 {
 
     /**

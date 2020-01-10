@@ -25,13 +25,13 @@ class CrudService extends Service
      * @param array $Entity
      *            Entity description
      * @param mixed $ServiceTransport
-     *            Service's transport
+     *            Service's transport, defaulted to \Mezon\Service\ServiceRestTransport::class
      * @param mixed $SecurityProvider
-     *            Service's security provider
+     *            Service's security provider, defaulted to \Mezon\Service\ServiceMockSecurityProvider::class
      * @param mixed $ServiceLogic
-     *            Service's logic
+     *            Service's logic, defaulted to \Mezon\CrudService\CrudServiceLogic::class
      * @param mixed $ServiceModel
-     *            Service's model
+     *            Service's model, defaulted to \Mezon\CrudService\CrudServiceModel::class
      */
     public function __construct(
         array $Entity,
@@ -98,7 +98,7 @@ class CrudService extends Service
         $this->ServiceTransport->addRoute('/exact/list/[il:ids]/', 'exactList', 'GET');
         $this->ServiceTransport->addRoute('/exact/[i:id]/', 'exact', 'GET');
         $this->ServiceTransport->addRoute('/fields/', 'fields', 'GET');
-        $this->ServiceTransport->addRoute('/delete/[i:id]/', 'deleteRecord', 'GET');
+        $this->ServiceTransport->addRoute('/delete/[i:id]/', 'deleteRecord', 'POST');
         $this->ServiceTransport->addRoute('/delete/', 'deleteFiltered', 'POST');
         $this->ServiceTransport->addRoute('/create/', 'createRecord', 'POST');
         $this->ServiceTransport->addRoute('/update/[i:id]/', 'updateRecord', 'POST');

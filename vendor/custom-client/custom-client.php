@@ -51,7 +51,7 @@ class CustomClient
         if ($URL === false || $URL === '') {
             throw (new \Exception(
                 'Service URL must be set in class ' . __CLASS__ . ' extended in ' . get_called_class() .
-                ' and called from ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'],
+                ' and called from ' . ($_SERVER['SERVER_NAME'] ?? 'console') . ($_SERVER['REQUEST_URI'] ?? ''),
                 - 23));
         }
 

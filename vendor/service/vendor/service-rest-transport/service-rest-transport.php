@@ -47,7 +47,7 @@ class ServiceRestTransport extends ServiceHttpTransport
         } catch (ServiceRestTransport\RestException $e) {
             return ($this->errorResponse($e));
         } catch (\Exception $e) {
-            return (parent::errorResponse($e));
+            return ($this->parentErrorResponse($e));
         }
     }
 
@@ -77,7 +77,7 @@ class ServiceRestTransport extends ServiceHttpTransport
         } catch (ServiceRestTransport\RestException $e) {
             return ($this->errorResponse($e));
         } catch (\Exception $e) {
-            return (parent::errorResponse($e));
+            return ($this->parentErrorResponse($e));
         }
     }
 
@@ -114,6 +114,18 @@ class ServiceRestTransport extends ServiceHttpTransport
         }
 
         return ($Return);
+    }
+
+    /**
+     * Error response compilator
+     *
+     * @param mixed $e
+     *            Exception object
+     * @return array Error data
+     */
+    public function parentErrorResponse($e): array
+    {
+        return (parent::errorResponse($e));
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class RecordFieldTest extends \PHPUnit\Framework\TestCase
+class RecordFieldUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -70,6 +70,6 @@ class RecordFieldTest extends \PHPUnit\Framework\TestCase
         $Content = $Field->html();
 
         // assertions
-        $this->assertContains('name="prefix-remote"', $Content, 'Name of the remote record was not found');
+        $this->assertStringContainsString('name="prefix-remote"', $Content, 'Name of the remote record was not found');
     }
 }

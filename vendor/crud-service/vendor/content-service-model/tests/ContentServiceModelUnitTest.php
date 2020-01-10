@@ -1,13 +1,13 @@
 <?php
 require_once (__DIR__ . '/../../../../../autoloader.php');
 
-class ContentServiceModelTest
+class ContentServiceModelUnitTest
 {
 
     /**
      * Method tests increment_views method
      */
-    public function test_increment_views()
+    public function testIncrementViews()
     {
         // setup
         $Connection = $this->get_connection_mock();

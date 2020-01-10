@@ -211,7 +211,7 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
     /**
      * Testing private call with createSession method.
      */
-    public function test_private_call()
+    public function testPrivateCall()
     {
         $Mock = $this->getTransportMock();
 

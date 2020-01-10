@@ -5,7 +5,7 @@ class DbServiceModelUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
-     * Test data for test_constructor test
+     * Test data for testConstructor test
      *
      * @return array
      */

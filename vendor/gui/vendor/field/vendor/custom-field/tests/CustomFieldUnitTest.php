@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class CustomFieldTest extends \PHPUnit\Framework\TestCase
+class CustomFieldUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -51,13 +51,13 @@ class CustomFieldTest extends \PHPUnit\Framework\TestCase
         $Content = $Field->html();
 
         // assertions
-        $this->assertContains('name:name', $Content, 'Name was not substitute');
-        $this->assertContains('required:1', $Content, 'Required was not substitute');
-        $this->assertContains('disabled:1', $Content, 'Disabled was not substitute');
-        $this->assertContains('custom:1', $Content, 'Custom was not substitute');
-        $this->assertContains('name-prefix:prefix', $Content, 'Name prefix was not substitute');
-        $this->assertContains('batch:1', $Content, 'Batch was not substitute');
-        $this->assertContains('toggler:toggler-name', $Content, 'Toggler name was not substitute');
-        $this->assertContains('toggler:3', $Content, 'Toggler value was not substitute');
+        $this->assertStringContainsString('name:name', $Content, 'Name was not substitute');
+        $this->assertStringContainsString('required:1', $Content, 'Required was not substitute');
+        $this->assertStringContainsString('disabled:1', $Content, 'Disabled was not substitute');
+        $this->assertStringContainsString('custom:1', $Content, 'Custom was not substitute');
+        $this->assertStringContainsString('name-prefix:prefix', $Content, 'Name prefix was not substitute');
+        $this->assertStringContainsString('batch:1', $Content, 'Batch was not substitute');
+        $this->assertStringContainsString('toggler:toggler-name', $Content, 'Toggler name was not substitute');
+        $this->assertStringContainsString('toggler:3', $Content, 'Toggler value was not substitute');
     }
 }

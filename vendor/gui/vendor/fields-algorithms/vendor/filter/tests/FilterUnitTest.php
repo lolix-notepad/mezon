@@ -21,13 +21,13 @@ class FilterUnitTest extends \PHPUnit\Framework\TestCase
             []);
 
         // asssertions
-        $this->assertStringContainsString('id > 1', $Result, 'Compilation error');
+        $this->assertContains('id > 1', $Result, 'Compilation error');
     }
 
     /**
      * Testing addFilterConditionFromArr method
      */
-    function testAddFilterConditionFromArr_simple()
+    function testAddFilterConditionFromArrSimple()
     {
         // setup and test body
         $Result = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterConditionFromArr(
@@ -40,9 +40,9 @@ class FilterUnitTest extends \PHPUnit\Framework\TestCase
             []);
 
         // asssertions
-        $this->assertStringContainsString('field1 = 1', $Result, 'Integer compilation error');
-        $this->assertStringContainsString('field2 IS NULL', $Result, 'Null compilation error');
-        $this->assertStringContainsString('field3 IS NOT NULL', $Result, 'Not null compilation error');
-        $this->assertStringContainsString('field4 LIKE "some string"', $Result, 'String compilation error');
+        $this->assertContains('field1 = 1', $Result, 'Integer compilation error');
+        $this->assertContains('field2 IS NULL', $Result, 'Null compilation error');
+        $this->assertContains('field3 IS NOT NULL', $Result, 'Not null compilation error');
+        $this->assertContains('field4 LIKE "some string"', $Result, 'String compilation error');
     }
 }

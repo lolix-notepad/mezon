@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__ . '/../../../../../../../autoloader.php');
 
-class TextFieldTest extends \PHPUnit\Framework\TestCase
+class TextFieldUnitTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

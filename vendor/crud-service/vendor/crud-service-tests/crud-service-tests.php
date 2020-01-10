@@ -14,8 +14,9 @@
  * Predefined set of tests for crud service.
  *
  * @author Dodonov A.A.
+ * @group baseTests
  */
-class CrudServiceTests extends ServiceTests
+class CrudServiceTests extends \Mezon\Service\ServiceTests
 {
 
     /**

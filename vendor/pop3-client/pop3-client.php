@@ -281,7 +281,7 @@ class Pop3Client
      *            email headers
      * @return string Message-ID
      */
-    public static function get_message_id(array $Headers): string
+    public static function get_message_id(string $Headers): string
     {
         $Matches = [];
 
