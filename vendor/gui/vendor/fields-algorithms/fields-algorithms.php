@@ -294,6 +294,7 @@ class FieldsAlgorithms
      */
     protected function initObject(array $Field)
     {
+        // TODO reduce complexity of this method
         if (isset($Field['items'])) {
             $Control = new \Mezon\Gui\Field\Select($Field);
         } elseif (isset($Field['control']) && $Field['control'] == 'textarea') {

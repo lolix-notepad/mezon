@@ -64,6 +64,7 @@ class FakeRequestParams implements \Mezon\Service\ServiceRequestParams
      */
     public function getParam($Param, $Default = false)
     {
+        // TODO cover this line with unit-tests or imay be it will be better to remove this class
         return (false);
     }
 }

@@ -72,6 +72,7 @@ class Security
      */
     public static function getFileValue($Value, bool $StoreFiles)
     {
+        // TODO cover all lines by unit-tests
         if (is_array($Value) === false) {
             $Value = $_FILES[$Value];
         }

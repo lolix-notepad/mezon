@@ -119,10 +119,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/index/', array(
+        $Router->addRoute('/index/', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/unexisting-route/');
@@ -177,10 +177,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $Router = new \Mezon\Router();
-        $Router->addRoute('*', array(
+        $Router->addRoute('*', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         $Content = $Router->callRoute('/some-route/');
 
@@ -193,10 +193,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     public function testSingleAllProcessorOverlapUnexisting()
     {
         $Router = new \Mezon\Router();
-        $Router->addRoute('*', array(
+        $Router->addRoute('*', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
         $Router->addRoute('/index/', 'RouterUnitTest::staticHelloWorldOutput');
 
         $Content = $Router->callRoute('/some-route/');
@@ -210,10 +210,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     public function testSingleAllProcessorOverlapExisting()
     {
         $Router = new \Mezon\Router();
-        $Router->addRoute('*', array(
+        $Router->addRoute('*', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
         $Router->addRoute('/index/', 'RouterUnitTest::staticHelloWorldOutput');
 
         $Content = $Router->callRoute('/index/');
@@ -228,10 +228,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router();
         $Router->addRoute('/index/', 'RouterUnitTest::staticHelloWorldOutput');
-        $Router->addRoute('*', array(
+        $Router->addRoute('*', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         $Content = $Router->callRoute('/index/');
 
@@ -245,10 +245,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router();
         $Router->addRoute('/index/', 'RouterUnitTest::staticHelloWorldOutput');
-        $Router->addRoute('*', array(
+        $Router->addRoute('*', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         $Content = $Router->callRoute('/some-route/');
 
@@ -261,10 +261,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     public function testInvalidType()
     {
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[unexisting-type:i]/item/', array(
+        $Router->addRoute('/catalog/[unexisting-type:i]/item/', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/1024/item/');
@@ -282,10 +282,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
         $Router = new \Mezon\Router();
         $Router->addRoute(
             '/catalog/[i:cat_id]/item/[unexisting-type-trace:item_id]/',
-            array(
+            [
                 $this,
                 'helloWorldOutput'
-            ));
+            ]);
 
         try {
             $Router->callRoute('/catalog/1024/item/2048/');
@@ -302,10 +302,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[i:cat_id]/item/[i:item_id]/', array(
+        $Router->addRoute('/catalog/[i:cat_id]/item/[i:item_id]/', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/1024/item/2048/');
@@ -325,10 +325,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[i:cat_id]/', array(
+        $Router->addRoute('/catalog/[i:cat_id]/', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/1024/');
@@ -348,10 +348,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[a:cat_id]/', array(
+        $Router->addRoute('/catalog/[a:cat_id]/', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/foo/');
@@ -371,10 +371,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[i:cat_id]/', array(
+        $Router->addRoute('/catalog/[i:cat_id]/', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/a1024/');
@@ -394,10 +394,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[a:cat_id]/', array(
+        $Router->addRoute('/catalog/[a:cat_id]/', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/~foo/');
@@ -507,10 +507,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/', array(
+        $Router->addRoute('/catalog/', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/');
@@ -532,10 +532,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[i:cat_id]', array(
+        $Router->addRoute('/catalog/[i:cat_id]', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/1024/');
@@ -591,10 +591,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/', array(
+        $Router->addRoute('/catalog/', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/');
@@ -616,10 +616,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[i:cat_id]', array(
+        $Router->addRoute('/catalog/[i:cat_id]', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/1024/');
@@ -675,10 +675,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/', array(
+        $Router->addRoute('/catalog/', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/');
@@ -700,10 +700,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Exception = '';
         $Router = new \Mezon\Router();
-        $Router->addRoute('/catalog/[i:cat_id]', array(
+        $Router->addRoute('/catalog/[i:cat_id]', [
             $this,
             'helloWorldOutput'
-        ));
+        ]);
 
         try {
             $Router->callRoute('/catalog/1024/');
@@ -1123,9 +1123,11 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router->callRoute('/catalog/1/');
 
-        // test body and assertions
-        $this->expectException(Exception::class);
-        $Router->getParam('foo');
+        // test body
+        $Foo = $Router->getParam('foo');
+
+        // assertions
+        $this->assertEquals(1,$Foo);
     }
 
     /**

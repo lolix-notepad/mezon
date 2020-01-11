@@ -11,6 +11,8 @@ namespace Mezon;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
+// TODO split in several classes - filtrations, fetchers etc. WITH BACKWARDS COMPATIBILITY!!!!!
+
 /**
  * Functional algorithms.
  */
