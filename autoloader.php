@@ -21,7 +21,7 @@ spl_autoload_register(
 
         // make sure this is the directory with your classes
         $BaseDir = __DIR__ . '/vendor';
-        $ClassName = explode('\\', $Class);
+        $ClassName = explode('/', $Class);
         $ClassName = array_pop($ClassName);
 
         $File = $BaseDir . '/' . $Class . '/' . $ClassName . '.php';
