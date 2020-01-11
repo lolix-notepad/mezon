@@ -1,5 +1,0 @@
-{
-	"tests": [
-		"./tests --filter CustomClientUnitTest local"
-	]
-}
