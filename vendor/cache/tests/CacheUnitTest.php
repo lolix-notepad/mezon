@@ -18,15 +18,16 @@ class CacheUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdditingDataToCache()
     {
-        $Cache = CacheFoo::getInstance();
+        $Cache = $this->getMockBuilder(\Mezon\Cache::class)
+            ->setMethods([
+            'flush'
+        ])
+            ->disableOriginalClone()
+            ->getMock();
 
         $Cache->set('key', 'test');
 
         $Cache->flush();
-
-        $Cache->destroy();
-
-        $Cache = CacheFoo::getInstance();
 
         $Result = $Cache->get('key');
 

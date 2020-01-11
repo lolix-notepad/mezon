@@ -27,9 +27,6 @@ spl_autoload_register(
         $File = $BaseDir . '/' . $Class . '/' . $ClassName . '.php';
 
         if (file_exists($File)) {
-            print("Found : $File\r\n");
             require ($File);
-        } else {
-            print("Not Found : $File\r\n");
         }
     });
