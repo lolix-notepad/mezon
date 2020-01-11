@@ -30,17 +30,28 @@ class Mezon
      */
     protected static function validateDsn(string $ConnectionName)
     {
-        if (getConfigValue($ConnectionName . '/dsn') === false) {
+        if (\Mezon\Conf::getConfigValue($ConnectionName . '/dsn') === false) {
             throw (new \Exception($ConnectionName . '/dsn not set'));
         }
 
-        if (getConfigValue($ConnectionName . '/user') === false) {
+        if (\Mezon\Conf::getConfigValue($ConnectionName . '/user') === false) {
             throw (new \Exception($ConnectionName . '/user not set'));
         }
 
-        if (getConfigValue($ConnectionName . '/password') === false) {
+        if (\Mezon\Conf::getConfigValue($ConnectionName . '/password') === false) {
             throw (new \Exception($ConnectionName . '/password not set'));
         }
+    }
+
+    /**
+     * Contructing connection to database object
+     *
+     * @return \Mezon\PdoCrud connection object wich is no initialized
+     */
+    protected static function constructConnection(): \Mezon\PdoCrud
+    {
+        print('NOT MOCKED!!!!!!!!!');
+        return (new \Mezon\PdoCrud());
     }
 
     /**
@@ -57,13 +68,13 @@ class Mezon
 
         self::validateDsn($ConnectionName);
 
-        self::$Crud = new \Mezon\PdoCrud();
+        self::$Crud = self::constructConnection();
 
         self::$Crud->connect(
             [
-                'dsn' => getConfigValue($ConnectionName . '/dsn'),
-                'user' => getConfigValue($ConnectionName . '/user'),
-                'password' => getConfigValue($ConnectionName . '/password')
+                'dsn' => \Mezon\Conf::getConfigValue($ConnectionName . '/dsn'),
+                'user' => \Mezon\Conf::getConfigValue($ConnectionName . '/user'),
+                'password' => \Mezon\Conf::getConfigValue($ConnectionName . '/password')
             ]);
 
         return (self::$Crud);
