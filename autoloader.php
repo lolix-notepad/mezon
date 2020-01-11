@@ -17,7 +17,7 @@ spl_autoload_register(
             }
         }
 
-        $Class = str_replace('\\-', '\\vendor\\', $Class);
+        $Class = str_replace('\\-', '/vendor/', $Class);
 
         // make sure this is the directory with your classes
         $BaseDir = __DIR__ . '/vendor';
