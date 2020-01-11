@@ -40,7 +40,7 @@ class CrudServiceExceptionConstructorMock extends \Mezon\CrudService
 
 /**
  * Basic service's unit tests
- * 
+ *
  * @group baseTests
  */
 class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
@@ -206,7 +206,7 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
         // test body and assertions
         $this->checkRoute($Route, $Handler, $Method);
     }
-    
+
     /**
      * Data provider for the test testRoutes
      *
