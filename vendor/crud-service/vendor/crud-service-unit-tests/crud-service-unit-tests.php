@@ -40,8 +40,6 @@ class CrudServiceExceptionConstructorMock extends \Mezon\CrudService
 
 /**
  * Basic service's unit tests
- * 
- * @group baseTests
  */
 class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
 {
