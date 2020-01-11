@@ -50,7 +50,6 @@ class Mezon
      */
     protected static function constructConnection(): \Mezon\PdoCrud
     {
-        print('NOT MOCKED!!!!!!!!!');
         return (new \Mezon\PdoCrud());
     }
 
