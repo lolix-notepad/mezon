@@ -29,6 +29,7 @@ spl_autoload_register(
         if (file_exists($File)) {
             print("Found : $File\r\n");
             require ($File);
+        } else {
+            print("Not Found : $File\r\n");
         }
-        else{print("Not Found : $File\r\n");}
     });
