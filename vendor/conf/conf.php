@@ -10,8 +10,6 @@ namespace Mezon;
  * @version v.1.0 (2019/08/07)
  * @copyright Copyright (c) 2019, aeon.org
  */
-define('APP_HTTP_PATH_STRING', '@app-http-path');
-define('MEZON_HTTP_PATH_STRING', '@mezon-http-path');
 
 /**
  * Config data
@@ -20,6 +18,16 @@ define('MEZON_HTTP_PATH_STRING', '@mezon-http-path');
  */
 class Conf
 {
+
+    /**
+     * Built-in constants
+     */
+    public const APP_HTTP_PATH_STRING = '@app-http-path';
+
+    /**
+     * Built-in constants
+     */
+    public const MEZON_HTTP_PATH_STRING = '@mezon-http-path';
 
     /**
      * Config data
@@ -134,11 +142,11 @@ function expandString($Value)
 {
     if (is_string($Value)) {
         $Value = str_replace([
-            APP_HTTP_PATH_STRING,
-            MEZON_HTTP_PATH_STRING
+            \Mezon\Conf::APP_HTTP_PATH_STRING,
+            \Mezon\Conf::MEZON_HTTP_PATH_STRING
         ], [
-            @Conf::$AppConfig[APP_HTTP_PATH_STRING],
-            @Conf::$AppConfig[MEZON_HTTP_PATH_STRING]
+            @Conf::$AppConfig[\Mezon\Conf::APP_HTTP_PATH_STRING],
+            @Conf::$AppConfig[\Mezon\Conf::MEZON_HTTP_PATH_STRING]
         ], $Value);
     } elseif (is_array($Value)) {
         foreach ($Value as $FieldName => $FieldValue) {
