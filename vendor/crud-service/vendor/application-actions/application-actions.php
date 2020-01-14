@@ -62,7 +62,7 @@ class ApplicationActions
      */
     public function __construct(string $EntityName, string $Login = '', string $Password = '')
     {
-        $this->CrudServiceClient = new CrudServiceClient($EntityName, $Login, $Password);
+        $this->CrudServiceClient = new \Mezon\CrudService\CrudServiceClient($EntityName, $Login, $Password);
 
         $this->EntityName = $EntityName;
 
@@ -372,12 +372,11 @@ class ApplicationActions
     /**
      * Method sets service client
      *
-     * @param \Mezon\CrudService\CrudServiceClient $CrudServiceClient
+     * @param \Mezon\CrudService\CrudServiceClientInterface $CrudServiceClient
      *            CRUD service client
      */
-    public function setServiceClient(\Mezon\CrudService\CrudServiceClient $CrudServiceClient): void
+    public function setServiceClient(\Mezon\CrudService\CrudServiceClientInterface $CrudServiceClient): void
     {
-        // TODO add interface CrudServiceClientInterface
         $this->CrudServiceClient = $CrudServiceClient;
     }
 }

@@ -15,13 +15,13 @@ require_once (__DIR__ . '/../../../../../../autoloader.php');
 /**
  * Fake securoity provider
  */
-class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProvider
+class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProviderInterface
 {
-
+// TODO replace it with \Mezon\Service\ServiceMockSecurityProvider
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProvider::hasPermit()
+     * @see \Mezon\Service\ServiceSecurityProviderInterface::hasPermit()
      */
     public function hasPermit(string $Token, string $Permit): bool
     {}
@@ -29,7 +29,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProvider::validatePermit()
+     * @see \Mezon\Service\ServiceSecurityProviderInterface::validatePermit()
      */
     public function validatePermit(string $Token, string $Permit)
     {}
@@ -37,7 +37,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProvider::getSelfLogin()
+     * @see \Mezon\Service\ServiceSecurityProviderInterface::getSelfLogin()
      */
     public function getSelfLogin(string $Token): string
     {}
@@ -45,7 +45,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProvider::getLoginFieldName()
+     * @see \Mezon\Service\ServiceSecurityProviderInterface::getLoginFieldName()
      */
     public function getLoginFieldName(): string
     {}
@@ -53,7 +53,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProvider::setToken()
+     * @see \Mezon\Service\ServiceSecurityProviderInterface::setToken()
      */
     public function setToken(string $Token): string
     {}
@@ -61,7 +61,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProvider::getSessionIdFieldName()
+     * @see \Mezon\Service\ServiceSecurityProviderInterface::getSessionIdFieldName()
      */
     public function getSessionIdFieldName(): string
     {}
@@ -69,7 +69,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProvider::getSelfId()
+     * @see \Mezon\Service\ServiceSecurityProviderInterface::getSelfId()
      */
     public function getSelfId(string $Token): int
     {}
@@ -77,7 +77,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProvider::loginAs()
+     * @see \Mezon\Service\ServiceSecurityProviderInterface::loginAs()
      */
     public function loginAs(string $Token, string $LoginOrId, string $Field): string
     {}
@@ -85,7 +85,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProvider::createSession()
+     * @see \Mezon\Service\ServiceSecurityProviderInterface::createSession()
      */
     public function createSession(string $Token = ''): string
     {}
@@ -93,7 +93,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProvider::connect()
+     * @see \Mezon\Service\ServiceSecurityProviderInterface::connect()
      */
     public function connect(string $Login, string $Password): string
     {}
@@ -102,7 +102,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
 /**
  * Fake patrameters fetched
  */
-class FakeParametersFetcher implements \Mezon\Service\ServiceRequestParams
+class FakeParametersFetcher implements \Mezon\Service\ServiceRequestParamsInterface
 {
 
     /**

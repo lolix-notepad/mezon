@@ -22,7 +22,7 @@ abstract class ServiceTransport implements ServiceTransportInterface
     /**
      * Request params fetcher
      *
-     * @var ServiceRequestParams
+     * @var \Mezon\Service\ServiceRequestParamsInterface
      */
     public $ParamsFetcher = false;
 
@@ -37,14 +37,13 @@ abstract class ServiceTransport implements ServiceTransportInterface
      * Router
      *
      * @var \Mezon\Router
-     * // TODO make router protected
      */
-    public $Router = false;
+    protected $Router = false;
 
     /**
      * Security provider
      *
-     * @var ServiceSecurityProvider $SecurityProvider Provider of the securitty routines
+     * @var ServiceSecurityProviderInterface $SecurityProvider Provider of the securitty routines
      */
     public $SecurityProvider = null;
 
@@ -345,14 +344,36 @@ abstract class ServiceTransport implements ServiceTransportInterface
     /**
      * Method constructs request data fetcher
      *
-     * @return ServiceRequestParams Request data fetcher
+     * @return ServiceRequestParamsInterface Request data fetcher
      */
-    public function getParamsFetcher(): ServiceRequestParams
+    public function getParamsFetcher(): ServiceRequestParamsInterface
     {
         if ($this->ParamsFetcher !== false) {
             return ($this->ParamsFetcher);
         }
 
         return ($this->ParamsFetcher = $this->createFetcher());
+    }
+
+    /**
+     * Method returns true if the router exists
+     *
+     * @param string $Route
+     *            checking route
+     * @return bool true if the router exists, false otherwise
+     */
+    public function routeExists(string $Route): bool
+    {
+        return ($this->Router->routeExists($Route));
+    }
+
+    /**
+     * Method returns router
+     *
+     * @return \Mezon\Router router
+     */
+    public function &getRouter(): \Mezon\Router
+    {
+        return ($this->Router);
     }
 }

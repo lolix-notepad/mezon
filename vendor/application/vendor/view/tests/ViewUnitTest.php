@@ -1,12 +1,12 @@
 <?php
-require_once (__DIR__ . '/../../../autoloader.php');
+require_once (__DIR__ . '/../../../../../autoloader.php');
 
 /**
  * View class for testing purposes
  *
  * @author Dodonov A.A.
  */
-class TestingView extends \Mezon\View
+class TestingView extends \Mezon\Application\View
 {
 
     public function viewTest(): string

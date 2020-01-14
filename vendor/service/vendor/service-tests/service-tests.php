@@ -63,7 +63,7 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
         if (strpos($Content, 'Warning') !== false || strpos($Content, 'Error') !== false ||
             strpos($Content, 'Fatal error') !== false || strpos($Content, 'Access denied') !== false ||
             strpos($Content, "doesn't exist in statement") !== false) {
-            throw (new Exception($Message . "\r\n" . $Content));
+            throw (new \Exception($Message . "\r\n" . $Content));
         }
 
         $this->addToAssertionCount(1);
@@ -80,11 +80,11 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
     protected function assertJson($JSONResult, string $Result)
     {
         if ($JSONResult === null && $Result !== '') {
-            throw (new Exception("JSON result is invalid because of:\r\n$Result"));
+            throw (new \Exception("JSON result is invalid because of:\r\n$Result"));
         }
 
         if (isset($JSONResult->message)) {
-            throw (new Exception($JSONResult->message, $JSONResult->code));
+            throw (new \Exception($JSONResult->message, $JSONResult->code));
         }
     }
 
@@ -224,7 +224,7 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
 
         $URL = $this->ServerPath . '/connect/';
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->postHttpRequest($Data, $URL);
     }
 
@@ -261,7 +261,7 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
             $URL = $this->ServerPath . '/token/unexisting/';
 
             $this->postHttpRequest($Data, $URL);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // set token method either throws exception or not
             // both is correct behaviour
             $this->assertEquals($e->getMessage(), 'Invalid session token', 'Invalid error message');

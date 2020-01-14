@@ -168,7 +168,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         $Mock = $this->setupMethod('publicMethod');
 
         // test body and assertions
-        $Mock->Router->callRoute('/public-method/');
+        $Mock->getRouter()->callRoute('/public-method/');
     }
 
     /**
@@ -201,7 +201,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         $Mock = $this->setupPrivateMethod('privateMethod');
 
         // test body and assertions
-        $Mock->Router->callRoute('/private-method/');
+        $Mock->getRouter()->callRoute('/private-method/');
     }
 
     /**
@@ -215,7 +215,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception::class);
 
         // test body and assertions
-        $Mock->Router->callRoute('/public-method/');
+        $Mock->getRouter()->callRoute('/public-method/');
     }
 
     /**
@@ -228,7 +228,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
 
         $this->expectException(Exception::class);
         // test body and assertions
-        $Mock->Router->callRoute('/public-method/');
+        $Mock->getRouter()->callRoute('/public-method/');
     }
 
     /**
@@ -242,7 +242,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception::class);
 
         // test body and assertions
-        $Mock->Router->callRoute('/private-method/');
+        $Mock->getRouter()->callRoute('/private-method/');
     }
 
     /**
@@ -256,6 +256,6 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception::class);
 
         // test body and assertions
-        $Mock->Router->callRoute('/private-method/');
+        $Mock->getRouter()->callRoute('/private-method/');
     }
 }

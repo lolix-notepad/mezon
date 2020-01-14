@@ -443,9 +443,6 @@ class TemplateEngine
 
                 $String = self::replaceBlock($String, "foreach:$Parameters", '~foreach', '');
             } else {
-                // clear {foreach} block because we do not have data for it
-                $String = self::replaceBlock($String, "foreach:$Parameters", '~foreach', '');
-
                 $StartPos = strpos($String, "{foreach:$Parameters", $StartPos > 0 ? $StartPos : 0);
             }
         }

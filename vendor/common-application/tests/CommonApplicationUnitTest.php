@@ -6,7 +6,7 @@ require_once (__DIR__ . '/../../../autoloader.php');
  *
  * @author Dodonov A.A.
  */
-class TestView extends \Mezon\View
+class TestView extends \Mezon\Application\View
 {
 
     public function __construct(string $Content)

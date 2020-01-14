@@ -2,10 +2,10 @@
 namespace Mezon\Service;
 
 /**
- * Class ServiceRequestParams
+ * Interface ServiceRequestParamsInterface
  *
  * @package Service
- * @subpackage ServiceRequestParams
+ * @subpackage ServiceRequestParamsInterface
  * @author Dodonov A.A.
  * @version v.1.0 (2019/10/31)
  * @copyright Copyright (c) 2019, aeon.org
@@ -14,7 +14,7 @@ namespace Mezon\Service;
 /**
  * Request params fetcher
  */
-interface ServiceRequestParams
+interface ServiceRequestParamsInterface
 {
 
     /**

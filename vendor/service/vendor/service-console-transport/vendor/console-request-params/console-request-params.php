@@ -14,26 +14,8 @@ namespace Mezon\Service\ServiceConsoleTransport;
 /**
  * Request params fetcher
  */
-class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParams
+class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
 {
-
-    /**
-     * Router of the transport.
-     *
-     * @var \Mezon\Router
-     */
-    protected $Router = false;
-
-    /**
-     * Constructor.
-     *
-     * @param \Mezon\Router $Router
-     *            - Router object.
-     */
-    public function __construct(\Mezon\Router &$Router)
-    {
-        $this->Router = $Router;
-    }
 
     /**
      * Method returns session id from HTTP header.

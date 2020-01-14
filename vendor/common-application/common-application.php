@@ -162,7 +162,7 @@ class CommonApplication extends Application
 
             if (is_array($Result)) {
                 foreach ($Result as $Key => $Value) {
-                    $Content = $Value instanceof \Mezon\View ? $Value->render() : $Value;
+                    $Content = $Value instanceof \Mezon\Application\ViewInterface ? $Value->render() : $Value;
 
                     $this->Template->setPageVar($Key, $Content);
                 }

@@ -20,6 +20,27 @@ class Security
 {
 
     /**
+     * Security rules
+     *
+     * @var \Mezon\Security\SecurityRules
+     */
+    public static $SecurityRules = null;
+
+    /**
+     * Method returns security rules
+     *
+     * @return \Mezon\Security\SecurityRules
+     */
+    public static function getSecurityRules(): \Mezon\Security\SecurityRules
+    {
+        if (self::$SecurityRules === null) {
+            self::$SecurityRules = new \Mezon\Security\SecurityRules();
+        }
+
+        return (self::$SecurityRules);
+    }
+
+    /**
      * Returning string value
      *
      * @param string $Value
@@ -28,37 +49,7 @@ class Security
      */
     public static function getStringValue(string $Value): string
     {
-        if ($Value == '""') {
-            return ('');
-        } else {
-            return (htmlspecialchars($Value));
-        }
-    }
-
-    /**
-     * Method prepares file system for saving file
-     *
-     * @param string $FilePrefix
-     *            Prefix to file path
-     * @return string File path
-     */
-    private static function _prepareFs(string $FilePrefix): string
-    {
-        @mkdir($FilePrefix . '/data/');
-
-        $Path = '/data/files/';
-
-        @mkdir($FilePrefix . $Path);
-
-        @mkdir($FilePrefix . $Path . date('Y') . '/');
-
-        @mkdir($FilePrefix . $Path . date('Y') . '/' . date('m') . '/');
-
-        $Dir = $Path . date('Y') . '/' . date('m') . '/' . date('d') . '/';
-
-        @mkdir($FilePrefix . $Dir);
-
-        return ($Dir);
+        return (self::getSecurityRules()->getStringValue($Value));
     }
 
     /**
@@ -72,31 +63,7 @@ class Security
      */
     public static function getFileValue($Value, bool $StoreFiles)
     {
-        // TODO cover all lines by unit-tests
-        if (is_array($Value) === false) {
-            $Value = $_FILES[$Value];
-        }
-
-        if (isset($Value['size']) && $Value['size'] === 0) {
-            return ('');
-        }
-
-        if ($StoreFiles) {
-            $Dir = '.' . self::_prepareFs('.');
-
-            $UploadFile = $Dir . md5($Value['name'] . microtime(true)) . '.' .
-                pathinfo($Value['name'], PATHINFO_EXTENSION);
-
-            if (isset($Value['file'])) {
-                file_put_contents($UploadFile, base64_decode($Value['file']));
-            } else {
-                move_uploaded_file($Value['tmp_name'], $UploadFile);
-            }
-
-            return ($UploadFile);
-        } else {
-            return ($Value);
-        }
+        return (self::getSecurityRules()->getFileValue($Value, $StoreFiles));
     }
 
     /**
@@ -112,17 +79,7 @@ class Security
      */
     public static function storeFileContent(string $FileContent, string $PathPrefix, bool $Decoded = false): string
     {
-        $Dir = self::_prepareFs($PathPrefix);
-
-        $FileName = md5(microtime(true));
-
-        if ($Decoded) {
-            file_put_contents($PathPrefix . $Dir . $FileName, $FileContent);
-        } else {
-            file_put_contents($PathPrefix . $Dir . $FileName, base64_decode($FileContent));
-        }
-
-        return ($Dir . $FileName);
+        return (self::getSecurityRules()->storeFileContent($FileContent, $PathPrefix, $Decoded));
     }
 
     /**
@@ -138,12 +95,6 @@ class Security
      */
     public static function storeFile(string $FilePath, string $PathPrefix, bool $Decoded = false): ?string
     {
-        $FileContent = @file_get_contents($FilePath);
-
-        if ($FileContent === false) {
-            return (null);
-        }
-
-        return (self::storeFileContent($FileContent, $PathPrefix, $Decoded));
+        return (self::getSecurityRules()->storeFile($FilePath, $PathPrefix, $Decoded));
     }
 }

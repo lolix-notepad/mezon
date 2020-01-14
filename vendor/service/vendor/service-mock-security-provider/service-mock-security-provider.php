@@ -11,12 +11,10 @@ namespace Mezon\Service;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO try to replace MockSecurityProvider with ServiceMockSecurityProvider
-
 /**
  * Class ServiceMockSecurityProvider - provides mockes for all security methods
  */
-class ServiceMockSecurityProvider implements ServiceSecurityProvider
+class ServiceMockSecurityProvider implements ServiceSecurityProviderInterface
 {
 
     /**
@@ -129,7 +127,7 @@ class ServiceMockSecurityProvider implements ServiceSecurityProvider
     /**
      *
      * {@inheritdoc}
-     * @see ServiceSecurityProvider::get_login_field_name()
+     * @see ServiceSecurityProviderInterface::get_login_field_name()
      */
     public function getLoginFieldName(): string
     {

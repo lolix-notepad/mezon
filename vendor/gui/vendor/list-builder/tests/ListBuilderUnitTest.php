@@ -50,25 +50,6 @@ class FakeAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdapter
     }
 }
 
-class FakeRequestParams implements \Mezon\Service\ServiceRequestParams
-{
-
-    /**
-     * Method returns request parameter
-     *
-     * @param string $Param
-     *            parameter name
-     * @param mixed $Default
-     *            default value
-     * @return mixed Parameter value
-     */
-    public function getParam($Param, $Default = false)
-    {
-        // TODO cover this line with unit-tests or imay be it will be better to remove this class
-        return (false);
-    }
-}
-
 class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
 {
 
@@ -91,7 +72,9 @@ class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getServiceLogic()
     {
-        return (new \Mezon\CrudService\CrudServiceLogic(new FakeRequestParams(), new stdClass()));
+        return (new \Mezon\CrudService\CrudServiceLogic(
+            new Mezon\Service\ServiceConsoleTransport\ConsoleRequestParams(),
+            new stdClass()));
     }
 
     /**

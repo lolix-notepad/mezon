@@ -42,9 +42,9 @@ class ServiceConsoleTransport extends ServiceTransport
     /**
      * Method creates parameters fetcher
      *
-     * @return ServiceRequestParams paremeters fetcher
+     * @return ServiceRequestParamsInterface paremeters fetcher
      */
-    public function createFetcher(): ServiceRequestParams
+    public function createFetcher(): ServiceRequestParamsInterface
     {
         return (new \Mezon\Service\ServiceConsoleTransport\ConsoleRequestParams($this->Router));
     }

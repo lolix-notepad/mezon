@@ -13,7 +13,7 @@ class FakeService implements \Mezon\Service\ServiceBaseLogicInterface
     }
 }
 
-class ConcreteFetcher implements \Mezon\Service\ServiceRequestParams
+class ConcreteFetcher implements \Mezon\Service\ServiceRequestParamsInterface
 {
 
     public function getParam($Param, $Default = false)
@@ -25,7 +25,7 @@ class ConcreteFetcher implements \Mezon\Service\ServiceRequestParams
 class ConcreteServiceTransport extends \Mezon\Service\ServiceTransport
 {
 
-    public function createFetcher(): \Mezon\Service\ServiceRequestParams
+    public function createFetcher(): \Mezon\Service\ServiceRequestParamsInterface
     {
         return (new ConcreteFetcher());
     }
@@ -66,7 +66,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     {
         $ServiceTransport = new ConcreteServiceTransport();
 
-        $this->assertInstanceOf(\Mezon\Router::class, $ServiceTransport->Router, 'Router was not created');
+        $this->assertInstanceOf(\Mezon\Router::class, $ServiceTransport->getRouter(), 'Router was not created');
     }
 
     /**
@@ -75,10 +75,10 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetServiceLogic(): void
     {
         $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
+        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
         $ServiceTransport->addRoute('test', 'test', 'GET');
 
-        $Result = $ServiceTransport->Router->callRoute('test');
+        $Result = $ServiceTransport->getRouter()->callRoute('test');
 
         $this->assertEquals('test', $Result, 'Invalid route execution result');
     }
@@ -89,10 +89,10 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetServiceLogicPublic(): void
     {
         $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
+        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
         $ServiceTransport->addRoute('test', 'test', 'GET', 'public_call');
 
-        $Result = $ServiceTransport->Router->callRoute('test');
+        $Result = $ServiceTransport->getRouter()->callRoute('test');
 
         $this->assertEquals('test', $Result, 'Invalid public route execution result');
     }
@@ -104,13 +104,18 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     {
         $ServiceTransport = new ConcreteServiceTransport();
         $ServiceTransport->ServiceLogic = [
-            new FakeServiceLogic($ServiceTransport->Router)
+            new FakeServiceLogic($ServiceTransport->getRouter())
         ];
         $ServiceTransport->addRoute('test', 'test', 'GET');
 
-        $Result = $ServiceTransport->Router->callRoute('test');
+        $_GET['r']='test';
+        $_REQUEST['HTTP_METHOD']='GET';
+        ob_start();
+        $ServiceTransport->run();
+        $Output = ob_get_contents();
+        ob_end_clean();
 
-        $this->assertEquals('test', $Result, 'Invalid route execution result for multyple logics');
+        $this->assertEquals('test', $Output, 'Invalid route execution result for multyple logics');
     }
 
     /**
@@ -119,7 +124,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetServiceLogicWithUnexistingMethod(): void
     {
         $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
+        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
 
         $this->expectException(Exception::class);
         $ServiceTransport->addRoute('unexisting', 'unexisting', 'GET');
@@ -175,7 +180,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
+        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
 
         // test body
         $ServiceTransport->loadRoute([
@@ -184,7 +189,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // assertions
-        $this->assertTrue(is_object($ServiceTransport->Router->getRoute('/route/')), 'Route does not exists');
+        $this->assertTrue($ServiceTransport->routeExists('/route/'), 'Route does not exists');
     }
 
     /**
@@ -210,7 +215,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
+        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
 
         // test body
         $ServiceTransport->loadRoutes([
@@ -221,7 +226,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // assertions
-        $this->assertTrue(is_object($ServiceTransport->Router->getRoute('/route/')), 'Route does not exists');
+        $this->assertTrue($ServiceTransport->routeExists('/route/'), 'Route does not exists');
     }
 
     /**
@@ -231,12 +236,12 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->Router);
+        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
 
         // test body
         $ServiceTransport->fetchActions(new FakeService());
 
         // assertions
-        $this->assertTrue(is_object($ServiceTransport->Router->getRoute('/hello-world/')), 'Route does not exists');
+        $this->assertTrue($ServiceTransport->routeExists('/hello-world/'), 'Route does not exists');
     }
 }

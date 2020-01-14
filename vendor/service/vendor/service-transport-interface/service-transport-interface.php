@@ -22,7 +22,7 @@ interface ServiceTransportInterface
     /**
      * Method creates parameters fetcher
      *
-     * @return ServiceRequestParams paremeters fetcher
+     * @return ServiceRequestParamsInterface paremeters fetcher
      */
-    public function createFetcher(): ServiceRequestParams;
+    public function createFetcher(): ServiceRequestParamsInterface;
 }

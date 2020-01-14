@@ -2,10 +2,10 @@
 namespace Mezon\Service;
 
 /**
- * Class ServiceSecurityProvider
+ * Class ServiceSecurityProviderInterface
  *
  * @package Service
- * @subpackage ServiceSecurityProvider
+ * @subpackage ServiceSecurityProviderInterface
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/08)
  * @copyright Copyright (c) 2019, aeon.org
@@ -14,9 +14,9 @@ namespace Mezon\Service;
 /**
  * Interface for security providers
  */
-interface ServiceSecurityProvider
+interface ServiceSecurityProviderInterface
 {
-    // TODO rename to ServiceSecurityProviderInterface
+
     /**
      * Method creates session from existing token or fetched from HTTP headers
      *

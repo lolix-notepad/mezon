@@ -178,7 +178,7 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
     {
         $Mock = $this->getMockEx('callLogic');
 
-        $Mock->Router->callRoute($_GET['r']);
+        $Mock->getRouter()->callRoute($_GET['r']);
     }
 
     /**
@@ -188,7 +188,7 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
     {
         $Mock = $this->getMockEx('publicCall');
 
-        $Mock->Router->callRoute($_GET['r']);
+        $Mock->getRouter()->callRoute($_GET['r']);
     }
 
     /**
@@ -205,7 +205,7 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
 
         $Mock->addRoute('public-method', 'publicMethod', 'GET', 'public_call');
 
-        $Mock->Router->callRoute('/public-method/');
+        $Mock->getRouter()->callRoute('/public-method/');
     }
 
     /**
@@ -222,6 +222,6 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
 
         $Mock->addRoute('private-method', 'privateMethod', 'GET', 'private_call');
 
-        $Mock->Router->callRoute('/private-method/');
+        $Mock->getRouter()->callRoute('/private-method/');
     }
 }

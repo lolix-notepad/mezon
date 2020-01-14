@@ -1,5 +1,5 @@
 <?php
-namespace Mezon;
+namespace Mezon\Application;
 
 /**
  * Class View
@@ -14,7 +14,7 @@ namespace Mezon;
 /**
  * Base class for all views
  */
-class View
+class View implements \Mezon\Application\ViewInterface
 {
 
     /**

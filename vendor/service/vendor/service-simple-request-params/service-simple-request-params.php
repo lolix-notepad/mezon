@@ -14,7 +14,7 @@ namespace Mezon\Service;
 /**
  * Request params fetcher
  */
-class ServiceSimpleRequestParams implements ServiceRequestParams
+class ServiceSimpleRequestParams implements ServiceRequestParamsInterface
 {
 
     /**

@@ -286,6 +286,40 @@ class FieldsAlgorithms
     }
 
     /**
+     * Factory method for creating controls
+     *
+     * @param array $Field
+     *            field description
+     * @return \Mezon\Gui\Field|\Mezon\Gui\Control constructed control
+     */
+    protected function constructControl(array $Field)
+    {
+        $TypeMap = [
+            'external' => \Mezon\Gui\Field\CheckboxesField::class,
+            'records' => \Mezon\Gui\Field\RecordField::class,
+            'file' => \Mezon\Gui\Field\InputFile::class,
+            'date' => \Mezon\Gui\Field\InputDate::class,
+            'custom' => \Mezon\Gui\Field\CustomField::class,
+            'header' => \Mezon\Gui\Field\FormHeader::class,
+            'label' => \Mezon\Gui\Field\LabelField::class
+        ];
+
+        if (isset($Field['items'])) {
+            return (new \Mezon\Gui\Field\Select($Field));
+        } elseif (isset($Field['type'])) {
+            if (in_array($Field['type'], array_keys($TypeMap))) {
+                $ClassName = $TypeMap[$Field['type']];
+
+                $Field['session-id'] = $this->SessionId;
+
+                return (new $ClassName($Field));
+            } else {
+                return (new \Mezon\Gui\Field\InputText($Field));
+            }
+        }
+    }
+
+    /**
      * Method inits control
      *
      * @param array $Field
@@ -294,28 +328,10 @@ class FieldsAlgorithms
      */
     protected function initObject(array $Field)
     {
-        // TODO reduce complexity of this method
-        if (isset($Field['items'])) {
-            $Control = new \Mezon\Gui\Field\Select($Field);
-        } elseif (isset($Field['control']) && $Field['control'] == 'textarea') {
+        if (isset($Field['control']) && $Field['control'] == 'textarea') {
             $Control = new \Mezon\Gui\Field\Textarea($Field);
-        } elseif ($Field['type'] == 'external') {
-            $Field['session-id'] = $this->SessionId;
-            $Control = new \Mezon\Gui\Field\CheckboxesField($Field);
-        } elseif ($Field['type'] == 'records') {
-            $Field['session-id'] = $this->SessionId;
-            $Control = new \Mezon\Gui\Field\RecordField($Field);
-        } elseif ($Field['type'] == 'file') {
-            $Control = new \Mezon\Gui\Field\InputFile($Field);
-        } elseif ($Field['type'] == 'date') {
-            $Control = new \Mezon\Gui\Field\InputDate($Field);
-        } elseif ($Field['type'] == 'custom') {
-            $Control = new \Mezon\Gui\Field\CustomField($Field);
-        } elseif ($Field['type'] == 'header') {
-            $Control = new \Mezon\Gui\Field\FormHeader($Field);
-        } elseif ($Field['type'] == 'label') {
-            $Control = new \Mezon\Gui\Field\LabelField($Field);
         } elseif ($Field['type'] == 'rows') {
+            // TODO move it to the constructor of \Mezon\Gui\FormBuilder\RowsField
             $ControlHTML = '';
             foreach ($Field['type']['rows'] as $RowFieldName) {
                 $Control = $this->getObject($RowFieldName);
@@ -323,7 +339,7 @@ class FieldsAlgorithms
             }
             $Control = new \Mezon\Gui\FormBuilder\RowsField($Field, $ControlHTML);
         } else {
-            $Control = new \Mezon\Gui\Field\InputText($Field);
+            $Control = $this->constructControl($Field);
         }
 
         return ($Control);

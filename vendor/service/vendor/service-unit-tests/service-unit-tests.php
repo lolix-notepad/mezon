@@ -13,7 +13,7 @@ namespace Mezon\Service;
 define('AS_STRING', 1);
 define('AS_OBJECT', 2);
 
-class FakeRequestParams implements \Mezon\Service\ServiceRequestParams
+class FakeRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
 {
 
     /**
@@ -144,7 +144,7 @@ class ServiceUnitTests extends \PHPUnit\Framework\TestCase
      *
      * @param int $Mode
      *            - Creation mode
-     * @return \Mezon\Service\ServiceSecurityProvider|string Service security provider object
+     * @return \Mezon\Service\ServiceSecurityProviderInterface|string Service security provider object
      */
     protected function getSecurityProvider(int $Mode)
     {

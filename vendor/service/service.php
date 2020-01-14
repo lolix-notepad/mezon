@@ -63,7 +63,7 @@ class Service extends Service\ServiceBase
      *            name of the service class or the service object itself
      * @param Service\ServiceTransport|string $ServiceTransport
      *            name of the service transport class or the service transport itself
-     * @param Service\ServiceSecurityProvider|string $SecurityProvider
+     * @param Service\ServiceSecurityProviderInterface|string $SecurityProvider
      *            name of the service security provider class or the service security provider itself
      * @param Service\ServiceLogic|string $ServiceLogic
      *            Logic of the service
@@ -104,7 +104,7 @@ class Service extends Service\ServiceBase
      *            Logic of the service
      * @param Service\ServiceModel|string $ServiceModel
      *            Model of the service
-     * @param Service\ServiceSecurityProvider|string $SecurityProvider
+     * @param Service\ServiceSecurityProviderInterface|string $SecurityProvider
      *            name of the service security provider class or the service security provider itself
      * @param Service\ServiceTransport|string $ServiceTransport
      *            name of the service transport class or the service transport itself

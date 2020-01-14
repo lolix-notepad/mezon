@@ -11,8 +11,6 @@ namespace Mezon;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO split in several classes - filtrations, fetchers etc. WITH BACKWARDS COMPATIBILITY!!!!!
-
 /**
  * Functional algorithms.
  */
@@ -27,13 +25,16 @@ class Functional
      * @param string $Field
      *            Field name
      * @return mixed Field value
+     * @deprecated
      */
     public static function getFieldPlain($Record, string $Field)
     {
-        if (is_object($Record)) {
-            return (isset($Record->$Field) ? $Record->$Field : null);
+        if (is_array($Record) && isset($Record[$Field])) {
+            return ($Record[$Field]);
+        } elseif (is_object($Record) && isset($Record->$Field)) {
+            return ($Record->$Field);
         } else {
-            return (isset($Record[$Field]) ? $Record[$Field] : null);
+            return (null);
         }
     }
 
@@ -47,6 +48,7 @@ class Functional
      * @param bool $Recursive
      *            Shold we search the field $Field along the whole object
      * @return mixed Field value
+     * @deprecated
      */
     public static function getField($Record, string $Field, bool $Recursive = true)
     {

@@ -22,7 +22,7 @@ class ServiceBaseLogic implements ServiceBaseLogicInterface
     /**
      * Security provider
      *
-     * @var ServiceSecurityProvider
+     * @var ServiceSecurityProviderInterface
      */
     protected $SecurityProvider = null;
 
@@ -41,14 +41,14 @@ class ServiceBaseLogic implements ServiceBaseLogicInterface
     /**
      * Constructor
      *
-     * @param ServiceRequestParams $ParamsFetcher
+     * @param \Mezon\Service\ServiceRequestParamsInterface $ParamsFetcher
      *            Params fetcher
      * @param object $SecurityProvider
      *            Security provider
      * @param mixed $Model
      *            Service model
      */
-    public function __construct(ServiceRequestParams $ParamsFetcher, object $SecurityProvider, $Model = null)
+    public function __construct(\Mezon\Service\ServiceRequestParamsInterface $ParamsFetcher, object $SecurityProvider, $Model = null)
     {
         $this->ParamsFetcher = $ParamsFetcher;
 
@@ -88,20 +88,19 @@ class ServiceBaseLogic implements ServiceBaseLogicInterface
     /**
      * Method return params fetcher
      *
-     * @return object
+     * @return \Mezon\Service\ServiceRequestParamsInterface Params fetcher
      */
-    public function getParamsFetcher(): object
+    public function getParamsFetcher(): \Mezon\Service\ServiceRequestParamsInterface
     {
-        // TODO add interface ParamsFetcherInterface
         return ($this->ParamsFetcher);
     }
 
     /**
      * Method returns security provider
      *
-     * @return \Mezon\Service\ServiceSecurityProvider
+     * @return \Mezon\Service\ServiceSecurityProviderInterface
      */
-    public function getSecurityProvider(): \Mezon\Service\ServiceSecurityProvider
+    public function getSecurityProvider(): \Mezon\Service\ServiceSecurityProviderInterface
     {
         return ($this->SecurityProvider);
     }

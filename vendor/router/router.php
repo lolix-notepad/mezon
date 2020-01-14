@@ -11,6 +11,8 @@ namespace Mezon;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
+// TODO decompose this class in a set of smaller ones
+
 /**
  * Router class
  */
@@ -518,6 +520,7 @@ class Router
      */
     public function getRoute(string $Route): object
     {
+        // TODO remove complexity of thismethod
         if (isset($this->GetRoutes[$Route])) {
             return ($this->GetRoutes[$Route]);
         }
@@ -559,5 +562,21 @@ class Router
     public function hasParam(string $Name): bool
     {
         return (isset($this->Parameters[$Name]));
+    }
+
+    /**
+     * Method returns true if the router exists
+     *
+     * @param string $Route
+     *            checking route
+     * @return bool true if the router exists, false otherwise
+     */
+    public function routeExists(string $Route): bool
+    {
+        try {
+            return (true);
+        } catch (\Exception $e) {
+            return (false);
+        }
     }
 }

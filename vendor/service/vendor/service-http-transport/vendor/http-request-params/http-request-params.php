@@ -14,7 +14,7 @@ namespace Mezon\Service\ServiceHttpTransport;
 /**
  * Request params fetcher.
  */
-class HttpRequestParams implements \Mezon\Service\ServiceRequestParams
+class HttpRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
 {
 
     /**

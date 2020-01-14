@@ -72,7 +72,7 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
      */
     public function testInValidConnect()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->construct_client('1234567');
     }
 
@@ -110,7 +110,7 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
     {
         $Client = new $this->ClientClassName();
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $Client->setToken('unexistingtoken');
     }
 
@@ -123,7 +123,7 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
 
         try {
             $Client->loginAs($this->ExistingLogin);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->assertEquals(0, 1, 'Login was was not called properly');
         }
     }
@@ -135,7 +135,7 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
     {
         $Client = $this->construct_client();
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $Client->loginAs('alexey@dodonov.none');
     }
 

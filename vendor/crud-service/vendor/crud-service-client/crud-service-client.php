@@ -16,7 +16,7 @@ namespace Mezon\CrudService;
  *
  * @author Dodonov A.A.
  */
-class CrudServiceClient extends \Mezon\Service\ServiceClient
+class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\CrudService\CrudServiceClientInterface
 {
 
     /**
@@ -30,6 +30,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient
      */
     public function getCompiledFilter($Filter, $Amp = true)
     {
+        // TODO can we make this method protected?
         if ($Filter !== false) {
             if (isset($Filter[0]) && is_array($Filter[0])) {
                 return (($Amp ? '&' : '') . http_build_query([
