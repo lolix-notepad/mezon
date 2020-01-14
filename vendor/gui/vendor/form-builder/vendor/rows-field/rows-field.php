@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Gui\FormBuilder;
+namespace Mezon\Gui\FormBuilder\RowsField;
 
 /**
  * Class RowsField

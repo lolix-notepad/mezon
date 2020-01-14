@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Service\ServiceRestTransport;
+namespace Mezon\Service\ServiceRestTransport\RestException;
 
 /**
  * Class RestException

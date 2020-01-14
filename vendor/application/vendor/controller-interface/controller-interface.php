@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Application;
+namespace Mezon\Application\ControllerInterface;
 
 /**
  * Interface ControllerInterface

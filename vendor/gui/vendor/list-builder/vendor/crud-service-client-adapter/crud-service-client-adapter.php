@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Gui\ListBuilder;
+namespace Mezon\Gui\ListBuilder\CrudServiceClientAdapter;
 
 /**
  * Class CrudServiceClientAdapter

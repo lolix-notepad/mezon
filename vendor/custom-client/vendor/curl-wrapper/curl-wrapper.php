@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\CustomClient;
+namespace Mezon\CustomClient\CurlWrapper;
 
 /**
  * Class CurlWrapper

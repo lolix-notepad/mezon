@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Gui;
+namespace Mezon\Gui\FieldsAlgorithms;
 
 /**
  * Class FieldsAlgorithms

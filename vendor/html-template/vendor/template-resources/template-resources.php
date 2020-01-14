@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\HtmlTemplate;
+namespace Mezon\HtmlTemplate\TemplateResources;
 
 /**
  * Class TemplateResources

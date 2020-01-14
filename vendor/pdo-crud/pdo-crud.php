@@ -1,5 +1,5 @@
 <?php
-namespace Mezon;
+namespace Mezon\PdoCrud;
 
 /**
  * Class PdoCrud

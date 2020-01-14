@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Service\ServiceHttpTransport;
+namespace Mezon\Service\ServiceHttpTransport\HttpRequestParams;
 
 /**
  * Class HttpRequestParams

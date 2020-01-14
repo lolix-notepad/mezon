@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Gui\Field;
+namespace Mezon\Gui\Field\CustomField;
 
 /**
  * Class CustomField

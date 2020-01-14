@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Application;
+namespace Mezon\Application\View;
 
 /**
  * Class View

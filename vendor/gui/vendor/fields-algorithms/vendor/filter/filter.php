@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Gui\FieldsAlgorithms;
+namespace Mezon\Gui\FieldsAlgorithms\Filter;
 
 /**
  * Class Filter

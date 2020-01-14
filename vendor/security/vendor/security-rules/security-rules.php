@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Security;
+namespace Mezon\Security\SecurityRules;
 
 /**
  * Class SecurityRules

@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Service\ServiceConsoleTransport;
+namespace Mezon\Service\ServiceConsoleTransport\ConsoleRequestParams;
 
 /**
  * Class ConsoleRequestParams

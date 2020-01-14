@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Service\ServiceClient;
+namespace Mezon\Service\ServiceClient\ServiceClientUnitTests;
 
 /**
  * Class ServiceClientUnitTests

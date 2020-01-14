@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\CrudService\CrudServiceLogic;
+namespace Mezon\CrudService\CrudServiceLogic\CrudServiceLogicUnitTests;
 
 /**
  * Class CrudServiceLogicUnitTests

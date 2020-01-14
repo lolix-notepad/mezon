@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\WidgetsRegistry;
+namespace Mezon\WidgetsRegistry\WidgetsRegistryBase;
 
 /**
  * Interface WidgetsRegistryBase

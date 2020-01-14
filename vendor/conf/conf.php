@@ -1,5 +1,5 @@
 <?php
-namespace Mezon;
+namespace Mezon\Conf;
 
 /**
  * Configuration routines

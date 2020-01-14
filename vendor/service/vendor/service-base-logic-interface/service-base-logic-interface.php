@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Service;
+namespace Mezon\Service\ServiceBaseLogicInterface;
 
 /**
  * Interface ServiceBaseLogicInterface
