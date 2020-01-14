@@ -24,7 +24,7 @@
 	"autoload": {
 		"psr-4": {
 			"Mezon\\": "vendor/",
-			"Mezon\\Router": "vendor/router/router.php"
+			"Mezon\\Router": "vendor/Router/"
 		}
 	}
 }
