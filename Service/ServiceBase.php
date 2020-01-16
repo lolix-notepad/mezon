@@ -111,7 +111,7 @@ class ServiceBase
             $Result = $ServiceLogic;
         }
 
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -179,7 +179,7 @@ class ServiceBase
      */
     public function getTransport(): \Mezon\Service\ServiceTransport
     {
-        return ($this->ServiceTransport);
+        return $this->ServiceTransport;
     }
 
     /**
@@ -189,6 +189,6 @@ class ServiceBase
      */
     public function getLogic()
     {
-        return($this->ServiceLogic);
+        return $this->ServiceLogic;
     }
 }

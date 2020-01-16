@@ -42,7 +42,7 @@ class Filter
         );
 
         if (in_array($Item['op'], $Operators)) {
-            return ($Item['op']);
+            return $Item['op'];
         }
 
         throw (new \Exception('Invalid operator ' . $Item['op']));
@@ -72,7 +72,7 @@ class Filter
                 $Result = "'" . $Arg . "'";
             }
         }
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -90,7 +90,7 @@ class Filter
 
         $Statement .= self::getArg($Item['arg2'], self::getOperator($Item));
 
-        return ($Statement);
+        return $Statement;
     }
 
     /**
@@ -108,7 +108,7 @@ class Filter
             $Where[] = self::getStatement($Item);
         }
 
-        return ($Where);
+        return $Where;
     }
 
     /**
@@ -126,7 +126,7 @@ class Filter
         $FirstElement = array_pop($FirstElement);
 
         if (count($Arr) && is_array($FirstElement)) {
-            return (self::compileWhere($Arr, $Where));
+            return self::compileWhere($Arr, $Where);
         }
 
         // simple filter construction
@@ -142,7 +142,7 @@ class Filter
             }
         }
 
-        return ($Where);
+        return $Where;
     }
 
     /**
@@ -155,9 +155,9 @@ class Filter
     public static function addFilterCondition($Where)
     {
         if (! isset($_GET['filter'])) {
-            return ($Where);
+            return $Where;
         }
 
-        return (self::addFilterConditionFromArr($_GET['filter'], $Where));
+        return self::addFilterConditionFromArr($_GET['filter'], $Where);
     }
 }

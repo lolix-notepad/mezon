@@ -82,7 +82,7 @@ class PdoCrud
 
         $this->processQueryError($Result, $Query);
 
-        return ($Result->fetchAll(\PDO::FETCH_ASSOC));
+        return $Result->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     /**
@@ -108,7 +108,7 @@ class PdoCrud
             }
         }
 
-        return (implode(' , ', $SetFieldsStatement));
+        return implode(' , ', $SetFieldsStatement);
     }
 
     /**
@@ -128,7 +128,7 @@ class PdoCrud
             $Values[] = "( '" . implode("' , '", array_values($Record)) . "' )";
         }
 
-        return ($Query . implode(' , ', $Values));
+        return $Query . implode(' , ', $Values);
     }
 
     /**
@@ -152,7 +152,7 @@ class PdoCrud
 
         $this->processQueryError($Result, $Query);
 
-        return ($Result->rowCount());
+        return $Result->rowCount();
     }
 
     /**
@@ -174,7 +174,7 @@ class PdoCrud
 
         $this->processQueryError($Result, $Query);
 
-        return ($Result->rowCount());
+        return $Result->rowCount();
     }
 
     /**
@@ -196,7 +196,7 @@ class PdoCrud
 
         $Query = 'LOCK TABLES ' . implode(' , ', $Query);
 
-        return ($Query);
+        return $Query;
     }
 
     /**
@@ -279,7 +279,7 @@ class PdoCrud
     public function query(string $Query)
     {
         // @codeCoverageIgnoreStart
-        return ($this->PDO->query($Query));
+        return $this->PDO->query($Query);
         // @codeCoverageIgnoreEnd
     }
 
@@ -291,7 +291,7 @@ class PdoCrud
     public function lastInsertId()
     {
         // @codeCoverageIgnoreStart
-        return ($this->PDO->lastInsertId());
+        return $this->PDO->lastInsertId();
         // @codeCoverageIgnoreEnd
     }
 
@@ -312,7 +312,7 @@ class PdoCrud
 
         $this->processQueryError($Result, $Query);
 
-        return ($this->lastInsertId());
+        return $this->lastInsertId();
     }
 
     /**
@@ -332,7 +332,7 @@ class PdoCrud
 
         $this->processQueryError($Result, $Query);
 
-        return (0);
+        return 0;
     }
 
     /**

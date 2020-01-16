@@ -55,7 +55,7 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
     {
         $Client = new $this->ClientClassName($this->ExistingLogin, $Password);
 
-        return ($Client);
+        return $Client;
     }
 
     /**

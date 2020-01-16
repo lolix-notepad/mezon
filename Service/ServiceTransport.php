@@ -66,7 +66,7 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
     {
         if (is_object($this->ServiceLogic)) {
             if (method_exists($this->ServiceLogic, $Method)) {
-                return ($this->ServiceLogic);
+                return $this->ServiceLogic;
             } else {
                 throw (new \Exception(
                     'The method "' . $Method . '" was not found in the "' . get_class($this->ServiceLogic) . '"',
@@ -75,7 +75,7 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
         } elseif (is_array($this->ServiceLogic)) {
             foreach ($this->ServiceLogic as $Logic) {
                 if (method_exists($Logic, $Method)) {
-                    return ($Logic);
+                    return $Logic;
                 }
             }
 
@@ -97,7 +97,7 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
     public function createSession(string $Token = ''): string
     {
         // must be overriden
-        return ($Token);
+        return $Token;
     }
 
     /**
@@ -120,14 +120,14 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
             $this->Router->addRoute(
                 $Route,
                 function () use ($LocalServiceLogic, $Method) {
-                    return ($this->callPublicLogic($LocalServiceLogic, $Method, []));
+                    return $this->callPublicLogic($LocalServiceLogic, $Method, []);
                 },
                 $Request);
         } else {
             $this->Router->addRoute(
                 $Route,
                 function () use ($LocalServiceLogic, $Method) {
-                    return ($this->callLogic($LocalServiceLogic, $Method, []));
+                    return $this->callLogic($LocalServiceLogic, $Method, []);
                 },
                 $Request);
         }
@@ -202,12 +202,12 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
         try {
             $Params['SessionId'] = $this->createSession();
 
-            return (call_user_func_array([
+            return call_user_func_array([
                 $ServiceLogic,
                 $Method
-            ], $Params));
+            ], $Params);
         } catch (\Exception $e) {
-            return ($this->errorResponse($e));
+            return $this->errorResponse($e);
         }
     }
 
@@ -228,12 +228,12 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
         array $Params = [])
     {
         try {
-            return (call_user_func_array([
+            return call_user_func_array([
                 $ServiceLogic,
                 $Method
-            ], $Params));
+            ], $Params);
         } catch (\Exception $e) {
-            return ($this->errorResponse($e));
+            return $this->errorResponse($e);
         }
     }
 
@@ -246,13 +246,13 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
      */
     public function errorResponse($e): array
     {
-        return ([
+        return [
             'message' => $e->getMessage(),
             'code' => $e->getCode(),
             'service' => 'service',
             'call_stack' => $this->formatCallStack($e),
             'host' => 'console'
-        ]);
+        ];
     }
 
     /**
@@ -266,7 +266,7 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
      */
     public function getParam(string $Param, $Default = false)
     {
-        return ($this->ParamsFetcher->getParam($Param, $Default));
+        return $this->ParamsFetcher->getParam($Param, $Default);
     }
 
     /**
@@ -285,7 +285,7 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
                 (@$Call['class'] == '' ? '' : $Call['class'] . '->') . $Call['function'];
         }
 
-        return ($Stack);
+        return $Stack;
     }
 
     /**
@@ -333,14 +333,14 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
                 $this->Router->addRoute(
                     $Route,
                     function () use ($ActionsSource, $Method) {
-                        return ($this->callPublicLogic($ActionsSource, $Method, []));
+                        return $this->callPublicLogic($ActionsSource, $Method, []);
                     },
                     'GET');
 
                 $this->Router->addRoute(
                     $Route,
                     function () use ($ActionsSource, $Method) {
-                        return ($this->callPublicLogic($ActionsSource, $Method, []));
+                        return $this->callPublicLogic($ActionsSource, $Method, []);
                     },
                     'POST');
             }
@@ -355,10 +355,10 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
     public function getParamsFetcher(): \Mezon\Service\ServiceRequestParamsInterface
     {
         if ($this->ParamsFetcher !== false) {
-            return ($this->ParamsFetcher);
+            return $this->ParamsFetcher;
         }
 
-        return ($this->ParamsFetcher = $this->createFetcher());
+        return $this->ParamsFetcher = $this->createFetcher();
     }
 
     /**
@@ -370,7 +370,7 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
      */
     public function routeExists(string $Route): bool
     {
-        return ($this->Router->routeExists($Route));
+        return $this->Router->routeExists($Route);
     }
 
     /**
@@ -380,6 +380,6 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
      */
     public function &getRouter(): \Mezon\Router\Router
     {
-        return ($this->Router);
+        return $this->Router;
     }
 }

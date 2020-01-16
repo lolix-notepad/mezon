@@ -58,7 +58,7 @@ class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

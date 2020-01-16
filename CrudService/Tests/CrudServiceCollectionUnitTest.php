@@ -30,7 +30,7 @@ class CrudServiceCollectionUnitTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

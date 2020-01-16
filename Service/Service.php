@@ -87,12 +87,12 @@ class Service extends \Mezon\Service\ServiceBase
         }
 
         if ($RunService === false) {
-            return ($Service);
+            return $Service;
         }
 
         $Service->run();
 
-        return ($Service);
+        return $Service;
     }
 
     /**
@@ -125,11 +125,11 @@ class Service extends \Mezon\Service\ServiceBase
         }
 
         if ($RunService === false) {
-            return ($Service);
+            return $Service;
         }
 
         $Service->run();
 
-        return ($Service);
+        return $Service;
     }
 }

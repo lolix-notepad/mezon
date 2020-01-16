@@ -27,9 +27,9 @@ class ServiceMockSecurityProvider implements \Mezon\Service\ServiceSecurityProvi
     public function createSession(string $Token = null): string
     {
         if ($Token === null) {
-            return (md5(microtime(true)));
+            return md5(microtime(true));
         } else {
-            return ($Token);
+            return $Token;
         }
     }
 
@@ -44,7 +44,7 @@ class ServiceMockSecurityProvider implements \Mezon\Service\ServiceSecurityProvi
      */
     public function connect(string $Login, string $Password): string
     {
-        return (md5(microtime(true)));
+        return md5(microtime(true));
     }
 
     /**
@@ -56,7 +56,7 @@ class ServiceMockSecurityProvider implements \Mezon\Service\ServiceSecurityProvi
      */
     public function setToken(string $Token): string
     {
-        return ($Token);
+        return $Token;
     }
 
     /**
@@ -68,7 +68,7 @@ class ServiceMockSecurityProvider implements \Mezon\Service\ServiceSecurityProvi
      */
     public function getSelfId(string $Token): int
     {
-        return (1);
+        return 1;
     }
 
     /**
@@ -80,7 +80,7 @@ class ServiceMockSecurityProvider implements \Mezon\Service\ServiceSecurityProvi
      */
     public function getSelfLogin(string $Token): string
     {
-        return ('admin@localhost');
+        return 'admin@localhost';
     }
 
     /**
@@ -96,7 +96,7 @@ class ServiceMockSecurityProvider implements \Mezon\Service\ServiceSecurityProvi
      */
     public function loginAs(string $Token, string $LoginOrId, string $Field): string
     {
-        return ($Token);
+        return $Token;
     }
 
     /**
@@ -110,7 +110,7 @@ class ServiceMockSecurityProvider implements \Mezon\Service\ServiceSecurityProvi
      */
     public function hasPermit(string $Token, string $Permit): bool
     {
-        return (true);
+        return true;
     }
 
     /**
@@ -131,7 +131,7 @@ class ServiceMockSecurityProvider implements \Mezon\Service\ServiceSecurityProvi
      */
     public function getLoginFieldName(): string
     {
-        return ('login');
+        return 'login';
     }
 
     /**
@@ -141,6 +141,6 @@ class ServiceMockSecurityProvider implements \Mezon\Service\ServiceSecurityProvi
      */
     public function getSessionIdFieldName(): string
     {
-        return ('session_id');
+        return 'session_id';
     }
 }

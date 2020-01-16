@@ -36,7 +36,7 @@ class CustomFieldUnitTest extends \PHPUnit\Framework\TestCase
         $Mock->method('get_field_template')->willReturn(
             'name:{name} required:{required} disabled:{disabled} custom:{custom} name-prefix:{name-prefix} batch:{batch} toggler:{toggler} toggler:{toggle-value}');
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

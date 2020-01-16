@@ -121,7 +121,7 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
 
         $this->assertJson($JSONResult, $Result);
 
-        return ($JSONResult);
+        return $JSONResult;
     }
 
     /**
@@ -139,7 +139,7 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
             ]
         ];
 
-        return ($Options);
+        return $Options;
     }
 
     /**
@@ -162,7 +162,7 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
 
         $this->assertJson($JSONResult, $Result);
 
-        return ($JSONResult);
+        return $JSONResult;
     }
 
     /**
@@ -172,10 +172,10 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
      */
     protected function getUserData(): array
     {
-        return ([
+        return [
             'login' => 'alexey@dodonov.pro',
             'password' => 'root'
-        ]);
+        ];
     }
 
     /**
@@ -195,7 +195,7 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
             $this->SessionId = $Result->session_id;
         }
 
-        return ($Result);
+        return $Result;
     }
 
     /**

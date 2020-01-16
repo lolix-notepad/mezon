@@ -71,7 +71,7 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
      */
     protected function getServiceSettings(): array
     {
-        return (json_decode(file_get_contents(__DIR__ . '/conf/SetupCrudServiceUnitTests.json'), true));
+        return json_decode(file_get_contents(__DIR__ . '/conf/SetupCrudServiceUnitTests.json'), true);
     }
 
     /**
@@ -126,9 +126,9 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
     protected function getTransport(string $Type = GET_STRING)
     {
         if ($Type == GET_STRING) {
-            return (\Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport::class);
+            return \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport::class;
         } else {
-            return (new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport());
+            return new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport();
         }
     }
 
@@ -214,7 +214,7 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
      */
     public static function routesDataProvider(): array
     {
-        return ([
+        return [
             [
                 '/list/',
                 'listRecord',
@@ -280,7 +280,7 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
                 'recordsCountByField',
                 'GET',
             ],
-        ]);
+        ];
     }
 
     /**

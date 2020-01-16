@@ -84,7 +84,7 @@ class ApplicationActions
             $Result = array_merge($Result, $AppObject->crossRender());
         }
 
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -127,7 +127,7 @@ class ApplicationActions
         // create list builder
         $ListBuilder = new \Mezon\Gui\ListBuilder(explode(',', $Options['default-fields']), $CrudServiceClientAdapter);
 
-        return ($ListBuilder);
+        return $ListBuilder;
     }
 
     /**
@@ -161,7 +161,7 @@ class ApplicationActions
             ];
 
             // add page parts
-            return ($this->addPageParts($Result, $AppObject, $Options));
+            return $this->addPageParts($Result, $AppObject, $Options);
         };
     }
 
@@ -192,7 +192,7 @@ class ApplicationActions
             ];
 
             // add page parts
-            return ($this->addPageParts($Result, $AppObject, $Options));
+            return $this->addPageParts($Result, $AppObject, $Options);
         };
     }
 
@@ -262,7 +262,7 @@ class ApplicationActions
             ];
         }
 
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -287,7 +287,7 @@ class ApplicationActions
 
                 $AppObject->redirectTo('../list/');
             } else {
-                return ($this->addPageParts($this->getCompiledForm(), $AppObject, $Options));
+                return $this->addPageParts($this->getCompiledForm(), $AppObject, $Options);
             }
         };
     }
@@ -339,7 +339,7 @@ class ApplicationActions
 
                 $AppObject->redirectTo('../../list/');
             } else {
-                return ($this->addPageParts($this->getCompiledForm('updating', $Params[1]['id']), $AppObject, $Options));
+                return $this->addPageParts($this->getCompiledForm('updating', $Params[1]['id']), $AppObject, $Options);
             }
         };
     }

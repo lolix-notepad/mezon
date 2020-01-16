@@ -60,7 +60,7 @@ class RowsField extends \Mezon\Gui\Field
         $Content .= '</div></div>';
         $Content .= '</template>';
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -68,6 +68,6 @@ class RowsField extends \Mezon\Gui\Field
      */
     public function fillAllRow(): bool
     {
-        return (true);
+        return true;
     }
 }

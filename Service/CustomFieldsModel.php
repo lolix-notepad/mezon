@@ -43,7 +43,7 @@ class CustomFieldsModel
     protected function getConnection(): \Mezon\PdoCrud\PdoCrud
     {
         // @codeCoverageIgnoreStart
-        return (\Mezon\Mezon\Mezon::getDbConnection());
+        return \Mezon\Mezon\Mezon::getDbConnection();
         // @codeCoverageIgnoreEnd
     }
 
@@ -54,7 +54,7 @@ class CustomFieldsModel
      */
     protected function getCustomFieldsTemplateBame(): string
     {
-        return ($this->TableName . '_custom_field');
+        return $this->TableName . '_custom_field';
     }
 
     /**
@@ -86,7 +86,7 @@ class CustomFieldsModel
             }
         }
 
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -157,6 +157,6 @@ class CustomFieldsModel
             $Records[$i]['custom'] = $this->getCustomFieldsForObject(\Mezon\Functional\Functional::getField($Record, 'id'));
         }
 
-        return ($Records);
+        return $Records;
     }
 }

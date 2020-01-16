@@ -77,7 +77,7 @@ class CommonApplication extends \Mezon\Application\Application
      */
     public function crossRender(): array
     {
-        return ([]);
+        return [];
     }
 
     /**
@@ -95,7 +95,7 @@ class CommonApplication extends \Mezon\Application\Application
                 (@$Call['class'] == '' ? '' : $Call['class'] . '->') . $Call['function'];
         }
 
-        return ($Stack);
+        return $Stack;
     }
 
     /**
@@ -116,7 +116,7 @@ class CommonApplication extends \Mezon\Application\Application
         } else {
             $Error->host = 'undefined';
         }
-        return ($Error);
+        return $Error;
     }
 
     /**
@@ -183,7 +183,7 @@ class CommonApplication extends \Mezon\Application\Application
      */
     public function getRemplate(): \Mezon\HtmlTemplate\HtmlTemplate
     {
-        return ($this->Template);
+        return $this->Template;
     }
 
     /**

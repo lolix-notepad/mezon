@@ -74,7 +74,7 @@ class TemplateResources
      */
     function getCssFiles()
     {
-        return (self::$CSSFiles);
+        return self::$CSSFiles;
     }
 
     /**
@@ -109,7 +109,7 @@ class TemplateResources
      */
     function getJsFiles()
     {
-        return (self::$JSFiles);
+        return self::$JSFiles;
     }
 
     /**

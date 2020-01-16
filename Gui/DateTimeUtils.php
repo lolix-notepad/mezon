@@ -31,7 +31,7 @@ class DateTimeUtils
      */
     public static function isToday(string $Date): bool
     {
-        return (date(DateTimeUtils::DEFAULT_DATE_MASK) == date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime($Date)));
+        return date(DateTimeUtils::DEFAULT_DATE_MASK) == date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime($Date));
     }
 
     /**
@@ -43,8 +43,8 @@ class DateTimeUtils
      */
     public static function isYesterday(string $Date): bool
     {
-        return (date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime('-1 day')) ==
-            date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime($Date)));
+        return date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime('-1 day')) ==
+            date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime($Date));
     }
 
     /**
@@ -61,7 +61,7 @@ class DateTimeUtils
      */
     protected static function getDictionary(): array
     {
-        return (json_decode(file_get_contents(__DIR__ . '/res/l8n/' . self::$Locale . '.json'), true));
+        return json_decode(file_get_contents(__DIR__ . '/res/l8n/' . self::$Locale . '.json'), true);
     }
 
     /**
@@ -77,6 +77,6 @@ class DateTimeUtils
 
         $DateTime = strtotime($Date);
 
-        return (date('d', $DateTime) . ' ' . $Dictionary[date('n', $DateTime)]);
+        return date('d', $DateTime) . ' ' . $Dictionary[date('n', $DateTime)];
     }
 }

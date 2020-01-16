@@ -159,7 +159,7 @@ class HtmlTemplate
         <script src="' . $JSFile . '"></script>';
         }
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -184,7 +184,7 @@ class HtmlTemplate
 
         $this->Template = preg_replace('/\{[a-zA-z0-9\-]*\}/', '', $this->Template);
 
-        return ($this->Template);
+        return $this->Template;
     }
 
     /**
@@ -203,7 +203,7 @@ class HtmlTemplate
             throw (new \Exception('Block ' . $BlockName . ' was not found', - 1));
         }
 
-        return ($BlockContent);
+        return $BlockContent;
     }
 
     /**
@@ -225,6 +225,6 @@ class HtmlTemplate
      */
     public function getBlock(string $BlockName): string
     {
-        return ($this->readBlock($BlockName));
+        return $this->readBlock($BlockName);
     }
 }

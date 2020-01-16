@@ -51,7 +51,7 @@ class Singleton
             self::$Instances[$ClassName] = $ReflectionObject->newInstanceArgs($Args);
         }
 
-        return (self::$Instances[$ClassName]);
+        return self::$Instances[$ClassName];
     }
 
     /**

@@ -25,7 +25,7 @@ class CheckboxesField extends \Mezon\Gui\Field\RemoteField
     protected function getExternalRecords(): array
     {
         // @codeCoverageIgnoreStart
-        return ($this->getClient()->getAll());
+        return $this->getClient()->getAll();
         // @codeCoverageIgnoreEnd
     }
 
@@ -39,9 +39,9 @@ class CheckboxesField extends \Mezon\Gui\Field\RemoteField
     protected function getExternalTitle(array $Record): string
     {
         if (\Mezon\Functional\Functional::getField($Record, 'title') !== null) {
-            return (\Mezon\Functional\Functional::getField($Record, 'title'));
+            return \Mezon\Functional\Functional::getField($Record, 'title');
         } else {
-            return ('id : ' . \Mezon\Functional\Functional::getField($Record, 'id'));
+            return 'id : ' . \Mezon\Functional\Functional::getField($Record, 'id');
         }
     }
 
@@ -65,6 +65,6 @@ class CheckboxesField extends \Mezon\Gui\Field\RemoteField
             </label><br>';
         }
 
-        return ($Content);
+        return $Content;
     }
 }

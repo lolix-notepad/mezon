@@ -296,8 +296,8 @@ class Field
      */
     public function html(): string
     {
-        return ($this->NamePrefix . $this->Name . ($this->Required ? 1 : 0) . ($this->Custom ? 1 : 0) .
-            ($this->Batch ? 1 : 0) . ($this->Disabled ? 1 : 0) . $this->Toggler . $this->ToggleValue);
+        return $this->NamePrefix . $this->Name . ($this->Required ? 1 : 0) . ($this->Custom ? 1 : 0) .
+            ($this->Batch ? 1 : 0) . ($this->Disabled ? 1 : 0) . $this->Toggler . $this->ToggleValue;
     }
 
     /**
@@ -307,7 +307,7 @@ class Field
      */
     public function getTitle(): string
     {
-        return ($this->Title);
+        return $this->Title;
     }
 
     /**
@@ -317,7 +317,7 @@ class Field
      */
     public function isRequired(): bool
     {
-        return ($this->Required);
+        return $this->Required;
     }
 
     /**
@@ -327,7 +327,7 @@ class Field
      */
     public function isVisible(): bool
     {
-        return ($this->Visible);
+        return $this->Visible;
     }
 
     /**
@@ -337,7 +337,7 @@ class Field
      */
     public function hasLabel(): bool
     {
-        return ($this->HasLabel);
+        return $this->HasLabel;
     }
 
     /**
@@ -347,7 +347,7 @@ class Field
      */
     public function fillAllRow(): bool
     {
-        return (false);
+        return false;
     }
 
     /**
@@ -357,6 +357,6 @@ class Field
      */
     public function getType(): string
     {
-        return ($this->Type);
+        return $this->Type;
     }
 }

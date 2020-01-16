@@ -86,7 +86,7 @@ class RecordField extends \Mezon\Gui\Field\RemoteField
     protected function getFields(): array
     {
         // @codeCoverageIgnoreStart
-        return ($this->getClient()->getRemoteCreationFormFieldsJson());
+        return $this->getClient()->getRemoteCreationFormFieldsJson();
         // @codeCoverageIgnoreEnd
     }
 
@@ -110,6 +110,6 @@ class RecordField extends \Mezon\Gui\Field\RemoteField
             $this->Batch);
 
         // getting HTML
-        return ($FormBuilder->compileFormFields());
+        return $FormBuilder->compileFormFields();
     }
 }

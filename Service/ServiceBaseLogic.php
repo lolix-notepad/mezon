@@ -75,7 +75,7 @@ class ServiceBaseLogic implements \Mezon\Service\ServiceBaseLogicInterface
      */
     protected function getParam($Param, $Default = false)
     {
-        return ($this->ParamsFetcher->getParam($Param, $Default));
+        return $this->ParamsFetcher->getParam($Param, $Default);
     }
 
     /**
@@ -85,7 +85,7 @@ class ServiceBaseLogic implements \Mezon\Service\ServiceBaseLogicInterface
      */
     public function getModel(): ?\Mezon\Service\ServiceModel
     {
-        return ($this->Model);
+        return $this->Model;
     }
 
     /**
@@ -95,7 +95,7 @@ class ServiceBaseLogic implements \Mezon\Service\ServiceBaseLogicInterface
      */
     public function getParamsFetcher(): \Mezon\Service\ServiceRequestParamsInterface
     {
-        return ($this->ParamsFetcher);
+        return $this->ParamsFetcher;
     }
 
     /**
@@ -105,6 +105,6 @@ class ServiceBaseLogic implements \Mezon\Service\ServiceBaseLogicInterface
      */
     public function getSecurityProvider(): \Mezon\Service\ServiceSecurityProviderInterface
     {
-        return ($this->SecurityProvider);
+        return $this->SecurityProvider;
     }
 }

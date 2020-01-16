@@ -16,8 +16,7 @@ namespace Mezon\CrudService;
  *
  * @author Dodonov A.A.
  */
-class CrudServiceClient extends \Mezon\Service\ServiceClient implements 
-    \Mezon\CrudService\CrudServiceClientInterface
+class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\CrudService\CrudServiceClientInterface
 {
 
     /**
@@ -34,9 +33,9 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
         // TODO can we make this method protected?
         if ($Filter !== false) {
             if (isset($Filter[0]) && is_array($Filter[0])) {
-                return (($Amp ? '&' : '') . http_build_query([
+                return ($Amp ? '&' : '') . http_build_query([
                     'filter' => $Filter
-                ]));
+                ]);
             } else {
                 $FilterString = [];
 
@@ -44,11 +43,11 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
                     $FilterString[] = 'filter[' . $Name . ']=' . urlencode($Value);
                 }
 
-                return (($Amp ? '&' : '') . implode('&', $FilterString));
+                return ($Amp ? '&' : '') . implode('&', $FilterString);
             }
         }
 
-        return ('');
+        return '';
     }
 
     /**
@@ -61,12 +60,12 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
     protected function getCompiledOrder($Order)
     {
         if ($Order !== false) {
-            return ('&' . http_build_query([
+            return '&' . http_build_query([
                 'order' => $Order
-            ]));
+            ]);
         }
 
-        return ('');
+        return '';
     }
 
     /**
@@ -83,7 +82,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
     {
         $Filter = $this->getCompiledFilter($Filter);
 
-        return ($this->getRequest('/list/?cross_domain=' . $CrossDomain . $Filter));
+        return $this->getRequest('/list/?cross_domain=' . $CrossDomain . $Filter);
     }
 
     /**
@@ -98,7 +97,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
      */
     public function getById($id, $CrossDomain = 0)
     {
-        return ($this->getRequest("/exact/$id/?cross_domain=$CrossDomain"));
+        return $this->getRequest("/exact/$id/?cross_domain=$CrossDomain");
     }
 
     /**
@@ -112,23 +111,13 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
      */
     public function getByIdsArray($ids, $CrossDomain = 0)
     {
-        $Cache = \Mezon\Cache\Cache::getInstance();
-
-        $Key = $this->Service . '/get_by_ids_array/' . ($CrossDomain ? 1 : 0) . implode('.', $ids);
-
-        if ($Cache->exists($Key)) {
-            return ($Cache->get($Key));
-        }
-
         if (count($ids) === 0) {
-            return ([]);
+            return [];
         }
 
         $Result = $this->getRequest('/exact/list/' . implode(',', $ids) . "/?cross_domain=$CrossDomain");
 
-        $Cache->set($Key, $Result);
-
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -142,7 +131,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
     {
         $Data = $this->pretransformData($Data);
 
-        return ($this->postRequest('/create/', $Data));
+        return $this->postRequest('/create/', $Data);
     }
 
     /**
@@ -159,7 +148,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
      */
     public function update(int $id, array $Data, int $CrossDomain = 0)
     {
-        return ($this->postRequest('/update/' . $id . '/?cross_domain=' . $CrossDomain, $Data));
+        return $this->postRequest('/update/' . $id . '/?cross_domain=' . $CrossDomain, $Data);
     }
 
     /**
@@ -176,7 +165,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
         $Result->fields = json_encode($Result->fields);
         $Result->layout = json_encode($Result->layout);
 
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -189,7 +178,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
      */
     public function newRecordsSince($Date)
     {
-        return ($this->getRequest('/new/from/' . $Date . '/'));
+        return $this->getRequest('/new/from/' . $Date . '/');
     }
 
     /**
@@ -200,7 +189,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
      */
     public function recordsCount()
     {
-        return ($this->getRequest('/records/count/'));
+        return $this->getRequest('/records/count/');
     }
 
     /**
@@ -217,7 +206,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
     {
         $Filter = $this->getCompiledFilter($Filter, false);
 
-        return ($this->getRequest('/last/' . $Count . '/?' . $Filter));
+        return $this->getRequest('/last/' . $Count . '/?' . $Filter);
     }
 
     /**
@@ -232,7 +221,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
      */
     public function delete(int $id, int $CrossDomain = 0): string
     {
-        return ($this->getRequest('/delete/' . $id . '/?cross_domain=' . $CrossDomain));
+        return $this->getRequest('/delete/' . $id . '/?cross_domain=' . $CrossDomain);
     }
 
     /**
@@ -246,21 +235,9 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
      */
     public function recordsCountByField(string $Field, $Filter = false): array
     {
-        $Cache = \Mezon\Cache\Cache::getInstance();
-
         $Filter = $this->getCompiledFilter($Filter);
 
-        $Key = $this->Service . '/records-count-by-field/' . $Field . '/' . $Filter;
-
-        if ($Cache->exists($Key)) {
-            return ($Cache->get($Key));
-        }
-
-        $Return = $this->getRequest('/records/count/' . $Field . '/?' . $Filter);
-
-        $Cache->set($Key, $Return);
-
-        return ($Return);
+        return $this->getRequest('/records/count/' . $Field . '/?' . $Filter);
     }
 
     /**
@@ -294,7 +271,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
 
         $Connection->setToken($Token);
 
-        return ($Connection);
+        return $Connection;
     }
 
     /**
@@ -318,8 +295,8 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
 
         $Order = $this->getCompiledOrder($Order);
 
-        return ($this->getRequest(
-            '/list/?from=' . $From . '&limit=' . $Limit . '&cross_domain=' . $CrossDomain . $Filter . $Order));
+        return $this->getRequest(
+            '/list/?from=' . $From . '&limit=' . $Limit . '&cross_domain=' . $CrossDomain . $Filter . $Order);
     }
 
     /**
@@ -333,10 +310,10 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
      */
     protected function createFileField(string $Path, string $Name): array
     {
-        return ([
+        return [
             'file' => base64_encode(file_get_contents($Path)),
             'name' => basename($Name)
-        ]);
+        ];
     }
 
     /**
@@ -350,17 +327,17 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
     {
         if ((is_array($Value) || is_object($Value)) === false) {
             // it is not a file, it is a scalar
-            return (false);
+            return false;
         }
 
         if (\Mezon\Functional\Functional::getField($Value, 'name') !== null &&
             \Mezon\Functional\Functional::getField($Value, 'size') !== null &&
             \Mezon\Functional\Functional::getField($Value, 'type') !== null &&
             \Mezon\Functional\Functional::getField($Value, 'tmp_name') !== null) {
-            return (true);
+            return true;
         }
 
-        return (false);
+        return false;
     }
 
     /**
@@ -390,7 +367,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
             }
         }
 
-        return ($Data);
+        return $Data;
     }
 
     /**
@@ -400,6 +377,6 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements
      */
     public function getFields(): array
     {
-        return ($this->getRequest('/fields/'));
+        return $this->getRequest('/fields/');
     }
 }

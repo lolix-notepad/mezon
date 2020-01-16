@@ -9,7 +9,7 @@ class FakeService implements \Mezon\Service\ServiceBaseLogicInterface
 
     public function action_hello_world()
     {
-        return (1);
+        return 1;
     }
 }
 
@@ -18,7 +18,7 @@ class ConcreteFetcher implements \Mezon\Service\ServiceRequestParamsInterface
 
     public function getParam($Param, $Default = false)
     {
-        return (1);
+        return 1;
     }
 }
 
@@ -27,7 +27,7 @@ class ConcreteServiceTransport extends \Mezon\Service\ServiceTransport
 
     public function createFetcher(): \Mezon\Service\ServiceRequestParamsInterface
     {
-        return (new ConcreteFetcher());
+        return new ConcreteFetcher();
     }
 }
 
@@ -48,7 +48,7 @@ class FakeServiceLogic extends \Mezon\Service\ServiceLogic
 
     public function test()
     {
-        return ('test');
+        return 'test';
     }
 }
 
@@ -153,7 +153,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function dataProviderForTestInvalidLoadRoute()
     {
-        return ([
+        return [
             [
                 [
                     'route' => '/route/',
@@ -170,7 +170,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
                     'callback' => 'test'
                 ]
             ]
-        ]);
+        ];
     }
 
     /**

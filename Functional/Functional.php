@@ -30,11 +30,11 @@ class Functional
     public static function getFieldPlain($Record, string $Field)
     {
         if (is_array($Record) && isset($Record[$Field])) {
-            return ($Record[$Field]);
+            return $Record[$Field];
         } elseif (is_object($Record) && isset($Record->$Field)) {
-            return ($Record->$Field);
+            return $Record->$Field;
         } else {
-            return (null);
+            return null;
         }
     }
 
@@ -58,13 +58,13 @@ class Functional
                     $Result = self::getField($v, $Field);
 
                     if ($Result !== null) {
-                        return ($Result);
+                        return $Result;
                     }
                 }
             }
         }
 
-        return (self::getFieldPlain($Record, $Field));
+        return self::getFieldPlain($Record, $Field);
     }
 
     /**
@@ -137,7 +137,7 @@ class Functional
             $Return[] = self::getField($Record, $Field, $Recursive);
         }
 
-        return ($Return);
+        return $Return;
     }
 
     /**
@@ -182,7 +182,7 @@ class Functional
             }
         }
 
-        return ($Sum);
+        return $Sum;
     }
 
     /**
@@ -239,7 +239,7 @@ class Functional
             }
         }
 
-        return ($Return);
+        return $Return;
     }
 
     /**
@@ -445,7 +445,7 @@ class Functional
                     $Result = 1;
                 }
 
-                return ($Direction === Functional::SORT_DIRECTION_ASC ? $Result : - 1 * $Result);
+                return $Direction === Functional::SORT_DIRECTION_ASC ? $Result : - 1 * $Result;
             });
     }
 
@@ -461,11 +461,11 @@ class Functional
     public static function fieldExistsPlain(&$Record, string $Field): bool
     {
         if (is_object($Record) && isset($Record->$Field)) {
-            return (true);
+            return true;
         } elseif (is_array($Record) && isset($Record[$Field])) {
-            return (true);
+            return true;
         } else {
-            return (false);
+            return false;
         }
     }
 
@@ -488,12 +488,12 @@ class Functional
                     $Result = self::fieldExists($v, $Field);
 
                     if ($Result === true) {
-                        return ($Result);
+                        return $Result;
                     }
                 }
             }
         }
 
-        return (self::fieldExistsPlain($Record, $Field));
+        return self::fieldExistsPlain($Record, $Field);
     }
 }

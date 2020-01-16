@@ -53,7 +53,7 @@ class CustomField extends \Mezon\Gui\Field
             throw (new \Exception('Template field-' . $this->Name . '.tpl was not found'));
         }
 
-        return ($Content);
+        return $Content;
         // @codeCoverageIgnoreEnd
     }
 
@@ -77,7 +77,7 @@ class CustomField extends \Mezon\Gui\Field
                 'toggle-value' => $this->ToggleValue
             ]);
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -87,6 +87,6 @@ class CustomField extends \Mezon\Gui\Field
      */
     public function getFields(): array
     {
-        return ($this->Fields);
+        return $this->Fields;
     }
 }

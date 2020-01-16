@@ -23,7 +23,7 @@ class TestApplicationActions extends \Mezon\CrudService\ApplicationActions
 
     public function getSelfId(): string
     {
-        return (1);
+        return 1;
     }
 }
 
@@ -69,7 +69,7 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
 
         $Object->setServiceClient($CrudServiceClient);
 
-        return ($Object);
+        return $Object;
     }
     
     /**

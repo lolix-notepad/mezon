@@ -13,7 +13,7 @@ function getallheaders()
 {
     global $TestHeaders;
 
-    return ($TestHeaders);
+    return $TestHeaders;
 }
 
 /**
@@ -30,7 +30,7 @@ class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
 
-        return (new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($Router));
+        return new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($Router);
     }
 
     /**

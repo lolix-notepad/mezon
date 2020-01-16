@@ -68,6 +68,6 @@ class Select extends \Mezon\Gui\Field
 
         $Content .= '</select>';
 
-        return ($Content);
+        return $Content;
     }
 }

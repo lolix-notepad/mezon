@@ -48,7 +48,7 @@ class GentellaTemplate extends \Mezon\HtmlTemplate\HtmlTemplate
         $Content .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
         $Content .= '<span aria-hidden="true">×</span></button>' . $Message . '</div></div>';
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -59,7 +59,7 @@ class GentellaTemplate extends \Mezon\HtmlTemplate\HtmlTemplate
      */
     public static function successMessageContent(string $Message): string
     {
-        return (self::getMessageContent('alert-success', $Message));
+        return self::getMessageContent('alert-success', $Message);
     }
 
     /**
@@ -70,7 +70,7 @@ class GentellaTemplate extends \Mezon\HtmlTemplate\HtmlTemplate
      */
     public static function infoMessageContent(string $Message): string
     {
-        return (self::getMessageContent('alert-info', $Message));
+        return self::getMessageContent('alert-info', $Message);
     }
 
     /**
@@ -81,7 +81,7 @@ class GentellaTemplate extends \Mezon\HtmlTemplate\HtmlTemplate
      */
     public static function warningMessageContent(string $Message): string
     {
-        return (self::getMessageContent('alert-warning', $Message));
+        return self::getMessageContent('alert-warning', $Message);
     }
 
     /**
@@ -92,6 +92,6 @@ class GentellaTemplate extends \Mezon\HtmlTemplate\HtmlTemplate
      */
     public static function dangerMessageContent(string $Message): string
     {
-        return (self::getMessageContent('alert-danger', $Message));
+        return self::getMessageContent('alert-danger', $Message);
     }
 }

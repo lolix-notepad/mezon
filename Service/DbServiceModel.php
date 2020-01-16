@@ -90,7 +90,7 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     protected function getConnection(): \Mezon\PdoCrud\PdoCrud
     {
         // @codeCoverageIgnoreStart
-        return (\Mezon\Mezon\Mezon::getDbConnection());
+        return \Mezon\Mezon\Mezon::getDbConnection();
         // @codeCoverageIgnoreEnd
     }
 
@@ -101,7 +101,7 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
      */
     public function getFieldsNames(): string
     {
-        return (implode(', ', $this->FieldsAlgorithms->getFieldsNames()));
+        return implode(', ', $this->FieldsAlgorithms->getFieldsNames());
     }
 
     /**
@@ -114,7 +114,7 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     public function hasField(string $FieldName): bool
     {
         // @codeCoverageIgnoreStart
-        return ($this->FieldsAlgorithms->hasField($FieldName));
+        return $this->FieldsAlgorithms->hasField($FieldName);
         // @codeCoverageIgnoreEnd
     }
 
@@ -126,7 +126,7 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     public function hasCustomFields(): bool
     {
         // @codeCoverageIgnoreStart
-        return ($this->FieldsAlgorithms->hasCustomFields());
+        return $this->FieldsAlgorithms->hasCustomFields();
         // @codeCoverageIgnoreEnd
     }
 
@@ -139,7 +139,7 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     public function validateFieldExistance(string $Field)
     {
         // @codeCoverageIgnoreStart
-        return ($this->FieldsAlgorithms->validateFieldExistance($Field));
+        return $this->FieldsAlgorithms->validateFieldExistance($Field);
         // @codeCoverageIgnoreEnd
     }
 
@@ -151,7 +151,7 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     public function getFields(): array
     {
         // @codeCoverageIgnoreStart
-        return ($this->FieldsAlgorithms->get());
+        return $this->FieldsAlgorithms->get();
         // @codeCoverageIgnoreEnd
     }
 
@@ -163,7 +163,7 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     public function getEntityName(): string
     {
         // @codeCoverageIgnoreStart
-        return ($this->EntityName);
+        return $this->EntityName;
         // @codeCoverageIgnoreEnd
     }
 }

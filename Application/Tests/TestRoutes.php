@@ -1,5 +1,5 @@
 <?php
-return ([
+return [
     [
         'route' => '/get-route/',
         'callback' => 'actionExisting',
@@ -9,4 +9,4 @@ return ([
         'callback' => 'actionExisting',
         'method' => 'POST',
     ],
-]);
+];

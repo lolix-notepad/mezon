@@ -18,7 +18,7 @@ class TestView extends \Mezon\Application\View
 
     public function render(string $ViewName = ''): string
     {
-        return ($this->Content);
+        return $this->Content;
     }
 }
 
@@ -38,18 +38,18 @@ class TestCommonApplication extends \Mezon\CommonApplication\CommonApplication
 
     function actionArrayResult()
     {
-        return ([
+        return [
             'title' => 'Array result',
             'main' => 'Route main'
-        ]);
+        ];
     }
 
     function actionViewResult()
     {
-        return ([
+        return [
             'title' => 'View result',
             'main' => new TestView('Test view result')
-        ]);
+        ];
     }
 }
 

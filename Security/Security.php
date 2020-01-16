@@ -37,7 +37,7 @@ class Security
             self::$SecurityRules = new \Mezon\Security\SecurityRules();
         }
 
-        return (self::$SecurityRules);
+        return self::$SecurityRules;
     }
 
     /**
@@ -50,7 +50,7 @@ class Security
      */
     public static function getStringValue(string $Value): string
     {
-        return (self::getSecurityRules()->getStringValue($Value));
+        return self::getSecurityRules()->getStringValue($Value);
     }
 
     /**
@@ -65,7 +65,7 @@ class Security
      */
     public static function getFileValue($Value, bool $StoreFiles)
     {
-        return (self::getSecurityRules()->getFileValue($Value, $StoreFiles));
+        return self::getSecurityRules()->getFileValue($Value, $StoreFiles);
     }
 
     /**
@@ -82,7 +82,7 @@ class Security
      */
     public static function storeFileContent(string $FileContent, string $PathPrefix, bool $Decoded = false): string
     {
-        return (self::getSecurityRules()->storeFileContent($FileContent, $PathPrefix, $Decoded));
+        return self::getSecurityRules()->storeFileContent($FileContent, $PathPrefix, $Decoded);
     }
 
     /**
@@ -99,6 +99,6 @@ class Security
      */
     public static function storeFile(string $FilePath, string $PathPrefix, bool $Decoded = false): ?string
     {
-        return (self::getSecurityRules()->storeFile($FilePath, $PathPrefix, $Decoded));
+        return self::getSecurityRules()->storeFile($FilePath, $PathPrefix, $Decoded);
     }
 }

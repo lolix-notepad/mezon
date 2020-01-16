@@ -57,9 +57,9 @@ class CurlWrapper
 
         curl_close($Ch);
 
-        return ([
+        return [
             $Body,
             $Code
-        ]);
+        ];
     }
 }

@@ -6,7 +6,7 @@ class ResultMock
 
     public function rowCount(): int
     {
-        return (0);
+        return 0;
     }
 }
 
@@ -29,7 +29,7 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
             ->setConstructorArgs([])
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -47,7 +47,7 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
         $Mock->expects($this->once())
             ->method('processQueryError');
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

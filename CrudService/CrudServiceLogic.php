@@ -39,7 +39,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
                 'id = ' . intval($this->ParamsFetcher->getParam('id'))
             ]);
 
-        return ($this->Model->deleteFiltered($DomainId, $Where));
+        return $this->Model->deleteFiltered($DomainId, $Where);
     }
 
     /**
@@ -50,7 +50,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
         $DomainId = $this->getDomainId();
         $Where = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([]);
 
-        return ($this->Model->deleteFiltered($DomainId, $Where));
+        return $this->Model->deleteFiltered($DomainId, $Where);
     }
 
     /**
@@ -75,7 +75,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
             \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([]),
             $Order);
 
-        return ($Records);
+        return $Records;
     }
 
     /**
@@ -87,7 +87,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     {
         // records are not separated between domains
         if ($this->Model->hasField('domain_id') === false) {
-            return (false);
+            return false;
         }
 
         if (isset($_GET['cross_domain']) && intval($_GET['cross_domain'])) {
@@ -102,7 +102,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
             $DomainId = $this->getSelfIdValue();
         }
 
-        return ($DomainId);
+        return $DomainId;
     }
 
     /**
@@ -123,7 +123,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
         $From = $this->ParamsFetcher->getParam('from', 0);
         $Limit = $this->ParamsFetcher->getParam('limit', 1000000000);
 
-        return ($this->getRecords($DomainId, $Order, $From, $Limit));
+        return $this->getRecords($DomainId, $Order, $From, $Limit);
     }
 
     /**
@@ -141,7 +141,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
                 ORDER_FIELD_NAME => 'ASC'
             ]);
 
-        return ($this->getRecords($DomainId, $Order, 0, 1000000000));
+        return $this->getRecords($DomainId, $Order, 0, 1000000000);
     }
 
     /**
@@ -158,7 +158,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
             throw (new \Exception('Field "creation_date" was not found'));
         }
 
-        return ($this->Model->newRecordsSince($DomainId, $Date));
+        return $this->Model->newRecordsSince($DomainId, $Date);
     }
 
     /**
@@ -170,7 +170,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     {
         $DomainId = $this->getDomainId();
 
-        return ($this->Model->recordsCount($DomainId));
+        return $this->Model->recordsCount($DomainId);
     }
 
     /**
@@ -186,7 +186,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
             '1 = 1'
         ]);
 
-        return ($this->Model->lastRecords($DomainId, $Count, $Filter));
+        return $this->Model->lastRecords($DomainId, $Count, $Filter);
     }
 
     /**
@@ -209,7 +209,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
             "id = " . $this->getParam('id')
         ];
 
-        return ($this->Model->updateBasicFields($DomainId, $Record, $Where));
+        return $this->Model->updateBasicFields($DomainId, $Record, $Where);
     }
 
     /**
@@ -233,7 +233,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
             $Record['custom_fields'] = $CustomFields;
         }
 
-        return ($Record);
+        return $Record;
     }
 
     /**
@@ -251,7 +251,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
 
         $Record['id'] = $id;
 
-        return ($Record);
+        return $Record;
     }
 
     /**
@@ -284,7 +284,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
             }
         }
 
-        return ($Record);
+        return $Record;
     }
 
     /**
@@ -299,7 +299,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
 
         $Records = $this->Model->fetchRecordsByIds($DomainId, $id);
 
-        return ($Records[0]);
+        return $Records[0];
     }
 
     /**
@@ -312,7 +312,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
         $ids = $this->ParamsFetcher->getParam('ids');
         $DomainId = $this->getDomainId();
 
-        return ($this->Model->fetchRecordsByIds($DomainId, $ids));
+        return $this->Model->fetchRecordsByIds($DomainId, $ids);
     }
 
     /**
@@ -330,7 +330,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
 
         $Where = \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([]);
 
-        return ($this->Model->recordsCountByField($DomainId, $Field, $Where));
+        return $this->Model->recordsCountByField($DomainId, $Field, $Where);
     }
 
     /**
@@ -340,9 +340,9 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
      */
     public function fields()
     {
-        return ([
+        return [
             'fields' => $this->Model->getFields(),
             'layout' => $this->Layout
-        ]);
+        ];
     }
 }

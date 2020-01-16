@@ -68,7 +68,7 @@ class Router
      */
     protected function getRequestMethod(): string
     {
-        return ($_SERVER['REQUEST_METHOD'] ?? 'GET');
+        return $_SERVER['REQUEST_METHOD'] ?? 'GET';
     }
 
     /**
@@ -105,7 +105,7 @@ class Router
             }
         }
 
-        return ($MethodName);
+        return $MethodName;
     }
 
     /**
@@ -181,7 +181,7 @@ class Router
             $Route = implode('/', $Route);
         }
 
-        return ('/' . trim($Route, '/') . '/');
+        return '/' . trim($Route, '/') . '/';
     }
 
     /**
@@ -194,11 +194,11 @@ class Router
     private function _getCallableDescription($Processor): string
     {
         if (is_string($Processor)) {
-            return ($Processor);
+            return $Processor;
         } elseif (is_object($Processor[0])) {
-            return (get_class($Processor[0]) . '::' . $Processor[1]);
+            return get_class($Processor[0]) . '::' . $Processor[1];
         } else {
-            return ($Processor[0] . '::' . $Processor[1]);
+            return $Processor[0] . '::' . $Processor[1];
         }
     }
 
@@ -217,7 +217,7 @@ class Router
             // exact router or 'all router'
             if ($i == $Route || $i == '/*/') {
                 if (is_callable($Processor) && is_array($Processor) === false) {
-                    return ($Processor($Route, []));
+                    return $Processor($Route, []);
                 }
 
                 $FunctionName = $Processor[1];
@@ -225,7 +225,7 @@ class Router
                 if (is_callable($Processor) &&
                     (method_exists($Processor[0], $FunctionName) || isset($Processor[0]->$FunctionName))) {
                     // passing route path and parameters
-                    return (call_user_func($Processor, $Route, []));
+                    return call_user_func($Processor, $Route, []);
                 } elseif (method_exists($Processor[0], $FunctionName) === false) {
                     $CallableDescription = $this->_getCallableDescription($Processor);
 
@@ -238,7 +238,7 @@ class Router
             }
         }
 
-        return (false);
+        return false;
     }
 
     /**
@@ -271,7 +271,7 @@ class Router
                 throw (new \Exception('Unsupported request method'));
         }
 
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -285,7 +285,7 @@ class Router
     {
         $Routes = $this->_getRoutesForMethod($this->getRequestMethod());
 
-        return ($this->_findStaticRouteProcessor($Routes, $Route));
+        return $this->_findStaticRouteProcessor($Routes, $Route);
     }
 
     /**
@@ -297,7 +297,7 @@ class Router
      */
     private function _isParameter($String): bool
     {
-        return ($String[0] == '[' && $String[strlen($String) - 1] == ']');
+        return $String[0] == '[' && $String[strlen($String) - 1] == ']';
     }
 
     /**
@@ -339,7 +339,7 @@ class Router
                 throw (new \Exception('Illegal parameter type/value : ' . $ParameterData[0]));
         }
 
-        return ($Return);
+        return $Return;
     }
 
     /**
@@ -354,7 +354,7 @@ class Router
     private function _matchRouteAndPattern(array $CleanRoute, array $CleanPattern)
     {
         if (count($CleanRoute) !== count($CleanPattern)) {
-            return (false);
+            return false;
         }
 
         $Paremeters = [];
@@ -368,12 +368,12 @@ class Router
                     // parameter was matched, store it!
                     $Paremeters[$ParameterName] = $CleanRoute[$i];
                 } else {
-                    return (false);
+                    return false;
                 }
             } else {
                 // it's a static part of the route
                 if ($CleanRoute[$i] !== $CleanPattern[$i]) {
-                    return (false);
+                    return false;
                 }
             }
         }
@@ -398,11 +398,11 @@ class Router
             $CleanPattern = explode('/', trim($i, '/'));
 
             if ($this->_matchRouteAndPattern($CleanRoute, $CleanPattern) !== false) {
-                return (call_user_func($Processor, $Route, $this->Parameters)); // return result of the router
+                return call_user_func($Processor, $Route, $this->Parameters); // return result of the router
             }
         }
 
-        return (false);
+        return false;
     }
 
     /**
@@ -435,7 +435,7 @@ class Router
                 throw (new \Exception('Unsupported request method'));
         }
 
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -443,10 +443,10 @@ class Router
      */
     private function _getAllRoutesTrace()
     {
-        return ((count($this->GetRoutes) ? 'GET:' . implode(', ', array_keys($this->GetRoutes)) . '; ' : '') .
+        return (count($this->GetRoutes) ? 'GET:' . implode(', ', array_keys($this->GetRoutes)) . '; ' : '') .
             (count($this->PostRoutes) ? 'POST:' . implode(', ', array_keys($this->PostRoutes)) . '; ' : '') .
             (count($this->PutRoutes) ? 'PUT:' . implode(', ', array_keys($this->PutRoutes)) . '; ' : '') .
-            (count($this->DeleteRoutes) ? 'DELETE:' . implode(', ', array_keys($this->DeleteRoutes)) : ''));
+            (count($this->DeleteRoutes) ? 'DELETE:' . implode(', ', array_keys($this->DeleteRoutes)) : '');
     }
 
     /**
@@ -473,7 +473,7 @@ class Router
 
         $this->InvalidRouteErrorHandler = $Function;
 
-        return ($OldErrorHandler);
+        return $OldErrorHandler;
     }
 
     /**
@@ -487,11 +487,11 @@ class Router
         $Route = $this->_prepareRoute($Route);
 
         if (($Result = $this->_tryStaticRoutes($Route)) !== false) {
-            return ($Result);
+            return $Result;
         }
 
         if (($Result = $this->_tryDynamicRoutes($Route)) !== false) {
-            return ($Result);
+            return $Result;
         }
 
         call_user_func($this->InvalidRouteErrorHandler, $Route);
@@ -522,16 +522,16 @@ class Router
     {
         // TODO remove complexity of thismethod
         if (isset($this->GetRoutes[$Route])) {
-            return ($this->GetRoutes[$Route]);
+            return $this->GetRoutes[$Route];
         }
         if (isset($this->PostRoutes[$Route])) {
-            return ($this->PostRoutes[$Route]);
+            return $this->PostRoutes[$Route];
         }
         if (isset($this->PutRoutes[$Route])) {
-            return ($this->PutRoutes[$Route]);
+            return $this->PutRoutes[$Route];
         }
         if (isset($this->DeleteRoutes[$Route])) {
-            return ($this->DeleteRoutes[$Route]);
+            return $this->DeleteRoutes[$Route];
         }
         throw (new \Exception('Route was not found'));
     }
@@ -549,7 +549,7 @@ class Router
             throw (new \Exception('Paremeter ' . $Name . ' was not found in route', - 1));
         }
 
-        return ($this->Parameters[$Name]);
+        return $this->Parameters[$Name];
     }
 
     /**
@@ -561,7 +561,7 @@ class Router
      */
     public function hasParam(string $Name): bool
     {
-        return (isset($this->Parameters[$Name]));
+        return isset($this->Parameters[$Name]);
     }
 
     /**
@@ -574,9 +574,9 @@ class Router
     public function routeExists(string $Route): bool
     {
         try {
-            return (true);
+            return true;
         } catch (\Exception $e) {
-            return (false);
+            return false;
         }
     }
 }

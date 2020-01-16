@@ -34,6 +34,6 @@ class Textarea extends \Mezon\Gui\Field
         $Content .= '>' . $this->Value;
         $Content .= '</textarea>';
 
-        return ($Content);
+        return $Content;
     }
 }

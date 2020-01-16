@@ -88,7 +88,7 @@ class RemoteField extends \Mezon\Gui\Field
         // @codeCoverageIgnoreStart
         $ExternalRecords = new \Mezon\CrudService\CrudServiceClient($this->RemoteSource);
         $ExternalRecords->setToken($this->SessionId);
-        return ($ExternalRecords);
+        return $ExternalRecords;
         // @codeCoverageIgnoreEnd
     }
 }

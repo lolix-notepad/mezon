@@ -38,7 +38,7 @@ class SecurityRulesUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function getFileValueProvider(): array
     {
-        return ([
+        return [
             [
                 true,
                 [
@@ -69,7 +69,7 @@ class SecurityRulesUnitTest extends \PHPUnit\Framework\TestCase
                     ]
                 ]
             ]
-        ]);
+        ];
     }
 
     /**

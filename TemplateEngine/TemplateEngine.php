@@ -41,10 +41,10 @@ class TemplateEngine
             }
         }
 
-        return ([
+        return [
             $StartPos,
             $EndPos
-        ]);
+        ];
     }
 
     /**
@@ -77,7 +77,7 @@ class TemplateEngine
         }
         ksort($Positions);
 
-        return ($Positions);
+        return $Positions;
     }
 
     /**
@@ -98,19 +98,19 @@ class TemplateEngine
         list ($StartPos, $EndPos) = self::getPossibleBlockPositions($Positions);
 
         if ($StartPos === false) {
-            return ([
+            return [
                 false,
                 false
-            ]);
+            ];
         }
         if ($EndPos === false) {
             throw (new \Exception('Block end was not found'));
         }
 
-        return ([
+        return [
             $StartPos,
             $EndPos
-        ]);
+        ];
     }
 
     /**
@@ -134,9 +134,9 @@ class TemplateEngine
                 $StartPos + strlen('{' . $BlockStart . '}'),
                 $EndPos - $StartPos - strlen('{' . $BlockStart . '}'));
 
-            return ($BlockData);
+            return $BlockData;
         } else {
-            return (false);
+            return false;
         }
     }
 
@@ -269,11 +269,11 @@ class TemplateEngine
             self::handleMacroStartEnd($StringData, $TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos);
 
             if ($Counter == 0) {
-                return (substr($StringData, $ParamStartPos, $TmpEndPos - $ParamStartPos));
+                return substr($StringData, $ParamStartPos, $TmpEndPos - $ParamStartPos);
             }
         } while ($TmpStartPos);
 
-        return (false);
+        return false;
     }
 
     /**
@@ -306,11 +306,11 @@ class TemplateEngine
                 $ParamStartPos);
 
             if ($Result !== false) {
-                return ($Result);
+                return $Result;
             }
         }
 
-        return (false);
+        return false;
     }
 
     /**
@@ -339,7 +339,7 @@ class TemplateEngine
             $Str = str_replace($BlockStart, self::printRecord($SingleRecordTemplate, $v) . $BlockStart, $Str);
         }
 
-        return ($Str);
+        return $Str;
     }
 
     /**
@@ -362,7 +362,7 @@ class TemplateEngine
 
         $Str = str_replace($BlockStart, self::unwrapBlocks($SubTemplate, $Data) . $BlockStart, $Str);
 
-        return ($Str);
+        return $Str;
     }
 
     /**
@@ -391,7 +391,7 @@ class TemplateEngine
                 $EndPos - $StartPos + strlen(chr(123) . $BlockEnd . chr(125)));
         }
 
-        return ($Str);
+        return $Str;
     }
 
     /**
@@ -419,7 +419,7 @@ class TemplateEngine
             }
         }
 
-        return ($String);
+        return $String;
     }
 
     /**
@@ -447,7 +447,7 @@ class TemplateEngine
             }
         }
 
-        return ($String);
+        return $String;
     }
 
     /**
@@ -469,7 +469,7 @@ class TemplateEngine
             }
         }
 
-        return ($String);
+        return $String;
     }
 
     /**
@@ -481,7 +481,7 @@ class TemplateEngine
      */
     protected static function areTerminalParams(string $Parameters): bool
     {
-        return (strpos($Parameters, '}') === false && strpos($Parameters, '{') === false);
+        return strpos($Parameters, '}') === false && strpos($Parameters, '{') === false;
     }
 
     /**
@@ -507,7 +507,7 @@ class TemplateEngine
             }
         }
 
-        return ($String);
+        return $String;
     }
 
     /**
@@ -528,7 +528,7 @@ class TemplateEngine
 
         $String = self::compileValues($String, $Record);
 
-        return ($String);
+        return $String;
     }
 
     /**
@@ -551,6 +551,6 @@ class TemplateEngine
 
         $String = self::compileSwitch($String);
 
-        return ($String);
+        return $String;
     }
 }

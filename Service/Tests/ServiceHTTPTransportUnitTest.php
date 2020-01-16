@@ -32,7 +32,7 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -52,7 +52,7 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
         $Mock->expects($this->once())
             ->method('header');
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -168,7 +168,7 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_GET['r'] = 'connect';
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

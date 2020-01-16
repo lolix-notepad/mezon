@@ -11,12 +11,12 @@ class TestingView extends \Mezon\Application\View
 
     public function viewTest(): string
     {
-        return ('rendered content');
+        return 'rendered content';
     }
 
     public function viewTest2(): string
     {
-        return ('rendered content 2');
+        return 'rendered content 2';
     }
 }
 

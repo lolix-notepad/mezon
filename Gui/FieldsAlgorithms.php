@@ -68,9 +68,9 @@ class FieldsAlgorithms
     protected function getDateValue(string $Value): string
     {
         if ($Value == '""') {
-            return ('');
+            return '';
         } else {
-            return (date('Y-m-d', strtotime($Value)));
+            return date('Y-m-d', strtotime($Value));
         }
     }
 
@@ -87,7 +87,7 @@ class FieldsAlgorithms
             $Value[$i] = intval($Item);
         }
 
-        return ($Value);
+        return $Value;
     }
 
     /**
@@ -100,11 +100,11 @@ class FieldsAlgorithms
     {
         foreach ($this->FieldObjects as $Field) {
             if ($Field->getType() == 'custom') {
-                return (true);
+                return true;
             }
         }
 
-        return (false);
+        return false;
     }
 
     /**
@@ -147,7 +147,7 @@ class FieldsAlgorithms
                 throw (new \Exception('Undefined type "' . $Type . '"'));
         }
 
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -178,7 +178,7 @@ class FieldsAlgorithms
     {
         $this->validateFieldExistance($Field);
 
-        return ($this->getTypedValue($this->FieldObjects[$Field]->getType(), $Value, $StoreFiles));
+        return $this->getTypedValue($this->FieldObjects[$Field]->getType(), $Value, $StoreFiles);
     }
 
     /**
@@ -204,7 +204,7 @@ class FieldsAlgorithms
             $Return = $this->getSecureValue($Field, $Values, $StoreFiles);
         }
 
-        return ($Return);
+        return $Return;
     }
 
     /**
@@ -226,7 +226,7 @@ class FieldsAlgorithms
             }
         }
 
-        return ($Records);
+        return $Records;
     }
 
     /**
@@ -252,7 +252,7 @@ class FieldsAlgorithms
     public function fetchCustomField(array &$Record, string $Name): array
     {
         if (! isset($this->FieldObjects[$Name])) {
-            return ($Record);
+            return $Record;
         }
 
         $NestedFields = $this->FieldObjects[$Name]->getFields();
@@ -263,7 +263,7 @@ class FieldsAlgorithms
             }
         }
 
-        return ($Record);
+        return $Record;
     }
 
     /**
@@ -305,16 +305,16 @@ class FieldsAlgorithms
         ];
 
         if (isset($Field['items'])) {
-            return (new \Mezon\Gui\Field\Select($Field));
+            return new \Mezon\Gui\Field\Select($Field);
         } elseif (isset($Field['type'])) {
             if (in_array($Field['type'], array_keys($TypeMap))) {
                 $ClassName = $TypeMap[$Field['type']];
 
                 $Field['session-id'] = $this->SessionId;
 
-                return (new $ClassName($Field));
+                return new $ClassName($Field);
             } else {
-                return (new \Mezon\Gui\Field\InputText($Field));
+                return new \Mezon\Gui\Field\InputText($Field);
             }
         }
     }
@@ -342,7 +342,7 @@ class FieldsAlgorithms
             $Control = $this->constructControl($Field);
         }
 
-        return ($Control);
+        return $Control;
     }
 
     /**
@@ -354,7 +354,7 @@ class FieldsAlgorithms
      */
     public function getObject(string $Name): \Mezon\Gui\Field
     {
-        return ($this->FieldObjects[$Name]);
+        return $this->FieldObjects[$Name];
     }
 
     /**
@@ -367,7 +367,7 @@ class FieldsAlgorithms
     {
         $Control = $this->getObject($Name);
 
-        return ($Control->html());
+        return $Control->html();
     }
 
     /**
@@ -377,7 +377,7 @@ class FieldsAlgorithms
      */
     public function getFieldsNames(): array
     {
-        return (array_keys($this->FieldObjects));
+        return array_keys($this->FieldObjects);
     }
 
     /**
@@ -390,7 +390,7 @@ class FieldsAlgorithms
     public function hasField(string $FieldName): bool
     {
         // @codeCoverageIgnoreStart
-        return (isset($this->FieldObjects[$FieldName]));
+        return isset($this->FieldObjects[$FieldName]);
         // @codeCoverageIgnoreEnd
     }
 
@@ -401,7 +401,7 @@ class FieldsAlgorithms
      */
     public function getEntityName(): string
     {
-        return ($this->EntityName);
+        return $this->EntityName;
     }
 
     /**

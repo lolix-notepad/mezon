@@ -48,7 +48,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\ServiceBaseLogic\ServiceBaseL
         $Mock->method('connect')->will($this->returnValue('valuevalue'));
         $Mock->method('setToken')->will($this->returnValue('token'));
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

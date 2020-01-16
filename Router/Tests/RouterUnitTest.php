@@ -26,7 +26,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function helloWorldOutput()
     {
-        return ('Hello world!');
+        return 'Hello world!';
     }
 
     /**
@@ -34,7 +34,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function ilTest($Route, $Params)
     {
-        return ($Params['ids']);
+        return $Params['ids'];
     }
 
     /**
@@ -42,7 +42,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
      */
     static public function staticHelloWorldOutput()
     {
-        return ('Hello static world!');
+        return 'Hello static world!';
     }
 
     /**
@@ -50,7 +50,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function actionA1()
     {
-        return ('action #1');
+        return 'action #1';
     }
 
     /**
@@ -58,12 +58,12 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function actionA2()
     {
-        return ('action #2');
+        return 'action #2';
     }
 
     public function actionDoubleWord()
     {
-        return ('action double word');
+        return 'action double word';
     }
 
     /**
@@ -91,7 +91,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
         $Router = new \Mezon\Router\Router();
 
         $Router->addRoute('/index/', function () {
-            return ('Hello world!');
+            return 'Hello world!';
         });
 
         $Content = $Router->callRoute('/index/');
@@ -414,7 +414,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[a:cat_id]/', function ($Route, $Parameters) {
-            return ($Parameters['cat_id']);
+            return $Parameters['cat_id'];
         });
 
         $Result = $Router->callRoute('/catalog/foo/');
@@ -431,7 +431,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
         $Router->addRoute(
             '/catalog/[a:cat_id]/[i:item_id]',
             function ($Route, $Parameters) {
-                return ($Parameters['cat_id'] . $Parameters['item_id']);
+                return $Parameters['cat_id'] . $Parameters['item_id'];
             });
 
         $Result = $Router->callRoute('/catalog/foo/1024/');
@@ -446,10 +446,10 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         });
         $Router->addRoute('/catalog/[i:cat_id]', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         });
 
         $Result = $Router->callRoute('/catalog/');
@@ -470,7 +470,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         }, 'POST');
 
         $Result = $Router->callRoute('/catalog/');
@@ -487,7 +487,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[i:cat_id]', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         }, 'POST');
 
         $Result = $Router->callRoute('/catalog/1024/');
@@ -554,7 +554,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         }, 'PUT');
 
         $Result = $Router->callRoute('/catalog/');
@@ -571,7 +571,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[i:cat_id]', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         }, 'PUT');
 
         $Result = $Router->callRoute('/catalog/1024/');
@@ -638,7 +638,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         }, 'DELETE');
 
         $Result = $Router->callRoute('/catalog/');
@@ -655,7 +655,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[i:cat_id]', function ($Route) {
-            return ($Route);
+            return $Route;
         }, 'DELETE');
 
         $Result = $Router->callRoute('/catalog/1024/');
@@ -720,16 +720,16 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ('POST');
+            return 'POST';
         }, 'POST');
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ('GET');
+            return 'GET';
         }, 'GET');
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ('PUT');
+            return 'PUT';
         }, 'PUT');
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ('DELETE');
+            return 'DELETE';
         }, 'DELETE');
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -756,16 +756,16 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ('POST');
+            return 'POST';
         }, 'POST');
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ('GET');
+            return 'GET';
         }, 'GET');
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ('PUT');
+            return 'PUT';
         }, 'PUT');
         $Router->addRoute('/catalog/', function ($Route, $Parameters) {
-            return ('DELETE');
+            return 'DELETE';
         }, 'DELETE');
         $Router->clear();
 
@@ -833,7 +833,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
         $Router = new \Mezon\Router\Router();
 
         $Router->addRoute('/[a:url]/', function ($Route, $Parameters) {
-            return ('GET');
+            return 'GET';
         }, 'GET');
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -849,7 +849,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
         $Router = new \Mezon\Router\Router();
 
         $Router->addRoute('/[s:url]/', function ($Route, $Parameters) {
-            return ('GET');
+            return 'GET';
         }, 'GET');
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -903,7 +903,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[s:foo]/', function ($Route, $Parameters) {
-            return ($Parameters['foo']);
+            return $Parameters['foo'];
         });
 
         $Result = $Router->callRoute('/catalog/123&456/');
@@ -918,7 +918,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
-            return ($Parameters['foo']);
+            return $Parameters['foo'];
         });
 
         $Result = $Router->callRoute('/catalog/1.1/');
@@ -933,7 +933,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
-            return ($Parameters['foo']);
+            return $Parameters['foo'];
         });
 
         $Result = $Router->callRoute('/catalog/-1.1/');
@@ -948,7 +948,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
-            return ($Parameters['foo']);
+            return $Parameters['foo'];
         });
 
         $Result = $Router->callRoute('/catalog/+1.1/');
@@ -963,7 +963,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
-            return ($Parameters['foo']);
+            return $Parameters['foo'];
         });
 
         $Result = $Router->callRoute('/catalog/-1/');
@@ -978,7 +978,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
-            return ($Parameters['foo']);
+            return $Parameters['foo'];
         });
 
         $Result = $Router->callRoute('/catalog/1/');
@@ -995,7 +995,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/item/', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         }, 'GET');
 
         $Result = $Router->callRoute([
@@ -1016,7 +1016,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/item/', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         }, 'GET');
 
         $Result = $Router->callRoute([
@@ -1036,7 +1036,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/index/', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         }, 'GET');
 
         $Result = $Router->callRoute([
@@ -1053,7 +1053,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
     {
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/catalog/[i:foo]/', function ($Route, $Parameters) {
-            return ($Parameters['foo']);
+            return $Parameters['foo'];
         });
 
         $Router->callRoute('/catalog/-1/');
@@ -1071,7 +1071,7 @@ class RouterUnitTest extends \PHPUnit\Framework\TestCase
 
         $Router = new \Mezon\Router\Router();
         $Router->addRoute('/index/', function ($Route, $Parameters) {
-            return ($Route);
+            return $Route;
         }, [
             'GET',
             'POST'

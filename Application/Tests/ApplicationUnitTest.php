@@ -19,7 +19,7 @@ class TestApplication extends \Mezon\Application\Application
     function actionExisting()
     {
         /* existing action */
-        return ('OK!');
+        return 'OK!';
     }
 
     function drop_router()
@@ -175,7 +175,7 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -199,7 +199,7 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
         $Application = new \Mezon\Application\Application();
 
         $Application->fly = function () {
-            return ('OK!');
+            return 'OK!';
         };
 
         $Application->loadRoute([
@@ -223,7 +223,7 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
         $Application = new \Mezon\Application\Application();
 
         $Application->unexisting = function () {
-            return ('OK!');
+            return 'OK!';
         };
 
         $Application->fly();

@@ -26,7 +26,7 @@ class BootstrapWidgets implements \Mezon\WidgetsRegistry\WidgetsRegistryBase
      */
     public function getWidget(string $Name): string
     {
-        return (BootstrapWidgets::get($Name));
+        return BootstrapWidgets::get($Name);
     }
 
     /**
@@ -38,6 +38,6 @@ class BootstrapWidgets implements \Mezon\WidgetsRegistry\WidgetsRegistryBase
      */
     public static function get(string $Name): string
     {
-        return (file_get_contents(__DIR__ . '/res/templates/' . $Name . '.tpl'));
+        return file_get_contents(__DIR__ . '/res/templates/' . $Name . '.tpl');
     }
 }

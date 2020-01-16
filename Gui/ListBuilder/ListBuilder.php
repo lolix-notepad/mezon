@@ -64,10 +64,10 @@ class ListBuilder
     protected function getCreatePageEndpoint(): string
     {
         if (isset($_GET['create-page-endpoint'])) {
-            return ($_GET['create-page-endpoint']);
+            return $_GET['create-page-endpoint'];
         }
 
-        return ('../create/');
+        return '../create/';
     }
 
     /**
@@ -81,7 +81,7 @@ class ListBuilder
 
         $Content = str_replace('{create-page-endpoint}', $this->getCreatePageEndpoint(), $Content);
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -95,7 +95,7 @@ class ListBuilder
     {
         $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('list-of-buttons');
 
-        return (str_replace('{id}', $id, $Content));
+        return str_replace('{id}', $id, $Content);
     }
 
     /**
@@ -106,9 +106,9 @@ class ListBuilder
     protected function needActions(): bool
     {
         if (@$_GET['update_button'] == 1 || @$_GET['delete_button'] == 1) {
-            return (true);
+            return true;
         } else {
-            return (false);
+            return false;
         }
     }
 
@@ -139,7 +139,7 @@ class ListBuilder
             $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-actions');
         }
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -158,7 +158,7 @@ class ListBuilder
             $Record = call_user_func($this->RecordTransformer, $Record);
         }
 
-        return ($Record);
+        return $Record;
     }
 
     /**
@@ -185,7 +185,7 @@ class ListBuilder
             $Content = \Mezon\TemplateEngine\TemplateEngine::printRecord($Content, $Record);
         }
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -223,7 +223,7 @@ class ListBuilder
             $Content .= \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-header-actions');
         }
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -242,7 +242,7 @@ class ListBuilder
             $Content = \Mezon\WidgetsRegistry\BootstrapWidgets::get('simple-listing-header');
         }
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -261,7 +261,7 @@ class ListBuilder
 
         $Content = str_replace('{cells}', $this->listingHeaderCells(), $Content);
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -280,7 +280,7 @@ class ListBuilder
 
         $Content = str_replace('{cells}', $this->listingHeaderCells(false), $Content);
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -305,7 +305,7 @@ class ListBuilder
             $Content = \Mezon\TemplateEngine\TemplateEngine::printRecord($Content, $Record);
         }
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -327,9 +327,9 @@ class ListBuilder
 
             $Footer = \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-footer');
 
-            return ($Header . $Items . $Footer);
+            return $Header . $Items . $Footer;
         } else {
-            return ($this->listingNoItems());
+            return $this->listingNoItems();
         }
     }
 
@@ -350,9 +350,9 @@ class ListBuilder
             // they are the same with full feature listing
             $Footer = \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-footer');
 
-            return ($Header . $Items . $Footer);
+            return $Header . $Items . $Footer;
         } else {
-            return (\Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-no-items'));
+            return \Mezon\WidgetsRegistry\BootstrapWidgets::get('listing-no-items');
         }
     }
 
@@ -363,6 +363,6 @@ class ListBuilder
      */
     public function getFields(): array
     {
-        return ($this->Fields);
+        return $this->Fields;
     }
 }

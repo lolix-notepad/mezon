@@ -26,7 +26,7 @@ class SingletonParams extends \Mezon\Singleton\Singleton
 
 function hack()
 {
-    return (SingletonParams::getInstance(1));
+    return SingletonParams::getInstance(1);
 }
 
 class SingletonUnitTest extends \PHPUnit\Framework\TestCase

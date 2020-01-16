@@ -41,7 +41,7 @@ class CheckboxesFieldUnitTest extends \PHPUnit\Framework\TestCase
             ]
         ]);
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

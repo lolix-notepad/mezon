@@ -15,7 +15,7 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getJson(string $Name): array
     {
-        return (json_decode(file_get_contents(__DIR__ . '/conf/' . $Name . '.json'), true));
+        return json_decode(file_get_contents(__DIR__ . '/conf/' . $Name . '.json'), true);
     }
 
     /**
@@ -25,7 +25,7 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getFieldsAlgorithms()
     {
-        return (new \Mezon\Gui\FieldsAlgorithms($this->getJson('form-builder-setup'), 'entity'));
+        return new \Mezon\Gui\FieldsAlgorithms($this->getJson('form-builder-setup'), 'entity');
     }
 
     /**
@@ -69,7 +69,7 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
             ]
         ]);
 
-        return ($FormBuilder);
+        return $FormBuilder;
     }
 
     /**

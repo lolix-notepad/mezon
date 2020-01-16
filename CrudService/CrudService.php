@@ -71,7 +71,7 @@ class CrudService extends \Mezon\Service\Service
             $this->Model = $ServiceModel;
         }
 
-        return ($this->Model);
+        return $this->Model;
     }
 
     /**
@@ -82,7 +82,7 @@ class CrudService extends \Mezon\Service\Service
     protected function getFieldsFromConfig()
     {
         if (file_exists('./conf/fields.json')) {
-            return (json_decode(file_get_contents('./conf/fields.json'), true));
+            return json_decode(file_get_contents('./conf/fields.json'), true);
         }
 
         throw (new \Exception('fields.json was not found'));

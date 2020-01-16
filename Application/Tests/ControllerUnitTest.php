@@ -11,12 +11,12 @@ class TestingController extends \Mezon\Application\Controller
 
     public function controllerTest()
     {
-        return ('computed content');
+        return 'computed content';
     }
 
     public function controllerTest2()
     {
-        return ('computed content 2');
+        return 'computed content 2';
     }
 }
 

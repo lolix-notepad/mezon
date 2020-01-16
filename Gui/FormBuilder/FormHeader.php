@@ -28,7 +28,7 @@ class FormHeader extends \Mezon\Gui\Field\TextField
         $Content .= strlen($this->Text) ? '<h3>' . $this->Text . '</h3>' : '';
         $Content .= '</div>';
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -36,6 +36,6 @@ class FormHeader extends \Mezon\Gui\Field\TextField
      */
     public function fillAllRow(): bool
     {
-        return (false);
+        return false;
     }
 }

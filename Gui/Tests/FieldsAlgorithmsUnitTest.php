@@ -29,7 +29,7 @@ class FieldsAlgorithmsUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getFields1(): array
     {
-        return (json_decode(file_get_contents(__DIR__ . '/conf/setup.json'), true));
+        return json_decode(file_get_contents(__DIR__ . '/conf/setup.json'), true);
     }
 
     /**
@@ -39,7 +39,7 @@ class FieldsAlgorithmsUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getFields2(): array
     {
-        return ([
+        return [
             ID_FIELD_NAME => [
                 'type' => INTEGER_TYPE_NAME,
                 DISABLED_FIELD_NAME => 1
@@ -48,7 +48,7 @@ class FieldsAlgorithmsUnitTest extends \PHPUnit\Framework\TestCase
                 'type' => STRING_TYPE_NAME,
                 'required' => 1
             ]
-        ]);
+        ];
     }
 
     /**

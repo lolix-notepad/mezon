@@ -28,7 +28,7 @@ class FakeRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
      */
     public function getParam($Param, $Default = false)
     {
-        return (false);
+        return false;
     }
 }
 
@@ -123,7 +123,7 @@ class ServiceUnitTests extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -136,15 +136,15 @@ class ServiceUnitTests extends \PHPUnit\Framework\TestCase
     protected function getLogic(int $Mode)
     {
         if ($Mode == AS_STRING) {
-            return (\Mezon\Service\ServiceLogic::class);
+            return \Mezon\Service\ServiceLogic::class;
         }
         if ($Mode == AS_OBJECT) {
-            return (new \Mezon\Service\ServiceLogic(
+            return new \Mezon\Service\ServiceLogic(
                 new FakeRequestParams(),
                 new \stdClass(),
-                new \Mezon\Service\ServiceModel()));
+                new \Mezon\Service\ServiceModel());
         }
-        return (null);
+        return null;
     }
 
     /**
@@ -157,12 +157,12 @@ class ServiceUnitTests extends \PHPUnit\Framework\TestCase
     protected function getSecurityProvider(int $Mode)
     {
         if ($Mode == AS_STRING) {
-            return (\Mezon\Service\ServiceMockSecurityProvider::class);
+            return \Mezon\Service\ServiceMockSecurityProvider::class;
         }
         if ($Mode == AS_OBJECT) {
-            return (new \Mezon\Service\ServiceMockSecurityProvider());
+            return new \Mezon\Service\ServiceMockSecurityProvider();
         }
-        return (null);
+        return null;
     }
 
     /**

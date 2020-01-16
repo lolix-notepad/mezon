@@ -28,7 +28,7 @@ class LabelField extends \Mezon\Gui\Field\TextField
         $Content .= '<label class="control-label">' . $this->Text . '</label>';
         $Content .= '</div>';
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -38,16 +38,16 @@ class LabelField extends \Mezon\Gui\Field\TextField
      */
     public function getType(): string
     {
-        return ('label');
+        return 'label';
     }
 
     /**
      *
      * {@inheritdoc}
-     * @see \Mezon\Gui\Control\Control::fillAllRow()
+     * @see \Mezon\Gui\Control::fillAllRow()
      */
     public function fillAllRow(): bool
     {
-        return (true);
+        return true;
     }
 }

@@ -43,7 +43,7 @@ class SecurityRules
 
         @mkdir($FilePrefix . $Dir);
 
-        return ($Dir);
+        return $Dir;
     }
 
     /**
@@ -83,7 +83,7 @@ class SecurityRules
             $this->filePutContents($PathPrefix . $Dir . $FileName, base64_decode($FileContent));
         }
 
-        return ($Dir . $FileName);
+        return $Dir . $FileName;
     }
 
     /**
@@ -102,10 +102,10 @@ class SecurityRules
         $FileContent = @file_get_contents($FilePath);
 
         if ($FileContent === false) {
-            return (null);
+            return null;
         }
 
-        return ($this->storeFileContent($FileContent, $PathPrefix, $Decoded));
+        return $this->storeFileContent($FileContent, $PathPrefix, $Decoded);
     }
 
     /**
@@ -138,7 +138,7 @@ class SecurityRules
         }
 
         if (isset($Value['size']) && $Value['size'] === 0) {
-            return ('');
+            return '';
         }
 
         if ($StoreFiles) {
@@ -153,9 +153,9 @@ class SecurityRules
                 $this->moveUploadedFile($Value['tmp_name'], $UploadFile);
             }
 
-            return ($UploadFile);
+            return $UploadFile;
         } else {
-            return ($Value);
+            return $Value;
         }
     }
 
@@ -169,6 +169,6 @@ class SecurityRules
      */
     public function getStringValue(string $Value): string
     {
-        return (htmlspecialchars($Value));
+        return htmlspecialchars($Value);
     }
 }

@@ -11,7 +11,7 @@ class DbServiceModelUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function constructorTestData(): array
     {
-        return ([
+        return [
             [
                 [
                     'id' => [
@@ -32,7 +32,7 @@ class DbServiceModelUnitTest extends \PHPUnit\Framework\TestCase
                 ]),
                 'id',
             ],
-        ]);
+        ];
     }
 
     /**

@@ -35,7 +35,7 @@ class CrudServiceClientUnitTests extends \Mezon\Service\Tests\ServiceClientUnitT
             ->disableOriginalConstructor()
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -53,7 +53,7 @@ class CrudServiceClientUnitTests extends \Mezon\Service\Tests\ServiceClientUnitT
         $Mock->method('postRequest')->willReturn(
             json_decode(file_get_contents(__DIR__ . '/conf/' . $ConfigName . '.json')));
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

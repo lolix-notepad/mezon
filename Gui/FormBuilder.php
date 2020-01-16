@@ -97,7 +97,7 @@ class FormBuilder
                 $Field->html() . '</div>';
         }
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -116,11 +116,11 @@ class FormBuilder
         $FieldObject = $this->FieldsAlgorithms->getObject($Name);
 
         if ($FieldObject->fillAllRow()) {
-            return ($Control->html());
+            return $Control->html();
         }
 
         if ($FieldObject->isVisible() === false) {
-            return ('');
+            return '';
         }
 
         $Content = '<div class="form-group ' . $this->EntityName . ' col-md-' . $Field['width'] . '">';
@@ -132,7 +132,7 @@ class FormBuilder
 
         $Content .= $Control . '</div>';
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -152,7 +152,7 @@ class FormBuilder
             }
         }
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -163,11 +163,11 @@ class FormBuilder
     protected function getFormWidth()
     {
         if (isset($_GET['form-width'])) {
-            return (intval($_GET['form-width']));
+            return intval($_GET['form-width']);
         } elseif ($this->Layout === false || count($this->Layout) === 0) {
-            return (6);
+            return 6;
         } else {
-            return ($this->Layout['width']);
+            return $this->Layout['width'];
         }
     }
 
@@ -181,9 +181,9 @@ class FormBuilder
     public function compileFormFields($Record = [])
     {
         if (count($this->Layout) === 0) {
-            return ($this->compileForFieldsWithNoLayout($Record));
+            return $this->compileForFieldsWithNoLayout($Record);
         } else {
-            return ($this->compileForFieldsWithLayout($Record));
+            return $this->compileForFieldsWithLayout($Record);
         }
     }
 
@@ -210,7 +210,7 @@ class FormBuilder
 
         $Content = str_replace('{back-link}', $BackLink, $Content);
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -237,6 +237,6 @@ class FormBuilder
 
         $Content = str_replace('{fields}', $this->compileFormFields($Record), $Content);
 
-        return ($Content);
+        return $Content;
     }
 }

@@ -47,11 +47,11 @@ class HttpRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
         if (isset($Headers['Authorization'])) {
             $Token = str_replace('Basic ', '', $Headers['Authorization']);
 
-            return ($Token);
+            return $Token;
         } elseif (isset($Headers['Cgi-Authorization'])) {
             $Token = str_replace('Basic ', '', $Headers['Cgi-Authorization']);
 
-            return ($Token);
+            return $Token;
         }
 
         throw (new \Exception('Invalid session token', 2));
@@ -66,7 +66,7 @@ class HttpRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
     {
         $Headers = getallheaders();
 
-        return ($Headers === false ? [] : $Headers);
+        return $Headers === false ? [] : $Headers;
     }
 
     /**
@@ -78,7 +78,7 @@ class HttpRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
     {
         $Headers = $this->getHttpRequestHeaders();
 
-        return ($this->getSessionIdFromHeaders($Headers));
+        return $this->getSessionIdFromHeaders($Headers);
     }
 
     /**
@@ -108,6 +108,6 @@ class HttpRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
             $Return = $_GET[$Param];
         }
 
-        return ($Return);
+        return $Return;
     }
 }

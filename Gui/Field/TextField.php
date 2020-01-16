@@ -44,7 +44,7 @@ class TextField implements \Mezon\Gui\Control
      */
     public function html(): string
     {
-        return ($this->Text);
+        return $this->Text;
     }
 
     /**
@@ -52,6 +52,6 @@ class TextField implements \Mezon\Gui\Control
      */
     public function fillAllRow(): bool
     {
-        return (true);
+        return true;
     }
 }

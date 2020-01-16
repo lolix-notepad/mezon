@@ -81,7 +81,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
     {
         $Result = parent::postRequest($Endpoint, $Data);
 
-        return (json_decode($Result));
+        return json_decode($Result);
     }
 
     /**
@@ -95,7 +95,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
     {
         $Result = parent::getRequest($Endpoint);
 
-        return (json_decode($Result));
+        return json_decode($Result);
     }
 
     /**
@@ -160,7 +160,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
      */
     public function getToken(): string
     {
-        return ($this->SessionId);
+        return $this->SessionId;
     }
 
     /**
@@ -172,7 +172,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
     {
         $Result = $this->getRequest('/self/id/');
 
-        return (isset($Result->id) ? $Result->id : $Result);
+        return isset($Result->id) ? $Result->id : $Result;
     }
 
     /**
@@ -184,7 +184,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
     {
         $Result = $this->getRequest('/self/login/');
 
-        return (isset($Result->login) ? $Result->login : $Result);
+        return isset($Result->login) ? $Result->login : $Result;
     }
 
     /**
@@ -222,7 +222,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
      */
     public function getStoredLogin()
     {
-        return ($this->Login);
+        return $this->Login;
     }
 
     /**
@@ -238,7 +238,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
             $Result[] = "Cgi-Authorization: Basic " . $this->SessionId;
         }
 
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -248,6 +248,6 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
      */
     public function getService(): string
     {
-        return ($this->Service);
+        return $this->Service;
     }
 }

@@ -33,9 +33,9 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
             throw (new \Exception('Fields login and/or password were not set', - 1));
         }
 
-        return ([
+        return [
             $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->connect($Login, $Password)
-        ]);
+        ];
     }
 
     /**
@@ -45,10 +45,10 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function setToken(): array
     {
-        return ([
+        return [
             $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->setToken(
                 $this->getParam('token'))
-        ]);
+        ];
     }
 
     /**
@@ -58,9 +58,9 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function getSelfId(): array
     {
-        return ([
+        return [
             'id' => $this->getSelfIdValue()
-        ]);
+        ];
     }
 
     /**
@@ -70,9 +70,9 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function getSelfLogin(): array
     {
-        return ([
+        return [
             $this->SecurityProvider->getLoginFieldName() => $this->getSelfLoginValue()
-        ]);
+        ];
     }
 
     /**
@@ -82,7 +82,7 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     protected function getSessionId(): string
     {
-        return ($this->getParam($this->SecurityProvider->getSessionIdFieldName()));
+        return $this->getParam($this->SecurityProvider->getSessionIdFieldName());
     }
 
     /**
@@ -103,12 +103,12 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
             $LoginFieldName = 'id';
         }
 
-        return ([
+        return [
             $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->loginAs(
                 $this->getSessionId(),
                 $LoginOrId,
                 $LoginFieldName)
-        ]);
+        ];
     }
 
     /**
@@ -118,7 +118,7 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function getSelfIdValue(): int
     {
-        return ($this->SecurityProvider->getSelfId($this->getSessionId()));
+        return $this->SecurityProvider->getSelfId($this->getSessionId());
     }
 
     /**
@@ -128,7 +128,7 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function getSelfLoginValue(): string
     {
-        return ($this->SecurityProvider->getSelfLogin($this->getSessionId()));
+        return $this->SecurityProvider->getSelfLogin($this->getSessionId());
     }
 
     /**
@@ -140,7 +140,7 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function hasPermit(string $Permit): bool
     {
-        return ($this->SecurityProvider->hasPermit($this->getSessionId(), $Permit));
+        return $this->SecurityProvider->hasPermit($this->getSessionId(), $Permit);
     }
 
     /**

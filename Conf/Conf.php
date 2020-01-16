@@ -48,7 +48,7 @@ class Conf
      */
     public static function getConfigValue($Route, $DefaultValue = false)
     {
-        return (\Mezon\Conf\getConfigValue($Route, $DefaultValue));
+        return \Mezon\Conf\getConfigValue($Route, $DefaultValue);
     }
 
     /**
@@ -86,7 +86,7 @@ class Conf
      */
     public static function configKeyExists($Route): bool
     {
-        return (\Mezon\Conf\configKeyExists($Route));
+        return \Mezon\Conf\configKeyExists($Route);
     }
 
     /**
@@ -98,7 +98,7 @@ class Conf
      */
     public static function deleteConfigValue($Route): bool
     {
-        return (\Mezon\Conf\deleteConfigValue($Route));
+        return \Mezon\Conf\deleteConfigValue($Route);
     }
 
     /**
@@ -127,7 +127,7 @@ class Conf
      */
     public static function expandString($Value)
     {
-        return (\Mezon\Conf\expandString($Value));
+        return \Mezon\Conf\expandString($Value);
     }
 }
 
@@ -158,7 +158,7 @@ function expandString($Value)
         }
     }
 
-    return ($Value);
+    return $Value;
 }
 
 /**
@@ -178,20 +178,20 @@ function getConfigValue($Route, $DefaultValue = false)
     }
 
     if (isset(Conf::$AppConfig[$Route[0]]) === false) {
-        return ($DefaultValue);
+        return $DefaultValue;
     }
 
     $Value = Conf::$AppConfig[$Route[0]];
 
     for ($i = 1; $i < count($Route); $i ++) {
         if (isset($Value[$Route[$i]]) === false) {
-            return ($DefaultValue);
+            return $DefaultValue;
         }
 
         $Value = $Value[$Route[$i]];
     }
 
-    return (expandString($Value));
+    return expandString($Value);
 }
 
 /**
@@ -298,13 +298,13 @@ function configKeyExists($Route): bool
 
     for ($i = 1; $i < count($Route); $i ++) {
         if (isset($Value[$Route[$i]]) === false) {
-            return (false);
+            return false;
         }
 
         $Value = $Value[$Route[$i]];
     }
 
-    return (true);
+    return true;
 }
 
 /**
@@ -345,13 +345,13 @@ function deleteConfigValue($Route): bool
     }
 
     if (configKeyExists($Route) === false) {
-        return (false);
+        return false;
     }
 
     // route exists, so delete it
     _deleteConfig($Route, Conf::$AppConfig);
 
-    return (true);
+    return true;
 }
 
 /**

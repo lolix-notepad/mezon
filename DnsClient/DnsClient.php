@@ -31,7 +31,7 @@ class DnsClient
      */
     public static function getServices(): string
     {
-        return (implode(', ', array_keys(self::$DNSRecords)));
+        return implode(', ', array_keys(self::$DNSRecords));
     }
 
     /**
@@ -43,7 +43,7 @@ class DnsClient
      */
     public static function serviceExists(string $ServiceName): bool
     {
-        return (isset(self::$DNSRecords[$ServiceName]));
+        return isset(self::$DNSRecords[$ServiceName]);
     }
 
     /**
@@ -62,7 +62,7 @@ class DnsClient
         }
 
         if (is_string(self::$DNSRecords[$ServiceName])) {
-            return (self::$DNSRecords[$ServiceName]);
+            return self::$DNSRecords[$ServiceName];
         } else {
             throw (new \Exception('Invalid URL "' . serialize(self::$DNSRecords[$ServiceName]) . '"', - 1));
         }

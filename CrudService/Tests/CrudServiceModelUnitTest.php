@@ -50,7 +50,7 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
                 break;
         }
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -70,7 +70,7 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -99,7 +99,7 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
 
         $Mock->method('getConnection')->willReturn($ConnectionMock);
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -167,14 +167,14 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function deleteFilteredTestData(): array
     {
-        return ([
+        return [
             [
                 false
             ],
             [
                 1
             ]
-        ]);
+        ];
     }
 
     /**
@@ -207,7 +207,7 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function constructorTestData(): array
     {
-        return ([
+        return [
             [
                 [
                     'id' => [
@@ -228,7 +228,7 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
                 ]),
                 'id'
             ]
-        ]);
+        ];
     }
 
     /**
@@ -394,7 +394,7 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function recordsCountByFieldProvider(): array
     {
-        return ([
+        return [
             [
                 [
                     'id' => 1,
@@ -406,7 +406,7 @@ class CrudServiceModelUnitTest extends \PHPUnit\Framework\TestCase
                 [],
                 0
             ]
-        ]);
+        ];
     }
 
     /**

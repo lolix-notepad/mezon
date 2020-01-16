@@ -62,7 +62,7 @@ class CrudServiceCollection
 
         $Client->setToken($Token);
 
-        return ($Client);
+        return $Client;
     }
 
     /**
@@ -83,7 +83,7 @@ class CrudServiceCollection
      */
     public function getConnector(): \Mezon\CrudService\CrudServiceClient
     {
-        return ($this->Connector);
+        return $this->Connector;
     }
 
     /**
@@ -121,6 +121,6 @@ class CrudServiceCollection
      */
     public function getCollection(): array
     {
-        return ($this->Collection);
+        return $this->Collection;
     }
 }

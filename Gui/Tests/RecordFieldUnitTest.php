@@ -55,7 +55,7 @@ class RecordFieldUnitTest extends \PHPUnit\Framework\TestCase
                 ]
             ]);
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

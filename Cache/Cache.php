@@ -36,17 +36,30 @@ class Cache extends \Mezon\Singleton\Singleton
     protected $CachePath = './cache/';
 
     /**
+     * Fetching cache data
+     *
+     * @param string $FilePath
+     *            path to cache file
+     * @return string cache file content
+     * @codeCoverageIgnore
+     */
+    protected function fileGetContents(string $FilePath): string
+    {
+        return (@file_get_contents($FilePath));
+    }
+
+    /**
      * Method inits cache
      */
     protected function init()
     {
         if ($this->Data === null) {
-            $this->Data = @file_get_contents($this->CachePath . date('YmdH') . '.cache');
+            $this->Data = $this->fileGetContents($this->CachePath . date('YmdH') . '.cache');
 
             if ($this->Data === false) {
                 $this->Data = [];
             } else {
-                $this->Data = $this->Data == '' ? [] : json_decode($this->Data);
+                $this->Data = $this->Data == '' ? [] : json_decode($this->Data, true);
             }
         }
     }
@@ -83,11 +96,7 @@ class Cache extends \Mezon\Singleton\Singleton
     {
         $this->init();
 
-        if (is_array($this->Data)) {
-            return (isset($this->Data[$Key]));
-        }
-
-        return (isset($this->Data->$Key));
+        return isset($this->Data[$Key]);
     }
 
     /**
@@ -110,7 +119,18 @@ class Cache extends \Mezon\Singleton\Singleton
         $Result = \Mezon\Functional\Functional::getField($KeyValue, 'data', false);
 
         // preventing external code from writing directly to cache
-        return (json_decode(json_encode($Result)));
+        return json_decode(json_encode($Result));
+    }
+
+    /**
+     * Method stores data on disk
+     *
+     * @param string $Path
+     * @param string $Content
+     */
+    protected function filePutContents(string $Path, string $Content): void
+    {
+        @file_put_contents($Path, $Content);
     }
 
     /**
@@ -119,7 +139,7 @@ class Cache extends \Mezon\Singleton\Singleton
     public function flush()
     {
         if ($this->Data !== null) {
-            @file_put_contents($this->CachePath . date('YmdH') . '.cache', json_encode($this->Data));
+            $this->filePutContents($this->CachePath . date('YmdH') . '.cache', json_encode($this->Data));
 
             $this->Data = null;
         }

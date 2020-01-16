@@ -50,7 +50,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
             new \Mezon\Service\ServiceRestTransport\RestException('Msg', 0, 1, 1));
         $Mock->method('parentErrorResponse')->willThrowException(new \Exception('Msg', 0));
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -67,7 +67,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -156,7 +156,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $Mock->addRoute('public-method', $MethodName, 'GET', 'public_call');
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -189,7 +189,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
 
         $Mock->addRoute('private-method', $MethodName, 'GET', 'private_call');
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

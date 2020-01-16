@@ -43,14 +43,14 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
         try {
             $Params['SessionId'] = $this->createSession();
 
-            return (call_user_func_array([
+            return call_user_func_array([
                 $ServiceLogic,
                 $Method
-            ], $Params));
+            ], $Params);
         } catch (\Mezon\Service\ServiceRestTransport\RestException $e) {
-            return ($this->errorResponse($e));
+            return $this->errorResponse($e);
         } catch (\Exception $e) {
-            return ($this->parentErrorResponse($e));
+            return $this->parentErrorResponse($e);
         }
     }
 
@@ -73,14 +73,14 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
         $this->header('Content-type', 'application/json');
 
         try {
-            return (call_user_func_array([
+            return call_user_func_array([
                 $ServiceLogic,
                 $Method
-            ], $Params));
+            ], $Params);
         } catch (\Mezon\Service\ServiceRestTransport\RestException $e) {
-            return ($this->errorResponse($e));
+            return $this->errorResponse($e);
         } catch (\Exception $e) {
-            return ($this->parentErrorResponse($e));
+            return $this->parentErrorResponse($e);
         }
     }
 
@@ -116,7 +116,7 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
             $Return['http_body'] = $e->getHttpBody();
         }
 
-        return ($Return);
+        return $Return;
     }
 
     /**
@@ -128,7 +128,7 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
      */
     public function parentErrorResponse($e): array
     {
-        return (parent::errorResponse($e));
+        return parent::errorResponse($e);
     }
 
     /**

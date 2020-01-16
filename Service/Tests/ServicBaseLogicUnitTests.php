@@ -51,7 +51,7 @@ class MockParamsFetcher implements \Mezon\Service\ServiceRequestParamsInterface
      */
     public function getParam($Param, $Default = false)
     {
-        return ($this->Value);
+        return $this->Value;
     }
 }
 

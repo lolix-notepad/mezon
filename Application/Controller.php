@@ -53,10 +53,10 @@ class Controller implements \Mezon\Application\ControllerInterface
         }
 
         if (method_exists($this, 'controller' . $ControllerName)) {
-            return (call_user_func([
+            return call_user_func([
                 $this,
                 'controller' . $ControllerName
-            ]));
+            ]);
         }
 
         throw (new \Exception('Controller ' . $ControllerName . ' was not found'));
@@ -69,6 +69,6 @@ class Controller implements \Mezon\Application\ControllerInterface
      */
     public function getControllerName(): string
     {
-        return ($this->ControllerName);
+        return $this->ControllerName;
     }
 }

@@ -117,7 +117,7 @@ class FakeParametersFetcher implements \Mezon\Service\ServiceRequestParamsInterf
      */
     public function getParam($Param, $Default = false)
     {
-        return (false);
+        return false;
     }
 }
 
@@ -152,7 +152,7 @@ class FakeServiceModel extends \Mezon\CrudService\CrudServiceModel
      */
     public function recordsCountByField($DomainId, string $FieldName, array $Where): array
     {
-        return ([
+        return [
             [
                 'id' => 1,
                 'records_count' => 1
@@ -161,7 +161,7 @@ class FakeServiceModel extends \Mezon\CrudService\CrudServiceModel
                 'id' => 2,
                 'records_count' => 2
             ]
-        ]);
+        ];
     }
 
     /**
@@ -177,9 +177,9 @@ class FakeServiceModel extends \Mezon\CrudService\CrudServiceModel
      */
     public function lastRecords($DomainId, $Count, $Where)
     {
-        return ([
+        return [
             []
-        ]);
+        ];
     }
 }
 
@@ -227,7 +227,7 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
             ->setMethods($Methods)
             ->getMock();
 
-        return ($Model);
+        return $Model;
     }
 
     /**
@@ -239,7 +239,7 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
      */
     protected function jsonData(string $FileName): array
     {
-        return (json_decode(file_get_contents(__DIR__ . '/conf/' . $FileName . '.json'), true));
+        return json_decode(file_get_contents(__DIR__ . '/conf/' . $FileName . '.json'), true);
     }
 
     /**
@@ -258,7 +258,7 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
             new \Mezon\Service\ServiceMockSecurityProvider(),
             $Model);
 
-        return ($Logic);
+        return $Logic;
     }
 
     /**
@@ -288,7 +288,7 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
 
         $ServiceLogic = $this->getServiceLogic($ServiceModel);
 
-        return ($ServiceLogic);
+        return $ServiceLogic;
     }
 
     /**

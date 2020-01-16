@@ -26,7 +26,7 @@ class ServiceSimpleRequestParams implements \Mezon\Service\ServiceRequestParamsI
     {
         $Headers = getallheaders();
 
-        return ($Headers === false ? [] : $Headers);
+        return $Headers === false ? [] : $Headers;
     }
 
     /**
@@ -52,6 +52,6 @@ class ServiceSimpleRequestParams implements \Mezon\Service\ServiceRequestParamsI
             $Return = $_GET[$Param];
         }
 
-        return ($Return);
+        return $Return;
     }
 }

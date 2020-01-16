@@ -10,12 +10,12 @@ class TestingServiceLogicForConsoleTransport extends \Mezon\Service\ServiceLogic
 
     public function privateMethod()
     {
-        return ('private');
+        return 'private';
     }
 
     public function publicMethod()
     {
-        return ('public');
+        return 'public';
     }
 }
 
@@ -35,7 +35,7 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -52,7 +52,7 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

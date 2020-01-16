@@ -33,6 +33,6 @@ class InputText extends \Mezon\Gui\Field
         $Content .= $this->Toggler === '' ? '' : 'toggle-value="' . $this->ToggleValue . '"';
         $Content .= '>';
 
-        return ($Content);
+        return $Content;
     }
 }

@@ -24,7 +24,7 @@ class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParamsInterfa
      */
     protected function getSessionId()
     {
-        return ('');
+        return '';
     }
 
     /**
@@ -41,9 +41,9 @@ class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParamsInterfa
         global $argv;
 
         if (isset($argv[$Param])) {
-            return ($argv[$Param]);
+            return $argv[$Param];
         }
 
-        return ($Default);
+        return $Default;
     }
 }

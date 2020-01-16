@@ -50,7 +50,7 @@ class Mezon
      */
     protected static function constructConnection(): \Mezon\PdoCrud\PdoCrud
     {
-        return (new \Mezon\PdoCrud\PdoCrud());
+        return new \Mezon\PdoCrud\PdoCrud();
     }
 
     /**
@@ -62,7 +62,7 @@ class Mezon
     public static function getDbConnection(string $ConnectionName = 'default-db-connection')
     {
         if (self::$Crud !== false) {
-            return (self::$Crud);
+            return self::$Crud;
         }
 
         self::validateDsn($ConnectionName);
@@ -76,6 +76,6 @@ class Mezon
                 'password' => \Mezon\Conf\Conf::getConfigValue($ConnectionName . '/password')
             ]);
 
-        return (self::$Crud);
+        return self::$Crud;
     }
 }

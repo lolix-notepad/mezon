@@ -45,7 +45,7 @@ class ServiceHttpTransport extends \Mezon\Service\ServiceTransport
      */
     public function createSession(string $Token = ''): string
     {
-        return ($this->SecurityProvider->createSession($Token));
+        return $this->SecurityProvider->createSession($Token);
     }
 
     /**
@@ -55,7 +55,7 @@ class ServiceHttpTransport extends \Mezon\Service\ServiceTransport
      */
     public function createFetcher(): \Mezon\Service\ServiceRequestParamsInterface
     {
-        return (new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($this->Router));
+        return new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($this->Router);
     }
 
     /**
@@ -87,7 +87,7 @@ class ServiceHttpTransport extends \Mezon\Service\ServiceTransport
     {
         $this->header('Content-type', 'text/html; charset=utf-8');
 
-        return (parent::callLogic($ServiceLogic, $Method, $Params));
+        return parent::callLogic($ServiceLogic, $Method, $Params);
     }
 
     /**
@@ -105,6 +105,6 @@ class ServiceHttpTransport extends \Mezon\Service\ServiceTransport
     {
         $this->header('Content-type', 'text/html; charset=utf-8');
 
-        return (parent::callPublicLogic($ServiceLogic, $Method, $Params));
+        return parent::callPublicLogic($ServiceLogic, $Method, $Params);
     }
 }

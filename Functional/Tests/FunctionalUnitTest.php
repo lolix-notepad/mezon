@@ -8,7 +8,7 @@ function transform2x($Object)
 {
     $Object->foo *= 2;
 
-    return ($Object);
+    return $Object;
 }
 
 class FunctionalUnitTest extends \PHPUnit\Framework\TestCase

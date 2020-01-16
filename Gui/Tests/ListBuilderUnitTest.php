@@ -11,14 +11,14 @@ class FakeAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdapter
      */
     public function all(): array
     {
-        return ([
+        return [
             [
                 'id' => 1,
             ],
             [
                 'id' => 2,
             ]
-        ]);
+        ];
     }
 
     /**
@@ -34,7 +34,7 @@ class FakeAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdapter
      */
     public function getRecords(array $Order, int $From, int $Limit): array
     {
-        return ($this->all());
+        return $this->all();
     }
 
     /**
@@ -46,7 +46,7 @@ class FakeAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdapter
      */
     public function preprocessListItem(array $Record): array
     {
-        return ($Record);
+        return $Record;
     }
 }
 
@@ -60,9 +60,9 @@ class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getFields(): array
     {
-        return ([
+        return [
             'id'
-        ]);
+        ];
     }
 
     /**
@@ -72,9 +72,9 @@ class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getServiceLogic()
     {
-        return (new \Mezon\CrudService\CrudServiceLogic(
+        return new \Mezon\CrudService\CrudServiceLogic(
             new \Mezon\Service\ServiceConsoleTransport\ConsoleRequestParams(),
-            new stdClass()));
+            new stdClass());
     }
 
     /**

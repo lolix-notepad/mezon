@@ -33,7 +33,7 @@ class CrudServiceClientTests extends \Mezon\Service\Tests\ServiceClientTests
     {
         $Client = new $this->ClientClassName(EXISTING_LOGIN, $Password);
 
-        return ($Client);
+        return $Client;
     }
 
     /**

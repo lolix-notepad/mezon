@@ -87,7 +87,7 @@ class RestException extends \Exception
      */
     public function getHttpCode(): int
     {
-        return ($this->http_code);
+        return $this->http_code;
     }
 
     /**
@@ -97,7 +97,7 @@ class RestException extends \Exception
      */
     public function getHttpBody(): string
     {
-        return ($this->http_body);
+        return $this->http_body;
     }
 
     /**
@@ -107,7 +107,7 @@ class RestException extends \Exception
      */
     public function getUrl(): string
     {
-        return ($this->url);
+        return $this->url;
     }
 
     /**
@@ -117,6 +117,6 @@ class RestException extends \Exception
      */
     public function getOptions(): array
     {
-        return ($this->options);
+        return $this->options;
     }
 }

@@ -53,10 +53,10 @@ class View implements \Mezon\Application\ViewInterface
         }
 
         if (method_exists($this, 'view' . $ViewName)) {
-            return (call_user_func([
+            return call_user_func([
                 $this,
                 'view' . $ViewName
-            ]));
+            ]);
         }
 
         throw (new \Exception('View ' . $ViewName . ' was not found'));
@@ -69,6 +69,6 @@ class View implements \Mezon\Application\ViewInterface
      */
     public function getViewName(): string
     {
-        return ($this->ViewName);
+        return $this->ViewName;
     }
 }

@@ -46,7 +46,7 @@ class Application
 
         $Content = $this->Router->callRoute($Route);
 
-        return ($Content);
+        return $Content;
     }
 
     /**
@@ -142,7 +142,7 @@ class Application
         if (isset($this->$Method)) {
             $Function = $this->$Method;
 
-            return (call_user_func_array($Function, $Args));
+            return call_user_func_array($Function, $Args);
         }
     }
 

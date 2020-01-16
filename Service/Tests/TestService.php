@@ -13,12 +13,12 @@ class TestLogic extends \Mezon\Service\ServiceLogic
 
     public function test()
     {
-        return ('test');
+        return 'test';
     }
 
     public function test2()
     {
-        return ('test2');
+        return 'test2';
     }
 }
 

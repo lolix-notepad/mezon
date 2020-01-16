@@ -66,7 +66,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**
@@ -85,7 +85,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
         $Mock->method('sendRequest')->will(
             $this->returnValue(json_decode(file_get_contents(__DIR__ . '/conf/' . $DataFile . '.json'), true)));
 
-        return ($Mock);
+        return $Mock;
     }
 
     /**

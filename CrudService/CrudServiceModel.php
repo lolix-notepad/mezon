@@ -64,7 +64,7 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
             $Where[] = 'domain_id = ' . intval($DomainId);
         }
 
-        return ($Where);
+        return $Where;
     }
 
     /**
@@ -88,7 +88,7 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
 
         $this->lastNewRecordsSince($Records);
 
-        return ($Records);
+        return $Records;
     }
 
     /**
@@ -112,10 +112,10 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
             implode(' AND ', $Where));
 
         if (count($Records) === 0) {
-            return (0);
+            return 0;
         }
 
-        return (\Mezon\Functional\Functional::getField($Records[0], 'records_count'));
+        return \Mezon\Functional\Functional::getField($Records[0], 'records_count');
     }
 
     /**
@@ -148,7 +148,7 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
             $From,
             $Limit);
 
-        return ($Records);
+        return $Records;
     }
 
     /**
@@ -188,7 +188,7 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
 
         $this->getRecordsTransformer($Records);
 
-        return ($Records);
+        return $Records;
     }
 
     /**
@@ -226,7 +226,7 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
 
         $this->lastRecordsTransformer($Records);
 
-        return ($Records);
+        return $Records;
     }
 
     /**
@@ -268,7 +268,7 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
 
         $this->fetchRecordsByIdsTransformer($Records);
 
-        return ($Records);
+        return $Records;
     }
 
     /**
@@ -292,12 +292,12 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
             implode(' AND ', $Where) . ' GROUP BY ' . $FieldName);
 
         if (count($Records) === 0) {
-            return ([
+            return [
                 'records_count' => 0
-            ]);
+            ];
         }
 
-        return ($Records);
+        return $Records;
     }
 
     /**
@@ -311,11 +311,11 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
     public function deleteFiltered($DomainId, array $Where)
     {
         if ($DomainId === false) {
-            return ($this->getConnection()->delete($this->TableName, implode(' AND ', $Where)));
+            return $this->getConnection()->delete($this->TableName, implode(' AND ', $Where));
         } else {
-            return ($this->getConnection()->delete(
+            return $this->getConnection()->delete(
                 $this->TableName,
-                implode(' AND ', $Where) . ' AND domain_id = ' . intval($DomainId)));
+                implode(' AND ', $Where) . ' AND domain_id = ' . intval($DomainId));
         }
     }
 
@@ -338,7 +338,7 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
 
         $Connection->update($this->TableName, $Record, implode(' AND ', $Where));
 
-        return ($Record);
+        return $Record;
     }
 
     /**
@@ -366,7 +366,7 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
             $this->FieldsAlgorithms->fetchField($Record, $Name);
         }
 
-        return ($Record);
+        return $Record;
     }
 
     /**
@@ -392,6 +392,6 @@ class CrudServiceModel extends \Mezon\Service\DbServiceModel
 
         $Record['id'] = $this->getConnection()->insert($this->TableName, $Record);
 
-        return ($Record);
+        return $Record;
     }
 }

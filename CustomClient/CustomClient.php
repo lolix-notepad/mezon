@@ -76,7 +76,7 @@ class CustomClient
      */
     protected function sendRequest(string $URL, array $Headers, string $Method, array $Data = []): array
     {
-        return (\Mezon\CustomClient\CurlWrapper::sendRequest($URL, $Headers, $Method, $Data));
+        return \Mezon\CustomClient\CurlWrapper::sendRequest($URL, $Headers, $Method, $Data);
     }
 
     /**
@@ -118,7 +118,7 @@ class CustomClient
 
         $Result[] = 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0';
 
-        return ($Result);
+        return $Result;
     }
 
     /**
@@ -132,7 +132,7 @@ class CustomClient
 
         $FullHeaders[] = 'Content-type: application/x-www-form-urlencoded';
 
-        return ($FullHeaders);
+        return $FullHeaders;
     }
 
     /**
@@ -152,7 +152,7 @@ class CustomClient
 
         $this->dispatchResult($FullURL, $Code);
 
-        return ($Body);
+        return $Body;
     }
 
     /**
@@ -172,7 +172,7 @@ class CustomClient
 
         $this->dispatchResult($FullURL, $Code);
 
-        return ($Body);
+        return $Body;
     }
 
     /**
@@ -194,7 +194,7 @@ class CustomClient
      */
     public function getIdempotencyKey(): string
     {
-        return ($this->IdempotencyKey);
+        return $this->IdempotencyKey;
     }
 
     /**
@@ -204,7 +204,7 @@ class CustomClient
      */
     public function getUrl(): string
     {
-        return ($this->URL);
+        return $this->URL;
     }
 
     /**
@@ -214,6 +214,6 @@ class CustomClient
      */
     public function getHeaders(): array
     {
-        return ($this->Headers);
+        return $this->Headers;
     }
 }

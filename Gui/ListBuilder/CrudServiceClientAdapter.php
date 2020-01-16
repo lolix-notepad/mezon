@@ -78,7 +78,7 @@ class CrudServiceClientAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdap
                 $this->Password);
         }
 
-        return ($this->CrudServiceClient);
+        return $this->CrudServiceClient;
     }
 
     /**
@@ -99,7 +99,7 @@ class CrudServiceClientAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdap
      */
     public function all(): array
     {
-        return ($this->getClient()->getList(0, 1000000));
+        return $this->getClient()->getList(0, 1000000);
     }
 
     /**
@@ -115,7 +115,7 @@ class CrudServiceClientAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdap
      */
     public function getRecords(array $Order, int $From, int $Limit): array
     {
-        return ($this->getClient()->getList($From, $Limit, 0, [], $Order));
+        return $this->getClient()->getList($From, $Limit, 0, [], $Order);
     }
 
     /**
@@ -128,6 +128,6 @@ class CrudServiceClientAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdap
     public function preprocessListItem(array $Record): array
     {
         // in this case all transformations are done on the service's side
-        return ($Record);
+        return $Record;
     }
 }
