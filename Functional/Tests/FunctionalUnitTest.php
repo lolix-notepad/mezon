@@ -1,5 +1,5 @@
 <?php
-require_once (__DIR__ . '/../functional.php');
+require_once ('autoload.php');
 
 /**
  * Transformation function multiplies 'foo' field
