@@ -1,5 +1,0 @@
-{
-	"tests": [
-		"--filter CRUDServiceModelDBTest ./tests local"
-	]
-}
