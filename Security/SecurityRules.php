@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Security\SecurityRules;
+namespace Mezon\Security;
 
 /**
  * Class SecurityRules
@@ -25,8 +25,9 @@ class SecurityRules
      * @param string $FilePrefix
      *            Prefix to file path
      * @return string File path
+     * @codeCoverageIgnore
      */
-    public function _prepareFs(string $FilePrefix): string
+    protected function prepareFs(string $FilePrefix): string
     {
         @mkdir($FilePrefix . '/data/');
 
@@ -48,6 +49,20 @@ class SecurityRules
     /**
      * Method stores file on disk
      *
+     * @param string $File
+     *            file path
+     * @param string $Content
+     *            file content
+     * @codeCoverageIgnore
+     */
+    protected function filePutContents(string $File, string $Content): void
+    {
+        file_put_contents($File, $Content);
+    }
+
+    /**
+     * Method stores file on disk
+     *
      * @param string $FileContent
      *            Content of the saving file
      * @param string $PathPrefix
@@ -58,14 +73,14 @@ class SecurityRules
      */
     public function storeFileContent(string $FileContent, string $PathPrefix, bool $Decoded = false): string
     {
-        $Dir = $this->_prepareFs($PathPrefix);
+        $Dir = $this->prepareFs($PathPrefix);
 
         $FileName = md5(microtime(true));
 
         if ($Decoded) {
-            file_put_contents($PathPrefix . $Dir . $FileName, $FileContent);
+            $this->filePutContents($PathPrefix . $Dir . $FileName, $FileContent);
         } else {
-            file_put_contents($PathPrefix . $Dir . $FileName, base64_decode($FileContent));
+            $this->filePutContents($PathPrefix . $Dir . $FileName, base64_decode($FileContent));
         }
 
         return ($Dir . $FileName);
@@ -94,6 +109,20 @@ class SecurityRules
     }
 
     /**
+     * Method stores uploaded file
+     *
+     * @param string $From
+     *            path to the uploaded file
+     * @param string $To
+     *            destination file path
+     * @codeCoverageIgnore
+     */
+    protected function moveUploadedFile(string $From, string $To): void
+    {
+        move_uploaded_file($From, $To);
+    }
+
+    /**
      * Method returns file value
      *
      * @param mixed $Value
@@ -113,15 +142,15 @@ class SecurityRules
         }
 
         if ($StoreFiles) {
-            $Dir = '.' . $this->_prepareFs('.');
+            $Dir = '.' . $this->prepareFs('.');
 
             $UploadFile = $Dir . md5($Value['name'] . microtime(true)) . '.' .
                 pathinfo($Value['name'], PATHINFO_EXTENSION);
 
             if (isset($Value['file'])) {
-                file_put_contents($UploadFile, base64_decode($Value['file']));
+                $this->filePutContents($UploadFile, base64_decode($Value['file']));
             } else {
-                move_uploaded_file($Value['tmp_name'], $UploadFile);
+                $this->moveUploadedFile($Value['tmp_name'], $UploadFile);
             }
 
             return ($UploadFile);
@@ -136,13 +165,10 @@ class SecurityRules
      * @param string $Value
      *            Value to be made secure
      * @return string Secure value
+     * @codeCoverageIgnore
      */
     public function getStringValue(string $Value): string
     {
-        if ($Value == '""') {
-            return ('');
-        } else {
-            return (htmlspecialchars($Value));
-        }
+        return (htmlspecialchars($Value));
     }
 }

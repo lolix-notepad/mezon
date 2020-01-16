@@ -22,19 +22,19 @@ class Security
     /**
      * Security rules
      *
-     * @var \Mezon\Security\SecurityRules\SecurityRules
+     * @var \Mezon\Security\SecurityRules
      */
     public static $SecurityRules = null;
 
     /**
      * Method returns security rules
      *
-     * @return \Mezon\Security\SecurityRules\SecurityRules
+     * @return \Mezon\Security\SecurityRules
      */
-    public static function getSecurityRules(): \Mezon\Security\SecurityRules\SecurityRules
+    public static function getSecurityRules(): \Mezon\Security\SecurityRules
     {
         if (self::$SecurityRules === null) {
-            self::$SecurityRules = new \Mezon\Security\SecurityRules\SecurityRules();
+            self::$SecurityRules = new \Mezon\Security\SecurityRules();
         }
 
         return (self::$SecurityRules);
@@ -46,6 +46,7 @@ class Security
      * @param string $Value
      *            Value to be made secure
      * @return string Secure value
+     * @codeCoverageIgnore
      */
     public static function getStringValue(string $Value): string
     {
@@ -60,6 +61,7 @@ class Security
      * @param bool $StoreFiles
      *            Must be the file stored in the file system of the service or not
      * @return string|array Path to the stored file or the array $Value itself
+     * @codeCoverageIgnore
      */
     public static function getFileValue($Value, bool $StoreFiles)
     {
@@ -76,6 +78,7 @@ class Security
      * @param bool $Decoded
      *            If the file was not encodded in base64
      * @return string Path to file
+     * @codeCoverageIgnore
      */
     public static function storeFileContent(string $FileContent, string $PathPrefix, bool $Decoded = false): string
     {
@@ -92,6 +95,7 @@ class Security
      * @param bool $Decoded
      *            If the file was not encodded in base64
      * @return string Path to file or null if the image was not loaded
+     * @codeCoverageIgnore
      */
     public static function storeFile(string $FilePath, string $PathPrefix, bool $Decoded = false): ?string
     {

@@ -119,7 +119,7 @@ class FieldsAlgorithmsUnitTest extends \PHPUnit\Framework\TestCase
             $FieldsAlgorithms->getTypedValue(STRING_TYPE_NAME, '&'),
             'Type was not casted properly for string');
         $this->assertEquals(
-            '',
+            '&quot;&quot;',
             $FieldsAlgorithms->getTypedValue(STRING_TYPE_NAME, '""'),
             'Default brunch for string is not working');
 

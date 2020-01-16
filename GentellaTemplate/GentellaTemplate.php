@@ -33,17 +33,6 @@ class GentellaTemplate extends \Mezon\HtmlTemplate\HtmlTemplate
     }
 
     /**
-     * Get close button markup
-     *
-     * @return string Close button markup
-     */
-    protected static function getCloseButton(): string
-    {
-        return ('<button type="button" class="close" data-dismiss="alert" aria-label="Close">' .
-            '<span aria-hidden="true">×</span></button>');
-    }
-
-    /**
      * Compilation of the message
      *
      * @param string $MsgType
