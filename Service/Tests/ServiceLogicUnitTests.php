@@ -17,7 +17,7 @@ namespace Mezon\Service\Tests;
  * @author Dodonov A.A.
  * @group baseTests
  */
-class ServiceLogicUnitTests extends \Mezon\Service\ServiceBaseLogic\ServiceBaseLogicUnitTests
+class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTests
 {
 
     /**
