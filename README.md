@@ -1,4 +1,4 @@
-# mezon php framework [![Build Status](https://travis-ci.com/alexdodonov/mezon.svg?branch=master)](https://travis-ci.com/alexdodonov/mezon)
+# mezon php framework [![Build Status](https://travis-ci.com/alexdodonov/mezon.svg?branch=master)](https://travis-ci.com/alexdodonov/mezon) [![codecov](https://codecov.io/gh/alexdodonov/mezon/branch/master/graph/badge.svg)](https://codecov.io/gh/alexdodonov/mezon)
 
 ## Description
 
