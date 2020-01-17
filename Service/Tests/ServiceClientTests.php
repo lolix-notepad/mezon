@@ -1,8 +1,6 @@
 <?php
 namespace Mezon\Service\Tests;
 
-require_once ('autoload.php');
-
 /**
  * Class ServiceClientTests
  *

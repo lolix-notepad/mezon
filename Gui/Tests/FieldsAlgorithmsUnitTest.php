@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 define('ID_FIELD_NAME', 'id');
 define('TITLE_FIELD_NAME', 'title');

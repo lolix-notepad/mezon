@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class FilterUnitTest extends \PHPUnit\Framework\TestCase
 {

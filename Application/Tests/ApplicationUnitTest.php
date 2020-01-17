@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 /**
  * Application for testing purposes.

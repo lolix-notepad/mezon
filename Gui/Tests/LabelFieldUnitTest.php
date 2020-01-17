@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class LabelFieldUnitTest extends \PHPUnit\Framework\TestCase
 {

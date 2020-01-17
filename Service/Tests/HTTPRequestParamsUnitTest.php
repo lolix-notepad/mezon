@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 /**
  * Unit tests for the class HttpRequestParams.

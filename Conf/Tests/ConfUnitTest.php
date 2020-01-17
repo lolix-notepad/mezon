@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class ConfUnitTest extends \PHPUnit\Framework\TestCase
 {

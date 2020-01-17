@@ -6,7 +6,6 @@ php:
   - '7.4'
 
 before_script: 
-  - phpenv config-add travis.ini
   - composer require phpunit/phpunit:8.*.*
   - composer install
 

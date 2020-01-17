@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 /**
  * Controller class for testing purposes

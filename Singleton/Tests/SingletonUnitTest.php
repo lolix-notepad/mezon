@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class SingletonFoo extends \Mezon\Singleton\Singleton
 {

@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 /**
  * Transformation function multiplies 'foo' field

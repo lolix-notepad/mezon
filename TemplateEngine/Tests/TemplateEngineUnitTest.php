@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class TemplateEngineUnitTest extends \PHPUnit\Framework\TestCase
 {

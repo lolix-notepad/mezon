@@ -10,7 +10,6 @@ namespace Mezon\CrudService\Tests;
  * @version v.1.0 (2019/08/17)
  * @copyright Copyright (c) 2019, aeon.org
  */
-require_once ('autoload.php');
 
 /**
  * Fake securoity provider

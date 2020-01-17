@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class FakeAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdapter
 {

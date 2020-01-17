@@ -1,8 +1,6 @@
 <?php
 namespace Mezon\Service\ServiceBaseLogic;
 
-require_once ('autoload.php');
-
 /**
  * Service logic utin tests
  *

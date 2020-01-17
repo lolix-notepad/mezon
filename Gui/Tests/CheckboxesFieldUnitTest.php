@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class CheckboxesFieldUnitTest extends \PHPUnit\Framework\TestCase
 {

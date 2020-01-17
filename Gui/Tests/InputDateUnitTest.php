@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class InputDateUnitTest extends \PHPUnit\Framework\TestCase
 {

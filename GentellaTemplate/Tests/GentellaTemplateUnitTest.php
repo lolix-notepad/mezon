@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class GentellaTemplateUnitTest extends \PHPUnit\Framework\TestCase
 {

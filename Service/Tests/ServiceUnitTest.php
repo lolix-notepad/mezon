@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 require_once (__DIR__ . '/TestService.php');
 
 class ServiceUnitTest extends \Mezon\Service\Tests\ServiceUnitTests

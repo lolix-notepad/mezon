@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 /**
  * Crud service logic unit tests.

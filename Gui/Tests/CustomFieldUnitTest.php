@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class CustomFieldUnitTest extends \PHPUnit\Framework\TestCase
 {

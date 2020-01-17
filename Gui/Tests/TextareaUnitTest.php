@@ -1,5 +1,4 @@
 <?php
-require_once ('autoload.php');
 
 class TextareaUnitTest extends \PHPUnit\Framework\TestCase
 {
