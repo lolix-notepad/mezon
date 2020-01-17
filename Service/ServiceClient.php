@@ -96,6 +96,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
         $Result = parent::getRequest($Endpoint);
 
         return json_decode($Result);
+        // TODO add putRequest and deleteRequest methods
     }
 
     /**

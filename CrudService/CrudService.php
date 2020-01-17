@@ -106,5 +106,8 @@ class CrudService extends \Mezon\Service\Service
         $this->ServiceTransport->addRoute('/records/count/', 'recordsCount', 'GET');
         $this->ServiceTransport->addRoute('/last/[i:count]/', 'lastRecords', 'GET');
         $this->ServiceTransport->addRoute('/records/count/[s:field]/', 'recordsCountByField', 'GET');
+
+        // TODO add PUT and delete requests
+        // TODO allow in CrudServiceClient trait DELETE and PUT as POST
     }
 }

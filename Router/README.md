@@ -4,15 +4,11 @@ Mezon provides simple routing class for your needs.
 
 ##Simple routes##
 
-Example fot this paragraph can be found in %mezon-path%/doc/examples/router/index.php
-
-To be hounest you have already used it. But it was called implicitly.
-
 Router allows you to map URLs on your php code and call when ever it needs to be calld.
 
 Router supports simple routes like in the example above - example.com/contacts/
 
-Each Application object implicity creates routes for it's 'action_[action-name]' methods, where 'action-name' will be stored as a route. Here is small (au usual)) ) example:
+Each Application object implicity creates routes for it's 'action[action-name]' methods, where 'action-name' will be stored as a route. Here is small (as usual)) ) example:
 
 ```PHP
 class           MySite
@@ -20,7 +16,7 @@ class           MySite
     /**
     *   Main page.
     */
-    public function action_index()
+    public function actionIndex()
     {
         return( 'This is the main page of our simple site' );
     }
@@ -28,7 +24,7 @@ class           MySite
     /**
     *   Contacts page.
     */
-    public function action_contacts()
+    public function actionContacts()
     {
         return( 'This is the "Contacts" page' );
     }
@@ -36,7 +32,7 @@ class           MySite
     /**
     *   Some custom action handler.
     */
-    public function some_other_page()
+    public function someOtherPage()
     {
         return( 'Some other page of our site' );
     }
@@ -47,15 +43,15 @@ And this code
 
 ```PHP
 $Router = new Router();
-$Router->fetch_actions( $MySite = new MySite() );
+$Router->fetchActions( $MySite = new MySite() );
 ```
 
-will create router object and loads information about it's actions and create routes. Strictly it will create two routes, because the class MySite has only two methods wich start wth 'action_prefix'. Method 'some_other_page' will not be converted into route automatically.
+will create router object and loads information about it's actions and create routes. Strictly it will create two routes, because the class MySite has only two methods wich start wth 'action[Suffix]'. Method 'someOtherPage' will not be converted into route automatically.
 
 But we can still use this method as a route handler:
 
 ```PHP
-$Router->add_route( 'some_any_other_route' , array( $MySite , 'some_other_page' ) );
+$Router->addRoute( 'some-any-other-route' , array( $MySite , 'someOtherPage' ) );
 ```
 
 We just need to create it explicitly.
@@ -68,7 +64,7 @@ function        sitemap()
     return( 'Some fake sitemap' );
 }
 
-$Router->add_route( 'sitemap' , 'sitemap' );
+$Router->addRoute( 'sitemap' , 'sitemap' );
 ```
 
 ##One handler for all routes##
@@ -76,14 +72,14 @@ $Router->add_route( 'sitemap' , 'sitemap' );
 You can specify one processor for all routes like this:
 
 ```PHP
-$Router->add_route( '*' , function(){} );
+$Router->addRoute( '*' , function(){} );
 ```
 
 Note that routing search will stops if the '*' handler will be found. For example:
 
 ```PHP
-$Router->add_route( '*' , function(){} );
-$Router->add_route( '/index/' , function(){} );
+$Router->addRoute( '*' , function(){} );
+$Router->addRoute( '/index/' , function(){} );
 ```
 
 In this example route /index/ will never be reached. All request will be passed to the '*' handler. But in this example:

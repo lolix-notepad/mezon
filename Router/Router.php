@@ -11,8 +11,6 @@ namespace Mezon\Router;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
-// TODO decompose this class in a set of smaller ones
-
 /**
  * Router class
  */
@@ -85,30 +83,6 @@ class Router
     }
 
     /**
-     * Converting method name to route
-     *
-     * @param string $MethodName
-     *            method name
-     * @return string route
-     */
-    protected function convertMethodNameToRoute(string $MethodName): string
-    {
-        $MethodName = str_replace('action', '', $MethodName);
-
-        if (ctype_upper($MethodName[0])) {
-            $MethodName[0] = strtolower($MethodName[0]);
-        }
-
-        for ($i = 1; $i < strlen($MethodName); $i ++) {
-            if (ctype_upper($MethodName[$i])) {
-                $MethodName = substr_replace($MethodName, '-' . strtolower($MethodName[$i]), $i, 1);
-            }
-        }
-
-        return $MethodName;
-    }
-
-    /**
      * Method fetches actions from the objects and creates GetRoutes for them
      *
      * @param object $Object
@@ -120,7 +94,7 @@ class Router
 
         foreach ($Methods as $Method) {
             if (strpos($Method, 'action') === 0) {
-                $Route = $this->convertMethodNameToRoute($Method);
+                $Route = \Mezon\Router\Utils::convertMethodNameToRoute($Method);
                 $this->GetRoutes["/$Route/"] = [
                     $Object,
                     $Method
@@ -161,48 +135,6 @@ class Router
     }
 
     /**
-     * Method prepares route for the next processing
-     *
-     * @param mixed $Route
-     *            Route
-     * @return string Trimmed route
-     */
-    private function _prepareRoute($Route): string
-    {
-        if (is_array($Route) && $Route[0] === '') {
-            $Route = $_SERVER['REQUEST_URI'];
-        }
-
-        if ($Route == '/') {
-            $Route = '/index/';
-        }
-
-        if (is_array($Route)) {
-            $Route = implode('/', $Route);
-        }
-
-        return '/' . trim($Route, '/') . '/';
-    }
-
-    /**
-     * Method compiles callable description
-     *
-     * @param mixed $Processor
-     *            Object to be descripted
-     * @return string Description
-     */
-    private function _getCallableDescription($Processor): string
-    {
-        if (is_string($Processor)) {
-            return $Processor;
-        } elseif (is_object($Processor[0])) {
-            return get_class($Processor[0]) . '::' . $Processor[1];
-        } else {
-            return $Processor[0] . '::' . $Processor[1];
-        }
-    }
-
-    /**
      * Method searches route processor
      *
      * @param mixed $Processors
@@ -227,11 +159,11 @@ class Router
                     // passing route path and parameters
                     return call_user_func($Processor, $Route, []);
                 } elseif (method_exists($Processor[0], $FunctionName) === false) {
-                    $CallableDescription = $this->_getCallableDescription($Processor);
+                    $CallableDescription = \Mezon\Router\Utils::getCallableDescription($Processor);
 
                     throw (new \Exception("'$CallableDescription' does not exists"));
                 } else {
-                    $CallableDescription = $this->_getCallableDescription($Processor);
+                    $CallableDescription = \Mezon\Router\Utils::getCallableDescription($Processor);
 
                     throw (new \Exception("'$CallableDescription' must be callable entity"));
                 }
@@ -286,18 +218,6 @@ class Router
         $Routes = $this->_getRoutesForMethod($this->getRequestMethod());
 
         return $this->_findStaticRouteProcessor($Routes, $Route);
-    }
-
-    /**
-     * Method detects if the $String is a parameter or a static component of the route
-     *
-     * @param string $String
-     *            String to be validated
-     * @return bool Does we have parameter
-     */
-    private function _isParameter($String): bool
-    {
-        return $String[0] == '[' && $String[strlen($String) - 1] == ']';
     }
 
     /**
@@ -360,7 +280,7 @@ class Router
         $Paremeters = [];
 
         for ($i = 0; $i < count($CleanPattern); $i ++) {
-            if ($this->_isParameter($CleanPattern[$i])) {
+            if (\Mezon\Router\Utils::isParameter($CleanPattern[$i])) {
                 $ParameterName = $this->_matchParameterAndComponent($CleanRoute[$i], $CleanPattern[$i]);
 
                 // it's a parameter
@@ -484,7 +404,7 @@ class Router
      */
     public function callRoute($Route)
     {
-        $Route = $this->_prepareRoute($Route);
+        $Route = \Mezon\Router\Utils::prepareRoute($Route);
 
         if (($Result = $this->_tryStaticRoutes($Route)) !== false) {
             return $Result;
@@ -509,31 +429,6 @@ class Router
         $this->PutRoutes = [];
 
         $this->DeleteRoutes = [];
-    }
-
-    /**
-     * Method returns route object
-     *
-     * @param string $Route
-     *            Route URL
-     * @return object Route object
-     */
-    public function getRoute(string $Route): object
-    {
-        // TODO remove complexity of thismethod
-        if (isset($this->GetRoutes[$Route])) {
-            return $this->GetRoutes[$Route];
-        }
-        if (isset($this->PostRoutes[$Route])) {
-            return $this->PostRoutes[$Route];
-        }
-        if (isset($this->PutRoutes[$Route])) {
-            return $this->PutRoutes[$Route];
-        }
-        if (isset($this->DeleteRoutes[$Route])) {
-            return $this->DeleteRoutes[$Route];
-        }
-        throw (new \Exception('Route was not found'));
     }
 
     /**
@@ -573,10 +468,8 @@ class Router
      */
     public function routeExists(string $Route): bool
     {
-        try {
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
+        $AllRoutes = array_merge($this->DeleteRoutes, $this->PutRoutes, $this->PostRoutes, $this->GetRoutes);
+
+        return (isset($AllRoutes[$Route]));
     }
 }

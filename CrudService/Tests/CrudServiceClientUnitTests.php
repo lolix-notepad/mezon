@@ -10,6 +10,14 @@ namespace Mezon\CrudService\CrudServiceClient\CrudServiceClientUnitTests;
  * @version v.1.0 (2019/09/18)
  * @copyright Copyright (c) 2019, aeon.org
  */
+class HackedCrudServiceClient extends \Mezon\CrudService\CrudServiceClient
+{
+
+    public function publicGetCompiledFilter($Filter, $Amp = true): string
+    {
+        return (parent::getCompiledFilter($Filter, $Amp));
+    }
+}
 
 /**
  * Common unit tests for CrudServiceClient and all derived client classes
@@ -62,10 +70,10 @@ class CrudServiceClientUnitTests extends \Mezon\Service\Tests\ServiceClientUnitT
     public function testGetCompiledFilter1()
     {
         // setup
-        $Client = $this->getCrudServiceClientMock();
+        $Client = new HackedCrudServiceClient('https://ya.ru');
 
         // test body
-        $Result = $Client->getCompiledFilter(false);
+        $Result = $Client->publicGetCompiledFilter(false);
 
         // assertions
         $this->assertEquals('', $Result, 'Empty string must be returned');
@@ -77,10 +85,10 @@ class CrudServiceClientUnitTests extends \Mezon\Service\Tests\ServiceClientUnitT
     public function testGetCompiledFilter2()
     {
         // setup
-        $Client = $this->getCrudServiceClientMock();
+        $Client = new HackedCrudServiceClient('https://ya.ru');
 
         // test body
-        $Result = $Client->getCompiledFilter([
+        $Result = $Client->publicGetCompiledFilter([
             'field1' => 1,
             'field2' => 2
         ], true);
@@ -96,10 +104,10 @@ class CrudServiceClientUnitTests extends \Mezon\Service\Tests\ServiceClientUnitT
     public function testGetCompiledFilter3()
     {
         // setup
-        $Client = $this->getCrudServiceClientMock();
+        $Client = new HackedCrudServiceClient('https://ya.ru');
 
         // test body
-        $Result = $Client->getCompiledFilter([
+        $Result = $Client->publicGetCompiledFilter([
             [
                 'arg1' => '$id',
                 'op' => '=',

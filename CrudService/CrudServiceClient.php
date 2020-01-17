@@ -28,9 +28,8 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
      *            Do we need &
      * @return string Compiled filter
      */
-    public function getCompiledFilter($Filter, $Amp = true)
+    protected function getCompiledFilter($Filter, $Amp = true): string
     {
-        // TODO can we make this method protected?
         if ($Filter !== false) {
             if (isset($Filter[0]) && is_array($Filter[0])) {
                 return ($Amp ? '&' : '') . http_build_query([
@@ -115,9 +114,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
             return [];
         }
 
-        $Result = $this->getRequest('/exact/list/' . implode(',', $ids) . "/?cross_domain=$CrossDomain");
-
-        return $Result;
+        return $this->getRequest('/exact/list/' . implode(',', $ids) . "/?cross_domain=$CrossDomain");
     }
 
     /**

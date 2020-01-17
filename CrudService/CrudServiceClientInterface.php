@@ -20,17 +20,6 @@ interface CrudServiceClientInterface
 {
 
     /**
-     * Method returns compiled filter string
-     *
-     * @param array $Filter
-     *            Filter
-     * @param bool $Amp
-     *            Do we need &
-     * @return string Compiled filter
-     */
-    public function getCompiledFilter($Filter, $Amp = true);
-
-    /**
      * Method returns all records by filter
      *
      * @param array $Filter

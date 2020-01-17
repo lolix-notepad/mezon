@@ -1,4 +1,4 @@
-# mezon php framework
+# mezon php framework [![Build Status](https://travis-ci.com/alexdodonov/mezon.svg?branch=master)](https://travis-ci.com/alexdodonov/mezon)
 
 ## Description
 
