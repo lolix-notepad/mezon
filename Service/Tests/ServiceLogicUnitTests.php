@@ -59,7 +59,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
         $ServiceLogicClassName = $this->ClassName;
 
         $Logic = new $ServiceLogicClassName(
-            new \Mezon\Service\ServiceBaseLogic\MockParamsFetcher(),
+            new \Mezon\Service\Tests\MockParamsFetcher(),
             $SecurityProviderMock);
 
         $Result = $Logic->connect();
@@ -77,7 +77,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
         $ServiceLogicClassName = $this->ClassName;
 
         $Logic = new $ServiceLogicClassName(
-            new \Mezon\Service\ServiceBaseLogic\MockParamsFetcher(false),
+            new \Mezon\Service\Tests\MockParamsFetcher(false),
             $SecurityProviderMock);
 
         $this->expectException(\Exception::class);
@@ -95,7 +95,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
         $ServiceLogicClassName = $this->ClassName;
 
         $Logic = new $ServiceLogicClassName(
-            new \Mezon\Service\ServiceBaseLogic\MockParamsFetcher(),
+            new \Mezon\Service\Tests\MockParamsFetcher(),
             $SecurityProviderMock);
 
         // test body
@@ -116,7 +116,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
         $ServiceLogicClassName = $this->ClassName;
 
         $Logic = new $ServiceLogicClassName(
-            new \Mezon\Service\ServiceBaseLogic\MockParamsFetcher(),
+            new \Mezon\Service\Tests\MockParamsFetcher(),
             $SecurityProviderMock);
 
         // test body
@@ -137,7 +137,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
         $ServiceLogicClassName = $this->ClassName;
 
         $Logic = new $ServiceLogicClassName(
-            new \Mezon\Service\ServiceBaseLogic\MockParamsFetcher(),
+            new \Mezon\Service\Tests\MockParamsFetcher(),
             $SecurityProviderMock);
 
         // test body
@@ -158,7 +158,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
         $ServiceLogicClassName = $this->ClassName;
 
         $Logic = new $ServiceLogicClassName(
-            new \Mezon\Service\ServiceBaseLogic\MockParamsFetcher(),
+            new \Mezon\Service\Tests\MockParamsFetcher(),
             $SecurityProviderMock);
 
         // test body
@@ -180,7 +180,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
         $ServiceLogicClassName = $this->ClassName;
 
         $Logic = new $ServiceLogicClassName(
-            new \Mezon\Service\ServiceBaseLogic\MockParamsFetcher(),
+            new \Mezon\Service\Tests\MockParamsFetcher(),
             $SecurityProviderMock);
 
         // test body and assertions
