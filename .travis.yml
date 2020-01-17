@@ -1,15 +1,17 @@
 language: php
+
 php:
   - '7.2'
   - '7.3'
   - '7.4'
+
 before_script: 
   - phpenv config-add travis.ini
-  - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-source --dev
+  - composer require phpunit/phpunit:8.*.* satooshi/php-coveralls:dev-master
+  - composer install --dev
 
 script:
-  - vendor/bin/phpunit --coverage-clover=coverage.xml
+  - ./vendor/bin/phpunit --coverage-clover ./tests/logs/clover.xml
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+after_script:
+ - php vendor/bin/coveralls -v
