@@ -7,11 +7,11 @@ php:
 
 before_script: 
   - phpenv config-add travis.ini
-  - composer require phpunit/phpunit:8.*.* satooshi/php-coveralls:dev-master
-  - composer install --dev
+  - composer require phpunit/phpunit:8.*.*
+  - composer install
 
 script:
-  - ./vendor/bin/phpunit --coverage-clover ./tests/logs/clover.xml
+  - ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_script:
- - php vendor/bin/coveralls -v
+ - bash <(curl -s https://codecov.io/bash)
