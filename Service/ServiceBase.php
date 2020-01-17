@@ -48,10 +48,10 @@ class ServiceBase
      *            Service's model
      */
     public function __construct(
-        $ServiceTransport = 'ServiceRestTransport',
-        $SecurityProvider = 'ServiceMockSecurityProvider',
-        $ServiceLogic = 'ServiceBaseLogic',
-        $ServiceModel = 'ServiceModel')
+        $ServiceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
+        $SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
+        $ServiceLogic = \Mezon\Service\ServiceBaseLogic::class,
+        $ServiceModel = \Mezon\Service\ServiceModel::class)
     {
         $this->initTransport($ServiceTransport, $SecurityProvider);
 

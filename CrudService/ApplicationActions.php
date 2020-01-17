@@ -125,9 +125,7 @@ class ApplicationActions
         }
 
         // create list builder
-        $ListBuilder = new \Mezon\Gui\ListBuilder(explode(',', $Options['default-fields']), $CrudServiceClientAdapter);
-
-        return $ListBuilder;
+        return new \Mezon\Gui\ListBuilder(explode(',', $Options['default-fields']), $CrudServiceClientAdapter);
     }
 
     /**
