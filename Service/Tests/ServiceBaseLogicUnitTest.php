@@ -1,5 +1,5 @@
 <?php
 
-class ServiceBaseLogicUnitTest extends \Mezon\Service\ServiceBaseLogic\ServiceBaseLogicUnitTests
+class ServiceBaseLogicUnitTest extends \Mezon\Service\Tests\ServiceBaseLogicUnitTests
 {
 }
