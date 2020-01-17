@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Service\ServiceBaseLogic;
+namespace Mezon\Service\Tests;
 
 /**
  * Service logic utin tests
