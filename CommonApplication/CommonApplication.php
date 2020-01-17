@@ -189,10 +189,10 @@ class CommonApplication extends \Mezon\Application\Application
     /**
      * Setting template
      *
-     * @param mixed $Template
+     * @param \Mezon\HtmlTemplate\HtmlTemplate $Template
      *            Template
      */
-    public function setTemplate($Template): void
+    public function setTemplate(\Mezon\HtmlTemplate\HtmlTemplate $Template): void
     {
         $this->Template = $Template;
     }
