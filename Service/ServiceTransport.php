@@ -24,62 +24,62 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
      *
      * @var \Mezon\Service\ServiceRequestParamsInterface
      */
-    public $ParamsFetcher = false;
+    public $paramsFetcher = false;
 
     /**
      * Service's logic
      *
      * @var \Mezon\Service\ServiceLogic
      */
-    public $ServiceLogic = false;
+    public $serviceLogic = false;
 
     /**
      * Router
      *
      * @var \Mezon\Router\Router
      */
-    protected $Router = false;
+    protected $router = false;
 
     /**
      * Security provider
      *
-     * @var \Mezon\Service\ServiceSecurityProviderInterface $SecurityProvider Provider of the securitty routines
+     * @var \Mezon\Service\ServiceSecurityProviderInterface $securityProvider Provider of the securitty routines
      */
-    public $SecurityProvider = null;
+    public $securityProvider = null;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->Router = new \Mezon\Router\Router();
+        $this->router = new \Mezon\Router\Router();
     }
 
     /**
      * Method searches necessary logic object
      *
-     * @param string $Method
+     * @param string $method
      *            Necessary method
      * @return \Mezon\Service\ServiceLogic Logic object
      */
-    protected function getNecessaryLogic(string $Method): \Mezon\Service\ServiceLogic
+    protected function getNecessaryLogic(string $method): \Mezon\Service\ServiceLogic
     {
-        if (is_object($this->ServiceLogic)) {
-            if (method_exists($this->ServiceLogic, $Method)) {
-                return $this->ServiceLogic;
+        if (is_object($this->serviceLogic)) {
+            if (method_exists($this->serviceLogic, $method)) {
+                return $this->serviceLogic;
             } else {
                 throw (new \Exception(
-                    'The method "' . $Method . '" was not found in the "' . get_class($this->ServiceLogic) . '"',
+                    'The method "' . $method . '" was not found in the "' . get_class($this->serviceLogic) . '"',
                     - 1));
             }
-        } elseif (is_array($this->ServiceLogic)) {
-            foreach ($this->ServiceLogic as $Logic) {
-                if (method_exists($Logic, $Method)) {
-                    return $Logic;
+        } elseif (is_array($this->serviceLogic)) {
+            foreach ($this->serviceLogic as $logic) {
+                if (method_exists($logic, $method)) {
+                    return $logic;
                 }
             }
 
-            throw (new \Exception('The method "' . $Method . '" was not found in the set of logic objects', - 1));
+            throw (new \Exception('The method "' . $method . '" was not found in the set of logic objects', - 1));
         } else {
             throw (new \Exception('Logic was not found', - 2));
         }
@@ -91,121 +91,121 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
     /**
      * Method creates session
      *
-     * @param bool|string $Token
+     * @param bool|string $token
      *            Session token
      */
-    public function createSession(string $Token = ''): string
+    public function createSession(string $token = ''): string
     {
         // must be overriden
-        return $Token;
+        return $token;
     }
 
     /**
      * Method adds's route
      *
-     * @param string $Route
+     * @param string $route
      *            Route
-     * @param string $Method
+     * @param string $method
      *            Logic method to be called
-     * @param string $Request
+     * @param string $request
      *            HTTP request method
-     * @param string $CallType
+     * @param string $callType
      *            Type of the call
      */
-    public function addRoute(string $Route, string $Method, string $Request, string $CallType = 'callLogic'): void
+    public function addRoute(string $route, string $method, string $request, string $callType = 'callLogic'): void
     {
-        $LocalServiceLogic = $this->getNecessaryLogic($Method);
+        $localServiceLogic = $this->getNecessaryLogic($method);
 
-        if ($CallType == 'public_call') {
-            $this->Router->addRoute(
-                $Route,
-                function () use ($LocalServiceLogic, $Method) {
-                    return $this->callPublicLogic($LocalServiceLogic, $Method, []);
+        if ($callType == 'public_call') {
+            $this->router->addRoute(
+                $route,
+                function () use ($localServiceLogic, $method) {
+                    return $this->callPublicLogic($localServiceLogic, $method, []);
                 },
-                $Request);
+                $request);
         } else {
-            $this->Router->addRoute(
-                $Route,
-                function () use ($LocalServiceLogic, $Method) {
-                    return $this->callLogic($LocalServiceLogic, $Method, []);
+            $this->router->addRoute(
+                $route,
+                function () use ($localServiceLogic, $method) {
+                    return $this->callLogic($localServiceLogic, $method, []);
                 },
-                $Request);
+                $request);
         }
     }
 
     /**
      * Method loads single route
      *
-     * @param array $Route
+     * @param array $route
      *            Route description
      */
-    public function loadRoute(array $Route): void
+    public function loadRoute(array $route): void
     {
-        if (! isset($Route['route'])) {
+        if (! isset($route['route'])) {
             throw (new \Exception('Field "route" must be set'));
         }
-        if (! isset($Route['callback'])) {
+        if (! isset($route['callback'])) {
             throw (new \Exception('Field "callback" must be set'));
         }
-        $Method = isset($Route['method']) ? $Route['method'] : 'GET';
-        $CallType = isset($Route['call_type']) ? $Route['call_type'] : 'callLogic';
+        $method = isset($route['method']) ? $route['method'] : 'GET';
+        $callType = isset($route['call_type']) ? $route['call_type'] : 'callLogic';
 
-        $this->addRoute($Route['route'], $Route['callback'], $Method, $CallType);
+        $this->addRoute($route['route'], $route['callback'], $method, $callType);
     }
 
     /**
      * Method loads routes
      *
-     * @param array $Routes
+     * @param array $routes
      *            Route descriptions
      */
-    public function loadRoutes(array $Routes): void
+    public function loadRoutes(array $routes): void
     {
-        foreach ($Routes as $Route) {
-            $this->loadRoute($Route);
+        foreach ($routes as $route) {
+            $this->loadRoute($route);
         }
     }
 
     /**
      * Method loads routes from config file
      *
-     * @param string $Path
+     * @param string $path
      *            Path to the routes description
      */
-    public function loadRoutesFromConfig(string $Path = './conf/routes.php')
+    public function loadRoutesFromConfig(string $path = './conf/routes.php')
     {
-        if (file_exists($Path)) {
-            $Routes = (include ($Path));
+        if (file_exists($path)) {
+            $routes = (include ($path));
 
-            $this->loadRoutes($Routes);
+            $this->loadRoutes($routes);
         } else {
-            throw (new \Exception('Route ' . $Path . ' was not found', 1));
+            throw (new \Exception('Route ' . $path . ' was not found', 1));
         }
     }
 
     /**
      * Method runs logic functions
      *
-     * @param \Mezon\Service\ServiceLogic $ServiceLogic
+     * @param \Mezon\Service\ServiceLogic $serviceLogic
      *            object with all service logic
-     * @param string $Method
+     * @param string $method
      *            Logic's method to be executed
-     * @param array $Params
+     * @param array $params
      *            Logic's parameters
      * @return mixed Result of the called method
      */
     public function callLogic(
-        \Mezon\Service\ServiceBaseLogicInterface $ServiceLogic,
-        string $Method,
-        array $Params = [])
+        \Mezon\Service\ServiceBaseLogicInterface $serviceLogic,
+        string $method,
+        array $params = [])
     {
         try {
-            $Params['SessionId'] = $this->createSession();
+            $params['SessionId'] = $this->createSession();
 
             return call_user_func_array([
-                $ServiceLogic,
-                $Method
-            ], $Params);
+                $serviceLogic,
+                $method
+            ], $params);
         } catch (\Exception $e) {
             return $this->errorResponse($e);
         }
@@ -214,24 +214,24 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
     /**
      * Method runs logic functions
      *
-     * @param \Mezon\Service\ServiceBaseLogicInterface $ServiceLogic
+     * @param \Mezon\Service\ServiceBaseLogicInterface $serviceLogic
      *            object with all service logic
-     * @param string $Method
+     * @param string $method
      *            Logic's method to be executed
-     * @param array $Params
+     * @param array $params
      *            Logic's parameters
      * @return mixed Result of the called method
      */
     public function callPublicLogic(
-        \Mezon\Service\ServiceBaseLogicInterface $ServiceLogic,
-        string $Method,
-        array $Params = [])
+        \Mezon\Service\ServiceBaseLogicInterface $serviceLogic,
+        string $method,
+        array $params = [])
     {
         try {
             return call_user_func_array([
-                $ServiceLogic,
-                $Method
-            ], $Params);
+                $serviceLogic,
+                $method
+            ], $params);
         } catch (\Exception $e) {
             return $this->errorResponse($e);
         }
@@ -258,15 +258,15 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
     /**
      * Method returns parameter
      *
-     * @param string $Param
+     * @param string $param
      *            Parameter name
-     * @param mixed $Default
+     * @param mixed $default
      *            Default value
      * @return string Parameter value
      */
-    public function getParam(string $Param, $Default = false)
+    public function getParam(string $param, $default = false)
     {
-        return $this->ParamsFetcher->getParam($Param, $Default);
+        return $this->paramsFetcher->getParam($param, $default);
     }
 
     /**
@@ -278,14 +278,14 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
      */
     protected function formatCallStack($e): array
     {
-        $Stack = $e->getTrace();
+        $stack = $e->getTrace();
 
-        foreach ($Stack as $i => $Call) {
-            $Stack[$i] = (@$Call['file'] == '' ? 'lambda : ' : @$Call['file'] . ' (' . $Call['line'] . ') : ') .
-                (@$Call['class'] == '' ? '' : $Call['class'] . '->') . $Call['function'];
+        foreach ($stack as $i => $call) {
+            $stack[$i] = (@$call['file'] == '' ? 'lambda : ' : @$call['file'] . ' (' . $call['line'] . ') : ') .
+                (@$call['class'] == '' ? '' : $call['class'] . '->') . $call['function'];
         }
 
-        return $Stack;
+        return $stack;
     }
 
     /**
@@ -295,7 +295,7 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
      */
     public function run(): void
     {
-        print($this->Router->callRoute($_GET['r']));
+        print($this->router->callRoute($_GET['r']));
     }
 
     /**
@@ -313,34 +313,34 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
     /**
      * Method fetches actions for routes
      *
-     * @param \Mezon\Service\ServiceBaseLogicInterface $ActionsSource
+     * @param \Mezon\Service\ServiceBaseLogicInterface $actionsSource
      *            Source of actions
      */
-    public function fetchActions(\Mezon\Service\ServiceBaseLogicInterface $ActionsSource): void
+    public function fetchActions(\Mezon\Service\ServiceBaseLogicInterface $actionsSource): void
     {
-        $Methods = get_class_methods($ActionsSource);
+        $methods = get_class_methods($actionsSource);
 
-        foreach ($Methods as $Method) {
-            if (strpos($Method, 'action_') === 0) {
-                $Route = str_replace([
+        foreach ($methods as $method) {
+            if (strpos($method, 'action_') === 0) {
+                $route = str_replace([
                     'action_',
                     '_'
                 ], [
                     '',
                     '-'
-                ], $Method);
+                ], $method);
 
-                $this->Router->addRoute(
-                    $Route,
-                    function () use ($ActionsSource, $Method) {
-                        return $this->callPublicLogic($ActionsSource, $Method, []);
+                $this->router->addRoute(
+                    $route,
+                    function () use ($actionsSource, $method) {
+                        return $this->callPublicLogic($actionsSource, $method, []);
                     },
                     'GET');
 
-                $this->Router->addRoute(
-                    $Route,
-                    function () use ($ActionsSource, $Method) {
-                        return $this->callPublicLogic($ActionsSource, $Method, []);
+                $this->router->addRoute(
+                    $route,
+                    function () use ($actionsSource, $method) {
+                        return $this->callPublicLogic($actionsSource, $method, []);
                     },
                     'POST');
             }
@@ -354,23 +354,23 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
      */
     public function getParamsFetcher(): \Mezon\Service\ServiceRequestParamsInterface
     {
-        if ($this->ParamsFetcher !== false) {
-            return $this->ParamsFetcher;
+        if ($this->paramsFetcher !== false) {
+            return $this->paramsFetcher;
         }
 
-        return $this->ParamsFetcher = $this->createFetcher();
+        return $this->paramsFetcher = $this->createFetcher();
     }
 
     /**
      * Method returns true if the router exists
      *
-     * @param string $Route
+     * @param string $route
      *            checking route
      * @return bool true if the router exists, false otherwise
      */
-    public function routeExists(string $Route): bool
+    public function routeExists(string $route): bool
     {
-        return $this->Router->routeExists($Route);
+        return $this->router->routeExists($route);
     }
 
     /**
@@ -380,6 +380,6 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
      */
     public function &getRouter(): \Mezon\Router\Router
     {
-        return $this->Router;
+        return $this->router;
     }
 }

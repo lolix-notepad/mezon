@@ -22,42 +22,42 @@ class Router
      *
      * @var array
      */
-    private $GetRoutes = [];
+    private $getRoutes = [];
 
     /**
      * Mapping of routes to their execution functions for GET requests
      *
      * @var array
      */
-    private $PostRoutes = [];
+    private $postRoutes = [];
 
     /**
      * Mapping of routes to their execution functions for PUT requests
      *
      * @var array
      */
-    private $PutRoutes = [];
+    private $putRoutes = [];
 
     /**
      * Mapping of routes to their execution functions for DELETE requests
      *
      * @var array
      */
-    private $DeleteRoutes = [];
+    private $deleteRoutes = [];
 
     /**
      * Method wich handles invalid route error
      *
      * @var array
      */
-    private $InvalidRouteErrorHandler = [];
+    private $invalidRouteErrorHandler = [];
 
     /**
      * Parsed parameters of the calling router
      *
      * @var array
      */
-    protected $Parameters = [];
+    protected $parameters = [];
 
     /**
      * Method returns request method
@@ -76,7 +76,7 @@ class Router
     {
         $_SERVER['REQUEST_METHOD'] = $this->getRequestMethod();
 
-        $this->InvalidRouteErrorHandler = [
+        $this->invalidRouteErrorHandler = [
             $this,
             'noProcessorFoundErrorHandler'
         ];
@@ -85,23 +85,23 @@ class Router
     /**
      * Method fetches actions from the objects and creates GetRoutes for them
      *
-     * @param object $Object
+     * @param object $object
      *            Object to be processed
      */
-    public function fetchActions(object $Object): void
+    public function fetchActions(object $object): void
     {
-        $Methods = get_class_methods($Object);
+        $methods = get_class_methods($object);
 
-        foreach ($Methods as $Method) {
-            if (strpos($Method, 'action') === 0) {
-                $Route = \Mezon\Router\Utils::convertMethodNameToRoute($Method);
-                $this->GetRoutes["/$Route/"] = [
-                    $Object,
-                    $Method
+        foreach ($methods as $method) {
+            if (strpos($method, 'action') === 0) {
+                $route = \Mezon\Router\Utils::convertMethodNameToRoute($method);
+                $this->getRoutes["/$route/"] = [
+                    $object,
+                    $method
                 ];
-                $this->PostRoutes["/$Route/"] = [
-                    $Object,
-                    $Method
+                $this->postRoutes["/$route/"] = [
+                    $object,
+                    $method
                 ];
             }
         }
@@ -110,62 +110,62 @@ class Router
     /**
      * Method adds route and it's handler
      *
-     * $Callback function may have two parameters - $Route and $Parameters. Where $Route is a called route,
-     * and $Parameters is associative array (parameter name => parameter value) with URL parameters
+     * $callback function may have two parameters - $route and $parameters. Where $route is a called route,
+     * and $parameters is associative array (parameter name => parameter value) with URL parameters
      *
-     * @param string $Route
+     * @param string $route
      *            Route.
-     * @param mixed $Callback
+     * @param mixed $callback
      *            Collback wich will be processing route call.
-     * @param string $Request
+     * @param string $request
      *            Request type.
      */
-    public function addRoute(string $Route, $Callback, $Request = 'GET'): void
+    public function addRoute(string $route, $callback, $request = 'GET'): void
     {
-        $Route = '/' . trim($Route, '/') . '/';
+        $route = '/' . trim($route, '/') . '/';
 
-        if (is_array($Request)) {
-            foreach ($Request as $r) {
-                $this->addRoute($Route, $Callback, $r);
+        if (is_array($request)) {
+            foreach ($request as $r) {
+                $this->addRoute($route, $callback, $r);
             }
         } else {
-            $Routes = &$this->_getRoutesForMethod($Request);
-            $Routes[$Route] = $Callback;
+            $routes = &$this->_getRoutesForMethod($request);
+            $routes[$route] = $callback;
         }
     }
 
     /**
      * Method searches route processor
      *
-     * @param mixed $Processors
+     * @param mixed $processors
      *            Callable router's processor
-     * @param string $Route
+     * @param string $route
      *            Route
      * @return mixed Result of the router processor
      */
-    private function _findStaticRouteProcessor(&$Processors, string $Route)
+    private function _findStaticRouteProcessor(&$processors, string $route)
     {
-        foreach ($Processors as $i => $Processor) {
+        foreach ($processors as $i => $processor) {
             // exact router or 'all router'
-            if ($i == $Route || $i == '/*/') {
-                if (is_callable($Processor) && is_array($Processor) === false) {
-                    return $Processor($Route, []);
+            if ($i == $route || $i == '/*/') {
+                if (is_callable($processor) && is_array($processor) === false) {
+                    return $processor($route, []);
                 }
 
-                $FunctionName = $Processor[1];
+                $functionName = $processor[1];
 
-                if (is_callable($Processor) &&
-                    (method_exists($Processor[0], $FunctionName) || isset($Processor[0]->$FunctionName))) {
+                if (is_callable($processor) &&
+                    (method_exists($processor[0], $functionName) || isset($processor[0]->$functionName))) {
                     // passing route path and parameters
-                    return call_user_func($Processor, $Route, []);
-                } elseif (method_exists($Processor[0], $FunctionName) === false) {
-                    $CallableDescription = \Mezon\Router\Utils::getCallableDescription($Processor);
+                    return call_user_func($processor, $route, []);
+                } elseif (method_exists($processor[0], $functionName) === false) {
+                    $callableDescription = \Mezon\Router\Utils::getCallableDescription($processor);
 
-                    throw (new \Exception("'$CallableDescription' does not exists"));
+                    throw (new \Exception("'$callableDescription' does not exists"));
                 } else {
-                    $CallableDescription = \Mezon\Router\Utils::getCallableDescription($Processor);
+                    $callableDescription = \Mezon\Router\Utils::getCallableDescription($processor);
 
-                    throw (new \Exception("'$CallableDescription' must be callable entity"));
+                    throw (new \Exception("'$callableDescription' must be callable entity"));
                 }
             }
         }
@@ -176,149 +176,149 @@ class Router
     /**
      * Method returns list of routes for the HTTP method.
      *
-     * @param string $Method
+     * @param string $method
      *            HTTP Method
      * @return array Routes
      */
-    private function &_getRoutesForMethod(string $Method): array
+    private function &_getRoutesForMethod(string $method): array
     {
-        switch ($Method) {
+        switch ($method) {
             case ('GET'):
-                $Result = &$this->GetRoutes;
+                $result = &$this->getRoutes;
                 break;
 
             case ('POST'):
-                $Result = &$this->PostRoutes;
+                $result = &$this->postRoutes;
                 break;
 
             case ('PUT'):
-                $Result = &$this->PutRoutes;
+                $result = &$this->putRoutes;
                 break;
 
             case ('DELETE'):
-                $Result = &$this->DeleteRoutes;
+                $result = &$this->deleteRoutes;
                 break;
 
             default:
                 throw (new \Exception('Unsupported request method'));
         }
 
-        return $Result;
+        return $result;
     }
 
     /**
      * Method tries to process static routes without any parameters
      *
-     * @param string $Route
+     * @param string $route
      *            Route
      * @return mixed Result of the router processor
      */
-    private function _tryStaticRoutes($Route)
+    private function _tryStaticRoutes($route)
     {
-        $Routes = $this->_getRoutesForMethod($this->getRequestMethod());
+        $routes = $this->_getRoutesForMethod($this->getRequestMethod());
 
-        return $this->_findStaticRouteProcessor($Routes, $Route);
+        return $this->_findStaticRouteProcessor($routes, $route);
     }
 
     /**
      * Matching parameter and component
      *
-     * @param mixed $Component
+     * @param mixed $component
      *            Component of the URL
-     * @param string $Parameter
+     * @param string $parameter
      *            Parameter to be matched
      * @return string Matched url parameter
      */
-    private function _matchParameterAndComponent(&$Component, string $Parameter)
+    private function _matchParameterAndComponent(&$component, string $parameter)
     {
-        $ParameterData = explode(':', trim($Parameter, '[]'));
-        $Return = false;
+        $parameterData = explode(':', trim($parameter, '[]'));
+        $return = false;
 
-        switch ($ParameterData[0]) {
+        switch ($parameterData[0]) {
             case ('i'):
-                if (is_numeric($Component)) {
-                    $Component = $Component + 0;
-                    $Return = $ParameterData[1];
+                if (is_numeric($component)) {
+                    $component = $component + 0;
+                    $return = $parameterData[1];
                 }
                 break;
             case ('a'):
-                if (preg_match('/^([a-z0-9A-Z_\/\-\.\@]+)$/', $Component)) {
-                    $Return = $ParameterData[1];
+                if (preg_match('/^([a-z0-9A-Z_\/\-\.\@]+)$/', $component)) {
+                    $return = $parameterData[1];
                 }
                 break;
             case ('il'):
-                if (preg_match('/^([0-9,]+)$/', $Component)) {
-                    $Return = $ParameterData[1];
+                if (preg_match('/^([0-9,]+)$/', $component)) {
+                    $return = $parameterData[1];
                 }
                 break;
             case ('s'):
-                $Component = htmlspecialchars($Component, ENT_QUOTES);
-                $Return = $ParameterData[1];
+                $component = htmlspecialchars($component, ENT_QUOTES);
+                $return = $parameterData[1];
                 break;
             default:
-                throw (new \Exception('Illegal parameter type/value : ' . $ParameterData[0]));
+                throw (new \Exception('Illegal parameter type/value : ' . $parameterData[0]));
         }
 
-        return $Return;
+        return $return;
     }
 
     /**
      * Method matches route and pattern
      *
-     * @param array $CleanRoute
+     * @param array $cleanRoute
      *            Cleaned route splitted in parts
-     * @param array $CleanPattern
+     * @param array $cleanPattern
      *            Route pattern
      * @return array Array of route's parameters
      */
-    private function _matchRouteAndPattern(array $CleanRoute, array $CleanPattern)
+    private function _matchRouteAndPattern(array $cleanRoute, array $cleanPattern)
     {
-        if (count($CleanRoute) !== count($CleanPattern)) {
+        if (count($cleanRoute) !== count($cleanPattern)) {
             return false;
         }
 
-        $Paremeters = [];
+        $paremeters = [];
 
-        for ($i = 0; $i < count($CleanPattern); $i ++) {
-            if (\Mezon\Router\Utils::isParameter($CleanPattern[$i])) {
-                $ParameterName = $this->_matchParameterAndComponent($CleanRoute[$i], $CleanPattern[$i]);
+        for ($i = 0; $i < count($cleanPattern); $i ++) {
+            if (\Mezon\Router\Utils::isParameter($cleanPattern[$i])) {
+                $parameterName = $this->_matchParameterAndComponent($cleanRoute[$i], $cleanPattern[$i]);
 
                 // it's a parameter
-                if ($ParameterName !== false) {
+                if ($parameterName !== false) {
                     // parameter was matched, store it!
-                    $Paremeters[$ParameterName] = $CleanRoute[$i];
+                    $paremeters[$parameterName] = $cleanRoute[$i];
                 } else {
                     return false;
                 }
             } else {
                 // it's a static part of the route
-                if ($CleanRoute[$i] !== $CleanPattern[$i]) {
+                if ($cleanRoute[$i] !== $cleanPattern[$i]) {
                     return false;
                 }
             }
         }
 
-        $this->Parameters = $Paremeters;
+        $this->parameters = $paremeters;
     }
 
     /**
      * Method searches dynamic route processor
      *
-     * @param array $Processors
+     * @param array $processors
      *            Callable router's processor
-     * @param string $Route
+     * @param string $route
      *            Route
      * @return string Result of the router'scall or false if any error occured
      */
-    private function _findDynamicRouteProcessor(array &$Processors, string $Route)
+    private function _findDynamicRouteProcessor(array &$processors, string $route)
     {
-        $CleanRoute = explode('/', trim($Route, '/'));
+        $cleanRoute = explode('/', trim($route, '/'));
 
-        foreach ($Processors as $i => $Processor) {
-            $CleanPattern = explode('/', trim($i, '/'));
+        foreach ($processors as $i => $processor) {
+            $cleanPattern = explode('/', trim($i, '/'));
 
-            if ($this->_matchRouteAndPattern($CleanRoute, $CleanPattern) !== false) {
-                return call_user_func($Processor, $Route, $this->Parameters); // return result of the router
+            if ($this->_matchRouteAndPattern($cleanRoute, $cleanPattern) !== false) {
+                return call_user_func($processor, $route, $this->parameters); // return result of the router
             }
         }
 
@@ -328,34 +328,34 @@ class Router
     /**
      * Method tries to process dynamic routes with parameters
      *
-     * @param string $Route
+     * @param string $route
      *            Route
      * @return string Result of the route call
      */
-    private function _tryDynamicRoutes(string $Route)
+    private function _tryDynamicRoutes(string $route)
     {
         switch ($this->getRequestMethod()) {
             case ('GET'):
-                $Result = $this->_findDynamicRouteProcessor($this->GetRoutes, $Route);
+                $result = $this->_findDynamicRouteProcessor($this->getRoutes, $route);
                 break;
 
             case ('POST'):
-                $Result = $this->_findDynamicRouteProcessor($this->PostRoutes, $Route);
+                $result = $this->_findDynamicRouteProcessor($this->postRoutes, $route);
                 break;
 
             case ('PUT'):
-                $Result = $this->_findDynamicRouteProcessor($this->PutRoutes, $Route);
+                $result = $this->_findDynamicRouteProcessor($this->putRoutes, $route);
                 break;
 
             case ('DELETE'):
-                $Result = $this->_findDynamicRouteProcessor($this->DeleteRoutes, $Route);
+                $result = $this->_findDynamicRouteProcessor($this->deleteRoutes, $route);
                 break;
 
             default:
                 throw (new \Exception('Unsupported request method'));
         }
 
-        return $Result;
+        return $result;
     }
 
     /**
@@ -363,58 +363,58 @@ class Router
      */
     private function _getAllRoutesTrace()
     {
-        return (count($this->GetRoutes) ? 'GET:' . implode(', ', array_keys($this->GetRoutes)) . '; ' : '') .
-            (count($this->PostRoutes) ? 'POST:' . implode(', ', array_keys($this->PostRoutes)) . '; ' : '') .
-            (count($this->PutRoutes) ? 'PUT:' . implode(', ', array_keys($this->PutRoutes)) . '; ' : '') .
-            (count($this->DeleteRoutes) ? 'DELETE:' . implode(', ', array_keys($this->DeleteRoutes)) : '');
+        return (count($this->getRoutes) ? 'GET:' . implode(', ', array_keys($this->getRoutes)) . '; ' : '') .
+            (count($this->postRoutes) ? 'POST:' . implode(', ', array_keys($this->postRoutes)) . '; ' : '') .
+            (count($this->putRoutes) ? 'PUT:' . implode(', ', array_keys($this->putRoutes)) . '; ' : '') .
+            (count($this->deleteRoutes) ? 'DELETE:' . implode(', ', array_keys($this->deleteRoutes)) : '');
     }
 
     /**
      * Method processes no processor found error
      *
-     * @param string $Route
+     * @param string $route
      *            Route
      */
-    public function noProcessorFoundErrorHandler(string $Route)
+    public function noProcessorFoundErrorHandler(string $route)
     {
         throw (new \Exception(
-            'The processor was not found for the route ' . $Route . ' in ' . $this->_getAllRoutesTrace()));
+            'The processor was not found for the route ' . $route . ' in ' . $this->_getAllRoutesTrace()));
     }
 
     /**
      * Method sets InvalidRouteErrorHandler function
      *
-     * @param callable $Function
+     * @param callable $function
      *            Error handler
      */
-    public function setNoProcessorFoundErrorHandler(callable $Function)
+    public function setNoProcessorFoundErrorHandler(callable $function)
     {
-        $OldErrorHandler = $this->InvalidRouteErrorHandler;
+        $oldErrorHandler = $this->invalidRouteErrorHandler;
 
-        $this->InvalidRouteErrorHandler = $Function;
+        $this->invalidRouteErrorHandler = $function;
 
-        return $OldErrorHandler;
+        return $oldErrorHandler;
     }
 
     /**
      * Processing specified router
      *
-     * @param string $Route
+     * @param string $route
      *            Route
      */
-    public function callRoute($Route)
+    public function callRoute($route)
     {
-        $Route = \Mezon\Router\Utils::prepareRoute($Route);
+        $route = \Mezon\Router\Utils::prepareRoute($route);
 
-        if (($Result = $this->_tryStaticRoutes($Route)) !== false) {
-            return $Result;
+        if (($result = $this->_tryStaticRoutes($route)) !== false) {
+            return $result;
         }
 
-        if (($Result = $this->_tryDynamicRoutes($Route)) !== false) {
-            return $Result;
+        if (($result = $this->_tryDynamicRoutes($route)) !== false) {
+            return $result;
         }
 
-        call_user_func($this->InvalidRouteErrorHandler, $Route);
+        call_user_func($this->invalidRouteErrorHandler, $route);
     }
 
     /**
@@ -422,54 +422,54 @@ class Router
      */
     public function clear()
     {
-        $this->GetRoutes = [];
+        $this->getRoutes = [];
 
-        $this->PostRoutes = [];
+        $this->postRoutes = [];
 
-        $this->PutRoutes = [];
+        $this->putRoutes = [];
 
-        $this->DeleteRoutes = [];
+        $this->deleteRoutes = [];
     }
 
     /**
      * Method returns route parameter
      *
-     * @param string $Name
+     * @param string $name
      *            Route parameter
      * @return string Route parameter
      */
-    public function getParam(string $Name): string
+    public function getParam(string $name): string
     {
-        if (isset($this->Parameters[$Name]) === false) {
-            throw (new \Exception('Paremeter ' . $Name . ' was not found in route', - 1));
+        if (isset($this->parameters[$name]) === false) {
+            throw (new \Exception('Paremeter ' . $name . ' was not found in route', - 1));
         }
 
-        return $this->Parameters[$Name];
+        return $this->parameters[$name];
     }
 
     /**
      * Does parameter exists
      *
-     * @param string $Name
+     * @param string $name
      *            Param name
      * @return bool True if the parameter exists
      */
-    public function hasParam(string $Name): bool
+    public function hasParam(string $name): bool
     {
-        return isset($this->Parameters[$Name]);
+        return isset($this->parameters[$name]);
     }
 
     /**
      * Method returns true if the router exists
      *
-     * @param string $Route
+     * @param string $route
      *            checking route
      * @return bool true if the router exists, false otherwise
      */
-    public function routeExists(string $Route): bool
+    public function routeExists(string $route): bool
     {
-        $AllRoutes = array_merge($this->DeleteRoutes, $this->PutRoutes, $this->PostRoutes, $this->GetRoutes);
+        $allRoutes = array_merge($this->deleteRoutes, $this->putRoutes, $this->postRoutes, $this->getRoutes);
 
-        return (isset($AllRoutes[$Route]));
+        return (isset($allRoutes[$route]));
     }
 }

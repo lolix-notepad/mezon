@@ -22,27 +22,27 @@ class Select extends \Mezon\Gui\Field
      *
      * @var array
      */
-    protected $Items = [];
+    protected $items = [];
 
     /**
      * Constructor
      *
-     * @param array $FieldDescription
+     * @param array $fieldDescription
      *            Field description
-     * @param string $Value
+     * @param string $value
      *            Field value
      */
-    public function __construct(array $FieldDescription, string $Value = '')
+    public function __construct(array $fieldDescription, string $value = '')
     {
-        parent::__construct($FieldDescription, $Value);
+        parent::__construct($fieldDescription, $value);
 
-        $ItemsSource = $FieldDescription['items'];
+        $itemsSource = $fieldDescription['items'];
 
-        if (is_string($ItemsSource) && function_exists($ItemsSource)) {
+        if (is_string($itemsSource) && function_exists($itemsSource)) {
             // callback function forms a list of items
-            $this->Items = $ItemsSource();
+            $this->items = $itemsSource();
         } else {
-            $this->Items = $ItemsSource;
+            $this->items = $itemsSource;
         }
     }
 
@@ -53,21 +53,19 @@ class Select extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        $Content = '<select class="form-control"';
-        $Content .= $this->Required ? ' required="required"' : '';
-        $Content .= ' type="text" name="' . $this->NamePrefix . '-' . $this->Name .
-            ($this->Batch ? '[{_creation_form_items_counter}]' : '') . '"';
-        $Content .= $this->Disabled ? ' disabled ' : '';
-        $Content .= $this->Toggler === '' ? '' : 'toggler="' . $this->Toggler . '" ';
-        $Content .= $this->Toggler === '' ? '' : 'toggle-value="' . $this->ToggleValue . '" ';
-        $Content .= 'value="' . $this->Value . '">';
+        $content = '<select class="form-control"';
+        $content .= $this->required ? ' required="required"' : '';
+        $content .= ' type="text" name="' . $this->namePrefix . '-' . $this->name .
+            ($this->batch ? '[{_creation_form_items_counter}]' : '') . '"';
+        $content .= $this->disabled ? ' disabled ' : '';
+        $content .= $this->toggler === '' ? '' : 'toggler="' . $this->toggler . '" ';
+        $content .= $this->toggler === '' ? '' : 'toggle-value="' . $this->toggleValue . '" ';
+        $content .= 'value="' . $this->value . '">';
 
-        foreach ($this->Items as $id => $Title) {
-            $Content .= '<option value="' . $id . '">' . $Title . '</option>';
+        foreach ($this->items as $id => $title) {
+            $content .= '<option value="' . $id . '">' . $title . '</option>';
         }
 
-        $Content .= '</select>';
-
-        return $Content;
+        return $content . '</select>';
     }
 }

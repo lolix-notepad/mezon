@@ -8,8 +8,8 @@ class TestApplication extends \Mezon\Application\Application
 
     function __construct()
     {
-        if (is_object($this->Router)) {
-            $this->Router->clear();
+        if (is_object($this->router)) {
+            $this->router->clear();
         }
 
         parent::__construct();
@@ -23,7 +23,7 @@ class TestApplication extends \Mezon\Application\Application
 
     function drop_router()
     {
-        $this->Router = false;
+        $this->router = false;
     }
 }
 
@@ -35,13 +35,13 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testCorrectRoute()
     {
-        $Application = new TestApplication();
+        $application = new TestApplication();
 
         $_GET['r'] = '/existing/';
 
         $this->expectOutputString('OK!');
 
-        $Application->run();
+        $application->run();
     }
 
     /**
@@ -49,17 +49,17 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testIncorrectRoute()
     {
-        $Application = new TestApplication();
+        $application = new TestApplication();
 
         $_GET['r'] = '/unexisting/';
 
         ob_start();
-        $Application->run();
-        $Output = ob_get_contents();
+        $application->run();
+        $output = ob_get_contents();
         ob_end_clean();
 
         $this->assertTrue(
-            strpos($Output, 'The processor was not found for the route') !== false,
+            strpos($output, 'The processor was not found for the route') !== false,
             'Invalid behavior with incorrect route');
     }
 
@@ -68,14 +68,14 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConfigValidatorsRoute()
     {
-        $Application = new TestApplication();
+        $application = new TestApplication();
 
-        $Msg = '';
+        $msg = '';
 
         $this->expectException(Exception::class);
-        $Application->loadRoutesFromConfig(__DIR__ . '/TestInvalidRoutes1.php');
+        $application->loadRoutesFromConfig(__DIR__ . '/TestInvalidRoutes1.php');
 
-        $this->assertEquals('Field "route" must be set', $Msg, 'Invalid behavior for config validation');
+        $this->assertEquals('Field "route" must be set', $msg, 'Invalid behavior for config validation');
     }
 
     /**
@@ -83,17 +83,17 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConfigValidatorsCallback()
     {
-        $Application = new TestApplication();
+        $application = new TestApplication();
 
-        $Msg = '';
+        $msg = '';
 
         try {
-            $Application->loadRoutesFromConfig(__DIR__ . '/TestInvalidRoutes2.php');
+            $application->loadRoutesFromConfig(__DIR__ . '/TestInvalidRoutes2.php');
         } catch (Exception $e) {
-            $Msg = $e->getMessage();
+            $msg = $e->getMessage();
         }
 
-        $this->assertEquals('Field "callback" must be set', $Msg, 'Invalid behavior for callback');
+        $this->assertEquals('Field "callback" must be set', $msg, 'Invalid behavior for callback');
     }
 
     /**
@@ -101,15 +101,15 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testRoutesPhpConfig()
     {
-        $Application = new TestApplication();
+        $application = new TestApplication();
 
-        $Application->loadRoutesFromConfig(__DIR__ . '/TestRoutes.php');
+        $application->loadRoutesFromConfig(__DIR__ . '/TestRoutes.php');
 
         $_GET['r'] = '/get-route/';
 
         $this->expectOutputString('OK!');
 
-        $Application->run();
+        $application->run();
     }
 
     /**
@@ -117,15 +117,15 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testRoutesJsonConfig()
     {
-        $Application = new TestApplication();
+        $application = new TestApplication();
 
-        $Application->loadRoutesFromConfig(__DIR__ . '/TestRoutes.json');
+        $application->loadRoutesFromConfig(__DIR__ . '/TestRoutes.json');
 
         $_GET['r'] = '/get-route/';
 
         $this->expectOutputString('OK!');
 
-        $Application->run();
+        $application->run();
     }
 
     /**
@@ -135,15 +135,15 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $Application = new TestApplication();
+        $application = new TestApplication();
 
-        $Application->loadRoutesFromConfig(__DIR__ . '/TestRoutes.php');
+        $application->loadRoutesFromConfig(__DIR__ . '/TestRoutes.php');
 
         $_GET['r'] = '/post-route/';
 
         $this->expectOutputString('OK!');
 
-        $Application->run();
+        $application->run();
     }
 
     /**
@@ -152,9 +152,9 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
     public function testLoadingFromUnexistingRoute()
     {
         try {
-            $Application = new TestApplication();
+            $application = new TestApplication();
 
-            $Application->loadRoutesFromConfig('unexisting');
+            $application->loadRoutesFromConfig('unexisting');
 
             $this->assertEquals(true, false, 'Exception was not thrown');
         } catch (Exception $e) {
@@ -167,14 +167,12 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getMock()
     {
-        $Mock = $this->getMockBuilder(\Mezon\Application\Application::class)
+        return $this->getMockBuilder(\Mezon\Application\Application::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'handleException'
         ])
             ->getMock();
-
-        return $Mock;
     }
 
     /**
@@ -184,10 +182,10 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(Exception::class);
 
-        $Application = $this->getMock();
-        $Application->method('handleException')->willThrowException(new Exception());
+        $application = $this->getMock();
+        $application->method('handleException')->willThrowException(new Exception());
 
-        $Application->run();
+        $application->run();
     }
 
     /**
@@ -195,13 +193,13 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testOnTheFlyMethod()
     {
-        $Application = new \Mezon\Application\Application();
+        $application = new \Mezon\Application\Application();
 
-        $Application->fly = function () {
+        $application->fly = function () {
             return 'OK!';
         };
 
-        $Application->loadRoute([
+        $application->loadRoute([
             'route' => '/fly-route/',
             'callback' => 'fly'
         ]);
@@ -211,7 +209,7 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
 
         $this->expectOutputString('OK!');
 
-        $Application->run();
+        $application->run();
     }
 
     /**
@@ -219,13 +217,13 @@ class ApplicationUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testOnTheFlyUnexistingMethod()
     {
-        $Application = new \Mezon\Application\Application();
+        $application = new \Mezon\Application\Application();
 
-        $Application->unexisting = function () {
+        $application->unexisting = function () {
             return 'OK!';
         };
 
-        $Application->fly();
+        $application->fly();
 
         $this->addToAssertionCount(1);
     }

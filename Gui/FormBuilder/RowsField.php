@@ -22,19 +22,19 @@ class RowsField extends \Mezon\Gui\Field
      *
      * @var string
      */
-    protected $RowedField = '';
+    protected $rowedField = '';
 
     /**
      * Constructor
      *
-     * @param array $FieldDescription
+     * @param array $fieldDescription
      *            Field description
-     * @param string $RowedField
+     * @param string $rowedField
      *            Compiled field to be rowed
      */
-    public function __construct(array $FieldDescription, string $RowedField)
+    public function __construct(array $fieldDescription, string $rowedField)
     {
-        $this->RowedField = $RowedField;
+        $this->rowedField = $rowedField;
     }
 
     /**
@@ -44,23 +44,23 @@ class RowsField extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        $Content = '<div><div class="form-group col-md-12">';
-        $Content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $this->Name .
+        $content = '<div><div class="form-group col-md-12">';
+        $content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $this->name .
             '\' )">+</button>';
-        $Content .= '</div></div>';
+        $content .= '</div></div>';
 
-        $Content = str_replace('{_creation_form_items_counter}', '0', $Content);
+        $content = str_replace('{_creation_form_items_counter}', '0', $content);
 
-        $Content .= '<template class="' . $this->Name . '"><div>';
-        $Content .= $this->RowedField;
-        $Content .= '<div class="form-group col-md-12">';
-        $Content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $this->Name .
+        $content .= '<template class="' . $this->name . '"><div>';
+        $content .= $this->rowedField;
+        $content .= '<div class="form-group col-md-12">';
+        $content .= '<button class="btn btn-success col-md-2" onclick="add_element_by_template( this , \'' . $this->name .
             '\' );">+</button>';
-        $Content .= '<button class="btn btn-danger col-md-2" onclick="remove_element_by_template( this );">-</button>';
-        $Content .= '</div></div>';
-        $Content .= '</template>';
+        $content .= '<button class="btn btn-danger col-md-2" onclick="remove_element_by_template( this );">-</button>';
+        $content .= '</div></div>';
+        $content .= '</template>';
 
-        return $Content;
+        return $content;
     }
 
     /**

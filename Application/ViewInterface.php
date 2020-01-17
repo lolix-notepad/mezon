@@ -20,11 +20,11 @@ interface ViewInterface
     /**
      * Method renders content from view
      *
-     * @param string $ViewName
+     * @param string $viewName
      *            View name to be rendered
      * @return string Generated content
      */
-    public function render(string $ViewName = ''): string;
+    public function render(string $viewName = ''): string;
 
     /**
      * Method returns view name

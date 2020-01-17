@@ -27,22 +27,22 @@ interface ListBuilderAdapter
     /**
      * Method returns a subset from vailable records
      *
-     * @param array $Order
+     * @param array $order
      *            order settings
-     * @param int $From
+     * @param int $from
      *            the beginning of the bunch
-     * @param int $Limit
+     * @param int $limit
      *            the size of the batch
      * @return array subset from vailable records
      */
-    public function getRecords(array $Order, int $From, int $Limit): array;
+    public function getRecords(array $order, int $from, int $limit): array;
 
     /**
      * Record preprocessor
      *
-     * @param array $Record
+     * @param array $record
      *            record to be preprocessed
      * @return array preprocessed record
      */
-    public function preprocessListItem(array $Record): array;
+    public function preprocessListItem(array $record): array;
 }

@@ -20,19 +20,19 @@ class Functional
     /**
      * Method returns field of the object/array without recursinve inspection
      *
-     * @param mixed $Record
+     * @param mixed $record
      *            Processing record
-     * @param string $Field
+     * @param string $field
      *            Field name
      * @return mixed Field value
      * @deprecated
      */
-    public static function getFieldPlain($Record, string $Field)
+    public static function getFieldPlain($record, string $field)
     {
-        if (is_array($Record) && isset($Record[$Field])) {
-            return $Record[$Field];
-        } elseif (is_object($Record) && isset($Record->$Field)) {
-            return $Record->$Field;
+        if (is_array($record) && isset($record[$field])) {
+            return $record[$field];
+        } elseif (is_object($record) && isset($record->$field)) {
+            return $record->$field;
         } else {
             return null;
         }
@@ -41,52 +41,52 @@ class Functional
     /**
      * Method returns field of the object/array
      *
-     * @param mixed $Record
+     * @param mixed $record
      *            Processing record
-     * @param string $Field
+     * @param string $field
      *            Field name
-     * @param bool $Recursive
-     *            Shold we search the field $Field along the whole object
+     * @param bool $recursive
+     *            Shold we search the field $field along the whole object
      * @return mixed Field value
      * @deprecated
      */
-    public static function getField($Record, string $Field, bool $Recursive = true)
+    public static function getField($record, string $field, bool $recursive = true)
     {
-        if ($Recursive) {
-            foreach ($Record as $v) {
+        if ($recursive) {
+            foreach ($record as $v) {
                 if (is_array($v) || is_object($v)) {
-                    $Result = self::getField($v, $Field);
+                    $result = self::getField($v, $field);
 
-                    if ($Result !== null) {
-                        return $Result;
+                    if ($result !== null) {
+                        return $result;
                     }
                 }
             }
         }
 
-        return self::getFieldPlain($Record, $Field);
+        return self::getFieldPlain($record, $field);
     }
 
     /**
      * Method sets existing field of the object/array
      *
-     * @param mixed $Record
+     * @param mixed $record
      *            Processing record
-     * @param string $Field
+     * @param string $field
      *            Field name
-     * @param mixed $Value
+     * @param mixed $value
      *            Value to be set
      */
-    protected static function setExistingField(&$Record, string $Field, $Value)
+    protected static function setExistingField(&$record, string $field, $value)
     {
-        foreach ($Record as $i => $v) {
+        foreach ($record as $i => $v) {
             if (is_array($v) || is_object($v)) {
-                self::setExistingField($v, $Field, $Value);
-            } elseif ($i == $Field) {
-                if (is_object($Record)) {
-                    $Record->$Field = $Value;
+                self::setExistingField($v, $field, $value);
+            } elseif ($i == $field) {
+                if (is_object($record)) {
+                    $record->$field = $value;
                 } else {
-                    $Record[$Field] = $Value;
+                    $record[$field] = $value;
                 }
             }
         }
@@ -95,291 +95,291 @@ class Functional
     /**
      * Method sets field of the object/array
      *
-     * @param mixed $Record
+     * @param mixed $record
      *            Processing record
-     * @param string $Field
+     * @param string $field
      *            Field name
-     * @param mixed $Value
+     * @param mixed $value
      *            Value to be set
      */
-    public static function setField(&$Record, string $Field, $Value)
+    public static function setField(&$record, string $field, $value)
     {
-        $Existing = self::getField($Record, $Field);
+        $existing = self::getField($record, $field);
 
-        if ($Existing == null) {
+        if ($existing == null) {
             // add field if it does not exist
-            if (is_object($Record)) {
-                $Record->$Field = $Value;
+            if (is_object($record)) {
+                $record->$field = $value;
             } else {
-                $Record[$Field] = $Value;
+                $record[$field] = $value;
             }
         } else {
             // set existing field
-            self::setExistingField($Record, $Field, $Value);
+            self::setExistingField($record, $field, $value);
         }
     }
 
     /**
      * Method fetches all fields from objects/arrays of an array
      *
-     * @param mixed $Data
+     * @param mixed $data
      *            Processing record
-     * @param string $Field
+     * @param string $field
      *            Field name
-     * @param bool $Recursive
-     *            Shold we search the field $Field along the whole object
+     * @param bool $recursive
+     *            Shold we search the field $field along the whole object
      */
-    public static function getFields($Data, string $Field, $Recursive = true)
+    public static function getFields($data, string $field, $recursive = true)
     {
-        $Return = array();
+        $return = array();
 
-        foreach ($Data as $Record) {
-            $Return[] = self::getField($Record, $Field, $Recursive);
+        foreach ($data as $record) {
+            $return[] = self::getField($record, $field, $recursive);
         }
 
-        return $Return;
+        return $return;
     }
 
     /**
-     * Method sets fields $FieldName in array of objects $Objects with $Values
+     * Method sets fields $fieldName in array of objects $objects with $values
      *
-     * @param array $Objects
+     * @param array $objects
      *            Array of objects to be processed
-     * @param string $FieldName
+     * @param string $fieldName
      *            Field name
-     * @param array $Values
+     * @param array $values
      *            Values to be set
      */
-    public static function setFieldsInObjects(&$Objects, string $FieldName, array $Values)
+    public static function setFieldsInObjects(&$objects, string $fieldName, array $values)
     {
-        foreach ($Values as $i => $Value) {
-            if (isset($Objects[$i]) === false) {
-                $Objects[$i] = new \stdClass();
+        foreach ($values as $i => $value) {
+            if (isset($objects[$i]) === false) {
+                $objects[$i] = new \stdClass();
             }
 
-            $Objects[$i]->$FieldName = $Value;
+            $objects[$i]->$fieldName = $value;
         }
     }
 
     /**
      * Method sums fields in an array of objects.
      *
-     * @param array $Objects
+     * @param array $objects
      *            Array of objects to be processed
-     * @param string $FieldName
+     * @param string $fieldName
      *            Field name
      * @return mixed Sum of fields.
      */
-    public static function sumFields(&$Objects, $FieldName)
+    public static function sumFields(&$objects, $fieldName)
     {
-        $Sum = 0;
+        $sum = 0;
 
-        foreach ($Objects as $Object) {
-            if (is_array($Object)) {
-                $Sum += self::sumFields($Object, $FieldName);
+        foreach ($objects as $object) {
+            if (is_array($object)) {
+                $sum += self::sumFields($object, $fieldName);
             } else {
-                $Sum += $Object->$FieldName;
+                $sum += $object->$fieldName;
             }
         }
 
-        return $Sum;
+        return $sum;
     }
 
     /**
      * Method transforms objects in array
      *
-     * @param array $Objects
+     * @param array $objects
      *            Array of objects to be processed
-     * @param callback $Transformer
+     * @param callback $transformer
      *            Transform function
      */
-    public static function transform(&$Objects, $Transformer)
+    public static function transform(&$objects, $transformer)
     {
-        foreach ($Objects as $i => $Object) {
-            $Objects[$i] = call_user_func($Transformer, $Object);
+        foreach ($objects as $i => $object) {
+            $objects[$i] = call_user_func($transformer, $object);
         }
     }
 
     /**
      * Method filters objects in array
      *
-     * @param array $Objects
+     * @param array $objects
      *            List of records to be filtered
-     * @param string $Field
+     * @param string $field
      *            Filter field
-     * @param string $Operation
+     * @param string $operation
      *            Filtration operation
-     * @param mixed $Value
+     * @param mixed $value
      *            Filtration value
-     * @param bool $Recursive
+     * @param bool $recursive
      *            Recursive mode
      * @return array List of filtered records
      */
     public static function filter(
-        array &$Objects,
-        string $Field,
-        string $Operation = '==',
-        $Value = false,
-        bool $Recursive = true): array
+        array &$objects,
+        string $field,
+        string $operation = '==',
+        $value = false,
+        bool $recursive = true): array
     {
-        $Return = [];
+        $return = [];
 
-        foreach ($Objects as $Object) {
+        foreach ($objects as $object) {
             // TODO make availabale any operations. not only the specified ones
-            if (is_array($Object) && $Recursive === true) {
-                $Return = array_merge($Return, self::filter($Object, $Field, $Operation, $Value));
-            } elseif ($Operation == '==' && self::getField($Object, $Field) == $Value) {
-                $Return[] = $Object;
-            } elseif ($Operation == '>' && self::getField($Object, $Field) > $Value) {
-                $Return[] = $Object;
-            } elseif ($Operation == '<' && self::getField($Object, $Field) < $Value) {
-                $Return[] = $Object;
-            } elseif ($Operation == '!=' && self::getField($Object, $Field) != $Value) {
-                $Return[] = $Object;
+            if (is_array($object) && $recursive === true) {
+                $return = array_merge($return, self::filter($object, $field, $operation, $value));
+            } elseif ($operation == '==' && self::getField($object, $field) == $value) {
+                $return[] = $object;
+            } elseif ($operation == '>' && self::getField($object, $field) > $value) {
+                $return[] = $object;
+            } elseif ($operation == '<' && self::getField($object, $field) < $value) {
+                $return[] = $object;
+            } elseif ($operation == '!=' && self::getField($object, $field) != $value) {
+                $return[] = $object;
             }
         }
 
-        return $Return;
+        return $return;
     }
 
     /**
      * Method replaces one field to another in record
      *
-     * @param array $Object
+     * @param array $object
      *            Object to be processed
-     * @param string $FieldFrom
+     * @param string $fieldFrom
      *            Field name to be replaced
-     * @param string $FieldTo
+     * @param string $fieldTo
      *            Field name to be added
      */
-    public static function replaceFieldInEntity(&$Object, string $FieldFrom, string $FieldTo): void
+    public static function replaceFieldInEntity(&$object, string $fieldFrom, string $fieldTo): void
     {
-        if (is_array($Object)) {
-            if (isset($Object[$FieldFrom])) {
-                $Value = $Object[$FieldFrom];
-                unset($Object[$FieldFrom]);
-                $Object[$FieldTo] = $Value;
+        if (is_array($object)) {
+            if (isset($object[$fieldFrom])) {
+                $value = $object[$fieldFrom];
+                unset($object[$fieldFrom]);
+                $object[$fieldTo] = $value;
             }
-        } elseif (is_object($Object)) {
-            if (isset($Object->$FieldFrom)) {
-                $Value = $Object->$FieldFrom;
-                unset($Object->$FieldFrom);
-                $Object->$FieldTo = $Value;
+        } elseif (is_object($object)) {
+            if (isset($object->$fieldFrom)) {
+                $value = $object->$fieldFrom;
+                unset($object->$fieldFrom);
+                $object->$fieldTo = $value;
             }
         } else {
-            throw (new \Exception('Unknown entyty type for ' . serialize($Object)));
+            throw (new \Exception('Unknown entyty type for ' . serialize($object)));
         }
     }
 
     /**
      * Method replaces one field to another in record
      *
-     * @param array $Object
+     * @param array $object
      *            Object to be processed
-     * @param array $FieldsFrom
+     * @param array $fieldsFrom
      *            Field names to be replaced
-     * @param array $FieldsTo
+     * @param array $fieldsTo
      *            Field names to be added
      */
-    public static function replaceFieldsInEntity(&$Object, array $FieldsFrom, array $FieldsTo): void
+    public static function replaceFieldsInEntity(&$object, array $fieldsFrom, array $fieldsTo): void
     {
-        foreach ($FieldsFrom as $i => $FieldFrom) {
-            self::replaceFieldInEntity($Object, $FieldFrom, $FieldsTo[$i]);
+        foreach ($fieldsFrom as $i => $fieldFrom) {
+            self::replaceFieldInEntity($object, $fieldFrom, $fieldsTo[$i]);
         }
     }
 
     /**
      * Method replaces one field to another in array of records
      *
-     * @param array $Objects
+     * @param array $objects
      *            Objects to be processed
-     * @param string $FieldFrom
+     * @param string $fieldFrom
      *            Field name to be replaced
-     * @param string $FieldTo
+     * @param string $fieldTo
      *            Field name to be added
      */
-    public static function replaceField(array &$Objects, string $FieldFrom, string $FieldTo): void
+    public static function replaceField(array &$objects, string $fieldFrom, string $fieldTo): void
     {
-        foreach ($Objects as $i => $Object) {
-            self::replaceFieldInEntity($Object, $FieldFrom, $FieldTo);
+        foreach ($objects as $i => $object) {
+            self::replaceFieldInEntity($object, $fieldFrom, $fieldTo);
 
-            $Objects[$i] = $Object;
+            $objects[$i] = $object;
         }
     }
 
     /**
      * Method replaces one field toanother in array of records
      *
-     * @param array $Objects
+     * @param array $objects
      *            Objects to be processed
-     * @param array $FieldsFrom
+     * @param array $fieldsFrom
      *            Field names to be replaced
-     * @param array $FieldsTo
+     * @param array $fieldsTo
      *            Field names to be added
      */
-    public static function replaceFields(array &$Objects, array $FieldsFrom, array $FieldsTo): void
+    public static function replaceFields(array &$objects, array $fieldsFrom, array $fieldsTo): void
     {
-        foreach ($FieldsFrom as $i => $FieldFrom) {
-            self::replaceField($Objects, $FieldFrom, $FieldsTo[$i]);
+        foreach ($fieldsFrom as $i => $fieldFrom) {
+            self::replaceField($objects, $fieldFrom, $fieldsTo[$i]);
         }
     }
 
     /**
      * Method adds nested records to the original record of objects
      *
-     * @param string $Field
+     * @param string $field
      *            Field name
-     * @param array $Objects
+     * @param array $objects
      *            The original record of objects
-     * @param string $ObjectField
+     * @param string $objectField
      *            Filtering field
-     * @param array $Records
+     * @param array $records
      *            List of nested records
-     * @param string $RecordField
+     * @param string $recordField
      *            Filtering field
      * @return array List of tramsformed records
      */
     public static function setChildren(
-        string $Field,
-        array &$Objects,
-        string $ObjectField,
-        array $Records,
-        string $RecordField): void
+        string $field,
+        array &$objects,
+        string $objectField,
+        array $records,
+        string $recordField): void
     {
-        foreach ($Objects as &$Object) {
+        foreach ($objects as &$object) {
             self::setField(
-                $Object,
-                $Field,
-                self::filter($Records, $RecordField, '==', self::getField($Object, $ObjectField, false), false));
+                $object,
+                $field,
+                self::filter($records, $recordField, '==', self::getField($object, $objectField, false), false));
         }
     }
 
     /**
      * Method adds nested record to the original record of objects
      *
-     * @param string $Field
+     * @param string $field
      *            Field name
-     * @param array $Objects
+     * @param array $objects
      *            The original record of objects
-     * @param string $ObjectField
+     * @param string $objectField
      *            Filtering field
-     * @param array $Records
+     * @param array $records
      *            List of nested records
-     * @param string $RecordField
+     * @param string $recordField
      *            Filtering field
      * @return array List of tramsformed records
      */
     public static function setChild(
-        string $Field,
-        array &$Objects,
-        string $ObjectField,
-        array $Records,
-        string $RecordField)
+        string $field,
+        array &$objects,
+        string $objectField,
+        array $records,
+        string $recordField)
     {
-        foreach ($Objects as &$Object) {
-            foreach ($Records as $Record) {
-                if (self::getField($Object, $ObjectField, false) == self::getField($Record, $RecordField, false)) {
-                    self::setField($Object, $Field, $Record);
+        foreach ($objects as &$object) {
+            foreach ($records as $record) {
+                if (self::getField($object, $objectField, false) == self::getField($record, $recordField, false)) {
+                    self::setField($object, $field, $record);
                 }
             }
         }
@@ -388,22 +388,22 @@ class Functional
     /**
      * Method unites corresponding records
      *
-     * @param array $Dest
+     * @param array $dest
      *            Destination array of records
-     * @param string $DestField
+     * @param string $destField
      *            Field name
-     * @param array $Src
+     * @param array $src
      *            Source array of records
-     * @param string $SrcField
+     * @param string $srcField
      *            Field name
      */
-    public static function expandRecordsWith(array &$Dest, string $DestField, array $Src, string $SrcField)
+    public static function expandRecordsWith(array &$dest, string $destField, array $src, string $srcField)
     {
-        foreach ($Dest as &$DestRecord) {
-            foreach ($Src as $SrcRecord) {
-                if (self::getField($DestRecord, $DestField, false) == self::getField($SrcRecord, $SrcField, false)) {
-                    foreach ($SrcRecord as $SrcRecordField => $SrcRecordValue) {
-                        self::setField($DestRecord, $SrcRecordField, $SrcRecordValue);
+        foreach ($dest as &$destRecord) {
+            foreach ($src as $srcRecord) {
+                if (self::getField($destRecord, $destField, false) == self::getField($srcRecord, $srcField, false)) {
+                    foreach ($srcRecord as $srcRecordField => $srcRecordValue) {
+                        self::setField($destRecord, $srcRecordField, $srcRecordValue);
                     }
 
                     break;
@@ -422,47 +422,47 @@ class Functional
     /**
      * Method sorts records by the specified field
      *
-     * @param array $Objects
+     * @param array $objects
      *            Records to be sorted
-     * @param string $Field
+     * @param string $field
      *            Field name
      */
-    public static function sortRecords(array &$Objects, string $Field, int $Direction = Functional::SORT_DIRECTION_ASC)
+    public static function sortRecords(array &$objects, string $field, int $direction = Functional::SORT_DIRECTION_ASC)
     {
         usort(
-            $Objects,
-            function ($e1, $e2) use ($Field, $Direction) {
-                $Value1 = self::getField($e1, $Field, false);
-                $Value2 = self::getField($e2, $Field, false);
+            $objects,
+            function ($e1, $e2) use ($field, $direction) {
+                $value1 = self::getField($e1, $field, false);
+                $value2 = self::getField($e2, $field, false);
 
-                $Result = 0;
+                $result = 0;
 
-                if ($Value1 < $Value2) {
-                    $Result = - 1;
-                } elseif ($Value1 == $Value2) {
-                    $Result = 0;
+                if ($value1 < $value2) {
+                    $result = - 1;
+                } elseif ($value1 == $value2) {
+                    $result = 0;
                 } else {
-                    $Result = 1;
+                    $result = 1;
                 }
 
-                return $Direction === Functional::SORT_DIRECTION_ASC ? $Result : - 1 * $Result;
+                return $direction === Functional::SORT_DIRECTION_ASC ? $result : - 1 * $result;
             });
     }
 
     /**
      * Method returns field of the object/array without recursive inspection
      *
-     * @param mixed $Record
+     * @param mixed $record
      *            Record to be analyzed
-     * @param string $Field
+     * @param string $field
      *            Field name
-     * @return bool Does the field $Field exists or not
+     * @return bool Does the field $field exists or not
      */
-    public static function fieldExistsPlain(&$Record, string $Field): bool
+    public static function fieldExistsPlain(&$record, string $field): bool
     {
-        if (is_object($Record) && isset($Record->$Field)) {
+        if (is_object($record) && isset($record->$field)) {
             return true;
-        } elseif (is_array($Record) && isset($Record[$Field])) {
+        } elseif (is_array($record) && isset($record[$field])) {
             return true;
         } else {
             return false;
@@ -472,28 +472,28 @@ class Functional
     /**
      * Method returns field of the object/array
      *
-     * @param mixed $Record
+     * @param mixed $record
      *            Record to be analyzed
-     * @param string $Field
+     * @param string $field
      *            Field name
-     * @param bool $Recursive
+     * @param bool $recursive
      *            Do we need recursive descending
-     * @return bool Does the field $Field exists or not
+     * @return bool Does the field $field exists or not
      */
-    public static function fieldExists(&$Record, string $Field, bool $Recursive = true): bool
+    public static function fieldExists(&$record, string $field, bool $recursive = true): bool
     {
-        if ($Recursive) {
-            foreach ($Record as $v) {
+        if ($recursive) {
+            foreach ($record as $v) {
                 if (is_array($v) || is_object($v)) {
-                    $Result = self::fieldExists($v, $Field);
+                    $result = self::fieldExists($v, $field);
 
-                    if ($Result === true) {
-                        return $Result;
+                    if ($result === true) {
+                        return $result;
                     }
                 }
             }
         }
 
-        return self::fieldExistsPlain($Record, $Field);
+        return self::fieldExistsPlain($record, $field);
     }
 }

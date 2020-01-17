@@ -22,17 +22,17 @@ class CustomFieldsModel
     /**
      * Table name
      */
-    protected $TableName = '';
+    protected $tableName = '';
 
     /**
      * Constructor
      *
-     * @param string $TableName
+     * @param string $tableName
      *            name of the table
      */
-    public function __construct(string $TableName)
+    public function __construct(string $tableName)
     {
-        $this->TableName = $TableName;
+        $this->tableName = $tableName;
     }
 
     /**
@@ -54,109 +54,109 @@ class CustomFieldsModel
      */
     protected function getCustomFieldsTemplateBame(): string
     {
-        return $this->TableName . '_custom_field';
+        return $this->tableName . '_custom_field';
     }
 
     /**
      * Getting custom fields for object
      *
-     * @param int $ObjectId
+     * @param int $objectId
      *            Object id
-     * @param array $Filter
+     * @param array $filter
      *            List of required fields or all
      * @return array Result of the fetching
      */
-    public function getCustomFieldsForObject(int $ObjectId, array $Filter = [
+    public function getCustomFieldsForObject(int $objectId, array $filter = [
         '*'
     ]): array
     {
-        $Result = [];
+        $result = [];
 
-        $CustomFields = $this->getConnection()->select(
+        $customFields = $this->getConnection()->select(
             '*',
             $this->getCustomFieldsTemplateBame(),
-            'object_id = ' . $ObjectId);
+            'object_id = ' . $objectId);
 
-        foreach ($CustomFields as $Field) {
-            $FieldName = \Mezon\Functional\Functional::getField($Field, 'field_name');
+        foreach ($customFields as $field) {
+            $fieldName = \Mezon\Functional\Functional::getField($field, 'field_name');
 
             // if the field in the list or all fields must be fetched
-            if (in_array($FieldName, $Filter) || in_array('*', $Filter)) {
-                $Result[$FieldName] = \Mezon\Functional\Functional::getField($Field, 'field_value');
+            if (in_array($fieldName, $filter) || in_array('*', $filter)) {
+                $result[$fieldName] = \Mezon\Functional\Functional::getField($field, 'field_value');
             }
         }
 
-        return $Result;
+        return $result;
     }
 
     /**
      * Deleting custom fields for object
      *
-     * @param int $ObjectId
+     * @param int $objectId
      *            Object id
-     * @param array $Filter
+     * @param array $filter
      *            List of required fields or all
      */
-    public function deleteCustomFieldsForObject(int $ObjectId, array $Filter = [
+    public function deleteCustomFieldsForObject(int $objectId, array $filter = [
         '1=1'
     ])
     {
-        $Condition = implode(' AND ', array_merge($Filter, [
-            'object_id = ' . $ObjectId
+        $condition = implode(' AND ', array_merge($filter, [
+            'object_id = ' . $objectId
         ]));
 
-        $this->getConnection()->delete($this->getCustomFieldsTemplateBame(), $Condition);
+        $this->getConnection()->delete($this->getCustomFieldsTemplateBame(), $condition);
     }
 
     /**
      * Method sets custom field
      *
-     * @param int $ObjectId
+     * @param int $objectId
      *            Object id
-     * @param string $FieldName
+     * @param string $fieldName
      *            Field name
-     * @param string $FieldValue
+     * @param string $fieldValue
      *            Field value
      */
-    public function setFieldForObject(int $ObjectId, string $FieldName, string $FieldValue): void
+    public function setFieldForObject(int $objectId, string $fieldName, string $fieldValue): void
     {
-        $Connection = $this->getConnection();
+        $connection = $this->getConnection();
 
-        $ObjectId = intval($ObjectId);
-        $FieldName = htmlspecialchars($FieldName);
-        $FieldValue = htmlspecialchars($FieldValue);
-        $Record = [
-            'field_value' => $FieldValue
+        $objectId = intval($objectId);
+        $fieldName = htmlspecialchars($fieldName);
+        $fieldValue = htmlspecialchars($fieldValue);
+        $record = [
+            'field_value' => $fieldValue
         ];
 
-        if (count($this->getCustomFieldsForObject($ObjectId, [
-            $FieldName
+        if (count($this->getCustomFieldsForObject($objectId, [
+            $fieldName
         ])) > 0) {
-            $Connection->update(
+            $connection->update(
                 $this->getCustomFieldsTemplateBame(),
-                $Record,
-                'field_name LIKE "' . $FieldName . '" AND object_id = ' . $ObjectId);
+                $record,
+                'field_name LIKE "' . $fieldName . '" AND object_id = ' . $objectId);
         } else {
             // in the previous line we have tried to update unexisting field, so create it
-            $Record['field_name'] = $FieldName;
-            $Record['object_id'] = $ObjectId;
-            $Connection->insert($this->getCustomFieldsTemplateBame(), $Record);
+            $record['field_name'] = $fieldName;
+            $record['object_id'] = $objectId;
+            $connection->insert($this->getCustomFieldsTemplateBame(), $record);
         }
     }
 
     /**
      * Method fetches custom fields for record
      *
-     * @param array $Records
+     * @param array $records
      *            List of records
      * @return array Transformed records
      */
-    public function getCustomFieldsForRecords(array $Records): array
+    public function getCustomFieldsForRecords(array $records): array
     {
-        foreach ($Records as $i => $Record) {
-            $Records[$i]['custom'] = $this->getCustomFieldsForObject(\Mezon\Functional\Functional::getField($Record, 'id'));
+        foreach ($records as $i => $record) {
+            $records[$i]['custom'] = $this->getCustomFieldsForObject(\Mezon\Functional\Functional::getField($record, 'id'));
         }
 
-        return $Records;
+        return $records;
     }
 }

@@ -24,22 +24,22 @@ class Service extends \Mezon\Service\ServiceBase
     /**
      * Constructor
      *
-     * @param mixed $ServiceTransport
+     * @param mixed $serviceTransport
      *            Service's transport
-     * @param mixed $SecurityProvider
+     * @param mixed $securityProvider
      *            Service's security provider
-     * @param mixed $ServiceLogic
+     * @param mixed $serviceLogic
      *            Service's logic
-     * @param mixed $ServiceModel
+     * @param mixed $serviceModel
      *            Service's model
      */
     public function __construct(
-        $ServiceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
-        $SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
-        $ServiceLogic = \Mezon\Service\ServiceLogic::class,
-        $ServiceModel = \Mezon\Service\ServiceModel::class)
+        $serviceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
+        $securityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
+        $serviceLogic = \Mezon\Service\ServiceLogic::class,
+        $serviceModel = \Mezon\Service\ServiceModel::class)
     {
-        parent::__construct($ServiceTransport, $SecurityProvider, $ServiceLogic, $ServiceModel);
+        parent::__construct($serviceTransport, $securityProvider, $serviceLogic, $serviceModel);
 
         $this->initCommonRoutes();
     }
@@ -49,87 +49,87 @@ class Service extends \Mezon\Service\ServiceBase
      */
     protected function initCommonRoutes(): void
     {
-        $this->ServiceTransport->addRoute('/connect/', 'connect', 'POST', 'public_call');
-        $this->ServiceTransport->addRoute('/token/[a:token]/', 'setToken', 'POST');
-        $this->ServiceTransport->addRoute('/self/id/', 'getSelfId', 'GET');
-        $this->ServiceTransport->addRoute('/self/login/', 'getSelfLogin', 'GET');
-        $this->ServiceTransport->addRoute('/login-as/', 'loginAs', 'POST');
+        $this->serviceTransport->addRoute('/connect/', 'connect', 'POST', 'public_call');
+        $this->serviceTransport->addRoute('/token/[a:token]/', 'setToken', 'POST');
+        $this->serviceTransport->addRoute('/self/id/', 'getSelfId', 'GET');
+        $this->serviceTransport->addRoute('/self/login/', 'getSelfLogin', 'GET');
+        $this->serviceTransport->addRoute('/login-as/', 'loginAs', 'POST');
     }
 
     /**
      * Method launches service
      *
-     * @param Service|string $Service
+     * @param Service|string $service
      *            name of the service class or the service object itself
-     * @param \Mezon\Service\ServiceTransport|string $ServiceTransport
+     * @param \Mezon\Service\ServiceTransport|string $serviceTransport
      *            name of the service transport class or the service transport itself
-     * @param \Mezon\Service\ServiceSecurityProviderInterface|string $SecurityProvider
+     * @param \Mezon\Service\ServiceSecurityProviderInterface|string $securityProvider
      *            name of the service security provider class or the service security provider itself
-     * @param \Mezon\Service\ServiceLogic|string $ServiceLogic
+     * @param \Mezon\Service\ServiceLogic|string $serviceLogic
      *            Logic of the service
-     * @param \Mezon\Service\ServiceModel|string $ServiceModel
+     * @param \Mezon\Service\ServiceModel|string $serviceModel
      *            Model of the service
-     * @param bool $RunService
+     * @param bool $runService
      *            Shold be service lanched
      * @return Service Created service
      * @deprecated See Service::run
      */
     public static function launch(
-        $Service,
-        $ServiceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
-        $SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
-        $ServiceLogic = \Mezon\Service\ServiceLogic::class,
-        $ServiceModel = \Mezon\Service\ServiceModel::class,
-        bool $RunService = true): \Mezon\Service\ServiceBase
+        $service,
+        $serviceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
+        $securityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
+        $serviceLogic = \Mezon\Service\ServiceLogic::class,
+        $serviceModel = \Mezon\Service\ServiceModel::class,
+        bool $runService = true): \Mezon\Service\ServiceBase
     {
-        if (is_string($Service)) {
-            $Service = new $Service($ServiceTransport, $SecurityProvider, $ServiceLogic, $ServiceModel);
+        if (is_string($service)) {
+            $service = new $service($serviceTransport, $securityProvider, $serviceLogic, $serviceModel);
         }
 
-        if ($RunService === false) {
-            return $Service;
+        if ($runService === false) {
+            return $service;
         }
 
-        $Service->run();
+        $service->run();
 
-        return $Service;
+        return $service;
     }
 
     /**
      * Method launches service
      *
-     * @param Service|string $Service
+     * @param Service|string $service
      *            name of the service class or the service object itself
-     * @param \Mezon\Service\ServiceLogic|string $ServiceLogic
+     * @param \Mezon\Service\ServiceLogic|string $serviceLogic
      *            Logic of the service
-     * @param \Mezon\Service\ServiceModel|string $ServiceModel
+     * @param \Mezon\Service\ServiceModel|string $serviceModel
      *            Model of the service
-     * @param \Mezon\Service\ServiceSecurityProviderInterface|string $SecurityProvider
+     * @param \Mezon\Service\ServiceSecurityProviderInterface|string $securityProvider
      *            name of the service security provider class or the service security provider itself
-     * @param \Mezon\Service\ServiceTransport|string $ServiceTransport
+     * @param \Mezon\Service\ServiceTransport|string $serviceTransport
      *            name of the service transport class or the service transport itself
-     * @param bool $RunService
+     * @param bool $runService
      *            Shold be service lanched
      * @return Service Created service
      */
     public static function start(
-        $Service,
-        $ServiceLogic = \Mezon\Service\ServiceLogic::class,
-        $ServiceModel = \Mezon\Service\ServiceModel::class,
-        $SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
-        $ServiceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
-        bool $RunService = true): \Mezon\Service\ServiceBase
+        $service,
+        $serviceLogic = \Mezon\Service\ServiceLogic::class,
+        $serviceModel = \Mezon\Service\ServiceModel::class,
+        $securityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
+        $serviceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
+        bool $runService = true): \Mezon\Service\ServiceBase
     {
-        if (is_string($Service)) {
-            $Service = new $Service($ServiceTransport, $SecurityProvider, $ServiceLogic, $ServiceModel);
+        if (is_string($service)) {
+            $service = new $service($serviceTransport, $securityProvider, $serviceLogic, $serviceModel);
         }
 
-        if ($RunService === false) {
-            return $Service;
+        if ($runService === false) {
+            return $service;
         }
 
-        $Service->run();
+        $service->run();
 
-        return $Service;
+        return $service;
     }
 }

@@ -24,11 +24,11 @@ class LabelField extends \Mezon\Gui\Field\TextField
      */
     public function html(): string
     {
-        $Content = '<div class="form-group col-md-12">';
-        $Content .= '<label class="control-label">' . $this->Text . '</label>';
-        $Content .= '</div>';
+        $content = '<div class="form-group col-md-12">';
+        $content .= '<label class="control-label">' . $this->text . '</label>';
+        $content .= '</div>';
 
-        return $Content;
+        return $content;
     }
 
     /**

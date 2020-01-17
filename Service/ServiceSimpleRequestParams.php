@@ -24,34 +24,34 @@ class ServiceSimpleRequestParams implements \Mezon\Service\ServiceRequestParamsI
      */
     protected function getHttpRequestHeaders(): array
     {
-        $Headers = getallheaders();
+        $headers = getallheaders();
 
-        return $Headers === false ? [] : $Headers;
+        return $headers === false ? [] : $headers;
     }
 
     /**
      * Method returns request parameter
      *
-     * @param string $Param
+     * @param string $param
      *            parameter name
-     * @param mixed $Default
+     * @param mixed $default
      *            default value
      * @return mixed Parameter value
      */
-    public function getParam($Param, $Default = false)
+    public function getParam($param, $default = false)
     {
-        $Headers = $this->getHttpRequestHeaders();
+        $headers = $this->getHttpRequestHeaders();
 
-        $Return = $Default;
+        $return = $default;
 
-        if (isset($Headers[$Param])) {
-            $Return = $Headers[$Param];
-        } elseif (isset($_POST[$Param])) {
-            $Return = $_POST[$Param];
-        } elseif (isset($_GET[$Param])) {
-            $Return = $_GET[$Param];
+        if (isset($headers[$param])) {
+            $return = $headers[$param];
+        } elseif (isset($_POST[$param])) {
+            $return = $_POST[$param];
+        } elseif (isset($_GET[$param])) {
+            $return = $_GET[$param];
         }
 
-        return $Return;
+        return $return;
     }
 }

@@ -23,28 +23,28 @@ class DateTimeUtils
     public const DEFAULT_DATE_MASK = 'Y-m-d';
 
     /**
-     * Method returns true if the $Date is today
+     * Method returns true if the $date is today
      *
-     * @param string $Date
+     * @param string $date
      *            Date to be analyzed
-     * @return bool true if the $Date is today, false other wise
+     * @return bool true if the $date is today, false other wise
      */
-    public static function isToday(string $Date): bool
+    public static function isToday(string $date): bool
     {
-        return date(DateTimeUtils::DEFAULT_DATE_MASK) == date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime($Date));
+        return date(DateTimeUtils::DEFAULT_DATE_MASK) == date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime($date));
     }
 
     /**
-     * Method returns true if the $Date is yesterday
+     * Method returns true if the $date is yesterday
      *
-     * @param string $Date
+     * @param string $date
      *            Date to be analyzed
-     * @return bool true if the $Date is yesterday, false other wise
+     * @return bool true if the $date is yesterday, false other wise
      */
-    public static function isYesterday(string $Date): bool
+    public static function isYesterday(string $date): bool
     {
         return date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime('-1 day')) ==
-            date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime($Date));
+            date(DateTimeUtils::DEFAULT_DATE_MASK, strtotime($date));
     }
 
     /**
@@ -52,7 +52,7 @@ class DateTimeUtils
      *
      * @var string
      */
-    public static $Locale = 'ru';
+    public static $locale = 'ru';
 
     /**
      * Getting localized dictionary
@@ -61,22 +61,22 @@ class DateTimeUtils
      */
     protected static function getDictionary(): array
     {
-        return json_decode(file_get_contents(__DIR__ . '/res/l8n/' . self::$Locale . '.json'), true);
+        return json_decode(file_get_contents(__DIR__ . '/res/l8n/' . self::$locale . '.json'), true);
     }
 
     /**
      * Method converts date to 'day full month name'
      *
-     * @param string $Date
+     * @param string $date
      *            Date to be converted
      * @return string Converted date
      */
-    public static function dayMonth(string $Date): string
+    public static function dayMonth(string $date): string
     {
-        $Dictionary = self::getDictionary();
+        $dictionary = self::getDictionary();
 
-        $DateTime = strtotime($Date);
+        $dateTime = strtotime($date);
 
-        return date('d', $DateTime) . ' ' . $Dictionary[date('n', $DateTime)];
+        return date('d', $dateTime) . ' ' . $dictionary[date('n', $dateTime)];
     }
 }

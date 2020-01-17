@@ -20,11 +20,11 @@ interface ServiceRequestParamsInterface
     /**
      * Method returns request parameter
      *
-     * @param string $Param
+     * @param string $param
      *            parameter name
-     * @param mixed $Default
+     * @param mixed $default
      *            default value
      * @return mixed Parameter value
      */
-    public function getParam($Param, $Default = false);
+    public function getParam($param, $default = false);
 }

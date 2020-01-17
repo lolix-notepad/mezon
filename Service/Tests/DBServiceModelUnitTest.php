@@ -37,19 +37,19 @@ class DbServiceModelUnitTest extends \PHPUnit\Framework\TestCase
     /**
      * Testing constructor
      *
-     * @param mixed $Data
+     * @param mixed $data
      *            Parameterfor constructor
-     * @param string $Origin
+     * @param string $origin
      *            original data for validation
      * @dataProvider constructorTestData
      */
-    public function testConstructor($Data, string $Origin)
+    public function testConstructor($data, string $origin)
     {
         // setup and test body
-        $Model = new \Mezon\Service\DbServiceModel($Data, 'entity_name');
+        $model = new \Mezon\Service\DbServiceModel($data, 'entity_name');
 
         // assertions
-        $this->assertTrue($Model->hasField($Origin), 'Invalid contruction');
+        $this->assertTrue($model->hasField($origin), 'Invalid contruction');
     }
 
     /**

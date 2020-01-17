@@ -23,13 +23,13 @@ class FakeSecurityProviderForCrudService
 class CrudServiceExceptionConstructorMock extends \Mezon\CrudService\CrudService
 {
 
-    public function __construct(\Mezon\Service\ServiceTransport $Transport)
+    public function __construct(\Mezon\Service\ServiceTransport $transport)
     {
         parent::__construct([
             'fields' => '*',
             'table-name' => 'table',
             'entity-name' => 'entity',
-        ], $Transport);
+        ], $transport);
     }
 
     protected function initCommonRoutes(): void
@@ -51,12 +51,12 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
      *
      * @var string
      */
-    protected $ServiceClassName = \Mezon\CrudService\CrudService::class;
+    protected $serviceClassName = \Mezon\CrudService\CrudService::class;
 
     /**
      * Constructor
      *
-     * @param string $ServiceClassName
+     * @param string $serviceClassName
      *            - Class name to be tested
      */
     public function __construct($name = null, array $data = array(), $dataName = '')
@@ -77,18 +77,18 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
     /**
      * Method checks route and method bindings
      *
-     * @param string $Route
+     * @param string $route
      *            - Route to be checked
-     * @param string $Method
+     * @param string $method
      *            - Method to be bound with route
-     * @param string $RequestMethod
+     * @param string $requestMethod
      *            - HTTP request method
      */
-    protected function checkRoute(string $Route, string $Method, string $RequestMethod = 'GET')
+    protected function checkRoute(string $route, string $method, string $requestMethod = 'GET')
     {
-        $_GET['r'] = $Route;
+        $_GET['r'] = $route;
 
-        $Mock = $this->getMockBuilder(\Mezon\CrudService\CrudServiceLogic::class)
+        $mock = $this->getMockBuilder(\Mezon\CrudService\CrudServiceLogic::class)
             ->setConstructorArgs(
             [
                 (new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport())->getParamsFetcher(),
@@ -96,22 +96,22 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
                 new \Mezon\CrudService\CrudServiceModel()
             ])
             ->setMethods([
-            $Method
+            $method
         ])
             ->getMock();
 
-        $Mock->expects($this->once())
-            ->method($Method);
+        $mock->expects($this->once())
+            ->method($method);
 
-        $Service = new $this->ServiceClassName(
+        $service = new $this->serviceClassName(
             $this->getServiceSettings(),
             \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport::class,
             \Mezon\Service\ServiceMockSecurityProvider::class,
-            $Mock);
+            $mock);
 
-        $_SERVER['REQUEST_METHOD'] = $RequestMethod;
+        $_SERVER['REQUEST_METHOD'] = $requestMethod;
 
-        $Service->run();
+        $service->run();
 
         $this->addToAssertionCount(1);
     }
@@ -119,13 +119,13 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
     /**
      * Method returns transport
      *
-     * @param string $Type
+     * @param string $type
      *            - Type of return value
      * @return string Transport
      */
-    protected function getTransport(string $Type = GET_STRING)
+    protected function getTransport(string $type = GET_STRING)
     {
-        if ($Type == GET_STRING) {
+        if ($type == GET_STRING) {
             return \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport::class;
         } else {
             return new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport();
@@ -137,11 +137,11 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
      */
     public function testServiceConstructor()
     {
-        $Service = new \Mezon\CrudService\CrudService($this->getServiceSettings(), $this->getTransport());
+        $service = new \Mezon\CrudService\CrudService($this->getServiceSettings(), $this->getTransport());
 
         $this->assertInstanceOf(
             \Mezon\Service\ServiceMockSecurityProvider::class,
-            $Service->getTransport()->SecurityProvider);
+            $service->getTransport()->securityProvider);
     }
 
     /**
@@ -149,12 +149,12 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
      */
     public function testServiceConstructorWithSecurityProviderString()
     {
-        $Service = new \Mezon\CrudService\CrudService(
+        $service = new \Mezon\CrudService\CrudService(
             $this->getServiceSettings(),
             $this->getTransport(),
             FakeSecurityProviderForCrudService::class);
 
-        $this->assertInstanceOf(FakeSecurityProviderForCrudService::class, $Service->getTransport()->SecurityProvider);
+        $this->assertInstanceOf(FakeSecurityProviderForCrudService::class, $service->getTransport()->securityProvider);
     }
 
     /**
@@ -163,13 +163,13 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
     public function testServiceConstructorWithSecurityProviderObject()
     {
         // setup and test body
-        $Service = new \Mezon\CrudService\CrudService(
+        $service = new \Mezon\CrudService\CrudService(
             $this->getServiceSettings(),
             $this->getTransport(),
             new FakeSecurityProviderForCrudService());
 
         // assertions
-        $this->assertInstanceOf(FakeSecurityProviderForCrudService::class, $Service->getTransport()->SecurityProvider);
+        $this->assertInstanceOf(FakeSecurityProviderForCrudService::class, $service->getTransport()->securityProvider);
     }
 
     /**
@@ -178,33 +178,33 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
     public function testServiceConstructorWithException()
     {
         // setup, test body and assertions
-        $Transport = $this->getMockBuilder(\Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport::class)
+        $transport = $this->getMockBuilder(\Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport::class)
             ->setMethods([
             'handleException',
         ])
             ->getMock();
 
-        $Transport->expects($this->once())
+        $transport->expects($this->once())
             ->method('handleException');
 
-        new CrudServiceExceptionConstructorMock($Transport);
+        new CrudServiceExceptionConstructorMock($transport);
     }
 
     /**
      * Testing CrudService route processor
      *
-     * @param string $Route
+     * @param string $route
      *            Route
-     * @param string $Handler
+     * @param string $handler
      *            Route handler
-     * @param string $Method
+     * @param string $method
      *            GET|POST
      * @dataProvider routesDataProvider
      */
-    public function testRoutes(string $Route, string $Handler, string $Method)
+    public function testRoutes(string $route, string $handler, string $method)
     {
         // test body and assertions
-        $this->checkRoute($Route, $Handler, $Method);
+        $this->checkRoute($route, $handler, $method);
     }
 
     /**
@@ -289,37 +289,37 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
     public function testMultipleModels()
     {
         // setup
-        $Model = new \Mezon\CrudService\CrudServiceModel();
+        $model = new \Mezon\CrudService\CrudServiceModel();
 
-        $Transport = $this->getTransport(GET_OBJECT);
+        $transport = $this->getTransport(GET_OBJECT);
 
-        $Logic1 = new \Mezon\CrudService\CrudServiceLogic(
-            $Transport->ParamsFetcher,
+        $logic1 = new \Mezon\CrudService\CrudServiceLogic(
+            $transport->paramsFetcher,
             new FakeSecurityProviderForCrudService(),
-            $Model);
-        $Logic2 = new \Mezon\CrudService\CrudServiceLogic(
-            $Transport->ParamsFetcher,
+            $model);
+        $logic2 = new \Mezon\CrudService\CrudServiceLogic(
+            $transport->paramsFetcher,
             new FakeSecurityProviderForCrudService(),
-            $Model);
+            $model);
 
         // test body
-        $Service = new \Mezon\CrudService\CrudService(
+        $service = new \Mezon\CrudService\CrudService(
             $this->getServiceSettings(),
             $this->getTransport(),
             new FakeSecurityProviderForCrudService(),
             [
-                $Logic1,
-                $Logic2
+                $logic1,
+                $logic2
             ]);
 
         // assertions
         $this->assertInstanceOf(
             \Mezon\CrudService\CrudServiceModel::class,
-            $Service->getLogic()[0]->getModel(),
+            $service->getLogic()[0]->getModel(),
             'Logic was not stored properly');
         $this->assertInstanceOf(
             \Mezon\CrudService\CrudServiceModel::class,
-            $Service->getLogic()[1]->getModel(),
+            $service->getLogic()[1]->getModel(),
             'Logic was not stored properly');
     }
 }

@@ -9,7 +9,7 @@ class SelectUnitTest extends \PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\Gui\Field\Select(
+        $field = new \Mezon\Gui\Field\Select(
             [
                 'name' => 'name',
                 'required' => 1,
@@ -27,17 +27,17 @@ class SelectUnitTest extends \PHPUnit\Framework\TestCase
             '');
 
         // test body
-        $Content = $Field->html();
+        $content = $field->html();
 
         // assertions
-        $this->assertStringContainsString('<select ', $Content, 'Open tag was not found');
+        $this->assertStringContainsString('<select ', $content, 'Open tag was not found');
         $this->assertStringContainsString(
             'name="prefix-name[{_creation_form_items_counter}]"',
-            $Content,
+            $content,
             '"Name" attribute was not found');
-            $this->assertStringContainsString('required="required"', $Content, '"Required" attribute was not found');
-            $this->assertStringContainsString('disabled', $Content, '"Disabled" attribute was not found');
-            $this->assertStringContainsString('toggler="toggler-name"', $Content, '"Toggler" attribute was not found');
-            $this->assertStringContainsString('toggle-value="3"', $Content, '"Toggle-value" attribute was not found');
+            $this->assertStringContainsString('required="required"', $content, '"Required" attribute was not found');
+            $this->assertStringContainsString('disabled', $content, '"Disabled" attribute was not found');
+            $this->assertStringContainsString('toggler="toggler-name"', $content, '"toggler" attribute was not found');
+            $this->assertStringContainsString('toggle-value="3"', $content, '"Toggle-value" attribute was not found');
     }
 }

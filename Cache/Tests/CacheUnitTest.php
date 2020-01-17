@@ -8,22 +8,22 @@ class CacheUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdditingDataToCache()
     {
-        $Cache = $this->getMockBuilder(\Mezon\Cache\Cache::class)
+        $cache = $this->getMockBuilder(\Mezon\Cache\Cache::class)
             ->setMethods([
             'flush'
         ])
             ->disableOriginalClone()
             ->getMock();
 
-        $Cache->set('key', 'test');
+        $cache->set('key', 'test');
 
-        $Cache->flush();
+        $cache->flush();
 
-        $Result = $Cache->get('key');
+        $result = $cache->get('key');
 
-        $Cache->destroy();
+        $cache->destroy();
 
-        $this->assertEquals('test', $Result, 'Cache is not working');
+        $this->assertEquals('test', $result, 'Cache is not working');
     }
 
     /**
@@ -31,12 +31,12 @@ class CacheUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testExistence()
     {
-        $Cache = \Mezon\Cache\Cache::getInstance();
+        $cache = \Mezon\Cache\Cache::getInstance();
 
-        $Cache->set('key', 'test');
+        $cache->set('key', 'test');
 
-        $this->assertTrue($Cache->exists('key'), 'Existence check failed');
-        $this->assertFalse($Cache->exists('unexisting'), 'Existence check failed');
+        $this->assertTrue($cache->exists('key'), 'Existence check failed');
+        $this->assertFalse($cache->exists('unexisting'), 'Existence check failed');
     }
 
     /**
@@ -45,17 +45,17 @@ class CacheUnitTest extends \PHPUnit\Framework\TestCase
     public function testExistenceObject(): void
     {
         // setup
-        $Cache = $this->getMockBuilder(\Mezon\Cache\Cache::class)
+        $cache = $this->getMockBuilder(\Mezon\Cache\Cache::class)
             ->setMethods([
             'fileGetContents'
         ])
             ->disableOriginalClone()
             ->getMock();
 
-        $Cache->method('fileGetContents')->willReturn('{"key":1}');
+        $cache->method('fileGetContents')->willReturn('{"key":1}');
 
         // test body and assertions
-        $this->assertTrue($Cache->exists('key'), 'Existence check failed');
+        $this->assertTrue($cache->exists('key'), 'Existence check failed');
     }
 
     /**
@@ -64,13 +64,13 @@ class CacheUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetUnexisting(): void
     {
         // setup
-        $Cache = \Mezon\Cache\Cache::getInstance();
+        $cache = \Mezon\Cache\Cache::getInstance();
 
         // assertions
         $this->expectException(\Exception::class);
 
         // test body
-        $Cache->get('unexisting');
+        $cache->get('unexisting');
     }
 
     /**
@@ -79,7 +79,7 @@ class CacheUnitTest extends \PHPUnit\Framework\TestCase
     public function testFlush(): void
     {
         // setup
-        $Cache = $this->getMockBuilder(\Mezon\Cache\Cache::class)
+        $cache = $this->getMockBuilder(\Mezon\Cache\Cache::class)
             ->setMethods([
             'filePutContents',
             'fileGetContents'
@@ -88,12 +88,12 @@ class CacheUnitTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         // assertions
-        $Cache->expects($this->once())
+        $cache->expects($this->once())
             ->method('filePutContents');
-        $Cache->method('fileGetContents')->willReturn('{"key":1}');
+        $cache->method('fileGetContents')->willReturn('{"key":1}');
 
         // test body
-        $Cache->set('key', 'value');
-        $Cache->flush();
+        $cache->set('key', 'value');
+        $cache->flush();
     }
 }

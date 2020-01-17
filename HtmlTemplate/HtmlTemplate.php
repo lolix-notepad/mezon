@@ -22,119 +22,119 @@ class HtmlTemplate
     /**
      * Loaded template content
      */
-    private $Template = false;
+    private $template = false;
 
     /**
      * Loaded resources
      */
-    private $Resources = false;
+    private $resources = false;
 
     /**
      * Path to the template folder
      */
-    private $Path = false;
+    private $path = false;
 
     /**
      * Page blocks
      */
-    private $Blocks = [];
+    private $blocks = [];
 
     /**
      * Page variables
      */
-    private $PageVars = array();
+    private $pageVars = array();
 
     /**
      * Template сonstructor
      *
-     * @param string $Path
+     * @param string $path
      *            Path to template
-     * @param string $Template
+     * @param string $template
      *            Page layout
-     * @param array $Blocks
+     * @param array $blocks
      *            Page blocks
      */
-    public function __construct(string $Path, string $Template = 'index', array $Blocks = [])
+    public function __construct(string $path, string $template = 'index', array $blocks = [])
     {
-        $this->Path = $Path;
+        $this->path = $path;
 
-        $this->resetLayout($Template);
+        $this->resetLayout($template);
 
-        $this->Resources = new \Mezon\HtmlTemplate\TemplateResources();
+        $this->resources = new \Mezon\HtmlTemplate\TemplateResources();
 
-        $this->Blocks = [];
+        $this->blocks = [];
 
-        foreach ($Blocks as $BlockName) {
-            $this->addBlock($BlockName);
+        foreach ($blocks as $blockName) {
+            $this->addBlock($blockName);
         }
 
         // output all blocks in one place
-        // but each block can be inserted in {$BlockName} places
-        $this->setPageVar('content-blocks', implode('', $this->Blocks));
+        // but each block can be inserted in {$blockName} places
+        $this->setPageVar('content-blocks', implode('', $this->blocks));
     }
 
     /**
      * Setting page variables
      *
-     * @param string $Var
+     * @param string $var
      *            Variable name
-     * @param mixed $Value
+     * @param mixed $value
      *            Variable value
      */
-    public function setPageVar(string $Var, $Value): void
+    public function setPageVar(string $var, $value): void
     {
-        $this->PageVars[$Var] = $Value;
+        $this->pageVars[$var] = $value;
     }
 
     /**
      * Setting page variables from file's content
      *
-     * @param string $Var
+     * @param string $var
      *            Variable name
-     * @param mixed $Path
+     * @param mixed $path
      *            Path to file
      */
-    public function setPageVarFromFile(string $Var, string $Path): void
+    public function setPageVarFromFile(string $var, string $path): void
     {
-        $this->setPageVar($Var, file_get_contents($Path));
+        $this->setPageVar($var, file_get_contents($path));
     }
 
     /**
      * Compiling the page with it's variables
      *
-     * @param string $Content
+     * @param string $content
      *            Compiling content
      */
-    public function compilePageVars(string &$Content): void
+    public function compilePageVars(string &$content): void
     {
-        foreach ($this->PageVars as $Key => $Value) {
-            if (is_array($Value) === false && is_object($Value) === false) {
+        foreach ($this->pageVars as $key => $value) {
+            if (is_array($value) === false && is_object($value) === false) {
                 // only scalars can be substituted in this way
-                $Content = str_replace('{' . $Key . '}', $Value, $Content);
+                $content = str_replace('{' . $key . '}', $value, $content);
             }
         }
 
-        $Content = \Mezon\TemplateEngine\TemplateEngine::unwrapBlocks($Content, $this->PageVars);
+        $content = \Mezon\TemplateEngine\TemplateEngine::unwrapBlocks($content, $this->pageVars);
 
-        $Content = \Mezon\TemplateEngine\TemplateEngine::compileSwitch($Content);
+        $content = \Mezon\TemplateEngine\TemplateEngine::compileSwitch($content);
     }
 
     /**
      * Method resets layout
      *
-     * @param string $Template
+     * @param string $template
      *            Template name
      */
-    public function resetLayout(string $Template): void
+    public function resetLayout(string $template): void
     {
-        $Template .= '.html';
+        $template .= '.html';
 
-        if (file_exists($this->Path . '/' . $Template)) {
-            $this->Template = file_get_contents($this->Path . '/' . $Template);
-        } elseif (file_exists($this->Path . '/res/templates/' . $Template)) {
-            $this->Template = file_get_contents($this->Path . '/res/templates/' . $Template);
+        if (file_exists($this->path . '/' . $template)) {
+            $this->template = file_get_contents($this->path . '/' . $template);
+        } elseif (file_exists($this->path . '/res/templates/' . $template)) {
+            $this->template = file_get_contents($this->path . '/res/templates/' . $template);
         } else {
-            throw (new \Exception('Template file on the path ' . $this->Path . ' was not found', - 1));
+            throw (new \Exception('Template file on the path ' . $this->path . ' was not found', - 1));
         }
     }
 
@@ -145,21 +145,21 @@ class HtmlTemplate
      */
     private function _getResources(): string
     {
-        $Content = '';
+        $content = '';
 
-        $CSSFiles = $this->Resources->getCssFiles();
-        foreach ($CSSFiles as $CSSFile) {
-            $Content .= '
-        <link href="' . $CSSFile . '" rel="stylesheet" type="text/css">';
+        $cSSFiles = $this->resources->getCssFiles();
+        foreach ($cSSFiles as $cSSFile) {
+            $content .= '
+        <link href="' . $cSSFile . '" rel="stylesheet" type="text/css">';
         }
 
-        $JSFiles = $this->Resources->getJsFiles();
-        foreach ($JSFiles as $JSFile) {
-            $Content .= '
-        <script src="' . $JSFile . '"></script>';
+        $jSFiles = $this->resources->getJsFiles();
+        foreach ($jSFiles as $jSFile) {
+            $content .= '
+        <script src="' . $jSFile . '"></script>';
         }
 
-        return $Content;
+        return $content;
     }
 
     /**
@@ -176,55 +176,55 @@ class HtmlTemplate
             $this->setPageVar('host', $_SERVER['HTTP_HOST']);
         }
 
-        foreach ($this->Blocks as $BlockName => $Block) {
-            $this->setPageVar($BlockName, $Block);
+        foreach ($this->blocks as $blockName => $block) {
+            $this->setPageVar($blockName, $block);
         }
 
-        $this->compilePageVars($this->Template);
+        $this->compilePageVars($this->template);
 
-        $this->Template = preg_replace('/\{[a-zA-z0-9\-]*\}/', '', $this->Template);
+        $this->template = preg_replace('/\{[a-zA-z0-9\-]*\}/', '', $this->template);
 
-        return $this->Template;
+        return $this->template;
     }
 
     /**
      * Method returns block's content
      *
-     * @param string $BlockName
+     * @param string $blockName
      * @return string block's content
      */
-    protected function readBlock(string $BlockName): string
+    protected function readBlock(string $blockName): string
     {
-        if (file_exists($this->Path . '/res/blocks/' . $BlockName . '.tpl')) {
-            $BlockContent = file_get_contents($this->Path . '/res/blocks/' . $BlockName . '.tpl');
-        } elseif (file_exists($this->Path . '/blocks/' . $BlockName . '.tpl')) {
-            $BlockContent = file_get_contents($this->Path . '/blocks/' . $BlockName . '.tpl');
+        if (file_exists($this->path . '/res/blocks/' . $blockName . '.tpl')) {
+            $blockContent = file_get_contents($this->path . '/res/blocks/' . $blockName . '.tpl');
+        } elseif (file_exists($this->path . '/blocks/' . $blockName . '.tpl')) {
+            $blockContent = file_get_contents($this->path . '/blocks/' . $blockName . '.tpl');
         } else {
-            throw (new \Exception('Block ' . $BlockName . ' was not found', - 1));
+            throw (new \Exception('Block ' . $blockName . ' was not found', - 1));
         }
 
-        return $BlockContent;
+        return $blockContent;
     }
 
     /**
      * Method adds block to page
      *
-     * @param string $BlockName
+     * @param string $blockName
      *            Name of the additing block
      */
-    public function addBlock(string $BlockName): void
+    public function addBlock(string $blockName): void
     {
-        $this->Blocks[$BlockName] = $this->readBlock($BlockName);
+        $this->blocks[$blockName] = $this->readBlock($blockName);
     }
 
     /**
      * Method returns block's content
      *
-     * @param string $BlockName
+     * @param string $blockName
      * @return string block's content
      */
-    public function getBlock(string $BlockName): string
+    public function getBlock(string $blockName): string
     {
-        return $this->readBlock($BlockName);
+        return $this->readBlock($blockName);
     }
 }

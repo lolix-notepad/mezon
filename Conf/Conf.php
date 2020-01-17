@@ -34,248 +34,248 @@ class Conf
      *
      * @var array
      */
-    public static $AppConfig = [];
+    public static $appConfig = [];
 
     /**
      * Function returns specified config key
-     * If the key does not exists then $DefaultValue will be returned
+     * If the key does not exists then $defaultValue will be returned
      *
-     * @param string $Route
+     * @param string $route
      *            Key route in config
-     * @param mixed $DefaultValue
+     * @param mixed $defaultValue
      *            Default value if the key was not found
      * @return mixed Key value
      */
-    public static function getConfigValue($Route, $DefaultValue = false)
+    public static function getConfigValue($route, $defaultValue = false)
     {
-        return \Mezon\Conf\getConfigValue($Route, $DefaultValue);
+        return \Mezon\Conf\getConfigValue($route, $defaultValue);
     }
 
     /**
-     * Function sets specified config key with value $Value
+     * Function sets specified config key with value $value
      *
-     * @param array $Route
+     * @param array $route
      *            Route to key
-     * @param mixed $Value
+     * @param mixed $value
      *            Value to be set
      */
-    public static function setConfigValue($Route, $Value)
+    public static function setConfigValue($route, $value)
     {
-        \Mezon\Conf\setConfigValue($Route, $Value);
+        \Mezon\Conf\setConfigValue($route, $value);
     }
 
     /**
-     * Function adds specified value $Value into array with path $Route in the config
+     * Function adds specified value $value into array with path $route in the config
      *
-     * @param string $Route
+     * @param string $route
      *            Route to key
-     * @param mixed $Value
+     * @param mixed $value
      *            Value to be set
      */
-    public static function addConfigValue(string $Route, $Value)
+    public static function addConfigValue(string $route, $value)
     {
-        \Mezon\Conf\addConfigValue($Route, $Value);
+        \Mezon\Conf\addConfigValue($route, $value);
     }
 
     /**
      * Validating key existance
      *
-     * @param mixed $Route
+     * @param mixed $route
      *            Route to key
      * @return bool True if the key exists, false otherwise
      */
-    public static function configKeyExists($Route): bool
+    public static function configKeyExists($route): bool
     {
-        return \Mezon\Conf\configKeyExists($Route);
+        return \Mezon\Conf\configKeyExists($route);
     }
 
     /**
      * Deleting config value
      *
-     * @param mixed $Route
+     * @param mixed $route
      *            Route to key
      * @return bool True if the key was deleted, false otherwise
      */
-    public static function deleteConfigValue($Route): bool
+    public static function deleteConfigValue($route): bool
     {
-        return \Mezon\Conf\deleteConfigValue($Route);
+        return \Mezon\Conf\deleteConfigValue($route);
     }
 
     /**
      * Method sets connection details to config
      *
-     * @param string $Name
+     * @param string $name
      *            Config key
-     * @param string $DSN
+     * @param string $dSN
      *            DSN
-     * @param string $User
+     * @param string $user
      *            DB User login
-     * @param string $Password
+     * @param string $password
      *            DB User password
      */
-    public static function addConnectionToConfig(string $Name, string $DSN, string $User, string $Password)
+    public static function addConnectionToConfig(string $name, string $dSN, string $user, string $password)
     {
-        \Mezon\Conf\addConnectionToConfig($Name, $DSN, $User, $Password);
+        \Mezon\Conf\addConnectionToConfig($name, $dSN, $user, $password);
     }
 
     /**
      * Method expands string
      *
-     * @param string $Value
+     * @param string $value
      *            value to be expanded;
      * @return mixed Expanded value.
      */
-    public static function expandString($Value)
+    public static function expandString($value)
     {
-        return \Mezon\Conf\expandString($Value);
+        return \Mezon\Conf\expandString($value);
     }
 }
 
 /**
  * Method expands string
  *
- * @param string $Value
+ * @param string $value
  *            value to be expanded;
  * @return mixed Expanded value.
  */
-function expandString($Value)
+function expandString($value)
 {
-    if (is_string($Value)) {
-        $Value = str_replace([
+    if (is_string($value)) {
+        $value = str_replace([
             \Mezon\Conf\Conf::APP_HTTP_PATH_STRING,
             \Mezon\Conf\Conf::MEZON_HTTP_PATH_STRING
         ], [
-            @Conf::$AppConfig[\Mezon\Conf\Conf::APP_HTTP_PATH_STRING],
-            @Conf::$AppConfig[\Mezon\Conf\Conf::MEZON_HTTP_PATH_STRING]
-        ], $Value);
-    } elseif (is_array($Value)) {
-        foreach ($Value as $FieldName => $FieldValue) {
-            $Value[$FieldName] = expandString($FieldValue);
+            @Conf::$appConfig[\Mezon\Conf\Conf::APP_HTTP_PATH_STRING],
+            @Conf::$appConfig[\Mezon\Conf\Conf::MEZON_HTTP_PATH_STRING]
+        ], $value);
+    } elseif (is_array($value)) {
+        foreach ($value as $fieldName => $fieldValue) {
+            $value[$fieldName] = expandString($fieldValue);
         }
-    } elseif (is_object($Value)) {
-        foreach ($Value as $FieldName => $FieldValue) {
-            $Value->$FieldName = expandString($FieldValue);
+    } elseif (is_object($value)) {
+        foreach ($value as $fieldName => $fieldValue) {
+            $value->$fieldName = expandString($fieldValue);
         }
     }
 
-    return $Value;
+    return $value;
 }
 
 /**
  * Function returns specified config key
- * If the key does not exists then $DefaultValue will be returned
+ * If the key does not exists then $defaultValue will be returned
  *
- * @param string $Route
+ * @param string $route
  *            Key route in config
- * @param mixed $DefaultValue
+ * @param mixed $defaultValue
  *            Default value if the key was not found
  * @return mixed Key value
  */
-function getConfigValue($Route, $DefaultValue = false)
+function getConfigValue($route, $defaultValue = false)
 {
-    if (is_string($Route)) {
-        $Route = explode('/', $Route);
+    if (is_string($route)) {
+        $route = explode('/', $route);
     }
 
-    if (isset(Conf::$AppConfig[$Route[0]]) === false) {
-        return $DefaultValue;
+    if (isset(Conf::$appConfig[$route[0]]) === false) {
+        return $defaultValue;
     }
 
-    $Value = Conf::$AppConfig[$Route[0]];
+    $value = Conf::$appConfig[$route[0]];
 
-    for ($i = 1; $i < count($Route); $i ++) {
-        if (isset($Value[$Route[$i]]) === false) {
-            return $DefaultValue;
+    for ($i = 1; $i < count($route); $i ++) {
+        if (isset($value[$route[$i]]) === false) {
+            return $defaultValue;
         }
 
-        $Value = $Value[$Route[$i]];
+        $value = $value[$route[$i]];
     }
 
-    return expandString($Value);
+    return expandString($value);
 }
 
 /**
  * Setting config value
  *
- * @param array $Config
+ * @param array $config
  *            Config values
- * @param array $Route
+ * @param array $route
  *            Route to key
- * @param mixed $Value
+ * @param mixed $value
  *            Value to be set
  */
-function _setConfigValueRec(array &$Config, array $Route, $Value)
+function _setConfigValueRec(array &$config, array $route, $value)
 {
-    if (isset($Config[$Route[0]]) === false) {
-        $Config[$Route[0]] = [];
+    if (isset($config[$route[0]]) === false) {
+        $config[$route[0]] = [];
     }
 
-    if (count($Route) > 1) {
-        _setConfigValueRec($Config[$Route[0]], array_slice($Route, 1), $Value);
-    } elseif (count($Route) == 1) {
-        $Config[$Route[0]] = $Value;
+    if (count($route) > 1) {
+        _setConfigValueRec($config[$route[0]], array_slice($route, 1), $value);
+    } elseif (count($route) == 1) {
+        $config[$route[0]] = $value;
     }
 }
 
 /**
- * Function sets specified config key with value $Value
+ * Function sets specified config key with value $value
  *
- * @param array $Route
+ * @param array $route
  *            Route to key
- * @param mixed $Value
+ * @param mixed $value
  *            Value to be set
  */
-function setConfigValue($Route, $Value)
+function setConfigValue($route, $value)
 {
-    $Route = explode('/', $Route);
+    $route = explode('/', $route);
 
-    if (count($Route) > 1) {
-        _setConfigValueRec(Conf::$AppConfig, $Route, $Value);
+    if (count($route) > 1) {
+        _setConfigValueRec(Conf::$appConfig, $route, $value);
     } else {
-        Conf::$AppConfig[$Route[0]] = $Value;
+        Conf::$appConfig[$route[0]] = $value;
     }
 }
 
 /**
  * Additing value
  *
- * @param array $Config
+ * @param array $config
  *            Config values
- * @param array $Route
+ * @param array $route
  *            Route to key
- * @param mixed $Value
+ * @param mixed $value
  *            Value to be set
  */
-function _addConfigValueRec(array &$Config, array $Route, $Value)
+function _addConfigValueRec(array &$config, array $route, $value)
 {
-    if (isset($Config[$Route[0]]) === false) {
-        $Config[$Route[0]] = [];
+    if (isset($config[$route[0]]) === false) {
+        $config[$route[0]] = [];
     }
 
-    if (count($Route) > 1) {
-        _addConfigValueRec($Config[$Route[0]], array_slice($Route, 1), $Value);
-    } elseif (count($Route) == 1) {
-        $Config[$Route[0]][] = $Value;
+    if (count($route) > 1) {
+        _addConfigValueRec($config[$route[0]], array_slice($route, 1), $value);
+    } elseif (count($route) == 1) {
+        $config[$route[0]][] = $value;
     }
 }
 
 /**
- * Function adds specified value $Value into array with path $Route in the config
+ * Function adds specified value $value into array with path $route in the config
  *
- * @param string $Route
+ * @param string $route
  *            Route to key
- * @param mixed $Value
+ * @param mixed $value
  *            Value to be set
  */
-function addConfigValue(string $Route, $Value)
+function addConfigValue(string $route, $value)
 {
-    $Route = explode('/', $Route);
+    $route = explode('/', $route);
 
-    if (count($Route) > 1) {
-        _addConfigValueRec(Conf::$AppConfig, $Route, $Value);
+    if (count($route) > 1) {
+        _addConfigValueRec(Conf::$appConfig, $route, $value);
     } else {
-        Conf::$AppConfig[$Route[0]] = [
-            $Value
+        Conf::$appConfig[$route[0]] = [
+            $value
         ];
     }
 }
@@ -283,25 +283,25 @@ function addConfigValue(string $Route, $Value)
 /**
  * Validating key existance
  *
- * @param mixed $Route
+ * @param mixed $route
  *            Route to key
  * @return bool True if the key exists, false otherwise
  */
-function configKeyExists($Route): bool
+function configKeyExists($route): bool
 {
-    if (is_string($Route)) {
-        $Route = explode('/', $Route);
+    if (is_string($route)) {
+        $route = explode('/', $route);
     }
 
     // validating route
-    $Value = Conf::$AppConfig[$Route[0]];
+    $value = Conf::$appConfig[$route[0]];
 
-    for ($i = 1; $i < count($Route); $i ++) {
-        if (isset($Value[$Route[$i]]) === false) {
+    for ($i = 1; $i < count($route); $i ++) {
+        if (isset($value[$route[$i]]) === false) {
             return false;
         }
 
-        $Value = $Value[$Route[$i]];
+        $value = $value[$route[$i]];
     }
 
     return true;
@@ -310,23 +310,23 @@ function configKeyExists($Route): bool
 /**
  * Deleting config element
  *
- * @param array $RouteParts
+ * @param array $routeParts
  *            Route parts
- * @param array $ConfigPart
+ * @param array $configPart
  *            Config part
  */
-function _deleteConfig(array $RouteParts, array &$ConfigPart)
+function _deleteConfig(array $routeParts, array &$configPart)
 {
-    if (count($RouteParts) == 1) {
+    if (count($routeParts) == 1) {
         // don't go deeper and delete the found staff
-        unset($ConfigPart[$RouteParts[0]]);
+        unset($configPart[$routeParts[0]]);
     } else {
         // go deeper
-        _deleteConfig(array_splice($RouteParts, 1), $ConfigPart[$RouteParts[0]]);
+        _deleteConfig(array_splice($routeParts, 1), $configPart[$routeParts[0]]);
 
-        if (count($ConfigPart[$RouteParts[0]]) == 0) {
+        if (count($configPart[$routeParts[0]]) == 0) {
             // remove empty parents
-            unset($ConfigPart[$RouteParts[0]]);
+            unset($configPart[$routeParts[0]]);
         }
     }
 }
@@ -334,22 +334,22 @@ function _deleteConfig(array $RouteParts, array &$ConfigPart)
 /**
  * Deleting config value
  *
- * @param mixed $Route
+ * @param mixed $route
  *            Route to key
  * @return bool True if the key was deleted, false otherwise
  */
-function deleteConfigValue($Route): bool
+function deleteConfigValue($route): bool
 {
-    if (is_string($Route)) {
-        $Route = explode('/', $Route);
+    if (is_string($route)) {
+        $route = explode('/', $route);
     }
 
-    if (configKeyExists($Route) === false) {
+    if (configKeyExists($route) === false) {
         return false;
     }
 
     // route exists, so delete it
-    _deleteConfig($Route, Conf::$AppConfig);
+    _deleteConfig($route, Conf::$appConfig);
 
     return true;
 }
@@ -357,18 +357,18 @@ function deleteConfigValue($Route): bool
 /**
  * Method sets connection details to config
  *
- * @param string $Name
+ * @param string $name
  *            Config key
- * @param string $DSN
+ * @param string $dSN
  *            DSN
- * @param string $User
+ * @param string $user
  *            DB User login
- * @param string $Password
+ * @param string $password
  *            DB User password
  */
-function addConnectionToConfig(string $Name, string $DSN, string $User, string $Password)
+function addConnectionToConfig(string $name, string $dSN, string $user, string $password)
 {
-    setConfigValue($Name . '/dsn', $DSN);
-    setConfigValue($Name . '/user', $User);
-    setConfigValue($Name . '/password', $Password);
+    setConfigValue($name . '/dsn', $dSN);
+    setConfigValue($name . '/user', $user);
+    setConfigValue($name . '/password', $password);
 }

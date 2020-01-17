@@ -22,12 +22,12 @@ class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructorValid(): void
     {
-        $Client = new \Mezon\CustomClient\CustomClient('http://yandex.ru/', [
+        $client = new \Mezon\CustomClient\CustomClient('http://yandex.ru/', [
             'header'
         ]);
 
-        $this->assertEquals('http://yandex.ru', $Client->getUrl(), 'Invalid URL');
-        $this->assertEquals(1, count($Client->getHeaders()), 'Invalid headers');
+        $this->assertEquals('http://yandex.ru', $client->getUrl(), 'Invalid URL');
+        $this->assertEquals(1, count($client->getHeaders()), 'Invalid headers');
     }
 
     /**
@@ -36,12 +36,12 @@ class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
     public function testIdempotencyGetSet(): void
     {
         // setup
-        $Client = new \Mezon\CustomClient\CustomClient('some url', []);
+        $client = new \Mezon\CustomClient\CustomClient('some url', []);
 
         // test bodyand assertions
-        $Client->setIdempotencyKey('i-key');
+        $client->setIdempotencyKey('i-key');
 
-        $this->assertEquals('i-key', $Client->getIdempotencyKey(), 'Invalid idempotency key');
+        $this->assertEquals('i-key', $client->getIdempotencyKey(), 'Invalid idempotency key');
     }
 
     /**
@@ -50,14 +50,12 @@ class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
     protected function getMock(): object
     {
         // TODO replace setMethods with something else what is recommended
-        $Mock = $this->getMockBuilder(\Mezon\CustomClient\CustomClient::class)
+        return $this->getMockBuilder(\Mezon\CustomClient\CustomClient::class)
             ->setMethods([
             'sendRequest'
         ])
             ->disableOriginalConstructor()
             ->getMock();
-
-        return $Mock;
     }
 
     /**
@@ -66,17 +64,17 @@ class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetRequest(): void
     {
         // setup
-        $Client = $this->getMock();
-        $Client->method('sendRequest')->willReturn([
+        $client = $this->getMock();
+        $client->method('sendRequest')->willReturn([
             'result',
             1
         ]);
 
         // test body
-        $Result = $Client->getRequest('/end-point/');
+        $result = $client->getRequest('/end-point/');
 
         // assertions
-        $this->assertEquals('result', $Result);
+        $this->assertEquals('result', $result);
     }
 
     /**
@@ -85,16 +83,16 @@ class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
     public function testPostRequest(): void
     {
         // setup
-        $Client = $this->getMock();
-        $Client->method('sendRequest')->willReturn([
+        $client = $this->getMock();
+        $client->method('sendRequest')->willReturn([
             'result',
             1
         ]);
 
         // test body
-        $Result = $Client->postRequest('/end-point/');
+        $result = $client->postRequest('/end-point/');
 
         // assertions
-        $this->assertEquals('result', $Result);
+        $this->assertEquals('result', $result);
     }
 }

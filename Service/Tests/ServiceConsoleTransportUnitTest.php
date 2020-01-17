@@ -28,13 +28,11 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getTransportMock(): object
     {
-        $Mock = $this->getMockBuilder(\Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport::class)
+        return $this->getMockBuilder(\Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport::class)
             ->setMethods([
             'createSession'
         ])
             ->getMock();
-
-        return $Mock;
     }
 
     /**
@@ -44,14 +42,12 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getServiceLogicMock(): object
     {
-        $Mock = $this->getMockBuilder(TestingServiceLogicForConsoleTransport::class)
+        return $this->getMockBuilder(TestingServiceLogicForConsoleTransport::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'connect'
         ])
             ->getMock();
-
-        return $Mock;
     }
 
     /**
@@ -59,9 +55,9 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructor(): void
     {
-        $Transport = new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport();
+        $transport = new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport();
 
-        $this->assertNotEquals(null, $Transport->SecurityProvider, 'Security provide was not setup');
+        $this->assertNotEquals(null, $transport->securityProvider);
     }
 
     /**
@@ -69,8 +65,8 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitDefault(): void
     {
-        $Transport = new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport();
-        $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $Transport->SecurityProvider);
+        $transport = new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport();
+        $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $transport->securityProvider);
     }
 
     /**
@@ -78,9 +74,9 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitString(): void
     {
-        $Transport = new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport(
+        $transport = new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport(
             FakeSecurityProviderForConsoleTransport::class);
-        $this->assertInstanceOf(FakeSecurityProviderForConsoleTransport::class, $Transport->SecurityProvider);
+        $this->assertInstanceOf(FakeSecurityProviderForConsoleTransport::class, $transport->securityProvider);
     }
 
     /**
@@ -88,9 +84,9 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitObject(): void
     {
-        $Transport = new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport(
+        $transport = new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport(
             new FakeSecurityProviderForConsoleTransport());
-        $this->assertInstanceOf(FakeSecurityProviderForConsoleTransport::class, $Transport->SecurityProvider);
+        $this->assertInstanceOf(FakeSecurityProviderForConsoleTransport::class, $transport->securityProvider);
     }
 
     /**
@@ -98,14 +94,14 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testSingleHeaderCall(): void
     {
-        $Mock = $this->getTransportMock();
+        $mock = $this->getTransportMock();
 
-        $ServiceLogic = $this->getServiceLogicMock();
+        $serviceLogic = $this->getServiceLogicMock();
 
-        $ServiceLogic->expects($this->once())
+        $serviceLogic->expects($this->once())
             ->method('connect');
 
-        $Mock->callLogic($ServiceLogic, 'connect');
+        $mock->callLogic($serviceLogic, 'connect');
     }
 
     /**
@@ -113,14 +109,14 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testSingleHeaderCallPublic(): void
     {
-        $Mock = $this->getTransportMock();
+        $mock = $this->getTransportMock();
 
-        $ServiceLogic = $this->getServiceLogicMock();
+        $serviceLogic = $this->getServiceLogicMock();
 
-        $ServiceLogic->expects($this->once())
+        $serviceLogic->expects($this->once())
             ->method('connect');
 
-        $Mock->callPublicLogic($ServiceLogic, 'connect');
+        $mock->callPublicLogic($serviceLogic, 'connect');
     }
 
     /**
@@ -131,17 +127,17 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
         // setup
         $_GET['r'] = '/public-method/';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $Mock = $this->getTransportMock();
+        $mock = $this->getTransportMock();
 
-        $Mock->ServiceLogic = $this->getServiceLogicMock();
+        $mock->serviceLogic = $this->getServiceLogicMock();
 
-        $Mock->expects($this->never())
+        $mock->expects($this->never())
             ->method('createSession');
 
-        $Mock->addRoute('public-method', 'publicMethod', 'GET', 'public_call');
+        $mock->addRoute('public-method', 'publicMethod', 'GET', 'public_call');
 
         // test body and assertions
-        $Mock->run();
+        $mock->run();
     }
 
     /**
@@ -152,17 +148,17 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
         // setup
         $_GET['r'] = '/private-method/';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $Mock = $this->getTransportMock();
+        $mock = $this->getTransportMock();
 
-        $Mock->ServiceLogic = $this->getServiceLogicMock();
+        $mock->serviceLogic = $this->getServiceLogicMock();
 
-        $Mock->expects($this->once())
+        $mock->expects($this->once())
             ->method('createSession');
 
-        $Mock->addRoute('private-method', 'privateMethod', 'GET', 'private_call');
+        $mock->addRoute('private-method', 'privateMethod', 'GET', 'private_call');
 
         // test body and assertions
-        $Mock->run();
+        $mock->run();
     }
 
     /**
@@ -173,19 +169,19 @@ class ServiceConsoleTransportUnitTest extends \PHPUnit\Framework\TestCase
         // setup
         $_GET['r'] = 'public-method';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $Mock = $this->getTransportMock();
+        $mock = $this->getTransportMock();
 
-        $Mock->ServiceLogic = $this->getServiceLogicMock();
+        $mock->serviceLogic = $this->getServiceLogicMock();
 
-        $Mock->expects($this->never())
+        $mock->expects($this->never())
             ->method('createSession');
 
-        $Mock->addRoute('public-method', 'publicMethod', 'GET', 'public_call');
+        $mock->addRoute('public-method', 'publicMethod', 'GET', 'public_call');
 
         // test body
-        $Mock->run();
+        $mock->run();
 
         // assertions
-        $this->assertEquals('public', $Mock->Result);
+        $this->assertEquals('public', $mock->result);
     }
 }

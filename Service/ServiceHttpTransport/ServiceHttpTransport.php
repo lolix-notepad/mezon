@@ -22,30 +22,30 @@ class ServiceHttpTransport extends \Mezon\Service\ServiceTransport
     /**
      * Constructor
      *
-     * @param mixed $SecurityProvider
+     * @param mixed $securityProvider
      *            Security provider
      */
-    public function __construct($SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class)
+    public function __construct($securityProvider = \Mezon\Service\ServiceMockSecurityProvider::class)
     {
         parent::__construct();
 
-        if (is_string($SecurityProvider)) {
-            $this->SecurityProvider = new $SecurityProvider($this->getParamsFetcher());
+        if (is_string($securityProvider)) {
+            $this->securityProvider = new $securityProvider($this->getParamsFetcher());
         } else {
-            $this->SecurityProvider = $SecurityProvider;
+            $this->securityProvider = $securityProvider;
         }
     }
 
     /**
      * Method creates session from existing token or fetched from HTTP headers
      *
-     * @param string $Token
+     * @param string $token
      *            Session token
      * @return string Session token
      */
-    public function createSession(string $Token = ''): string
+    public function createSession(string $token = ''): string
     {
-        return $this->SecurityProvider->createSession($Token);
+        return $this->securityProvider->createSession($token);
     }
 
     /**
@@ -55,56 +55,56 @@ class ServiceHttpTransport extends \Mezon\Service\ServiceTransport
      */
     public function createFetcher(): \Mezon\Service\ServiceRequestParamsInterface
     {
-        return new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($this->Router);
+        return new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($this->router);
     }
 
     /**
      * Method outputs HTTP header
      *
-     * @param string $Header
+     * @param string $header
      *            Header name
-     * @param string $Value
+     * @param string $value
      *            Header value
      * @codeCoverageIgnore
      */
-    protected function header(string $Header, string $Value)
+    protected function header(string $header, string $value)
     {
-        header($Header . ':' . $Value);
+        header($header . ':' . $value);
     }
 
     /**
      * Method runs logic functions
      *
-     * @param \Mezon\Service\ServiceBaseLogicInterface $ServiceLogic
+     * @param \Mezon\Service\ServiceBaseLogicInterface $serviceLogic
      *            object with all service logic
-     * @param string $Method
+     * @param string $method
      *            logic's method to be executed
-     * @param array $Params
+     * @param array $params
      *            logic's parameters
      * @return mixed Result of the called method
      */
-    public function callLogic(\Mezon\Service\ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
+    public function callLogic(\Mezon\Service\ServiceBaseLogicInterface $serviceLogic, string $method, array $params = [])
     {
         $this->header('Content-type', 'text/html; charset=utf-8');
 
-        return parent::callLogic($ServiceLogic, $Method, $Params);
+        return parent::callLogic($serviceLogic, $method, $params);
     }
 
     /**
      * Method runs logic functions
      *
-     * @param \Mezon\Service\ServiceBaseLogicInterface $ServiceLogic
+     * @param \Mezon\Service\ServiceBaseLogicInterface $serviceLogic
      *            object with all service logic
-     * @param string $Method
+     * @param string $method
      *            logic's method to be executed
-     * @param array $Params
+     * @param array $params
      *            logic's parameters
      * @return mixed Result of the called method
      */
-    public function callPublicLogic(\Mezon\Service\ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
+    public function callPublicLogic(\Mezon\Service\ServiceBaseLogicInterface $serviceLogic, string $method, array $params = [])
     {
         $this->header('Content-type', 'text/html; charset=utf-8');
 
-        return parent::callPublicLogic($ServiceLogic, $Method, $Params);
+        return parent::callPublicLogic($serviceLogic, $method, $params);
     }
 }

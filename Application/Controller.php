@@ -22,17 +22,17 @@ class Controller implements \Mezon\Application\ControllerInterface
      *
      * @var string
      */
-    protected $ControllerName = '';
+    protected $controllerName = '';
 
     /**
      * Constructor
      *
-     * @param string $ControllerName
+     * @param string $controllerName
      *            Controller name to be executed
      */
-    public function __construct(string $ControllerName = '')
+    public function __construct(string $controllerName = '')
     {
-        $this->ControllerName = $ControllerName;
+        $this->controllerName = $controllerName;
     }
 
     /**
@@ -42,24 +42,24 @@ class Controller implements \Mezon\Application\ControllerInterface
      *            Controller name to be run
      * @return mixed result of the controller
      */
-    public function run(string $ControllerName = '')
+    public function run(string $controllerName = '')
     {
-        if ($ControllerName === '') {
-            $ControllerName = $this->ControllerName;
+        if ($controllerName === '') {
+            $controllerName = $this->controllerName;
         }
 
-        if ($ControllerName === '') {
-            $ControllerName = 'Default';
+        if ($controllerName === '') {
+            $controllerName = 'Default';
         }
 
-        if (method_exists($this, 'controller' . $ControllerName)) {
+        if (method_exists($this, 'controller' . $controllerName)) {
             return call_user_func([
                 $this,
-                'controller' . $ControllerName
+                'controller' . $controllerName
             ]);
         }
 
-        throw (new \Exception('Controller ' . $ControllerName . ' was not found'));
+        throw (new \Exception('Controller ' . $controllerName . ' was not found'));
     }
 
     /**
@@ -69,6 +69,6 @@ class Controller implements \Mezon\Application\ControllerInterface
      */
     public function getControllerName(): string
     {
-        return $this->ControllerName;
+        return $this->controllerName;
     }
 }

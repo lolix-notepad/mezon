@@ -22,60 +22,60 @@ interface CrudServiceClientInterface
     /**
      * Method returns all records by filter
      *
-     * @param array $Filter
+     * @param array $filter
      *            Filtering settings
-     * @param int $CrossDomain
+     * @param int $crossDomain
      *            Cross domain security settings
      * @return array List of records
      * @codeCoverageIgnore
      */
-    public function getRecordsBy($Filter, $CrossDomain = 0);
+    public function getRecordsBy($filter, $crossDomain = 0);
 
     /**
      * Method returns record by it's id
      *
      * @param int $id
      *            Id of the fetching record
-     * @param number $CrossDomain
+     * @param number $crossDomain
      *            Domain id
      * @return object fetched record
      * @codeCoverageIgnore
      */
-    public function getById($id, $CrossDomain = 0);
+    public function getById($id, $crossDomain = 0);
 
     /**
      * Method returns records by their ids
      *
      * @param array $ids
      *            List of ids
-     * @param number $CrossDomain
+     * @param number $crossDomain
      *            Domain id
      * @return array Fetched records
      */
-    public function getByIdsArray($ids, $CrossDomain = 0);
+    public function getByIdsArray($ids, $crossDomain = 0);
 
     /**
      * Method creates new record
      *
-     * @param array $Data
+     * @param array $data
      *            data for creating record
      * @return int id of the created record
      */
-    public function create($Data);
+    public function create($data);
 
     /**
      * Method updates new record
      *
      * @param int $id
      *            Id of the updating record
-     * @param array $Data
+     * @param array $data
      *            Data to be posted
-     * @param int $CrossDomain
+     * @param int $crossDomain
      *            Cross domain policy
      * @return mixed Result of the RPC call
      * @codeCoverageIgnore
      */
-    public function update(int $id, array $Data, int $CrossDomain = 0);
+    public function update(int $id, array $data, int $crossDomain = 0);
 
     /**
      * Method returns creation form's fields in JSON format
@@ -85,96 +85,96 @@ interface CrudServiceClientInterface
     public function fields();
 
     /**
-     * Method returns all records created since $Date
+     * Method returns all records created since $date
      *
-     * @param \datetime $Date
+     * @param \datetime $date
      *            Start of the period
-     * @return array List of records created since $Date
+     * @return array List of records created since $date
      * @codeCoverageIgnore
      */
-    public function newRecordsSince($Date);
+    public function newRecordsSince($date);
 
     /**
      * Method returns count of records
      *
-     * @return array List of records created since $Date
+     * @return array List of records created since $date
      * @codeCoverageIgnore
      */
     public function recordsCount();
 
     /**
-     * Method returns last $Count records
+     * Method returns last $count records
      *
-     * @param int $Count
+     * @param int $count
      *            Amount of records to be fetched
-     * @param array $Filter
+     * @param array $filter
      *            Filter data
-     * @return array $Count of last created records
+     * @return array $count of last created records
      * @codeCoverageIgnore
      */
-    public function lastRecords($Count, $Filter);
+    public function lastRecords($count, $filter);
 
     /**
      * Method deletes record with $id
      *
      * @param int $id
      *            Id of the deleting record
-     * @param int $CrossDomain
+     * @param int $crossDomain
      *            Break domain's bounds or not
      * @return string Result of the deletion
      * @codeCoverageIgnore
      */
-    public function delete(int $id, int $CrossDomain = 0): string;
+    public function delete(int $id, int $crossDomain = 0): string;
 
     /**
      * Method returns count off records
      *
-     * @param string $Field
+     * @param string $field
      *            Field for grouping
-     * @param array $Filter
+     * @param array $filter
      *            Filtering settings
-     * @return array List of records created since $Date
+     * @return array List of records created since $date
      */
-    public function recordsCountByField(string $Field, $Filter = false): array;
+    public function recordsCountByField(string $field, $filter = false): array;
 
     /**
      * Method deletes records by filter
      *
-     * @param int $CrossDomain
+     * @param int $crossDomain
      *            Cross domain security settings
-     * @param array $Filter
+     * @param array $filter
      *            Filtering settings
      * @codeCoverageIgnore
      */
-    public function deleteFiltered($CrossDomain = 0, $Filter = false);
+    public function deleteFiltered($crossDomain = 0, $filter = false);
 
     /**
      * Method creates instance if the CrudServiceClient class
      *
-     * @param string $Service
+     * @param string $service
      *            Service to be connected to
-     * @param string $Token
+     * @param string $token
      *            Connection token
      * @return \Mezon\CrudService\CrudServiceClient Instance of the CrudServiceClient class
      */
-    public static function instance(string $Service, string $Token): \Mezon\CrudService\CrudServiceClient;
+    public static function instance(string $service, string $token): \Mezon\CrudService\CrudServiceClient;
 
     /**
      * Method returns some records of the user's domain
      *
-     * @param int $From
+     * @param int $from
      *            The beginnig of the fetching sequence
-     * @param int $Limit
+     * @param int $limit
      *            Size of the fetching sequence
-     * @param int $CrossDomain
+     * @param int $crossDomain
      *            Cross domain security settings
-     * @param array $Filter
+     * @param array $filter
      *            Filtering settings
-     * @param array $Order
+     * @param array $order
      *            Sorting settings
      * @return array List of records
      */
-    public function getList(int $From = 0, int $Limit = 1000000000, $CrossDomain = 0, $Filter = false, $Order = false): array;
+    public function getList(int $from = 0, int $limit = 1000000000, $crossDomain = 0, $filter = false, $order = false): array;
 
     /**
      * Method returns fields and layout

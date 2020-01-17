@@ -26,49 +26,49 @@ class ServiceBase
      *
      * @var object Service transport object
      */
-    protected $ServiceTransport = false;
+    protected $serviceTransport = false;
 
     /**
      * Service's logic
      *
      * @var \Mezon\Service\ServiceLogic|array Login object or list of logic objects
      */
-    protected $ServiceLogic = false;
+    protected $serviceLogic = false;
 
     /**
      * Constructor
      *
-     * @param mixed $ServiceTransport
+     * @param mixed $serviceTransport
      *            Service's transport
-     * @param mixed $SecurityProvider
+     * @param mixed $securityProvider
      *            Service's security provider
-     * @param mixed $ServiceLogic
+     * @param mixed $serviceLogic
      *            Service's logic
-     * @param mixed $ServiceModel
+     * @param mixed $serviceModel
      *            Service's model
      */
     public function __construct(
-        $ServiceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
-        $SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
-        $ServiceLogic = \Mezon\Service\ServiceBaseLogic::class,
-        $ServiceModel = \Mezon\Service\ServiceModel::class)
+        $serviceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
+        $securityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
+        $serviceLogic = \Mezon\Service\ServiceBaseLogic::class,
+        $serviceModel = \Mezon\Service\ServiceModel::class)
     {
-        $this->initTransport($ServiceTransport, $SecurityProvider);
+        $this->initTransport($serviceTransport, $securityProvider);
 
-        $this->initServiceLogic($ServiceLogic, $ServiceModel);
+        $this->initServiceLogic($serviceLogic, $serviceModel);
 
         $this->initCustomRoutes();
 
         if ($this instanceof \Mezon\Service\ServiceBaseLogicInterface) {
-            $this->ServiceTransport->fetchActions($this);
+            $this->serviceTransport->fetchActions($this);
         }
 
-        if ($this->ServiceLogic instanceof \Mezon\Service\ServiceBaseLogicInterface) {
-            $this->ServiceTransport->fetchActions($this->ServiceLogic);
-        } elseif (is_array($this->ServiceLogic)) {
-            foreach ($this->ServiceLogic as $ActionsSet) {
-                if ($ActionsSet instanceof \Mezon\Service\ServiceBaseLogicInterface) {
-                    $this->ServiceTransport->fetchActions($ActionsSet);
+        if ($this->serviceLogic instanceof \Mezon\Service\ServiceBaseLogicInterface) {
+            $this->serviceTransport->fetchActions($this->serviceLogic);
+        } elseif (is_array($this->serviceLogic)) {
+            foreach ($this->serviceLogic as $actionsSet) {
+                if ($actionsSet instanceof \Mezon\Service\ServiceBaseLogicInterface) {
+                    $this->serviceTransport->fetchActions($actionsSet);
                 }
             }
         }
@@ -77,64 +77,64 @@ class ServiceBase
     /**
      * Method inits service's transport
      *
-     * @param mixed $ServiceTransport
+     * @param mixed $serviceTransport
      *            Service's transport
-     * @param mixed $SecurityProvider
+     * @param mixed $securityProvider
      *            Service's security provider
      */
-    protected function initTransport($ServiceTransport, $SecurityProvider): void
+    protected function initTransport($serviceTransport, $securityProvider): void
     {
-        if (is_string($ServiceTransport)) {
-            $this->ServiceTransport = new $ServiceTransport($SecurityProvider);
+        if (is_string($serviceTransport)) {
+            $this->serviceTransport = new $serviceTransport($securityProvider);
         } else {
-            $this->ServiceTransport = $ServiceTransport;
+            $this->serviceTransport = $serviceTransport;
         }
     }
 
     /**
      * Method constructs service logic if necessary
      *
-     * @param mixed $ServiceLogic
+     * @param mixed $serviceLogic
      *            Service logic class name of object itself
-     * @param mixed $ServiceModel
+     * @param mixed $serviceModel
      *            Service model class name of object itself
      * @return \Mezon\Service\ServiceLogic logic object
      */
-    protected function constructServiceLogic($ServiceLogic, $ServiceModel)
+    protected function constructServiceLogic($serviceLogic, $serviceModel)
     {
-        if (is_string($ServiceLogic)) {
-            $Result = new $ServiceLogic(
-                $this->ServiceTransport->getParamsFetcher(),
-                $this->ServiceTransport->SecurityProvider,
-                $ServiceModel);
+        if (is_string($serviceLogic)) {
+            $result = new $serviceLogic(
+                $this->serviceTransport->getParamsFetcher(),
+                $this->serviceTransport->securityProvider,
+                $serviceModel);
         } else {
-            $Result = $ServiceLogic;
+            $result = $serviceLogic;
         }
 
-        return $Result;
+        return $result;
     }
 
     /**
      * Method inits service's logic
      *
-     * @param mixed $ServiceLogic
+     * @param mixed $serviceLogic
      *            Service's logic
-     * @param mixed $ServiceModel
+     * @param mixed $serviceModel
      *            Service's Model
      */
-    protected function initServiceLogic($ServiceLogic, $ServiceModel): void
+    protected function initServiceLogic($serviceLogic, $serviceModel): void
     {
-        if (is_array($ServiceLogic)) {
-            $this->ServiceLogic = [];
+        if (is_array($serviceLogic)) {
+            $this->serviceLogic = [];
 
-            foreach ($ServiceLogic as $Logic) {
-                $this->ServiceLogic[] = $this->constructServiceLogic($Logic, $ServiceModel);
+            foreach ($serviceLogic as $logic) {
+                $this->serviceLogic[] = $this->constructServiceLogic($logic, $serviceModel);
             }
         } else {
-            $this->ServiceLogic = $this->constructServiceLogic($ServiceLogic, $ServiceModel);
+            $this->serviceLogic = $this->constructServiceLogic($serviceLogic, $serviceModel);
         }
 
-        $this->ServiceTransport->ServiceLogic = $this->ServiceLogic;
+        $this->serviceTransport->serviceLogic = $this->serviceLogic;
     }
 
     /**
@@ -142,34 +142,34 @@ class ServiceBase
      */
     protected function initCustomRoutes(): void
     {
-        $Reflector = new \ReflectionClass(get_class($this));
-        $ClassPath = dirname($Reflector->getFileName());
+        $reflector = new \ReflectionClass(get_class($this));
+        $classPath = dirname($reflector->getFileName());
 
-        if (file_exists($ClassPath . '/conf/routes.php')) {
-            $this->ServiceTransport->loadRoutesFromConfig($ClassPath . '/conf/routes.php');
+        if (file_exists($classPath . '/conf/routes.php')) {
+            $this->serviceTransport->loadRoutesFromConfig($classPath . '/conf/routes.php');
         }
 
-        if (file_exists($ClassPath . '/conf/routes.json')) {
-            $this->ServiceTransport->loadRoutes(json_decode(file_get_contents($ClassPath . '/conf/routes.json'), true));
+        if (file_exists($classPath . '/conf/routes.json')) {
+            $this->serviceTransport->loadRoutes(json_decode(file_get_contents($classPath . '/conf/routes.json'), true));
         }
     }
 
     /**
-     * Running $this->ServiceTransport run loop
+     * Running $this->serviceTransport run loop
      */
     public function run(): void
     {
-        $this->ServiceTransport->run();
+        $this->serviceTransport->run();
     }
 
     /**
      * Method sets transport
      *
-     * @param \Mezon\Service\ServiceTransport $Transport
+     * @param \Mezon\Service\ServiceTransport $transport
      */
-    public function setTransport(\Mezon\Service\ServiceTransport $Transport): void
+    public function setTransport(\Mezon\Service\ServiceTransport $transport): void
     {
-        $this->ServiceTransport = $Transport;
+        $this->serviceTransport = $transport;
     }
 
     /**
@@ -179,7 +179,7 @@ class ServiceBase
      */
     public function getTransport(): \Mezon\Service\ServiceTransport
     {
-        return $this->ServiceTransport;
+        return $this->serviceTransport;
     }
 
     /**
@@ -189,6 +189,6 @@ class ServiceBase
      */
     public function getLogic()
     {
-        return $this->ServiceLogic;
+        return $this->serviceLogic;
     }
 }

@@ -3,11 +3,11 @@
 /**
  * Transformation function multiplies 'foo' field
  */
-function transform2x($Object)
+function transform2x($object)
 {
-    $Object->foo *= 2;
+    $object->foo *= 2;
 
-    return $Object;
+    return $object;
 }
 
 class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
@@ -19,15 +19,15 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetFieldArray(): void
     {
         // setup
-        $Arr = [
+        $arr = [
             'foo' => 'bar'
         ];
 
         // test body
-        $Result = \Mezon\Functional\Functional::getField($Arr, 'foo');
+        $result = \Mezon\Functional\Functional::getField($arr, 'foo');
 
         // assertions
-        $this->assertEquals($Result, 'bar', 'Invalid value');
+        $this->assertEquals($result, 'bar', 'Invalid value');
     }
 
     /**
@@ -36,16 +36,16 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetField2Array(): void
     {
         // setup
-        $Arr = [
+        $arr = [
             'foo' => 'bar',
             'foo2' => 'bar2'
         ];
 
         // test body
-        $Result = \Mezon\Functional\Functional::getField($Arr, 'foo2');
+        $result = \Mezon\Functional\Functional::getField($arr, 'foo2');
 
         // assertions
-        $this->assertEquals($Result, 'bar2', 'Invalid value');
+        $this->assertEquals($result, 'bar2', 'Invalid value');
     }
 
     /**
@@ -58,10 +58,10 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         $obj->foo = 'bar';
 
         // test body
-        $Result = \Mezon\Functional\Functional::getField($obj, 'foo');
+        $result = \Mezon\Functional\Functional::getField($obj, 'foo');
 
         // assertions
-        $this->assertEquals($Result, 'bar', 'Invalid value');
+        $this->assertEquals($result, 'bar', 'Invalid value');
     }
 
     /**
@@ -75,10 +75,10 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         $obj->foo2 = 'bar2';
 
         // test body
-        $Result = \Mezon\Functional\Functional::getField($obj, 'foo2');
+        $result = \Mezon\Functional\Functional::getField($obj, 'foo2');
 
         // assertions
-        $this->assertEquals($Result, 'bar2', 'Invalid value');
+        $this->assertEquals($result, 'bar2', 'Invalid value');
     }
 
     /**
@@ -96,21 +96,21 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         $obj3 = new stdClass();
         $obj3->foo = 3;
 
-        $Data = [
+        $data = [
             $obj1,
             $obj2,
             $obj3
         ];
 
         // test body
-        $Result = \Mezon\Functional\Functional::getFields($Data, 'foo');
+        $result = \Mezon\Functional\Functional::getFields($data, 'foo');
 
         // assertions
-        $this->assertEquals(count($Result), 3, 'Invalid count');
+        $this->assertEquals(count($result), 3, 'Invalid count');
 
-        $this->assertEquals($Result[0], 1, 'Invalid value');
-        $this->assertEquals($Result[1], 2, 'Invalid value');
-        $this->assertEquals($Result[2], 3, 'Invalid value');
+        $this->assertEquals($result[0], 1, 'Invalid value');
+        $this->assertEquals($result[1], 2, 'Invalid value');
+        $this->assertEquals($result[2], 3, 'Invalid value');
     }
 
     /**
@@ -119,7 +119,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     public function testFieldsSetting(): void
     {
         // setup
-        $Values = [
+        $values = [
             1,
             2,
             3
@@ -127,20 +127,20 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         $obj1 = new stdClass();
         $obj2 = new stdClass();
 
-        $Data = [
+        $data = [
             $obj1,
             $obj2
         ];
 
         // test body
-        \Mezon\Functional\Functional::setFieldsInObjects($Data, 'foo', $Values);
+        \Mezon\Functional\Functional::setFieldsInObjects($data, 'foo', $values);
 
         // assertions
-        $this->assertEquals(count($Data), 3, 'Invalid count');
+        $this->assertEquals(count($data), 3, 'Invalid count');
 
-        $this->assertEquals($Data[0]->foo, 1, 'Invalid value');
-        $this->assertEquals($Data[1]->foo, 2, 'Invalid value');
-        $this->assertEquals($Data[2]->foo, 3, 'Invalid value');
+        $this->assertEquals($data[0]->foo, 1, 'Invalid value');
+        $this->assertEquals($data[1]->foo, 2, 'Invalid value');
+        $this->assertEquals($data[2]->foo, 3, 'Invalid value');
     }
 
     /**
@@ -158,14 +158,14 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         $obj3 = new stdClass();
         $obj3->foo = 3;
 
-        $Data = [
+        $data = [
             $obj1,
             $obj2,
             $obj3
         ];
 
         // test body and assertions
-        $this->assertEquals(\Mezon\Functional\Functional::sumFields($Data, 'foo'), 6, 'Invalid sum');
+        $this->assertEquals(\Mezon\Functional\Functional::sumFields($data, 'foo'), 6, 'Invalid sum');
     }
 
     /**
@@ -183,19 +183,19 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         $obj3 = new stdClass();
         $obj3->foo = 3;
 
-        $Data = [
+        $data = [
             $obj1,
             $obj2,
             $obj3
         ];
 
         // test body
-        \Mezon\Functional\Functional::transform($Data, 'transform2x');
+        \Mezon\Functional\Functional::transform($data, 'transform2x');
 
         // assertions
-        $this->assertEquals($Data[0]->foo, 2, 'Invalid value');
-        $this->assertEquals($Data[1]->foo, 4, 'Invalid value');
-        $this->assertEquals($Data[2]->foo, 6, 'Invalid value');
+        $this->assertEquals($data[0]->foo, 2, 'Invalid value');
+        $this->assertEquals($data[1]->foo, 4, 'Invalid value');
+        $this->assertEquals($data[2]->foo, 6, 'Invalid value');
     }
 
     /**
@@ -213,7 +213,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         $obj3 = new stdClass();
         $obj3->foo = 3;
 
-        $Data = [
+        $data = [
             $obj1,
             [
                 $obj2,
@@ -222,7 +222,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ];
 
         // test body and assertions
-        $this->assertEquals(\Mezon\Functional\Functional::sumFields($Data, 'foo'), 6, 'Invalid sum');
+        $this->assertEquals(\Mezon\Functional\Functional::sumFields($data, 'foo'), 6, 'Invalid sum');
     }
 
     /**
@@ -240,14 +240,14 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         $obj3 = new stdClass();
         $obj3->foo = 1;
 
-        $Data = [
+        $data = [
             $obj1,
             $obj2,
             $obj3
         ];
 
         // test body and assertions
-        $this->assertEquals(count(\Mezon\Functional\Functional::filter($Data, 'foo', '==', 1)), 2, 'Invalid filtration');
+        $this->assertEquals(count(\Mezon\Functional\Functional::filter($data, 'foo', '==', 1)), 2, 'Invalid filtration');
     }
 
     /**
@@ -265,7 +265,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         $obj3 = new stdClass();
         $obj3->foo = 1;
 
-        $Data = [
+        $data = [
             $obj1,
             [
                 $obj2,
@@ -274,7 +274,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ];
 
         // test body and assertions
-        $this->assertEquals(count(\Mezon\Functional\Functional::filter($Data, 'foo', '==', 1)), 2, 'Invalid filtration');
+        $this->assertEquals(count(\Mezon\Functional\Functional::filter($data, 'foo', '==', 1)), 2, 'Invalid filtration');
     }
 
     /**
@@ -304,7 +304,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     public function testReplaceFieldInArrays(): void
     {
         // setup
-        $Records = [
+        $records = [
             [
                 'from' => 0
             ],
@@ -314,14 +314,14 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional\Functional::replaceField($Records, 'from', 'to');
+        \Mezon\Functional\Functional::replaceField($records, 'from', 'to');
 
         // assertions
-        $this->assertTrue(isset($Records[0]['to']), 'Field was not replaced');
-        $this->assertTrue(isset($Records[1]['to']), 'Field was not replaced');
+        $this->assertTrue(isset($records[0]['to']), 'Field was not replaced');
+        $this->assertTrue(isset($records[1]['to']), 'Field was not replaced');
 
-        $this->assertEquals($Records[0]['to'], 0, 'Field was not replaced correctly');
-        $this->assertEquals($Records[1]['to'], 1, 'Field was not replaced correctly');
+        $this->assertEquals($records[0]['to'], 0, 'Field was not replaced correctly');
+        $this->assertEquals($records[1]['to'], 1, 'Field was not replaced correctly');
     }
 
     /**
@@ -330,26 +330,26 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     public function testReplaceFieldInObjects(): void
     {
         // setup
-        $Object0 = new stdClass();
-        $Object0->from = 0;
+        $object0 = new stdClass();
+        $object0->from = 0;
 
-        $Object1 = new stdClass();
-        $Object1->from = 1;
+        $object1 = new stdClass();
+        $object1->from = 1;
 
-        $Records = [
-            $Object0,
-            $Object1
+        $records = [
+            $object0,
+            $object1
         ];
 
         // test body
-        \Mezon\Functional\Functional::replaceField($Records, 'from', 'to');
+        \Mezon\Functional\Functional::replaceField($records, 'from', 'to');
 
         // assertions
-        $this->assertTrue(isset($Records[0]->to), 'Field was not replaced');
-        $this->assertTrue(isset($Records[1]->to), 'Field was not replaced');
+        $this->assertTrue(isset($records[0]->to), 'Field was not replaced');
+        $this->assertTrue(isset($records[1]->to), 'Field was not replaced');
 
-        $this->assertEquals(0, $Records[0]->to, 'Field was not replaced correctly');
-        $this->assertEquals(1, $Records[1]->to, 'Field was not replaced correctly');
+        $this->assertEquals(0, $records[0]->to, 'Field was not replaced correctly');
+        $this->assertEquals(1, $records[1]->to, 'Field was not replaced correctly');
     }
 
     /**
@@ -358,7 +358,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     public function testReplaceFields(): void
     {
         // setup
-        $Objects = [
+        $objects = [
             [
                 'id' => 1,
                 'field' => 'f'
@@ -366,7 +366,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional\Functional::replaceFields($Objects, [
+        \Mezon\Functional\Functional::replaceFields($objects, [
             'id',
             'field'
         ], [
@@ -375,8 +375,8 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // assertions
-        $this->assertEquals(1, $Objects[0]['_id']);
-        $this->assertEquals('f', $Objects[0]['_field']);
+        $this->assertEquals(1, $objects[0]['_id']);
+        $this->assertEquals('f', $objects[0]['_field']);
     }
 
     /**
@@ -385,16 +385,16 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     public function testReplaceFieldInEntity(): void
     {
         // setup
-        $Object = [
+        $object = [
             'id' => 1
         ];
 
         // test body
-        \Mezon\Functional\Functional::replaceFieldInEntity($Object, 'id', 'id2');
+        \Mezon\Functional\Functional::replaceFieldInEntity($object, 'id', 'id2');
 
         // assertions
-        $this->assertArrayHasKey('id2', $Object);
-        $this->assertEquals(1, $Object['id2']);
+        $this->assertArrayHasKey('id2', $object);
+        $this->assertEquals(1, $object['id2']);
     }
 
     /**
@@ -403,13 +403,13 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     public function testReplaceFieldsInEntity(): void
     {
         // setup
-        $Object = [
+        $object = [
             'id' => 1,
             'field' => 'f'
         ];
 
         // test body
-        \Mezon\Functional\Functional::replaceFieldsInEntity($Object, [
+        \Mezon\Functional\Functional::replaceFieldsInEntity($object, [
             'id',
             'field'
         ], [
@@ -418,10 +418,10 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // assertions
-        $this->assertArrayHasKey('id2', $Object);
-        $this->assertArrayHasKey('field2', $Object);
-        $this->assertEquals(1, $Object['id2']);
-        $this->assertEquals('f', $Object['field2']);
+        $this->assertArrayHasKey('id2', $object);
+        $this->assertArrayHasKey('field2', $object);
+        $this->assertEquals(1, $object['id2']);
+        $this->assertEquals('f', $object['field2']);
     }
 
     /**
@@ -430,7 +430,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     public function testSetChildren(): void
     {
         // setup
-        $Objects = [
+        $objects = [
             [
                 'id' => 1
             ],
@@ -438,7 +438,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
                 'id' => 3
             ]
         ];
-        $Records = [
+        $records = [
             [
                 'f' => 1
             ],
@@ -451,14 +451,14 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional\Functional::setChildren('children', $Objects, 'id', $Records, 'f');
+        \Mezon\Functional\Functional::setChildren('children', $objects, 'id', $records, 'f');
 
         // assertions
-        $this->assertTrue(isset($Objects[0]['children']), 'Field was not created correctly');
-        $this->assertTrue(isset($Objects[1]['children']), 'Field was not created correctly');
+        $this->assertTrue(isset($objects[0]['children']), 'Field was not created correctly');
+        $this->assertTrue(isset($objects[1]['children']), 'Field was not created correctly');
 
-        $this->assertEquals(2, count($Objects[0]['children']), 'Records were not joined');
-        $this->assertEquals(0, count($Objects[1]['children']), 'Records were not joined');
+        $this->assertEquals(2, count($objects[0]['children']), 'Records were not joined');
+        $this->assertEquals(0, count($objects[1]['children']), 'Records were not joined');
     }
 
     /**
@@ -467,7 +467,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     public function testExpandingRecords(): void
     {
         // setup
-        $Arr1 = [
+        $arr1 = [
             [
                 'id' => 1
             ],
@@ -476,7 +476,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
             ]
         ];
 
-        $Arr2 = [
+        $arr2 = [
             [
                 'id' => 1,
                 'f' => 11
@@ -488,13 +488,13 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional\Functional::expandRecordsWith($Arr1, 'id', $Arr2, 'id');
+        \Mezon\Functional\Functional::expandRecordsWith($arr1, 'id', $arr2, 'id');
 
         // assertions
-        $this->assertTrue(isset($Arr1[0]['f']), 'Field was not merged');
-        $this->assertEquals(11, $Arr1[0]['f'], 'Field was not merged');
+        $this->assertTrue(isset($arr1[0]['f']), 'Field was not merged');
+        $this->assertEquals(11, $arr1[0]['f'], 'Field was not merged');
 
-        $this->assertFalse(isset($Arr1[1]['f']), 'Field was merged, but it must not');
+        $this->assertFalse(isset($arr1[1]['f']), 'Field was merged, but it must not');
     }
 
     /**
@@ -503,7 +503,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     function testRecordsSorting(): void
     {
         // setup
-        $Arr = [
+        $arr = [
             [
                 'i' => 2
             ],
@@ -516,12 +516,12 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional\Functional::sortRecords($Arr, 'i');
+        \Mezon\Functional\Functional::sortRecords($arr, 'i');
 
         // assertions
-        $this->assertEquals(1, $Arr[0]['i']);
-        $this->assertEquals(2, $Arr[1]['i']);
-        $this->assertEquals(3, $Arr[2]['i']);
+        $this->assertEquals(1, $arr[0]['i']);
+        $this->assertEquals(2, $arr[1]['i']);
+        $this->assertEquals(3, $arr[2]['i']);
     }
 
     /**
@@ -530,7 +530,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     function testRecordsSortingReverse(): void
     {
         // setup
-        $Arr = [
+        $arr = [
             [
                 'i' => 1
             ],
@@ -546,13 +546,13 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional\Functional::sortRecords($Arr, 'i', \Mezon\Functional\Functional::SORT_DIRECTION_DESC);
+        \Mezon\Functional\Functional::sortRecords($arr, 'i', \Mezon\Functional\Functional::SORT_DIRECTION_DESC);
 
         // assertions
-        $this->assertEquals(3, $Arr[0]['i']);
-        $this->assertEquals(2, $Arr[1]['i']);
-        $this->assertEquals(1, $Arr[2]['i']);
-        $this->assertEquals(1, $Arr[3]['i']);
+        $this->assertEquals(3, $arr[0]['i']);
+        $this->assertEquals(2, $arr[1]['i']);
+        $this->assertEquals(1, $arr[2]['i']);
+        $this->assertEquals(1, $arr[3]['i']);
     }
 
     /**
@@ -561,7 +561,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     function testSetChild(): void
     {
         // setup
-        $Objects = [
+        $objects = [
             [
                 'id' => 1
             ],
@@ -569,7 +569,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
                 'id' => 3
             ]
         ];
-        $Records = [
+        $records = [
             [
                 'f' => 1
             ],
@@ -582,11 +582,11 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ];
 
         // test body
-        \Mezon\Functional\Functional::setChild('nested', $Objects, 'id', $Records, 'f');
+        \Mezon\Functional\Functional::setChild('nested', $objects, 'id', $records, 'f');
 
         // assertions
-        $this->assertEquals(1, $Objects[0]['nested']['f'], 'Record was not nested');
-        $this->assertEquals(3, $Objects[1]['nested']['f'], 'Record was not nested');
+        $this->assertEquals(1, $objects[0]['nested']['f'], 'Record was not nested');
+        $this->assertEquals(3, $objects[1]['nested']['f'], 'Record was not nested');
     }
 
     /**
@@ -595,19 +595,19 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     function testFieldExistsPlain(): void
     {
         // setup
-        $Arr = [
+        $arr = [
             'f1' => 1,
             'f2' => 2
         ];
-        $Arr2 = new stdClass();
-        $Arr2->f3 = 3;
+        $arr2 = new stdClass();
+        $arr2->f3 = 3;
 
         // test body and assertions
-        $this->assertTrue(\Mezon\Functional\Functional::fieldExists($Arr, 'f1'));
-        $this->assertTrue(\Mezon\Functional\Functional::fieldExists($Arr, 'f2'));
-        $this->assertFalse(\Mezon\Functional\Functional::fieldExists($Arr, 'f3'));
-        $this->assertTrue(\Mezon\Functional\Functional::fieldExists($Arr2, 'f3'));
-        $this->assertFalse(\Mezon\Functional\Functional::fieldExists($Arr2, 'f4'));
+        $this->assertTrue(\Mezon\Functional\Functional::fieldExists($arr, 'f1'));
+        $this->assertTrue(\Mezon\Functional\Functional::fieldExists($arr, 'f2'));
+        $this->assertFalse(\Mezon\Functional\Functional::fieldExists($arr, 'f3'));
+        $this->assertTrue(\Mezon\Functional\Functional::fieldExists($arr2, 'f3'));
+        $this->assertFalse(\Mezon\Functional\Functional::fieldExists($arr2, 'f4'));
     }
 
     /**
@@ -616,7 +616,7 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     function testFieldExistsRecursive(): void
     {
         // setup
-        $Arr = [
+        $arr = [
             'f1' => 1,
             'f2' => [
                 'f21' => 21,
@@ -626,8 +626,8 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
         ];
 
         // test body and assertions
-        $this->assertTrue(\Mezon\Functional\Functional::fieldExists($Arr, 'f2'));
-        $this->assertTrue(\Mezon\Functional\Functional::fieldExists($Arr, 'f22'));
-        $this->assertFalse(\Mezon\Functional\Functional::fieldExists($Arr, 'f22', false));
+        $this->assertTrue(\Mezon\Functional\Functional::fieldExists($arr, 'f2'));
+        $this->assertTrue(\Mezon\Functional\Functional::fieldExists($arr, 'f22'));
+        $this->assertFalse(\Mezon\Functional\Functional::fieldExists($arr, 'f22', false));
     }
 }

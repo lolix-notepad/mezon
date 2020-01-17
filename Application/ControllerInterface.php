@@ -20,11 +20,11 @@ interface ControllerInterface
     /**
      * Method runs controller
      *
-     * @param string $ControllerName
+     * @param string $controllerName
      *            Controller name to be run
      * @return mixed Controller execution result
      */
-    public function run(string $ControllerName = '');
+    public function run(string $controllerName = '');
 
     /**
      * Method returns controller's name

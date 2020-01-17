@@ -20,24 +20,24 @@ class BootstrapWidgets implements \Mezon\WidgetsRegistry\WidgetsRegistryBase
     /**
      * Method returns widget
      *
-     * @param string $Name
+     * @param string $name
      *            Name of the widget
      * @return string Widget's HTML code
      */
-    public function getWidget(string $Name): string
+    public function getWidget(string $name): string
     {
-        return BootstrapWidgets::get($Name);
+        return BootstrapWidgets::get($name);
     }
 
     /**
      * Method returns widget
      *
-     * @param string $Name
+     * @param string $name
      *            Name of the widget
      * @return string Widget's HTML code
      */
-    public static function get(string $Name): string
+    public static function get(string $name): string
     {
-        return file_get_contents(__DIR__ . '/res/templates/' . $Name . '.tpl');
+        return file_get_contents(__DIR__ . '/res/templates/' . $name . '.tpl');
     }
 }

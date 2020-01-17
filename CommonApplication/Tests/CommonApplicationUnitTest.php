@@ -8,14 +8,14 @@
 class TestView extends \Mezon\Application\View
 {
 
-    public function __construct(string $Content)
+    public function __construct(string $content)
     {
         parent::__construct('default');
 
-        $this->Content = $Content;
+        $this->Content = $content;
     }
 
-    public function render(string $ViewName = ''): string
+    public function render(string $viewName = ''): string
     {
         return $this->Content;
     }
@@ -60,18 +60,18 @@ class CommonApplicationUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testComplexRouteResult()
     {
-        $Application = new TestCommonApplication();
+        $application = new TestCommonApplication();
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_GET['r'] = '/array-result/';
 
         ob_start();
-        $Application->run();
-        $Output = ob_get_contents();
+        $application->run();
+        $output = ob_get_contents();
         ob_end_clean();
 
-        $this->assertTrue(strpos($Output, 'Array result') !== false, 'Template compilation failed (1)');
-        $this->assertTrue(strpos($Output, 'Route main') !== false, 'Template compilation failed (2)');
+        $this->assertTrue(strpos($output, 'Array result') !== false, 'Template compilation failed (1)');
+        $this->assertTrue(strpos($output, 'Route main') !== false, 'Template compilation failed (2)');
     }
 
     /**
@@ -80,20 +80,20 @@ class CommonApplicationUnitTest extends \PHPUnit\Framework\TestCase
     public function testComplexViewRenderring()
     {
         // setup
-        $Application = new TestCommonApplication();
+        $application = new TestCommonApplication();
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_GET['r'] = '/view-result/';
 
         // test body
         ob_start();
-        $Application->run();
-        $Output = ob_get_contents();
+        $application->run();
+        $output = ob_get_contents();
         ob_end_clean();
 
         // assertions
-        $this->assertStringContainsString('View result', $Output, 'Template compilation failed (3)');
-        $this->assertStringContainsString('Test view result', $Output, 'Template compilation failed (4)');
+        $this->assertStringContainsString('View result', $output, 'Template compilation failed (3)');
+        $this->assertStringContainsString('Test view result', $output, 'Template compilation failed (4)');
     }
 
     /**
@@ -102,25 +102,25 @@ class CommonApplicationUnitTest extends \PHPUnit\Framework\TestCase
     public function testHandleException()
     {
         // setup
-        $Application = new TestCommonApplication();
-        $Output = '';
+        $application = new TestCommonApplication();
+        $output = '';
         try {
             throw (new Exception('', 0));
         } catch (Exception $e) {
             // test body
             ob_start();
-            $Application->handleException($e);
-            $Output = ob_get_contents();
+            $application->handleException($e);
+            $output = ob_get_contents();
             ob_end_clean();
         }
 
         // assertions
-        $Output = json_decode(str_replace('<pre>', '', $Output), true);
-        $this->assertContains('message', $Output);
-        $this->assertContains('code', $Output);
-        $this->assertContains('call_stack', $Output);
-        $this->assertContains('host', $Output);
-        $this->assertEquals('undefined', $Output['host']);
+        $output = json_decode(str_replace('<pre>', '', $output), true);
+        $this->assertContains('message', $output);
+        $this->assertContains('code', $output);
+        $this->assertContains('call_stack', $output);
+        $this->assertContains('host', $output);
+        $this->assertEquals('undefined', $output['host']);
     }
 
     /**
@@ -129,25 +129,25 @@ class CommonApplicationUnitTest extends \PHPUnit\Framework\TestCase
     public function testHandleRestException()
     {
         // setup
-        $Application = new TestCommonApplication();
-        $Output = '';
+        $application = new TestCommonApplication();
+        $output = '';
         try {
             throw (new \Mezon\Service\ServiceRestTransport\RestException('', 0, 200, ''));
         } catch (Exception $e) {
             // test body
             ob_start();
-            $Application->handleRestException($e);
-            $Output = ob_get_contents();
+            $application->handleRestException($e);
+            $output = ob_get_contents();
             ob_end_clean();
         }
 
         // assertions
-        $Output = json_decode(str_replace('<pre>', '', $Output), true);
-        $this->assertContains('message', $Output);
-        $this->assertContains('code', $Output);
-        $this->assertContains('call_stack', $Output);
-        $this->assertContains('host', $Output);
-        $this->assertContains('http_body', $Output);
+        $output = json_decode(str_replace('<pre>', '', $output), true);
+        $this->assertContains('message', $output);
+        $this->assertContains('code', $output);
+        $this->assertContains('call_stack', $output);
+        $this->assertContains('host', $output);
+        $this->assertContains('httpBody', $output);
     }
 
     /**
@@ -156,8 +156,8 @@ class CommonApplicationUnitTest extends \PHPUnit\Framework\TestCase
     public function testHandleExceptionWithHost()
     {
         // setup
-        $Application = new TestCommonApplication();
-        $Output = '';
+        $application = new TestCommonApplication();
+        $output = '';
         $_SERVER['HTTP_HOST'] = 'some host';
         $_SERVER['REQUEST_URI'] = 'some uri';
         try {
@@ -165,13 +165,13 @@ class CommonApplicationUnitTest extends \PHPUnit\Framework\TestCase
         } catch (Exception $e) {
             // test body
             ob_start();
-            $Application->handleException($e);
-            $Output = ob_get_contents();
+            $application->handleException($e);
+            $output = ob_get_contents();
             ob_end_clean();
         }
 
         // assertions
-        $Output = json_decode(str_replace('<pre>', '', $Output), true);
-        $this->assertEquals('some hostsome uri', $Output['host']);
+        $output = json_decode(str_replace('<pre>', '', $output), true);
+        $this->assertEquals('some hostsome uri', $output['host']);
     }
 }

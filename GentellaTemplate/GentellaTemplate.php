@@ -22,12 +22,12 @@ class GentellaTemplate extends \Mezon\HtmlTemplate\HtmlTemplate
     /**
      * Template сonstructor
      *
-     * @param string $Template
+     * @param string $template
      *            Page layout
      */
-    public function __construct(string $Template = 'index')
+    public function __construct(string $template = 'index')
     {
-        parent::__construct(dirname(__FILE__), $Template);
+        parent::__construct(dirname(__FILE__), $template);
 
         $this->setPageVar('action', '');
     }
@@ -35,63 +35,63 @@ class GentellaTemplate extends \Mezon\HtmlTemplate\HtmlTemplate
     /**
      * Compilation of the message
      *
-     * @param string $MsgType
+     * @param string $msgType
      *            Type of the message
-     * @param string $Message
+     * @param string $message
      *            Message
      * @return string Message block markup
      */
-    protected static function getMessageContent(string $MsgType, string $Message): string
+    protected static function getMessageContent(string $msgType, string $message): string
     {
-        $Content = '<div class="x_content" style="margin: 0; padding: 0;">';
-        $Content .= '<div class="alert ' . $MsgType . ' alert-dismissible fade in" role="alert">';
-        $Content .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-        $Content .= '<span aria-hidden="true">×</span></button>' . $Message . '</div></div>';
+        $content = '<div class="x_content" style="margin: 0; padding: 0;">';
+        $content .= '<div class="alert ' . $msgType . ' alert-dismissible fade in" role="alert">';
+        $content .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+        $content .= '<span aria-hidden="true">×</span></button>' . $message . '</div></div>';
 
-        return $Content;
+        return $content;
     }
 
     /**
      * Method compiles success message content
      *
-     * @param string $Message
+     * @param string $message
      *            Message to be compiled
      */
-    public static function successMessageContent(string $Message): string
+    public static function successMessageContent(string $message): string
     {
-        return self::getMessageContent('alert-success', $Message);
+        return self::getMessageContent('alert-success', $message);
     }
 
     /**
      * Method compiles info message content
      *
-     * @param string $Message
+     * @param string $message
      *            Message to be compiled
      */
-    public static function infoMessageContent(string $Message): string
+    public static function infoMessageContent(string $message): string
     {
-        return self::getMessageContent('alert-info', $Message);
+        return self::getMessageContent('alert-info', $message);
     }
 
     /**
      * Method compiles warning message content
      *
-     * @param string $Message
+     * @param string $message
      *            Message to be compiled
      */
-    public static function warningMessageContent(string $Message): string
+    public static function warningMessageContent(string $message): string
     {
-        return self::getMessageContent('alert-warning', $Message);
+        return self::getMessageContent('alert-warning', $message);
     }
 
     /**
      * Method compiles danger message content
      *
-     * @param string $Message
+     * @param string $message
      *            Message to be compiled
      */
-    public static function dangerMessageContent(string $Message): string
+    public static function dangerMessageContent(string $message): string
     {
-        return self::getMessageContent('alert-danger', $Message);
+        return self::getMessageContent('alert-danger', $message);
     }
 }

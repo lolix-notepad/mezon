@@ -23,19 +23,19 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     /**
      * Client class name
      */
-    protected $ClientClassName = '';
+    protected $clientClassName = '';
 
     /**
      * Constructor
      *
-     * @param string $ClientClassName
+     * @param string $clientClassName
      *            Service client class name
      */
-    public function __construct(string $ClientClassName = \Mezon\Service\ServiceClient::class)
+    public function __construct(string $clientClassName = \Mezon\Service\ServiceClient::class)
     {
         parent::__construct();
 
-        $this->ClientClassName = $ClientClassName;
+        $this->clientClassName = $clientClassName;
     }
 
     /**
@@ -50,40 +50,38 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     /**
      * Method creates mock for the service client
      *
-     * @param array $Methods
+     * @param array $methods
      *            mocking methods
      * @return object Mock
      */
-    protected function getServiceClientRawMock(array $Methods = [
+    protected function getServiceClientRawMock(array $methods = [
         'postRequest',
         'getRequest'
     ]): object
     {
-        $Mock = $this->getMockBuilder($this->ClientClassName)
-            ->setMethods($Methods)
+        return $this->getMockBuilder($this->clientClassName)
+            ->setMethods($methods)
             ->disableOriginalConstructor()
             ->getMock();
-
-        return $Mock;
     }
 
     /**
      * Method creates mock with setup
      *
-     * @param string $DataFile
+     * @param string $dataFile
      *            File name with testing data
      * @return object Mock object
      */
-    protected function getServiceClientMock(string $DataFile): object
+    protected function getServiceClientMock(string $dataFile): object
     {
-        $Mock = $this->getServiceClientRawMock([
+        $mock = $this->getServiceClientRawMock([
             'sendRequest'
         ]);
 
-        $Mock->method('sendRequest')->will(
-            $this->returnValue(json_decode(file_get_contents(__DIR__ . '/conf/' . $DataFile . '.json'), true)));
+        $mock->method('sendRequest')->will(
+            $this->returnValue(json_decode(file_get_contents(__DIR__ . '/conf/' . $dataFile . '.json'), true)));
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -92,14 +90,14 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testConstructWithLogin(): void
     {
         // setup
-        $Mock = $this->getServiceClientMock('construct-with-login');
+        $mock = $this->getServiceClientMock('construct-with-login');
 
         // test body
-        $Mock->__construct('http://example.com/', 'login', 'password');
+        $mock->__construct('http://example.com/', 'login', 'password');
 
         // assertions
-        $this->assertEquals('login', $Mock->getStoredLogin(), 'Login was not set');
-        $this->assertEquals('session id', $Mock->getToken(), 'SessionId was not set');
+        $this->assertEquals('login', $mock->getStoredLogin(), 'Login was not set');
+        $this->assertEquals('session id', $mock->getToken(), 'SessionId was not set');
     }
 
     /**
@@ -108,10 +106,10 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testSetHeader(): void
     {
         // setup
-        $Client = new $this->ClientClassName('http://example.com/');
+        $client = new $this->clientClassName('http://example.com/');
 
         // test body and assertions
-        $this->assertEquals('', $Client->getService(), 'Field was init but it must not');
+        $this->assertEquals('', $client->getService(), 'Field was init but it must not');
     }
 
     /**
@@ -121,7 +119,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\Exception::class);
 
-        new $this->ClientClassName('auth');
+        new $this->clientClassName('auth');
     }
 
     /**
@@ -129,9 +127,9 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
      */
     public function testServiceFound(): void
     {
-        $Client = new $this->ClientClassName('existing-service');
+        $client = new $this->clientClassName('existing-service');
 
-        $this->assertEquals('existing-service', $Client->getService(), 'Field was init but it must not');
+        $this->assertEquals('existing-service', $client->getService(), 'Field was init but it must not');
     }
 
     /**
@@ -139,11 +137,11 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
      */
     public function testPostRequest(): void
     {
-        $Mock = $this->getServiceClientMock('test-post-request');
+        $mock = $this->getServiceClientMock('test-post-request');
 
-        $Result = $Mock->postRequest('http://ya.ru', []);
+        $result = $mock->postRequest('http://ya.ru', []);
 
-        $this->assertEquals(1, $Result->result, 'Invalid result was returned');
+        $this->assertEquals(1, $result->result, 'Invalid result was returned');
     }
 
     /**
@@ -151,11 +149,11 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
      */
     public function testGetRequest(): void
     {
-        $Mock = $this->getServiceClientMock('test-get-request');
+        $mock = $this->getServiceClientMock('test-get-request');
 
-        $Result = $Mock->getRequest('http://ya.ru');
+        $result = $mock->getRequest('http://ya.ru');
 
-        $this->assertEquals(1, $Result->result, 'Invalid result was returned');
+        $this->assertEquals(1, $result->result, 'Invalid result was returned');
     }
 
     /**
@@ -164,14 +162,14 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testSetToken(): void
     {
         // setup
-        $Mock = $this->getServiceClientRawMock(); // we need this function, as we need mock without any extra setup
+        $mock = $this->getServiceClientRawMock(); // we need this function, as we need mock without any extra setup
 
         // test body
-        $Mock->setToken('token', 'login');
+        $mock->setToken('token', 'login');
 
         // assertions
-        $this->assertEquals('token', $Mock->getToken(), 'SessionId was not set');
-        $this->assertEquals('login', $Mock->getStoredLogin(), 'Login was not set');
+        $this->assertEquals('token', $mock->getToken(), 'SessionId was not set');
+        $this->assertEquals('login', $mock->getStoredLogin(), 'Login was not set');
     }
 
     /**
@@ -180,13 +178,13 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testGetToken(): void
     {
         // setup
-        $Mock = $this->getServiceClientRawMock(); // we need this function, as we need mock without any extra setup
+        $mock = $this->getServiceClientRawMock(); // we need this function, as we need mock without any extra setup
 
         // test body
-        $SessionId = $Mock->getToken();
+        $sessionId = $mock->getToken();
 
         // assertions
-        $this->assertEquals('', $SessionId, 'Invalid session id');
+        $this->assertEquals('', $sessionId, 'Invalid session id');
     }
 
     /**
@@ -195,11 +193,11 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testSetTokenException(): void
     {
         // setup
-        $Mock = $this->getServiceClientRawMock(); // we need this function, as we need mock without any extra setup
+        $mock = $this->getServiceClientRawMock(); // we need this function, as we need mock without any extra setup
 
         // test body and assertions
         $this->expectException(\Exception::class);
-        $Mock->setToken('');
+        $mock->setToken('');
     }
 
     /**
@@ -208,13 +206,13 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testGetSelfId(): void
     {
         // setup
-        $Mock = $this->getServiceClientMock('self-id');
+        $mock = $this->getServiceClientMock('self-id');
 
         // test body
-        $SelfId = $Mock->getSelfId();
+        $selfId = $mock->getSelfId();
 
         // assertions
-        $this->assertEquals('123', $SelfId, 'Invalid self id');
+        $this->assertEquals('123', $selfId, 'Invalid self id');
     }
 
     /**
@@ -223,13 +221,13 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testGetSelfLogin(): void
     {
         // setup
-        $Mock = $this->getServiceClientMock('self-login');
+        $mock = $this->getServiceClientMock('self-login');
 
         // test body
-        $SelfLogin = $Mock->getSelfLogin();
+        $selfLogin = $mock->getSelfLogin();
 
         // assertions
-        $this->assertEquals('admin', $SelfLogin, 'Invalid self login');
+        $this->assertEquals('admin', $selfLogin, 'Invalid self login');
     }
 
     /**
@@ -238,12 +236,12 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testLoginAsWithInvalidSessionId(): void
     {
         // setup
-        $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
+        $mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
         // test body and assertions
         $this->expectException(\Exception::class);
 
-        $Mock->loginAs('registered', 'login');
+        $mock->loginAs('registered', 'login');
     }
 
     /**
@@ -252,13 +250,13 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testLoginAsWithInvalidSessionId2(): void
     {
         // setup
-        $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
+        $mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
         // test body
-        $Mock->loginAs('registered', 'id');
+        $mock->loginAs('registered', 'id');
 
         // assertions
-        $this->assertFalse($Mock->getStoredLogin());
+        $this->assertFalse($mock->getStoredLogin());
     }
 
     /**
@@ -267,13 +265,13 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testLoginAs(): void
     {
         // setup
-        $Mock = $this->getServiceClientMock('login-as');
+        $mock = $this->getServiceClientMock('login-as');
 
         // test body
-        $Mock->loginAs('registered', 'login');
+        $mock->loginAs('registered', 'login');
 
         // assertions
-        $this->assertEquals('session-id', $Mock->getToken(), 'Invalid self login');
+        $this->assertEquals('session-id', $mock->getToken(), 'Invalid self login');
     }
 
     /**
@@ -282,10 +280,10 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     public function testConstructWithLoginAndInvalidSessionId(): void
     {
         // setup
-        $Mock = $this->getServiceClientMock('login-with-invalid-session-id');
+        $mock = $this->getServiceClientMock('login-with-invalid-session-id');
 
         // test body and assertions
         $this->expectException(\Exception::class);
-        $Mock->__construct('http://example.com/', 'login', 'password');
+        $mock->__construct('http://example.com/', 'login', 'password');
     }
 }

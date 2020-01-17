@@ -22,79 +22,79 @@ class CustomClient
      *
      * @var string
      */
-    protected $URL = false;
+    protected $url = false;
 
     /**
      * Headers
      *
      * @var array
      */
-    protected $Headers = false;
+    protected $headers = false;
 
     /**
      * Idempotence key
      *
      * @var string
      */
-    protected $IdempotencyKey = '';
+    protected $idempotencyKey = '';
 
     /**
      * Constructor
      *
-     * @param string $URL
+     * @param string $uRL
      *            Service URL
-     * @param array $Headers
+     * @param array $headers
      *            HTTP headers
      */
-    public function __construct(string $URL, array $Headers = [])
+    public function __construct(string $uRL, array $headers = [])
     {
-        if ($URL === false || $URL === '') {
+        if ($uRL === false || $uRL === '') {
             throw (new \Exception(
                 'Service URL must be set in class ' . __CLASS__ . ' extended in ' . get_called_class() .
                 ' and called from ' . ($_SERVER['SERVER_NAME'] ?? 'console') . ($_SERVER['REQUEST_URI'] ?? ''),
                 - 23));
         }
 
-        $this->URL = rtrim($URL, '/');
+        $this->url = rtrim($uRL, '/');
 
-        $this->Headers = $Headers;
+        $this->headers = $headers;
     }
 
     /**
      * Method send request to the URL
      *
-     * @param string $URL
+     * @param string $uRL
      *            URL
-     * @param array $Headers
+     * @param array $headers
      *            Headers
-     * @param string $Method
+     * @param string $method
      *            Request HTTP Method
-     * @param array $Data
+     * @param array $data
      *            Request data
      * @return array Response body and HTTP code
      * @codeCoverageIgnore
      */
-    protected function sendRequest(string $URL, array $Headers, string $Method, array $Data = []): array
+    protected function sendRequest(string $uRL, array $headers, string $method, array $data = []): array
     {
-        return \Mezon\CustomClient\CurlWrapper::sendRequest($URL, $Headers, $Method, $Data);
+        return \Mezon\CustomClient\CurlWrapper::sendRequest($uRL, $headers, $method, $data);
     }
 
     /**
      * Method gets result and validates it.
      *
-     * @param string $URL
+     * @param string $uRL
      *            Request URL
-     * @param int $Code
+     * @param int $code
      *            Response HTTP code
      * @return mixed Request result
      */
-    protected function dispatchResult(string $URL, int $Code)
+    protected function dispatchResult(string $uRL, int $code)
     {
-        if ($Code == 404) {
-            throw (new \Exception("URL: $URL not found"));
-        } elseif ($Code == 400) {
-            throw (new \Exception("Bad request on URL $URL"));
-        } elseif ($Code == 403) {
+        if ($code == 404) {
+            throw (new \Exception("URL: $uRL not found"));
+        } elseif ($code == 400) {
+            throw (new \Exception("Bad request on URL $uRL"));
+        } elseif ($code == 403) {
             throw (new \Exception("Auth error"));
         }
     }
@@ -106,19 +106,19 @@ class CustomClient
      */
     protected function getCommonHeaders(): array
     {
-        $Result = [];
+        $result = [];
 
-        if ($this->Headers !== false) {
-            $Result = $this->Headers;
+        if ($this->headers !== false) {
+            $result = $this->headers;
         }
 
-        if ($this->IdempotencyKey !== '') {
-            $Result[] = 'Idempotency-Key: ' . $this->IdempotencyKey;
+        if ($this->idempotencyKey !== '') {
+            $result[] = 'Idempotency-Key: ' . $this->idempotencyKey;
         }
 
-        $Result[] = 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0';
+        $result[] = 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0';
 
-        return $Result;
+        return $result;
     }
 
     /**
@@ -128,63 +128,63 @@ class CustomClient
      */
     protected function getPostHeaders(): array
     {
-        $FullHeaders = $this->getCommonHeaders();
+        $fullHeaders = $this->getCommonHeaders();
 
-        $FullHeaders[] = 'Content-type: application/x-www-form-urlencoded';
+        $fullHeaders[] = 'Content-type: application/x-www-form-urlencoded';
 
-        return $FullHeaders;
+        return $fullHeaders;
     }
 
     /**
      * Method sends POST request to REST server
      *
-     * @param string $Endpoint
+     * @param string $endpoint
      *            Calling endpoint
-     * @param array $Data
+     * @param array $data
      *            Request data
      * @return mixed Result of the request
      */
-    public function postRequest(string $Endpoint, array $Data = [])
+    public function postRequest(string $endpoint, array $data = [])
     {
-        $FullURL = $this->URL . '/' . ltrim($Endpoint, '/');
+        $fullURL = $this->url . '/' . ltrim($endpoint, '/');
 
-        list ($Body, $Code) = $this->sendRequest($FullURL, $this->getPostHeaders(), 'POST', $Data);
+        list ($body, $code) = $this->sendRequest($fullURL, $this->getPostHeaders(), 'POST', $data);
 
-        $this->dispatchResult($FullURL, $Code);
+        $this->dispatchResult($fullURL, $code);
 
-        return $Body;
+        return $body;
     }
 
     /**
      * Method sends GET request to REST server.
      *
-     * @param string $Endpoint
+     * @param string $endpoint
      *            Calling endpoint.
      * @return mixed Result of the remote call.
      */
-    public function getRequest(string $Endpoint)
+    public function getRequest(string $endpoint)
     {
-        $FullURL = $this->URL . '/' . ltrim($Endpoint, '/');
+        $fullURL = $this->url . '/' . ltrim($endpoint, '/');
 
-        $FullURL = str_replace(' ', '%20', $FullURL);
+        $fullURL = str_replace(' ', '%20', $fullURL);
 
-        list ($Body, $Code) = $this->sendRequest($FullURL, $this->getCommonHeaders(), 'GET');
+        list ($body, $code) = $this->sendRequest($fullURL, $this->getCommonHeaders(), 'GET');
 
-        $this->dispatchResult($FullURL, $Code);
+        $this->dispatchResult($fullURL, $code);
 
-        return $Body;
+        return $body;
     }
 
     /**
      * Method sets idempotence key.
      * To remove the key just call this method the second time with the '' parameter
      *
-     * @param string $Key
+     * @param string $key
      *            Idempotence key
      */
-    public function setIdempotencyKey(string $Key)
+    public function setIdempotencyKey(string $key)
     {
-        $this->IdempotencyKey = $Key;
+        $this->idempotencyKey = $key;
     }
 
     /**
@@ -194,7 +194,7 @@ class CustomClient
      */
     public function getIdempotencyKey(): string
     {
-        return $this->IdempotencyKey;
+        return $this->idempotencyKey;
     }
 
     /**
@@ -204,7 +204,7 @@ class CustomClient
      */
     public function getUrl(): string
     {
-        return $this->URL;
+        return $this->url;
     }
 
     /**
@@ -214,6 +214,6 @@ class CustomClient
      */
     public function getHeaders(): array
     {
-        return $this->Headers;
+        return $this->headers;
     }
 }

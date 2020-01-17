@@ -22,72 +22,72 @@ class FieldsAlgorithms
      *
      * @var array
      */
-    protected $FieldObjects = [];
+    protected $fieldObjects = [];
 
     /**
      * Entity name
      *
      * @var string
      */
-    protected $EntityName = false;
+    protected $entityName = false;
 
     /**
      * Session Id
      *
      * @var string
      */
-    protected $SessionId = '';
+    protected $sessionId = '';
 
     /**
      * Constructor
      *
-     * @param array $Fields
+     * @param array $fields
      *            List of all fields
-     * @param string $EntityName
+     * @param string $entityName
      *            Entity name
      */
-    public function __construct(array $Fields = [], string $EntityName = '')
+    public function __construct(array $fields = [], string $entityName = '')
     {
-        $this->EntityName = $EntityName;
+        $this->entityName = $entityName;
 
-        foreach ($Fields as $Name => $Field) {
-            $Field['name'] = $Name;
-            $Field['name-prefix'] = $this->EntityName;
+        foreach ($fields as $name => $field) {
+            $field['name'] = $name;
+            $field['name-prefix'] = $this->entityName;
 
-            $this->FieldObjects[$Name] = $this->initObject($Field);
+            $this->fieldObjects[$name] = $this->initObject($field);
         }
     }
 
     /**
      * Returning date value
      *
-     * @param string $Value
+     * @param string $value
      *            Value to be made secure
      * @return string Secure value
      */
-    protected function getDateValue(string $Value): string
+    protected function getDateValue(string $value): string
     {
-        if ($Value == '""') {
+        if ($value == '""') {
             return '';
         } else {
-            return date('Y-m-d', strtotime($Value));
+            return date('Y-m-d', strtotime($value));
         }
     }
 
     /**
      * Returning date value
      *
-     * @param array $Value
+     * @param array $value
      *            Value to be made secure
      * @return array Secure value
      */
-    protected function getExternalValue(array $Value): array
+    protected function getExternalValue(array $value): array
     {
-        foreach ($Value as $i => $Item) {
-            $Value[$i] = intval($Item);
+        foreach ($value as $i => $item) {
+            $value[$i] = intval($item);
         }
 
-        return $Value;
+        return $value;
     }
 
     /**
@@ -98,8 +98,8 @@ class FieldsAlgorithms
      */
     public function hasCustomFields(): bool
     {
-        foreach ($this->FieldObjects as $Field) {
-            if ($Field->getType() == 'custom') {
+        foreach ($this->fieldObjects as $field) {
+            if ($field->getType() == 'custom') {
                 return true;
             }
         }
@@ -110,191 +110,191 @@ class FieldsAlgorithms
     /**
      * Method returns typed value
      *
-     * @param string $Type
+     * @param string $type
      *            of the field
-     * @param string|array $Value
+     * @param string|array $value
      *            of the field
-     * @param bool $StoreFiles
+     * @param bool $storeFiles
      *            Need the uploaded file to be stored
      * @return mixed Secured value
      */
-    public function getTypedValue(string $Type, $Value, bool $StoreFiles = true)
+    public function getTypedValue(string $type, $value, bool $storeFiles = true)
     {
-        $Result = '';
+        $result = '';
 
-        switch ($Type) {
+        switch ($type) {
             case ('integer'):
-                $Result = intval($Value);
+                $result = intval($value);
                 break;
 
             case ('string'):
-                $Result = \Mezon\Security\Security::getStringValue($Value);
+                $result = \Mezon\Security\Security::getStringValue($value);
                 break;
 
             case ('file'):
-                $Result = \Mezon\Security\Security::getFileValue($Value, $StoreFiles);
+                $result = \Mezon\Security\Security::getFileValue($value, $storeFiles);
                 break;
 
             case ('date'):
-                $Result = $this->getDateValue($Value);
+                $result = $this->getDateValue($value);
                 break;
 
             case ('external'):
-                $Result = $this->getExternalValue($Value);
+                $result = $this->getExternalValue($value);
                 break;
 
             default:
-                throw (new \Exception('Undefined type "' . $Type . '"'));
+                throw (new \Exception('Undefined type "' . $type . '"'));
         }
 
-        return $Result;
+        return $result;
     }
 
     /**
-     * Method validates if the field $Field exists
+     * Method validates if the field $field exists
      *
-     * @param string $Field
+     * @param string $field
      *            Field name
      */
-    public function validateFieldExistance(string $Field)
+    public function validateFieldExistance(string $field)
     {
-        if (! isset($this->FieldObjects[$Field])) {
-            throw (new \Exception('Field "' . $Field . '" was not found'));
+        if (! isset($this->fieldObjects[$field])) {
+            throw (new \Exception('Field "' . $field . '" was not found'));
         }
     }
 
     /**
      * Getting secure value
      *
-     * @param string $Field
+     * @param string $field
      *            Field name
-     * @param mixed $Value
+     * @param mixed $value
      *            Field value
-     * @param bool $StoreFiles
+     * @param bool $storeFiles
      *            Should we store files
      * @return mixed Secure value of the field
      */
-    public function getSecureValue(string $Field, $Value, bool $StoreFiles = true)
+    public function getSecureValue(string $field, $value, bool $storeFiles = true)
     {
-        $this->validateFieldExistance($Field);
+        $this->validateFieldExistance($field);
 
-        return $this->getTypedValue($this->FieldObjects[$Field]->getType(), $Value, $StoreFiles);
+        return $this->getTypedValue($this->fieldObjects[$field]->getType(), $value, $storeFiles);
     }
 
     /**
      * Getting secure values
      *
-     * @param string $Field
+     * @param string $field
      *            Field name
-     * @param mixed $Values
+     * @param mixed $values
      *            Field values
-     * @param bool $StoreFiles
+     * @param bool $storeFiles
      *            Should we store files
      * @return mixed Secure values of the field or one value
      */
-    public function getSecureValues(string $Field, $Values, bool $StoreFiles = true)
+    public function getSecureValues(string $field, $values, bool $storeFiles = true)
     {
-        $Return = [];
+        $return = [];
 
-        if (is_array($Values)) {
-            foreach ($Values as $i => $Value) {
-                $Return[$i] = $this->getSecureValue($Field, $Value, $StoreFiles);
+        if (is_array($values)) {
+            foreach ($values as $i => $value) {
+                $return[$i] = $this->getSecureValue($field, $value, $storeFiles);
             }
         } else {
-            $Return = $this->getSecureValue($Field, $Values, $StoreFiles);
+            $return = $this->getSecureValue($field, $values, $storeFiles);
         }
 
-        return $Return;
+        return $return;
     }
 
     /**
-     * Method returns field wich names are started from $Prefix
+     * Method returns field wich names are started from $prefix
      *
-     * @param string $Prefix
+     * @param string $prefix
      *            of the fieldsto be fetched
-     * @param bool $StoreFiles
+     * @param bool $storeFiles
      *            Should we store files
      * @return array Fetched fields
      */
-    public function getValuesForPrefix(string $Prefix, bool $StoreFiles = true): array
+    public function getValuesForPrefix(string $prefix, bool $storeFiles = true): array
     {
-        $Records = [];
+        $records = [];
 
-        foreach (array_keys($this->FieldObjects) as $Name) {
-            if (isset($_POST[$Prefix . $Name])) {
-                $Records[$Name] = $this->getSecureValues($Name, $_POST[$Prefix . $Name], $StoreFiles);
+        foreach (array_keys($this->fieldObjects) as $name) {
+            if (isset($_POST[$prefix . $name])) {
+                $records[$name] = $this->getSecureValues($name, $_POST[$prefix . $name], $storeFiles);
             }
         }
 
-        return $Records;
+        return $records;
     }
 
     /**
      * Method removes field
      *
-     * @param string $Name
+     * @param string $name
      *            Field name
      */
-    public function removeField($Name)
+    public function removeField($name)
     {
-        unset($this->FieldObjects[$Name]);
+        unset($this->fieldObjects[$name]);
     }
 
     /**
      * Method fetches returns custom fields for saving
      *
-     * @param array $Record
+     * @param array $record
      *            Record to be extended
-     * @param string $Name
+     * @param string $name
      *            Name od the field
      * @return array Extended record
      */
-    public function fetchCustomField(array &$Record, string $Name): array
+    public function fetchCustomField(array &$record, string $name): array
     {
-        if (! isset($this->FieldObjects[$Name])) {
-            return $Record;
+        if (! isset($this->fieldObjects[$name])) {
+            return $record;
         }
 
-        $NestedFields = $this->FieldObjects[$Name]->getFields();
+        $nestedFields = $this->fieldObjects[$name]->getFields();
 
-        foreach ($NestedFields as $Name => $Field) {
-            if (isset($_POST[$this->EntityName . '-' . $Name])) {
-                $Record[$Name] = $this->getTypedValue($Field['type'], $_POST[$this->EntityName . '-' . $Name], true);
+        foreach ($nestedFields as $name => $field) {
+            if (isset($_POST[$this->entityName . '-' . $name])) {
+                $record[$name] = $this->getTypedValue($field['type'], $_POST[$this->entityName . '-' . $name], true);
             }
         }
 
-        return $Record;
+        return $record;
     }
 
     /**
      * Method fetches submitted field
      *
-     * @param array $Record
+     * @param array $record
      *            Record to be extended
-     * @param string $Name
+     * @param string $name
      *            Name od the field
      */
-    public function fetchField(array &$Record, string $Name)
+    public function fetchField(array &$record, string $name)
     {
-        if (isset($_POST[$this->EntityName . '-' . $Name])) {
-            $Record[$Name] = $this->getSecureValue($Name, $_POST[$this->EntityName . '-' . $Name]);
-        } elseif (isset($_FILES[$this->EntityName . '-' . $Name])) {
-            $Record[$Name] = $this->getSecureValue($Name, $_FILES[$this->EntityName . '-' . $Name]);
+        if (isset($_POST[$this->entityName . '-' . $name])) {
+            $record[$name] = $this->getSecureValue($name, $_POST[$this->entityName . '-' . $name]);
+        } elseif (isset($_FILES[$this->entityName . '-' . $name])) {
+            $record[$name] = $this->getSecureValue($name, $_FILES[$this->entityName . '-' . $name]);
         } elseif ($this->hasCustomFields()) {
-            $Record = $this->fetchCustomField($Record, $Name);
+            $record = $this->fetchCustomField($record, $name);
         }
     }
 
     /**
      * Factory method for creating controls
      *
-     * @param array $Field
+     * @param array $field
      *            field description
      * @return \Mezon\Gui\Field|\Mezon\Gui\Control constructed control
      */
-    protected function constructControl(array $Field)
+    protected function constructControl(array $field)
     {
-        $TypeMap = [
+        $typeMap = [
             'external' => \Mezon\Gui\Field\CheckboxesField::class,
             'records' => \Mezon\Gui\Field\RecordField::class,
             'file' => \Mezon\Gui\Field\InputFile::class,
@@ -304,17 +304,17 @@ class FieldsAlgorithms
             'label' => \Mezon\Gui\Field\LabelField::class
         ];
 
-        if (isset($Field['items'])) {
-            return new \Mezon\Gui\Field\Select($Field);
-        } elseif (isset($Field['type'])) {
-            if (in_array($Field['type'], array_keys($TypeMap))) {
-                $ClassName = $TypeMap[$Field['type']];
+        if (isset($field['items'])) {
+            return new \Mezon\Gui\Field\Select($field);
+        } elseif (isset($field['type'])) {
+            if (in_array($field['type'], array_keys($typeMap))) {
+                $className = $typeMap[$field['type']];
 
-                $Field['session-id'] = $this->SessionId;
+                $field['session-id'] = $this->sessionId;
 
-                return new $ClassName($Field);
+                return new $className($field);
             } else {
-                return new \Mezon\Gui\Field\InputText($Field);
+                return new \Mezon\Gui\Field\InputText($field);
             }
         }
     }
@@ -322,52 +322,52 @@ class FieldsAlgorithms
     /**
      * Method inits control
      *
-     * @param array $Field
+     * @param array $field
      *            Field
      * @return mixed Control
      */
-    protected function initObject(array $Field)
+    protected function initObject(array $field)
     {
-        if (isset($Field['control']) && $Field['control'] == 'textarea') {
-            $Control = new \Mezon\Gui\Field\Textarea($Field);
-        } elseif ($Field['type'] == 'rows') {
+        if (isset($field['control']) && $field['control'] == 'textarea') {
+            $control = new \Mezon\Gui\Field\Textarea($field);
+        } elseif ($field['type'] == 'rows') {
             // TODO move it to the constructor of \Mezon\Gui\FormBuilder\RowsField
-            $ControlHTML = '';
-            foreach ($Field['type']['rows'] as $RowFieldName) {
-                $Control = $this->getObject($RowFieldName);
-                $ControlHTML .= $Control->html();
+            $controlHTML = '';
+            foreach ($field['type']['rows'] as $rowFieldName) {
+                $control = $this->getObject($rowFieldName);
+                $controlHTML .= $control->html();
             }
-            $Control = new \Mezon\Gui\FormBuilder\RowsField($Field, $ControlHTML);
+            $control = new \Mezon\Gui\FormBuilder\RowsField($field, $controlHTML);
         } else {
-            $Control = $this->constructControl($Field);
+            $control = $this->constructControl($field);
         }
 
-        return $Control;
+        return $control;
     }
 
     /**
      * Method returns field object
      *
-     * @param string $Name
+     * @param string $name
      *            Field name
      * @return \Mezon\Gui\Field Field object
      */
-    public function getObject(string $Name): \Mezon\Gui\Field
+    public function getObject(string $name): \Mezon\Gui\Field
     {
-        return $this->FieldObjects[$Name];
+        return $this->fieldObjects[$name];
     }
 
     /**
      * Method compiles field DOM
      *
-     * @param string $Name
+     * @param string $name
      *            Field name
      */
-    public function getCompiledField(string $Name)
+    public function getCompiledField(string $name)
     {
-        $Control = $this->getObject($Name);
+        $control = $this->getObject($name);
 
-        return $Control->html();
+        return $control->html();
     }
 
     /**
@@ -377,20 +377,20 @@ class FieldsAlgorithms
      */
     public function getFieldsNames(): array
     {
-        return array_keys($this->FieldObjects);
+        return array_keys($this->fieldObjects);
     }
 
     /**
      * Method returns true if the field exists
      *
-     * @param string $FieldName
+     * @param string $fieldName
      *            Field name
      * @return bool
      */
-    public function hasField(string $FieldName): bool
+    public function hasField(string $fieldName): bool
     {
         // @codeCoverageIgnoreStart
-        return isset($this->FieldObjects[$FieldName]);
+        return isset($this->fieldObjects[$fieldName]);
         // @codeCoverageIgnoreEnd
     }
 
@@ -401,17 +401,17 @@ class FieldsAlgorithms
      */
     public function getEntityName(): string
     {
-        return $this->EntityName;
+        return $this->entityName;
     }
 
     /**
      * Method sets session id
      *
-     * @param string $SessionId
+     * @param string $sessionId
      *            new session id
      */
-    public function setSessionId(string $SessionId): void
+    public function setSessionId(string $sessionId): void
     {
-        $this->SessionId = $SessionId;
+        $this->sessionId = $sessionId;
     }
 }

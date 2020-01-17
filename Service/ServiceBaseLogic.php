@@ -24,58 +24,58 @@ class ServiceBaseLogic implements \Mezon\Service\ServiceBaseLogicInterface
      *
      * @var \Mezon\Service\ServiceSecurityProviderInterface
      */
-    protected $SecurityProvider = null;
+    protected $securityProvider = null;
 
     /**
      * Request params fetcher
      */
-    protected $ParamsFetcher = false;
+    protected $paramsFetcher = false;
 
     /**
      * Model
      *
      * @var \Mezon\Service\ServiceModel
      */
-    protected $Model = false;
+    protected $model = false;
 
     /**
      * Constructor
      *
-     * @param \Mezon\Service\ServiceRequestParamsInterface $ParamsFetcher
+     * @param \Mezon\Service\ServiceRequestParamsInterface $paramsFetcher
      *            Params fetcher
-     * @param object $SecurityProvider
+     * @param object $securityProvider
      *            Security provider
-     * @param mixed $Model
+     * @param mixed $model
      *            Service model
      */
     public function __construct(
-        \Mezon\Service\ServiceRequestParamsInterface $ParamsFetcher,
-        object $SecurityProvider,
-        $Model = null)
+        \Mezon\Service\ServiceRequestParamsInterface $paramsFetcher,
+        object $securityProvider,
+        $model = null)
     {
-        $this->ParamsFetcher = $ParamsFetcher;
+        $this->paramsFetcher = $paramsFetcher;
 
-        $this->SecurityProvider = $SecurityProvider;
+        $this->securityProvider = $securityProvider;
 
-        if (is_string($Model)) {
-            $this->Model = new $Model();
+        if (is_string($model)) {
+            $this->model = new $model();
         } else {
-            $this->Model = $Model;
+            $this->model = $model;
         }
     }
 
     /**
      * Method returns request parameter
      *
-     * @param string $Param
+     * @param string $param
      *            parameter name
-     * @param mixed $Default
+     * @param mixed $default
      *            default value
      * @return mixed Parameter value
      */
-    protected function getParam($Param, $Default = false)
+    protected function getParam($param, $default = false)
     {
-        return $this->ParamsFetcher->getParam($Param, $Default);
+        return $this->paramsFetcher->getParam($param, $default);
     }
 
     /**
@@ -85,7 +85,7 @@ class ServiceBaseLogic implements \Mezon\Service\ServiceBaseLogicInterface
      */
     public function getModel(): ?\Mezon\Service\ServiceModel
     {
-        return $this->Model;
+        return $this->model;
     }
 
     /**
@@ -95,7 +95,7 @@ class ServiceBaseLogic implements \Mezon\Service\ServiceBaseLogicInterface
      */
     public function getParamsFetcher(): \Mezon\Service\ServiceRequestParamsInterface
     {
-        return $this->ParamsFetcher;
+        return $this->paramsFetcher;
     }
 
     /**
@@ -105,6 +105,6 @@ class ServiceBaseLogic implements \Mezon\Service\ServiceBaseLogicInterface
      */
     public function getSecurityProvider(): \Mezon\Service\ServiceSecurityProviderInterface
     {
-        return $this->SecurityProvider;
+        return $this->securityProvider;
     }
 }

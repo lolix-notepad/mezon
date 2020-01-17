@@ -12,18 +12,18 @@ class ServiceUnitTest extends \Mezon\Service\Tests\ServiceUnitTests
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $Service = new TestService(
+        $service = new TestService(
             \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport::class,
             $this->getSecurityProvider(AS_STRING),
             TestLogic::class);
 
         // route from routes.php
         $_GET['r'] = 'test';
-        $Service->run();
+        $service->run();
 
         // route from routes.json
         $this->expectException(Exception::class);
         $_GET['r'] = 'test3';
-        $Service->run();
+        $service->run();
     }
 }

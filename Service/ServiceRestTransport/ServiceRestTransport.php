@@ -22,31 +22,31 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
     /**
      * Method runs logic functions.
      *
-     * @param \Mezon\Service\ServiceBaseLogicInterface $ServiceLogic
+     * @param \Mezon\Service\ServiceBaseLogicInterface $serviceLogic
      *            -
      *            object with all service logic.
-     * @param string $Method
+     * @param string $method
      *            -
      *            logic's method to be executed.
-     * @param array $Params
+     * @param array $params
      *            -
      *            logic's parameters.
      * @return mixed Result of the called method.
      */
     public function callLogic(
-        \Mezon\Service\ServiceBaseLogicInterface $ServiceLogic,
-        string $Method,
-        array $Params = [])
+        \Mezon\Service\ServiceBaseLogicInterface $serviceLogic,
+        string $method,
+        array $params = [])
     {
         $this->header('Content-type', 'application/json');
 
         try {
-            $Params['SessionId'] = $this->createSession();
+            $params['SessionId'] = $this->createSession();
 
             return call_user_func_array([
-                $ServiceLogic,
-                $Method
-            ], $Params);
+                $serviceLogic,
+                $method
+            ], $params);
         } catch (\Mezon\Service\ServiceRestTransport\RestException $e) {
             return $this->errorResponse($e);
         } catch (\Exception $e) {
@@ -57,26 +57,26 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
     /**
      * Method runs logic functions.
      *
-     * @param \Mezon\Service\ServiceBaseLogicInterface $ServiceLogic
+     * @param \Mezon\Service\ServiceBaseLogicInterface $serviceLogic
      *            -
      *            object with all service logic.
-     * @param string $Method
+     * @param string $method
      *            -
      *            logic's method to be executed.
-     * @param array $Params
+     * @param array $params
      *            -
      *            logic's parameters.
      * @return mixed Result of the called method.
      */
-    public function callPublicLogic(\Mezon\Service\ServiceBaseLogicInterface $ServiceLogic, string $Method, array $Params = [])
+    public function callPublicLogic(\Mezon\Service\ServiceBaseLogicInterface $serviceLogic, string $method, array $params = [])
     {
         $this->header('Content-type', 'application/json');
 
         try {
             return call_user_func_array([
-                $ServiceLogic,
-                $Method
-            ], $Params);
+                $serviceLogic,
+                $method
+            ], $params);
         } catch (\Mezon\Service\ServiceRestTransport\RestException $e) {
             return $this->errorResponse($e);
         } catch (\Exception $e) {
@@ -90,7 +90,7 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
     public function run(): void
     {
         // @codeCoverageIgnoreStart
-        print(json_encode($this->Router->callRoute($_GET['r'])));
+        print(json_encode($this->router->callRoute($_GET['r'])));
         // @codeCoverageIgnoreEnd
     }
 
@@ -103,7 +103,7 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
      */
     public function errorResponse($e): array
     {
-        $Return = [
+        $return = [
             'message' => $e->getMessage(),
             'code' => $e->getCode(),
             'service' => 'service',
@@ -112,11 +112,11 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
         ];
 
         if ($e instanceof \Mezon\Service\ServiceRestTransport\RestException) {
-            $Return['http_code'] = $e->getHttpCode();
-            $Return['http_body'] = $e->getHttpBody();
+            $return['http_code'] = $e->getHttpCode();
+            $return['httpBody'] = $e->getHttpBody();
         }
 
-        return $Return;
+        return $return;
     }
 
     /**

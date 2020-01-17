@@ -22,46 +22,46 @@ class CrudServiceClientAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdap
      *
      * @var \Mezon\CrudService\CrudServiceClient
      */
-    protected $CrudServiceClient = null;
+    protected $crudServiceClient = null;
 
     /**
      * Service name
      *
      * @var string
      */
-    protected $Service = '';
+    protected $service = '';
 
     /**
      * Login
      *
      * @var string
      */
-    protected $Login = '';
+    protected $login = '';
 
     /**
      * Password
      *
      * @var string
      */
-    protected $Password;
+    protected $password;
 
     /**
      * Constructor
      *
-     * @param string $Service
+     * @param string $service
      *            Service name
-     * @param string $Login
+     * @param string $login
      *            Login
-     * @param string $Password
+     * @param string $password
      *            Password
      */
-    public function __construct(string $Service = '', string $Login = '', string $Password = '')
+    public function __construct(string $service = '', string $login = '', string $password = '')
     {
-        $this->Service = $Service;
+        $this->service = $service;
 
-        $this->Login = $Login;
+        $this->login = $login;
 
-        $this->Password = $Password;
+        $this->password = $password;
     }
 
     /**
@@ -71,25 +71,25 @@ class CrudServiceClientAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdap
      */
     protected function getClient(): \Mezon\CrudService\CrudServiceClient
     {
-        if ($this->CrudServiceClient === null) {
-            $this->CrudServiceClient = new \Mezon\CrudService\CrudServiceClient(
-                $this->Service,
-                $this->Login,
-                $this->Password);
+        if ($this->crudServiceClient === null) {
+            $this->crudServiceClient = new \Mezon\CrudService\CrudServiceClient(
+                $this->service,
+                $this->login,
+                $this->password);
         }
 
-        return $this->CrudServiceClient;
+        return $this->crudServiceClient;
     }
 
     /**
      * Method sets service client
      *
-     * @param \Mezon\CrudService\CrudServiceClient $CrudServiceClient
+     * @param \Mezon\CrudService\CrudServiceClient $crudServiceClient
      *            Service client
      */
-    public function setClient(\Mezon\CrudService\CrudServiceClient $CrudServiceClient)
+    public function setClient(\Mezon\CrudService\CrudServiceClient $crudServiceClient)
     {
-        $this->CrudServiceClient = $CrudServiceClient;
+        $this->crudServiceClient = $crudServiceClient;
     }
 
     /**
@@ -105,29 +105,29 @@ class CrudServiceClientAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdap
     /**
      * Method returns a subset from vailable records
      *
-     * @param array $Order
+     * @param array $order
      *            order settings
-     * @param int $From
+     * @param int $from
      *            the beginning of the bunch
-     * @param int $Limit
+     * @param int $limit
      *            the size of the batch
      * @return array subset from vailable records
      */
-    public function getRecords(array $Order, int $From, int $Limit): array
+    public function getRecords(array $order, int $from, int $limit): array
     {
-        return $this->getClient()->getList($From, $Limit, 0, [], $Order);
+        return $this->getClient()->getList($from, $limit, 0, [], $order);
     }
 
     /**
      * Record preprocessor
      *
-     * @param array $Record
+     * @param array $record
      *            record to be preprocessed
      * @return array preprocessed record
      */
-    public function preprocessListItem(array $Record): array
+    public function preprocessListItem(array $record): array
     {
         // in this case all transformations are done on the service's side
-        return $Record;
+        return $record;
     }
 }

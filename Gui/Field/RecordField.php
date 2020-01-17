@@ -22,25 +22,25 @@ class RecordField extends \Mezon\Gui\Field\RemoteField
      *
      * @var string
      */
-    protected $BindField = '';
+    protected $bindField = '';
 
     /**
      * Layout
      *
      * @var array
      */
-    protected $Layout = [];
+    protected $layout = [];
 
     /**
      * Method fetches bind field property from the description
      *
-     * @param array $FieldDescription
+     * @param array $fieldDescription
      *            Field description
      */
-    protected function initBindField(array $FieldDescription)
+    protected function initBindField(array $fieldDescription)
     {
-        if (isset($FieldDescription['bind-field'])) {
-            $this->BindField = $FieldDescription['bind-field'];
+        if (isset($fieldDescription['bind-field'])) {
+            $this->bindField = $fieldDescription['bind-field'];
         } else {
             throw (new \Exception('Bind field is not defined', - 1));
         }
@@ -49,13 +49,13 @@ class RecordField extends \Mezon\Gui\Field\RemoteField
     /**
      * Method fetches layout from the description
      *
-     * @param array $FieldDescription
+     * @param array $fieldDescription
      *            Field description
      */
-    protected function initLayout(array $FieldDescription)
+    protected function initLayout(array $fieldDescription)
     {
-        if (isset($FieldDescription['layout'])) {
-            $this->Layout = $FieldDescription['layout'];
+        if (isset($fieldDescription['layout'])) {
+            $this->layout = $fieldDescription['layout'];
         } else {
             throw (new \Exception('Layout is not defined', - 1));
         }
@@ -64,18 +64,18 @@ class RecordField extends \Mezon\Gui\Field\RemoteField
     /**
      * Constructor
      *
-     * @param array $FieldDescription
+     * @param array $fieldDescription
      *            Field description
-     * @param string $Value
+     * @param string $value
      *            Field value
      */
-    public function __construct(array $FieldDescription, string $Value = '')
+    public function __construct(array $fieldDescription, string $value = '')
     {
-        parent::__construct($FieldDescription, $Value);
+        parent::__construct($fieldDescription, $value);
 
-        $this->initBindField($FieldDescription);
+        $this->initBindField($fieldDescription);
 
-        $this->initLayout($FieldDescription);
+        $this->initLayout($fieldDescription);
     }
 
     /**
@@ -98,18 +98,18 @@ class RecordField extends \Mezon\Gui\Field\RemoteField
     public function html(): string
     {
         // getting fields
-        $FormFields = new \Mezon\Gui\FieldsAlgorithms($this->getFields(), $this->NamePrefix);
-        $FormFields->removeField($this->BindField);
+        $formFields = new \Mezon\Gui\FieldsAlgorithms($this->getFields(), $this->namePrefix);
+        $formFields->removeField($this->bindField);
 
         // getting form
-        $FormBuilder = new \Mezon\Gui\FormBuilder(
-            $FormFields,
-            $this->SessionId,
-            $this->NamePrefix,
-            $this->Layout,
-            $this->Batch);
+        $formBuilder = new \Mezon\Gui\FormBuilder(
+            $formFields,
+            $this->sessionId,
+            $this->namePrefix,
+            $this->layout,
+            $this->batch);
 
         // getting HTML
-        return $FormBuilder->compileFormFields();
+        return $formBuilder->compileFormFields();
     }
 }

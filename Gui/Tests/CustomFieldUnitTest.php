@@ -10,7 +10,7 @@ class CustomFieldUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getFieldMock(): object
     {
-        $Mock = $this->getMockBuilder(\Mezon\Gui\Field\CustomField::class)
+        $mock = $this->getMockBuilder(\Mezon\Gui\Field\CustomField::class)
             ->setConstructorArgs(
             [
                 [
@@ -32,10 +32,10 @@ class CustomFieldUnitTest extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        $Mock->method('get_field_template')->willReturn(
+        $mock->method('get_field_template')->willReturn(
             'name:{name} required:{required} disabled:{disabled} custom:{custom} name-prefix:{name-prefix} batch:{batch} toggler:{toggler} toggler:{toggle-value}');
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -44,19 +44,19 @@ class CustomFieldUnitTest extends \PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = $this->getFieldMock();
+        $field = $this->getFieldMock();
 
         // test body
-        $Content = $Field->html();
+        $content = $field->html();
 
         // assertions
-        $this->assertStringContainsString('name:name', $Content, 'Name was not substitute');
-        $this->assertStringContainsString('required:1', $Content, 'Required was not substitute');
-        $this->assertStringContainsString('disabled:1', $Content, 'Disabled was not substitute');
-        $this->assertStringContainsString('custom:1', $Content, 'Custom was not substitute');
-        $this->assertStringContainsString('name-prefix:prefix', $Content, 'Name prefix was not substitute');
-        $this->assertStringContainsString('batch:1', $Content, 'Batch was not substitute');
-        $this->assertStringContainsString('toggler:toggler-name', $Content, 'Toggler name was not substitute');
-        $this->assertStringContainsString('toggler:3', $Content, 'Toggler value was not substitute');
+        $this->assertStringContainsString('name:name', $content, 'Name was not substitute');
+        $this->assertStringContainsString('required:1', $content, 'Required was not substitute');
+        $this->assertStringContainsString('disabled:1', $content, 'Disabled was not substitute');
+        $this->assertStringContainsString('custom:1', $content, 'Custom was not substitute');
+        $this->assertStringContainsString('name-prefix:prefix', $content, 'Name prefix was not substitute');
+        $this->assertStringContainsString('batch:1', $content, 'Batch was not substitute');
+        $this->assertStringContainsString('toggler:toggler-name', $content, 'toggler name was not substitute');
+        $this->assertStringContainsString('toggler:3', $content, 'toggler value was not substitute');
     }
 }

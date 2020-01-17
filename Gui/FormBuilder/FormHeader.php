@@ -24,11 +24,11 @@ class FormHeader extends \Mezon\Gui\Field\TextField
      */
     public function html(): string
     {
-        $Content = '<div class="form-group col-md-12">';
-        $Content .= strlen($this->Text) ? '<h3>' . $this->Text . '</h3>' : '';
-        $Content .= '</div>';
+        $content = '<div class="form-group col-md-12">';
+        $content .= strlen($this->text) ? '<h3>' . $this->text . '</h3>' : '';
+        $content .= '</div>';
 
-        return $Content;
+        return $content;
     }
 
     /**

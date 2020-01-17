@@ -20,23 +20,23 @@ class ServiceConsoleTransport extends \Mezon\Service\ServiceTransport
     /**
      * Execution result
      */
-    public $Result;
+    public $result;
 
     /**
      * Constructor
      *
-     * @param mixed $SecurityProvider
+     * @param mixed $securityProvider
      *            Security provider
      */
     public function __construct(
-        $SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class)
+        $securityProvider = \Mezon\Service\ServiceMockSecurityProvider::class)
     {
         parent::__construct();
 
-        if (is_string($SecurityProvider)) {
-            $this->SecurityProvider = new $SecurityProvider($this->getParamsFetcher());
+        if (is_string($securityProvider)) {
+            $this->securityProvider = new $securityProvider($this->getParamsFetcher());
         } else {
-            $this->SecurityProvider = $SecurityProvider;
+            $this->securityProvider = $securityProvider;
         }
     }
 
@@ -47,7 +47,7 @@ class ServiceConsoleTransport extends \Mezon\Service\ServiceTransport
      */
     public function createFetcher(): \Mezon\Service\ServiceRequestParamsInterface
     {
-        return new \Mezon\Service\ServiceConsoleTransport\ConsoleRequestParams($this->Router);
+        return new \Mezon\Service\ServiceConsoleTransport\ConsoleRequestParams($this->router);
     }
 
     /**
@@ -55,6 +55,6 @@ class ServiceConsoleTransport extends \Mezon\Service\ServiceTransport
      */
     public function run(): void
     {
-        $this->Result = $this->Router->callRoute($_GET['r']);
+        $this->result = $this->router->callRoute($_GET['r']);
     }
 }

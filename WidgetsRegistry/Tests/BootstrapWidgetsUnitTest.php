@@ -9,12 +9,12 @@ class BootstrapWidgetsUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetTemplate()
     {
         // setup
-        $BootstrapWidgets = new \Mezon\WidgetsRegistry\BootstrapWidgets();
+        $bootstrapWidgets = new \Mezon\WidgetsRegistry\BootstrapWidgets();
 
         // test body
-        $Widget = $BootstrapWidgets->getWidget('table-cell-start');
+        $widget = $bootstrapWidgets->getWidget('table-cell-start');
 
         // assertions
-        $this->assertStringContainsString('<td', $Widget, 'Content of the widget "table-cell-start" was not loaded');
+        $this->assertStringContainsString('<td', $widget, 'Content of the widget "table-cell-start" was not loaded');
     }
 }

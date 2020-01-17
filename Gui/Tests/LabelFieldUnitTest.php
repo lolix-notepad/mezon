@@ -9,15 +9,15 @@ class LabelFieldUnitTest extends \PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\Gui\Field\LabelField([
+        $field = new \Mezon\Gui\Field\LabelField([
             'text' => 'name'
         ]);
 
         // test body
-        $Content = $Field->html();
+        $content = $field->html();
 
         // assertions
-        $this->assertStringContainsString('<label class="control-label">name</label>', $Content, 'Label was not generated');
+        $this->assertStringContainsString('<label class="control-label">name</label>', $content, 'Label was not generated');
     }
 
     /**
@@ -26,12 +26,12 @@ class LabelFieldUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetType(): void
     {
         // setup
-        $Field = new \Mezon\Gui\Field\LabelField([
+        $field = new \Mezon\Gui\Field\LabelField([
             'text' => 'name'
         ]);
 
         // test body and assertions
-        $this->assertStringContainsString('label', $Field->getType());
+        $this->assertStringContainsString('label', $field->getType());
     }
 
     /**
@@ -40,11 +40,11 @@ class LabelFieldUnitTest extends \PHPUnit\Framework\TestCase
     public function testFillAllRow(): void
     {
         // setup
-        $Field = new \Mezon\Gui\Field\LabelField([
+        $field = new \Mezon\Gui\Field\LabelField([
             'text' => 'name'
         ]);
 
         // test body and assertions
-        $this->assertTrue($Field->fillAllRow());
+        $this->assertTrue($field->fillAllRow());
     }
 }

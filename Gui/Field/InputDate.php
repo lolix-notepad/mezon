@@ -24,15 +24,10 @@ class InputDate extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        $Content = '<input class="form-control date-input""';
-        $Content .= $this->Required ? ' required="required"' : '';
-        $Content .= ' type="text" name="' . $this->NamePrefix . '-' . $this->Name .
-            ($this->Batch ? '[{_creation_form_items_counter}]' : '') . '"';
-        $Content .= $this->Disabled ? ' disabled ' : '';
-        $Content .= $this->Toggler === '' ? '' : 'toggler="' . $this->Toggler . '" ';
-        $Content .= $this->Toggler === '' ? '' : 'toggle-value="' . $this->ToggleValue . '"';
-        $Content .= '>';
-
-        return $Content;
+        return '<input class="form-control date-input""' . ($this->required ? ' required="required"' : '') .
+            ' type="text" name="' . $this->namePrefix . '-' . $this->name .
+            ($this->batch ? '[{_creation_form_items_counter}]' : '') . '"' . ($this->disabled ? ' disabled ' : '') .
+            ($this->toggler === '' ? '' : 'toggler="' . $this->toggler . '" ') .
+            ($this->toggler === '' ? '' : 'toggle-value="') . $this->toggleValue . '"' . '>';
     }
 }

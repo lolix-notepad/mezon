@@ -22,47 +22,47 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     /**
      * Table name
      */
-    protected $TableName = '';
+    protected $tableName = '';
 
     /**
      * Fields algorithms
      */
-    protected $FieldsAlgorithms = false;
+    protected $fieldsAlgorithms = false;
 
     /**
      * Entity name
      */
-    protected $EntityName = false;
+    protected $entityName = false;
 
     /**
      * Constructor
      *
-     * @param string|array $Fields
+     * @param string|array $fields
      *            fields of the model
-     * @param string $TableName
+     * @param string $tableName
      *            name of the table
-     * @param string $EntityName
+     * @param string $entityName
      *            name of the entity
      */
-    public function __construct($Fields = '*', string $TableName = '', string $EntityName = '')
+    public function __construct($fields = '*', string $tableName = '', string $entityName = '')
     {
-        $this->setTableName($TableName);
+        $this->setTableName($tableName);
 
-        $this->EntityName = $EntityName;
+        $this->entityName = $entityName;
 
-        if (is_string($Fields)) {
-            $this->FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms(
+        if (is_string($fields)) {
+            $this->fieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms(
                 [
                     '*' => [
                         'type' => 'string',
                         'title' => 'All fields'
                     ]
                 ],
-                $TableName);
-        } elseif (is_array($Fields)) {
-            $this->FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms($Fields, $TableName);
-        } elseif ($Fields instanceof \Mezon\Gui\FieldsAlgorithms) {
-            $this->FieldsAlgorithms = $Fields;
+                $tableName);
+        } elseif (is_array($fields)) {
+            $this->fieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms($fields, $tableName);
+        } elseif ($fields instanceof \Mezon\Gui\FieldsAlgorithms) {
+            $this->fieldsAlgorithms = $fields;
         } else {
             throw (new \Exception('Invalid fields description', - 1));
         }
@@ -71,15 +71,15 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     /**
      * Method sets table name
      *
-     * @param string $TableName
+     * @param string $tableName
      *            Table name
      */
-    protected function setTableName(string $TableName = '')
+    protected function setTableName(string $tableName = '')
     {
-        if (strpos($TableName, '-') !== false && strpos($TableName, '`') === false) {
-            $TableName = "`$TableName`";
+        if (strpos($tableName, '-') !== false && strpos($tableName, '`') === false) {
+            $tableName = "`$tableName`";
         }
-        $this->TableName = $TableName;
+        $this->tableName = $tableName;
     }
 
     /**
@@ -101,20 +101,20 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
      */
     public function getFieldsNames(): string
     {
-        return implode(', ', $this->FieldsAlgorithms->getFieldsNames());
+        return implode(', ', $this->fieldsAlgorithms->getFieldsNames());
     }
 
     /**
      * Method returns true if the field exists
      *
-     * @param string $FieldName
+     * @param string $fieldName
      *            Field name
      * @return bool
      */
-    public function hasField(string $FieldName): bool
+    public function hasField(string $fieldName): bool
     {
         // @codeCoverageIgnoreStart
-        return $this->FieldsAlgorithms->hasField($FieldName);
+        return $this->fieldsAlgorithms->hasField($fieldName);
         // @codeCoverageIgnoreEnd
     }
 
@@ -126,20 +126,20 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     public function hasCustomFields(): bool
     {
         // @codeCoverageIgnoreStart
-        return $this->FieldsAlgorithms->hasCustomFields();
+        return $this->fieldsAlgorithms->hasCustomFields();
         // @codeCoverageIgnoreEnd
     }
 
     /**
-     * Method validates if the field $Field exists
+     * Method validates if the field $field exists
      *
-     * @param string $Field
+     * @param string $field
      *            Field name
      */
-    public function validateFieldExistance(string $Field)
+    public function validateFieldExistance(string $field)
     {
         // @codeCoverageIgnoreStart
-        return $this->FieldsAlgorithms->validateFieldExistance($Field);
+        return $this->fieldsAlgorithms->validateFieldExistance($field);
         // @codeCoverageIgnoreEnd
     }
 
@@ -151,7 +151,7 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     public function getFields(): array
     {
         // @codeCoverageIgnoreStart
-        return $this->FieldsAlgorithms->get();
+        return $this->fieldsAlgorithms->get();
         // @codeCoverageIgnoreEnd
     }
 
@@ -163,7 +163,7 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
     public function getEntityName(): string
     {
         // @codeCoverageIgnoreStart
-        return $this->EntityName;
+        return $this->entityName;
         // @codeCoverageIgnoreEnd
     }
 }

@@ -8,15 +8,15 @@ class TemplateEngineUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testSimpleSubstitutionsArray()
     {
-        $Data = [
+        $data = [
             'var1' => 'v1',
             'var2' => 'v2',
         ];
-        $String = '{var1} {var2}';
+        $string = '{var1} {var2}';
 
-        $String = \Mezon\TemplateEngine\TemplateEngine::printRecord($String, $Data);
+        $string = \Mezon\TemplateEngine\TemplateEngine::printRecord($string, $data);
 
-        $this->assertEquals($String, 'v1 v2', 'Invalid string processing');
+        $this->assertEquals($string, 'v1 v2', 'Invalid string processing');
     }
 
     /**
@@ -24,14 +24,14 @@ class TemplateEngineUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testSimpleSubstitutionsObject()
     {
-        $Data = new stdClass();
-        $Data->var1 = 'v1';
-        $Data->var2 = 'v2';
-        $String = '{var1} {var2}';
+        $data = new stdClass();
+        $data->var1 = 'v1';
+        $data->var2 = 'v2';
+        $string = '{var1} {var2}';
 
-        $String = \Mezon\TemplateEngine\TemplateEngine::printRecord($String, $Data);
+        $string = \Mezon\TemplateEngine\TemplateEngine::printRecord($string, $data);
 
-        $this->assertEquals($String, 'v1 v2', 'Invalid string processing');
+        $this->assertEquals($string, 'v1 v2', 'Invalid string processing');
     }
 
     /**
@@ -39,43 +39,43 @@ class TemplateEngineUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testSimpleSubstitutionsInvalidObjects()
     {
-        $Msg = '';
+        $msg = '';
 
         try {
-            $String = '';
-            $String = \Mezon\TemplateEngine\TemplateEngine::printRecord($String, false);
+            $string = '';
+            $string = \Mezon\TemplateEngine\TemplateEngine::printRecord($string, false);
         } catch (Exception $e) {
-            $Msg = $e->getMessage();
+            $msg = $e->getMessage();
         }
 
-        $this->assertEquals('Invalid record was passed', $Msg, 'Invalid behavior');
+        $this->assertEquals('Invalid record was passed', $msg, 'Invalid behavior');
 
         try {
-            $String = '';
-            $String = \Mezon\TemplateEngine\TemplateEngine::printRecord($String, null);
+            $string = '';
+            $string = \Mezon\TemplateEngine\TemplateEngine::printRecord($string, null);
         } catch (Exception $e) {
-            $Msg = $e->getMessage();
+            $msg = $e->getMessage();
         }
 
-        $this->assertEquals('Invalid record was passed', $Msg, 'Invalid behavior');
+        $this->assertEquals('Invalid record was passed', $msg, 'Invalid behavior');
 
         try {
-            $String = '';
-            $String = \Mezon\TemplateEngine\TemplateEngine::printRecord($String, 1234);
+            $string = '';
+            $string = \Mezon\TemplateEngine\TemplateEngine::printRecord($string, 1234);
         } catch (Exception $e) {
-            $Msg = $e->getMessage();
+            $msg = $e->getMessage();
         }
 
-        $this->assertEquals('Invalid record was passed', $Msg, 'Invalid behavior');
+        $this->assertEquals('Invalid record was passed', $msg, 'Invalid behavior');
 
         try {
-            $String = '';
-            $String = \Mezon\TemplateEngine\TemplateEngine::printRecord($String, 'string');
+            $string = '';
+            $string = \Mezon\TemplateEngine\TemplateEngine::printRecord($string, 'string');
         } catch (Exception $e) {
-            $Msg = $e->getMessage();
+            $msg = $e->getMessage();
         }
 
-        $this->assertEquals('Invalid record was passed', $Msg, 'Invalid behavior');
+        $this->assertEquals('Invalid record was passed', $msg, 'Invalid behavior');
     }
 
     /**
@@ -95,12 +95,12 @@ class TemplateEngineUnitTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider switchTestsData
      */
-    public function testSwitchMacro(string $Str, array $Data, string $Result)
+    public function testSwitchMacro(string $str, array $data, string $result)
     {
         // test body
-        $Data = \Mezon\TemplateEngine\TemplateEngine::printRecord($Str, $Data);
+        $data = \Mezon\TemplateEngine\TemplateEngine::printRecord($str, $data);
 
         // assertions
-        $this->assertEquals($Result, $Data, 'Invalid blocks parsing');
+        $this->assertEquals($result, $data, 'Invalid blocks parsing');
     }
 }

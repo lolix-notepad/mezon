@@ -17,9 +17,9 @@ class SingletonParams extends \Mezon\Singleton\Singleton
 
     public $tmp = 0;
 
-    public function __construct($Param)
+    public function __construct($param)
     {
-        $this->tmp = $Param;
+        $this->tmp = $param;
     }
 }
 
@@ -36,11 +36,11 @@ class SingletonUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testCommonWork()
     {
-        $Object = new SingletonFoo();
+        $object = new SingletonFoo();
 
-        $this->assertEquals('Default foo value', $Object->tmp, 'Invalid object returned');
+        $this->assertEquals('Default foo value', $object->tmp, 'Invalid object returned');
 
-        $Object->destroy();
+        $object->destroy();
     }
 
     /**
@@ -48,12 +48,12 @@ class SingletonUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testDirectCreationTest()
     {
-        $Object = new SingletonBar();
+        $object = new SingletonBar();
 
         try {
-            $Object = new SingletonBar();
+            $object = new SingletonBar();
         } catch (Exception $e) {
-            $Object->destroy();
+            $object->destroy();
             $this->assertEquals(true, true, 'Invalid object creation');
             return;
         }
@@ -66,14 +66,14 @@ class SingletonUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testTwoObjects()
     {
-        $Object1 = new SingletonFoo();
-        $Object2 = new SingletonBar();
+        $object1 = new SingletonFoo();
+        $object2 = new SingletonBar();
 
-        $this->assertEquals('Default foo value', $Object1->tmp, 'Invalid object returned');
-        $this->assertEquals('Default bar value', $Object2->tmp, 'Invalid object returned');
+        $this->assertEquals('Default foo value', $object1->tmp, 'Invalid object returned');
+        $this->assertEquals('Default bar value', $object2->tmp, 'Invalid object returned');
 
-        $Object1->destroy();
-        $Object2->destroy();
+        $object1->destroy();
+        $object2->destroy();
     }
 
     /**
@@ -81,18 +81,18 @@ class SingletonUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testCloneObject()
     {
-        $Object1 = new SingletonFoo();
+        $object1 = new SingletonFoo();
 
         try {
-            $Object2 = clone $Object1;
+            $object2 = clone $object1;
         } catch (Exception $e) {
-            $Object1->destroy();
+            $object1->destroy();
             $this->assertEquals(true, true, 'Invalid object cloning');
             return;
         }
 
         $this->assertFalse(false, 'Invalid object cloning');
-        $Object2->destroy();
+        $object2->destroy();
     }
 
     /**
@@ -100,10 +100,10 @@ class SingletonUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testArgsPassing()
     {
-        $Object = hack();
+        $object = hack();
 
-        $this->assertEquals(1, $Object->tmp, 'Params were not passed');
+        $this->assertEquals(1, $object->tmp, 'Params were not passed');
 
-        $Object->destroy();
+        $object->destroy();
     }
 }

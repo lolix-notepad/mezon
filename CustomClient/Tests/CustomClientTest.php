@@ -8,9 +8,9 @@ class CustomClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetMethod()
     {
-        $Client = new \Mezon\CustomClient\CustomClient('http://yandex.ru/');
+        $client = new \Mezon\CustomClient\CustomClient('http://yandex.ru/');
 
-        $Client->getRequest('unexisting');
+        $client->getRequest('unexisting');
 
         $this->addToAssertionCount(1);
     }
@@ -20,9 +20,9 @@ class CustomClientTest extends \PHPUnit\Framework\TestCase
      */
     public function testPostMethod()
     {
-        $Client = new \Mezon\CustomClient\CustomClient('http://yandex.ru/');
+        $client = new \Mezon\CustomClient\CustomClient('http://yandex.ru/');
 
-        $Client->postRequest('unexisting');
+        $client->postRequest('unexisting');
 
         $this->addToAssertionCount(1);
     }

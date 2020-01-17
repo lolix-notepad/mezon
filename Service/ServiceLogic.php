@@ -26,15 +26,15 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function connect(): array
     {
-        $Login = $this->getParam($this->SecurityProvider->getLoginFieldName(), false);
-        $Password = $this->getParam('password', false);
+        $login = $this->getParam($this->securityProvider->getLoginFieldName(), false);
+        $password = $this->getParam('password', false);
 
-        if ($Login === false || $Password === false) {
+        if ($login === false || $password === false) {
             throw (new \Exception('Fields login and/or password were not set', - 1));
         }
 
         return [
-            $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->connect($Login, $Password)
+            $this->securityProvider->getSessionIdFieldName() => $this->securityProvider->connect($login, $password)
         ];
     }
 
@@ -46,7 +46,7 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
     public function setToken(): array
     {
         return [
-            $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->setToken(
+            $this->securityProvider->getSessionIdFieldName() => $this->securityProvider->setToken(
                 $this->getParam('token'))
         ];
     }
@@ -71,7 +71,7 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
     public function getSelfLogin(): array
     {
         return [
-            $this->SecurityProvider->getLoginFieldName() => $this->getSelfLoginValue()
+            $this->securityProvider->getLoginFieldName() => $this->getSelfLoginValue()
         ];
     }
 
@@ -82,7 +82,7 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     protected function getSessionId(): string
     {
-        return $this->getParam($this->SecurityProvider->getSessionIdFieldName());
+        return $this->getParam($this->securityProvider->getSessionIdFieldName());
     }
 
     /**
@@ -92,22 +92,22 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function loginAs(): array
     {
-        $LoginFieldName = $this->SecurityProvider->getLoginFieldName();
+        $loginFieldName = $this->securityProvider->getLoginFieldName();
 
         // we can login using either user's login or id
-        if (($LoginOrId = $this->getParam($LoginFieldName, '')) !== '') {
+        if (($loginOrId = $this->getParam($loginFieldName, '')) !== '') {
             // we are log in using login
-            $LoginFieldName = 'login';
-        } elseif (($LoginOrId = $this->getParam('id', '')) !== '') {
+            $loginFieldName = 'login';
+        } elseif (($loginOrId = $this->getParam('id', '')) !== '') {
             // we are log in using id
-            $LoginFieldName = 'id';
+            $loginFieldName = 'id';
         }
 
         return [
-            $this->SecurityProvider->getSessionIdFieldName() => $this->SecurityProvider->loginAs(
+            $this->securityProvider->getSessionIdFieldName() => $this->securityProvider->loginAs(
                 $this->getSessionId(),
-                $LoginOrId,
-                $LoginFieldName)
+                $loginOrId,
+                $loginFieldName)
         ];
     }
 
@@ -118,7 +118,7 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function getSelfIdValue(): int
     {
-        return $this->SecurityProvider->getSelfId($this->getSessionId());
+        return $this->securityProvider->getSelfId($this->getSessionId());
     }
 
     /**
@@ -128,29 +128,29 @@ class ServiceLogic extends \Mezon\Service\ServiceBaseLogic
      */
     public function getSelfLoginValue(): string
     {
-        return $this->SecurityProvider->getSelfLogin($this->getSessionId());
+        return $this->securityProvider->getSelfLogin($this->getSessionId());
     }
 
     /**
      * Checking does user has permit
      *
-     * @param string $Permit
+     * @param string $permit
      *            Permit to check
      * @return bool true or false if the session user has permit or not
      */
-    public function hasPermit(string $Permit): bool
+    public function hasPermit(string $permit): bool
     {
-        return $this->SecurityProvider->hasPermit($this->getSessionId(), $Permit);
+        return $this->securityProvider->hasPermit($this->getSessionId(), $permit);
     }
 
     /**
      * The same as hasPermit but throwing exception for session user no permit
      *
-     * @param string $Permit
+     * @param string $permit
      *            Permit name
      */
-    public function validatePermit(string $Permit)
+    public function validatePermit(string $permit)
     {
-        $this->SecurityProvider->validatePermit($this->getSessionId(), $Permit);
+        $this->securityProvider->validatePermit($this->getSessionId(), $permit);
     }
 }

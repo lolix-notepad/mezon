@@ -23,15 +23,15 @@ class FakeAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdapter
     /**
      * Method returns a subset from vailable records
      *
-     * @param array $Order
+     * @param array $order
      *            order settings
-     * @param int $From
+     * @param int $from
      *            the beginning of the bunch
-     * @param int $Limit
+     * @param int $limit
      *            the size of the batch
      * @return array subset from vailable records
      */
-    public function getRecords(array $Order, int $From, int $Limit): array
+    public function getRecords(array $order, int $from, int $limit): array
     {
         return $this->all();
     }
@@ -39,13 +39,13 @@ class FakeAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdapter
     /**
      * Record preprocessor
      *
-     * @param array $Record
+     * @param array $record
      *            record to be preprocessed
      * @return array preprocessed record
      */
-    public function preprocessListItem(array $Record): array
+    public function preprocessListItem(array $record): array
     {
-        return $Record;
+        return $record;
     }
 }
 
@@ -82,10 +82,10 @@ class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
     public function testConstructorValid()
     {
         // setup and test body
-        $ListBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
+        $listBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
 
         // assertions
-        $this->assertIsArray($ListBuilder->getFields(), 'Invalid fields list type');
+        $this->assertIsArray($listBuilder->getFields(), 'Invalid fields list type');
     }
 
     /**
@@ -94,15 +94,15 @@ class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
     public function testListingForm()
     {
         // setup
-        $ListBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
+        $listBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
 
         // test body
-        $Content = $ListBuilder->listingForm();
+        $content = $listBuilder->listingForm();
 
         // assertions
-        $this->assertStringContainsString('>id<', $Content, 'Invalid header content');
-        $this->assertStringContainsString('>1<', $Content, 'Invalid cell content');
-        $this->assertStringContainsString('>2<', $Content, 'Invalid cell content');
+        $this->assertStringContainsString('>id<', $content, 'Invalid header content');
+        $this->assertStringContainsString('>1<', $content, 'Invalid cell content');
+        $this->assertStringContainsString('>2<', $content, 'Invalid cell content');
     }
 
     /**
@@ -111,14 +111,14 @@ class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
     public function testSimpleListingForm()
     {
         // setup
-        $ListBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
+        $listBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
 
         // test body
-        $Content = $ListBuilder->simpleListingForm();
+        $content = $listBuilder->simpleListingForm();
 
         // assertions
-        $this->assertStringContainsString('>id<', $Content, 'Invalid header content');
-        $this->assertStringContainsString('>1<', $Content, 'Invalid cell content');
-        $this->assertStringContainsString('>2<', $Content, 'Invalid cell content');
+        $this->assertStringContainsString('>id<', $content, 'Invalid header content');
+        $this->assertStringContainsString('>1<', $content, 'Invalid cell content');
+        $this->assertStringContainsString('>2<', $content, 'Invalid cell content');
     }
 }

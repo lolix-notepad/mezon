@@ -8,10 +8,10 @@ class CurlWrapperUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetRequest()
     {
-        list ($Body, $Code) = \Mezon\CustomClient\CurlWrapper::sendRequest('http://google.com', [], 'GET');
+        list ($body, $code) = \Mezon\CustomClient\CurlWrapper::sendRequest('http://google.com', [], 'GET');
 
-        $this->assertStringContainsString('', $Body, 'Invalid HTML was returned');
-        $this->assertEquals(301, $Code, 'Invalid HTTP code');
+        $this->assertStringContainsString('', $body, 'Invalid HTML was returned');
+        $this->assertEquals(301, $code, 'Invalid HTTP code');
     }
 
     /**
@@ -19,7 +19,7 @@ class CurlWrapperUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testPostRequest()
     {
-        list ($Body, $Code) = \Mezon\CustomClient\CurlWrapper::sendRequest(
+        list ($body, $code) = \Mezon\CustomClient\CurlWrapper::sendRequest(
             'http://google.com',
             [],
             'POST',
@@ -27,7 +27,7 @@ class CurlWrapperUnitTest extends \PHPUnit\Framework\TestCase
                 'data' => 1
             ]);
 
-        $this->assertStringContainsString('', $Body, 'Invalid HTML was returned');
-        $this->assertEquals(405, $Code, 'Invalid HTTP code');
+        $this->assertStringContainsString('', $body, 'Invalid HTML was returned');
+        $this->assertEquals(405, $code, 'Invalid HTTP code');
     }
 }

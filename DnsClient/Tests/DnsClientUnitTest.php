@@ -19,10 +19,10 @@ class DnsClientUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetServices(): void
     {
         // setup and test body
-        $Services = \Mezon\DnsClient\DnsClient::getServices();
+        $services = \Mezon\DnsClient\DnsClient::getServices();
 
         // assertions
-        $this->assertEquals('auth, author', $Services);
+        $this->assertEquals('auth, author', $services);
     }
 
     /**
@@ -53,8 +53,8 @@ class DnsClientUnitTest extends \PHPUnit\Framework\TestCase
     public function testResolveHost(): void
     {
         // test body and assertions
-        $URL = \Mezon\DnsClient\DnsClient::resolveHost('auth');
-        $this->assertEquals('auth.local', $URL, 'Invalid URL was fetched');
+        $uRL = \Mezon\DnsClient\DnsClient::resolveHost('auth');
+        $this->assertEquals('auth.local', $uRL, 'Invalid URL was fetched');
     }
 
     /**

@@ -22,36 +22,36 @@ class HttpRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
      *
      * @var \Mezon\Router\Router
      */
-    protected $Router = false;
+    protected $router = false;
 
     /**
      * Constructor
      *
-     * @param \Mezon\Router\Router $Router
+     * @param \Mezon\Router\Router $router
      *            Router object
      */
-    public function __construct(\Mezon\Router\Router &$Router)
+    public function __construct(\Mezon\Router\Router &$router)
     {
-        $this->Router = $Router;
+        $this->router = $router;
     }
 
     /**
      * Fetching auth token from headers
      *
-     * @param array $Headers
+     * @param array $headers
      *            Request headers
      * @return string Session id
      */
-    protected function getSessionIdFromHeaders(array $Headers)
+    protected function getSessionIdFromHeaders(array $headers)
     {
-        if (isset($Headers['Authorization'])) {
-            $Token = str_replace('Basic ', '', $Headers['Authorization']);
+        if (isset($headers['Authorization'])) {
+            $token = str_replace('Basic ', '', $headers['Authorization']);
 
-            return $Token;
-        } elseif (isset($Headers['Cgi-Authorization'])) {
-            $Token = str_replace('Basic ', '', $Headers['Cgi-Authorization']);
+            return $token;
+        } elseif (isset($headers['Cgi-Authorization'])) {
+            $token = str_replace('Basic ', '', $headers['Cgi-Authorization']);
 
-            return $Token;
+            return $token;
         }
 
         throw (new \Exception('Invalid session token', 2));
@@ -64,9 +64,9 @@ class HttpRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
      */
     protected function getHttpRequestHeaders(): array
     {
-        $Headers = getallheaders();
+        $headers = getallheaders();
 
-        return $Headers === false ? [] : $Headers;
+        return $headers === false ? [] : $headers;
     }
 
     /**
@@ -76,38 +76,38 @@ class HttpRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
      */
     protected function getSessionId()
     {
-        $Headers = $this->getHttpRequestHeaders();
+        $headers = $this->getHttpRequestHeaders();
 
-        return $this->getSessionIdFromHeaders($Headers);
+        return $this->getSessionIdFromHeaders($headers);
     }
 
     /**
      * Method returns request parameter
      *
-     * @param string $Param
+     * @param string $param
      *            parameter name
-     * @param mixed $Default
+     * @param mixed $default
      *            default value
      * @return mixed Parameter value
      */
-    public function getParam($Param, $Default = false)
+    public function getParam($param, $default = false)
     {
-        $Headers = $this->getHttpRequestHeaders();
+        $headers = $this->getHttpRequestHeaders();
 
-        $Return = $Default;
+        $return = $default;
 
-        if ($Param == 'session_id') {
-            $Return = $this->getSessionId();
-        } elseif ($this->Router->hasParam($Param)) {
-            $Return = $this->Router->getParam($Param);
-        } elseif (isset($Headers[$Param])) {
-            $Return = $Headers[$Param];
-        } elseif (isset($_POST[$Param])) {
-            $Return = $_POST[$Param];
-        } elseif (isset($_GET[$Param])) {
-            $Return = $_GET[$Param];
+        if ($param == 'session_id') {
+            $return = $this->getSessionId();
+        } elseif ($this->router->hasParam($param)) {
+            $return = $this->router->getParam($param);
+        } elseif (isset($headers[$param])) {
+            $return = $headers[$param];
+        } elseif (isset($_POST[$param])) {
+            $return = $_POST[$param];
+        } elseif (isset($_GET[$param])) {
+            $return = $_GET[$param];
         }
 
-        return $Return;
+        return $return;
     }
 }

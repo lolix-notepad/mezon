@@ -20,19 +20,19 @@ class Singleton
     /**
      * Created instances of different objects
      */
-    private static $Instances;
+    private static $instances;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $ClassName = get_class($this);
+        $className = get_class($this);
 
-        if (isset(self::$Instances[$ClassName])) {
-            throw (new \Exception("You can not create more than one copy of a singleton of type $ClassName"));
+        if (isset(self::$instances[$className])) {
+            throw (new \Exception("You can not create more than one copy of a singleton of type $className"));
         } else {
-            self::$Instances[$ClassName] = $this;
+            self::$instances[$className] = $this;
         }
     }
 
@@ -41,17 +41,17 @@ class Singleton
      */
     public static function getInstance()
     {
-        $ClassName = get_called_class();
+        $className = get_called_class();
 
-        if (! isset(self::$Instances[$ClassName])) {
-            $Args = func_get_args();
+        if (! isset(self::$instances[$className])) {
+            $args = func_get_args();
 
-            $ReflectionObject = new \ReflectionClass($ClassName);
+            $reflectionObject = new \ReflectionClass($className);
 
-            self::$Instances[$ClassName] = $ReflectionObject->newInstanceArgs($Args);
+            self::$instances[$className] = $reflectionObject->newInstanceArgs($args);
         }
 
-        return self::$Instances[$ClassName];
+        return self::$instances[$className];
     }
 
     /**
@@ -67,10 +67,10 @@ class Singleton
      */
     public function destroy()
     {
-        $ClassName = get_called_class();
+        $className = get_called_class();
 
-        if (isset(self::$Instances[$ClassName])) {
-            unset(self::$Instances[$ClassName]);
+        if (isset(self::$instances[$className])) {
+            unset(self::$instances[$className]);
         }
     }
 }

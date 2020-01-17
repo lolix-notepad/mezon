@@ -20,7 +20,7 @@ class Application
     /**
      * Router object
      */
-    protected $Router = null;
+    protected $router = null;
 
     /**
      * Constructor
@@ -28,9 +28,9 @@ class Application
     function __construct()
     {
         // getting application's actions
-        $this->Router = new \Mezon\Router\Router();
+        $this->router = new \Mezon\Router\Router();
 
-        $this->Router->fetchActions($this);
+        $this->router->fetchActions($this);
     }
 
     /**
@@ -38,70 +38,68 @@ class Application
      */
     protected function callRoute()
     {
-        $Route = explode('/', trim(@$_GET['r'], '/'));
+        $route = explode('/', trim(@$_GET['r'], '/'));
 
-        if ($this->Router === null) {
+        if ($this->router === null) {
             throw (new \Exception('this->Router was not set', - 2));
         }
 
-        $Content = $this->Router->callRoute($Route);
-
-        return $Content;
+        return $this->router->callRoute($route);
     }
 
     /**
      * Method loads single route
      *
-     * @param array $Route
+     * @param array $route
      *            Route settings
      */
-    public function loadRoute(array $Route): void
+    public function loadRoute(array $route): void
     {
-        if (isset($Route['route']) === false) {
+        if (isset($route['route']) === false) {
             throw (new \Exception('Field "route" must be set'));
         }
-        if (isset($Route['callback']) === false) {
+        if (isset($route['callback']) === false) {
             throw (new \Exception('Field "callback" must be set'));
         }
-        $Class = isset($Route['class']) ? new $Route['class']() : $this;
-        $this->Router->addRoute($Route['route'], [
-            $Class,
-            $Route['callback']
-        ], isset($Route['method']) ? $Route['method'] : 'GET');
+        $class = isset($route['class']) ? new $route['class']() : $this;
+        $this->router->addRoute($route['route'], [
+            $class,
+            $route['callback']
+        ], isset($route['method']) ? $route['method'] : 'GET');
     }
 
     /**
      * Method loads routes
      *
-     * @param array $Routes
+     * @param array $routes
      *            List of routes
      */
-    public function loadRoutes(array $Routes): void
+    public function loadRoutes(array $routes): void
     {
-        foreach ($Routes as $Route) {
-            $this->loadRoute($Route);
+        foreach ($routes as $route) {
+            $this->loadRoute($route);
         }
     }
 
     /**
      * Method loads routes from config file in *.php or *.json format
      *
-     * @param string $Path
+     * @param string $path
      *            Path of the config for routes
      */
-    public function loadRoutesFromConfig(string $Path = './conf/routes.php'): void
+    public function loadRoutesFromConfig(string $path = './conf/routes.php'): void
     {
-        if (file_exists($Path)) {
-            if (substr($Path, - 5) === '.json') {
+        if (file_exists($path)) {
+            if (substr($path, - 5) === '.json') {
                 // load config from json
-                $Routes = json_decode(file_get_contents($Path), true);
+                $routes = json_decode(file_get_contents($path), true);
             } else {
                 // loadconfig from php
-                $Routes = (include ($Path));
+                $routes = (include ($path));
             }
-            $this->loadRoutes($Routes);
+            $this->loadRoutes($routes);
         } else {
-            throw (new \Exception('Route ' . $Path . ' was not found', 1));
+            throw (new \Exception('Route ' . $path . ' was not found', 1));
         }
     }
 
@@ -131,31 +129,31 @@ class Application
     /**
      * Allowing to call methods added on the fly
      *
-     * @param string $Method
+     * @param string $method
      *            Method to be called
-     * @param array $Args
+     * @param array $args
      *            Arguments
      * @return mixed Result of the call
      */
-    public function __call(string $Method, array $Args)
+    public function __call(string $method, array $args)
     {
-        if (isset($this->$Method)) {
-            $Function = $this->$Method;
+        if (isset($this->$method)) {
+            $function = $this->$method;
 
-            return call_user_func_array($Function, $Args);
+            return call_user_func_array($function, $args);
         }
     }
 
     /**
      * Method redirects user to another page
      *
-     * @param string $URL
+     * @param string $uRL
      *            New page
      */
-    public function redirectTo($URL): void
+    public function redirectTo($uRL): void
     {
         // @codeCoverageIgnoreStart
-        header('Location: ' . $URL);
+        header('Location: ' . $uRL);
         exit(0);
         // @codeCoverageIgnoreEnd
     }

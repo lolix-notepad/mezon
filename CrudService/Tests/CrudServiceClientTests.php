@@ -22,18 +22,16 @@ class CrudServiceClientTests extends \Mezon\Service\Tests\ServiceClientTests
     /**
      * Client class name
      */
-    protected $ClientClassName = '';
+    protected $clientClassName = '';
 
     /**
      * Method creates client object
      *
-     * @param string $Password
+     * @param string $password
      */
-    protected function constructClient(string $Password = 'root')
+    protected function constructClient(string $password = 'root')
     {
-        $Client = new $this->ClientClassName(EXISTING_LOGIN, $Password);
-
-        return $Client;
+        return new $this->clientClassName(EXISTING_LOGIN, $password);
     }
 
     /**
@@ -41,10 +39,10 @@ class CrudServiceClientTests extends \Mezon\Service\Tests\ServiceClientTests
      */
     public function testValidConnect()
     {
-        $Client = $this->constructClient();
+        $client = $this->constructClient();
 
-        $this->assertNotEquals($Client->getSessionId(), false, 'Connection failed');
-        $this->assertEquals($Client->Login, EXISTING_LOGIN, 'Login was not saved');
+        $this->assertNotEquals($client->getSessionId(), false, 'Connection failed');
+        $this->assertEquals($client->Login, EXISTING_LOGIN, 'Login was not saved');
     }
 
     /**
@@ -62,12 +60,12 @@ class CrudServiceClientTests extends \Mezon\Service\Tests\ServiceClientTests
      */
     public function testSetValidToken()
     {
-        $Client = $this->constructClient();
+        $client = $this->constructClient();
 
-        $NewClient = new $this->ClientClassName();
-        $NewClient->setToken($Client->getSessionId());
+        $newClient = new $this->clientClassName();
+        $newClient->setToken($client->getSessionId());
 
-        $this->assertNotEquals($NewClient->getSessionId(), false, 'Token was not set(1)');
+        $this->assertNotEquals($newClient->getSessionId(), false, 'Token was not set(1)');
     }
 
     /**
@@ -75,13 +73,13 @@ class CrudServiceClientTests extends \Mezon\Service\Tests\ServiceClientTests
      */
     public function testSetValidTokenAndLogin()
     {
-        $Client = $this->constructClient();
+        $client = $this->constructClient();
 
-        $NewClient = new $this->ClientClassName();
-        $NewClient->setToken($Client->getSessionId(), 'alexey@dodonov.none');
+        $newClient = new $this->clientClassName();
+        $newClient->setToken($client->getSessionId(), 'alexey@dodonov.none');
 
-        $this->assertNotEquals($NewClient->getSessionId(), false, 'Token was not set(2)');
-        $this->assertNotEquals($NewClient->getStoredLogin(), false, 'Login was not saved');
+        $this->assertNotEquals($newClient->getSessionId(), false, 'Token was not set(2)');
+        $this->assertNotEquals($newClient->getStoredLogin(), false, 'Login was not saved');
     }
 
     /**
@@ -89,11 +87,11 @@ class CrudServiceClientTests extends \Mezon\Service\Tests\ServiceClientTests
      */
     public function testSetInValidToken()
     {
-        $Client = new $this->ClientClassName();
+        $client = new $this->clientClassName();
 
         $this->expectException(Exception::class);
 
-        $Client->setToken('unexistingtoken');
+        $client->setToken('unexistingtoken');
     }
 
     /**
@@ -101,10 +99,10 @@ class CrudServiceClientTests extends \Mezon\Service\Tests\ServiceClientTests
      */
     public function testLoginAs()
     {
-        $Client = $this->construct_client();
+        $client = $this->construct_client();
 
         try {
-            $Client->loginAs(EXISTING_LOGIN);
+            $client->loginAs(EXISTING_LOGIN);
         } catch (Exception $e) {
             $this->assertEquals(0, 1, 'Login was was not called properly');
         }
@@ -115,11 +113,11 @@ class CrudServiceClientTests extends \Mezon\Service\Tests\ServiceClientTests
      */
     public function testFailedLoginAs()
     {
-        $Client = $this->construct_client();
+        $client = $this->construct_client();
 
         $this->expectException(Exception::class);
 
-        $Client->loginAs('alexey@dodonov.none');
+        $client->loginAs('alexey@dodonov.none');
     }
 
     /**

@@ -13,7 +13,7 @@ class TestExtendingApplication extends \Mezon\CommonApplication\CommonApplicatio
         parent::__construct(new \Mezon\HtmlTemplate\HtmlTemplate(__DIR__));
     }
 
-    public function redirectTo($URL): void
+    public function redirectTo($uRL): void
     {}
 }
 
@@ -36,9 +36,9 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getApplicationActions(): object
     {
-        $Object = new TestApplicationActions('entity');
+        $object = new TestApplicationActions('entity');
 
-        $CrudServiceClient = $this->getMockBuilder(\Mezon\CrudService\CrudServiceClient::class)
+        $crudServiceClient = $this->getMockBuilder(\Mezon\CrudService\CrudServiceClient::class)
             ->setMethods([
             'getList',
             'delete',
@@ -47,15 +47,15 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $CrudServiceClient->method('getList')->willReturn([
+        $crudServiceClient->method('getList')->willReturn([
             [
                 'id' => 1
             ]
         ]);
 
-        $CrudServiceClient->method('delete')->willReturn('');
+        $crudServiceClient->method('delete')->willReturn('');
 
-        $CrudServiceClient->method('getRemoteCreationFormFields')->willReturn(
+        $crudServiceClient->method('getRemoteCreationFormFields')->willReturn(
             [
                 'fields' => [
                     'id' => [
@@ -66,9 +66,9 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
                 'layout' => []
             ]);
 
-        $Object->setServiceClient($CrudServiceClient);
+        $object->setServiceClient($crudServiceClient);
 
-        return $Object;
+        return $object;
     }
     
     /**
@@ -86,15 +86,15 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
     public function testAttachListPageMthodInvalid(): void
     {
         // setup
-        $Object = $this->getApplicationActions();
+        $object = $this->getApplicationActions();
 
-        $Application = new TestExtendingApplication();
+        $application = new TestExtendingApplication();
 
         // test body and assertions
         $this->expectException(Exception::class);
 
-        $Object->attachListPage($Application, []);
-        $Application->entityListingPage();
+        $object->attachListPage($application, []);
+        $application->entityListingPage();
 
     }
 
@@ -104,21 +104,21 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
     public function testAttachListPageMethod(): void
     {
         // setup
-        $Object = $this->getApplicationActions();
+        $object = $this->getApplicationActions();
 
-        $Application = new TestExtendingApplication();
+        $application = new TestExtendingApplication();
 
         // test body
-        $Object->attachListPage($Application, [
+        $object->attachListPage($application, [
             'default-fields' => 'id'
         ]);
 
-        $Result = $Application->entityListingPage();
+        $result = $application->entityListingPage();
 
         // assertions
-        $this->assertTrue(isset($Application->entityListingPage), 'Method "entityListingPage" does not exist');
-        $this->assertStringContainsString('>1<', $Result['main']);
-        $this->assertStringContainsString('>id<', $Result['main']);
+        $this->assertTrue(isset($application->entityListingPage), 'Method "entityListingPage" does not exist');
+        $this->assertStringContainsString('>1<', $result['main']);
+        $this->assertStringContainsString('>id<', $result['main']);
     }
 
     /**
@@ -127,18 +127,18 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
     public function testAttachSimpleListPageMethod(): void
     {
         // setup
-        $Object = $this->getApplicationActions();
-        $Application = new TestExtendingApplication();
+        $object = $this->getApplicationActions();
+        $application = new TestExtendingApplication();
 
         // test body
-        $Object->attachSimpleListPage($Application, [
+        $object->attachSimpleListPage($application, [
             'default-fields' => 'id'
         ]);
-        $Application->entitySimpleListingPage();
+        $application->entitySimpleListingPage();
 
         // assertions
         $this->assertTrue(
-            isset($Application->entitySimpleListingPage),
+            isset($application->entitySimpleListingPage),
             'Method "entitySimpleListingPage" does not exist');
     }
 
@@ -148,18 +148,18 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
     public function testAttachDeleteMethod(): void
     {
         // setup
-        $Object = $this->getApplicationActions();
-        $Application = new TestExtendingApplication();
+        $object = $this->getApplicationActions();
+        $application = new TestExtendingApplication();
 
         // test body
-        $Object->attachDeleteRecord($Application, []);
+        $object->attachDeleteRecord($application, []);
 
-        $Application->entityDeleteRecord('/route/', [
+        $application->entityDeleteRecord('/route/', [
             'id' => 1
         ]);
 
         // assertions
-        $this->assertTrue(isset($Application->entityDeleteRecord), 'Method "entityDeleteRecord" does not exist');
+        $this->assertTrue(isset($application->entityDeleteRecord), 'Method "entityDeleteRecord" does not exist');
     }
 
     /**
@@ -168,15 +168,15 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
     public function testAttachCreateMethod(): void
     {
         // setup
-        $Object = $this->getApplicationActions();
-        $Application = new TestExtendingApplication();
+        $object = $this->getApplicationActions();
+        $application = new TestExtendingApplication();
 
         // test body
-        $Object->attachCreateRecord($Application, []);
-        $Result = $Application->entityCreateRecord();
+        $object->attachCreateRecord($application, []);
+        $result = $application->entityCreateRecord();
 
         // assertions
-        $this->assertStringContainsString('x_title', $Result['main'], 'Method "entityCreateRecord" does not exist');
+        $this->assertStringContainsString('x_title', $result['main'], 'Method "entityCreateRecord" does not exist');
     }
 
     /**
@@ -185,13 +185,13 @@ class ApplicationActionsUnitTest extends \PHPUnit\Framework\TestCase
     public function testAttachUpdateMethod(): void
     {
         // setup
-        $Object = $this->getApplicationActions();
-        $Application = new TestExtendingApplication();
+        $object = $this->getApplicationActions();
+        $application = new TestExtendingApplication();
 
         // test body
-        $Object->attachUpdateRecord($Application, []);
+        $object->attachUpdateRecord($application, []);
 
         // assertions
-        $this->assertTrue(isset($Application->entityUpdateRecord), 'Method "entityUpdateRecord" does not exist');
+        $this->assertTrue(isset($application->entityUpdateRecord), 'Method "entityUpdateRecord" does not exist');
     }
 }

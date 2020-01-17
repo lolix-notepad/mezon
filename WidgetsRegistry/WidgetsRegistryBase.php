@@ -20,9 +20,9 @@ interface WidgetsRegistryBase
     /**
      * Method returns widget
      *
-     * @param string $Name
+     * @param string $name
      *            Name of the widget
      * @return string Widget's HTML code
      */
-    public function getWidget(string $Name): string;
+    public function getWidget(string $name): string;
 }

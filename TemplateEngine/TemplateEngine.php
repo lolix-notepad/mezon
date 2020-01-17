@@ -20,121 +20,119 @@ class TemplateEngine
     /**
      * Method returns starts and ends of the block
      *
-     * @param array $Positions
+     * @param array $positions
      *            Starting and ending positions of the blocks
      * @return array Updated positions
      */
-    protected static function getPossibleBlockPositions(array &$Positions): array
+    protected static function getPossibleBlockPositions(array &$positions): array
     {
-        $StartPos = $EndPos = false;
+        $startPos = $endPos = false;
         $c = 0;
 
-        foreach ($Positions as $Key => $Value) {
-            if ($StartPos === false && $Value === 's') {
+        foreach ($positions as $key => $value) {
+            if ($startPos === false && $value === 's') {
                 $c ++;
-                $StartPos = $Key;
-            } elseif ($EndPos === false && $Value === 'e' && $c === 1) {
-                $EndPos = $Key;
+                $startPos = $key;
+            } elseif ($endPos === false && $value === 'e' && $c === 1) {
+                $endPos = $key;
                 break;
-            } elseif ($Value === 's' || $Value === 'e' && $c > 0) {
-                $c += $Value === 's' ? 1 : - 1;
+            } elseif ($value === 's' || $value === 'e' && $c > 0) {
+                $c += $value === 's' ? 1 : - 1;
             }
         }
 
         return [
-            $StartPos,
-            $EndPos
+            $startPos,
+            $endPos
         ];
     }
 
     /**
      * Method returns block's start and end
      *
-     * @param string $String
+     * @param string $string
      *            Parsing string
-     * @param string $BlockStart
+     * @param string $blockStart
      *            Block start
-     * @param string $BlockEnd
+     * @param string $blockEnd
      *            Block end
      * @return array Starting and ending positions of the block
      */
-    protected static function getAllBlockPositions(string $String, string $BlockStart, string $BlockEnd): array
+    protected static function getAllBlockPositions(string $string, string $blockStart, string $blockEnd): array
     {
-        $Positions = [];
-        $StartPos = strpos($String, '{' . $BlockStart . '}', 0);
-        $EndPos = - 1;
+        $positions = [];
+        $startPos = strpos($string, '{' . $blockStart . '}', 0);
+        $endPos = - 1;
 
-        if ($StartPos !== false) {
-            $Positions[$StartPos] = 's';
-            $BlockStart = explode(':', $BlockStart);
-            $BlockStart = $BlockStart[0];
-            while (($StartPos = strpos($String, '{' . $BlockStart . ':', $StartPos + 1)) !== false) {
-                $Positions[$StartPos] = 's';
+        if ($startPos !== false) {
+            $positions[$startPos] = 's';
+            $blockStart = explode(':', $blockStart);
+            $blockStart = $blockStart[0];
+            while (($startPos = strpos($string, '{' . $blockStart . ':', $startPos + 1)) !== false) {
+                $positions[$startPos] = 's';
             }
         }
-        while ($EndPos = strpos($String, '{' . $BlockEnd . '}', $EndPos + 1)) {
-            $Positions[$EndPos] = 'e';
+        while ($endPos = strpos($string, '{' . $blockEnd . '}', $endPos + 1)) {
+            $positions[$endPos] = 'e';
         }
-        ksort($Positions);
+        ksort($positions);
 
-        return $Positions;
+        return $positions;
     }
 
     /**
      * Method returns block's start and end
      *
-     * @param string $String
+     * @param string $string
      *            Parsing string
-     * @param string $BlockStart
+     * @param string $blockStart
      *            Block start
-     * @param string $BlockEnd
+     * @param string $blockEnd
      *            Block end
      * @return array Positions of the beginning and the end
      */
-    protected static function getBlockPositions(string $String, string $BlockStart, string $BlockEnd): array
+    protected static function getBlockPositions(string $string, string $blockStart, string $blockEnd): array
     {
-        $Positions = self::getAllBlockPositions($String, $BlockStart, $BlockEnd);
+        $positions = self::getAllBlockPositions($string, $blockStart, $blockEnd);
 
-        list ($StartPos, $EndPos) = self::getPossibleBlockPositions($Positions);
+        list ($startPos, $endPos) = self::getPossibleBlockPositions($positions);
 
-        if ($StartPos === false) {
+        if ($startPos === false) {
             return [
                 false,
                 false
             ];
         }
-        if ($EndPos === false) {
+        if ($endPos === false) {
             throw (new \Exception('Block end was not found'));
         }
 
         return [
-            $StartPos,
-            $EndPos
+            $startPos,
+            $endPos
         ];
     }
 
     /**
-     * Method returns content between {$BlockStart} and {$BlockEnd} tags
+     * Method returns content between {$blockStart} and {$blockEnd} tags
      *
-     * @param string $String
+     * @param string $string
      *            processing string
-     * @param string $BlockStart
+     * @param string $blockStart
      *            start of the block
-     * @param string $BlockEnd
+     * @param string $blockEnd
      *            end of the block
      * @return mixed Block content. Or false if the block was not found
      */
-    public static function getBlockData(string $String, string $BlockStart, string $BlockEnd)
+    public static function getBlockData(string $string, string $blockStart, string $blockEnd)
     {
-        list ($StartPos, $EndPos) = self::getBlockPositions($String, $BlockStart, $BlockEnd);
+        list ($startPos, $endPos) = self::getBlockPositions($string, $blockStart, $blockEnd);
 
-        if ($StartPos !== false) {
-            $BlockData = substr(
-                $String,
-                $StartPos + strlen('{' . $BlockStart . '}'),
-                $EndPos - $StartPos - strlen('{' . $BlockStart . '}'));
-
-            return $BlockData;
+        if ($startPos !== false) {
+            return substr(
+                $string,
+                $startPos + strlen('{' . $blockStart . '}'),
+                $endPos - $startPos - strlen('{' . $blockStart . '}'));
         } else {
             return false;
         }
@@ -143,27 +141,27 @@ class TemplateEngine
     /**
      * Getting macro start
      *
-     * @param int $TmpStartPos
+     * @param int $tmpStartPos
      *            Search temporary starting position
-     * @param int $TmpEndPos
+     * @param int $tmpEndPos
      *            Search temporary ending position
-     * @param int $StartPos
+     * @param int $startPos
      *            Search starting position
-     * @param int $Counter
+     * @param int $counter
      *            Brackets counter
      */
-    protected static function handleMacroStart(int $TmpStartPos, int $TmpEndPos, int &$StartPos, int &$Counter)
+    protected static function handleMacroStart(int $tmpStartPos, int $tmpEndPos, int &$startPos, int &$counter)
     {
-        if ($TmpStartPos !== false && $TmpEndPos !== false) {
-            if ($TmpStartPos < $TmpEndPos) {
-                $StartPos = $TmpEndPos;
+        if ($tmpStartPos !== false && $tmpEndPos !== false) {
+            if ($tmpStartPos < $tmpEndPos) {
+                $startPos = $tmpEndPos;
             }
-            if ($TmpEndPos < $TmpStartPos) {
-                $Counter --;
-                if ($Counter) {
-                    $Counter ++;
+            if ($tmpEndPos < $tmpStartPos) {
+                $counter --;
+                if ($counter) {
+                    $counter ++;
                 }
-                $StartPos = $TmpStartPos;
+                $startPos = $tmpStartPos;
             }
         }
     }
@@ -171,107 +169,107 @@ class TemplateEngine
     /**
      * Getting macro end
      *
-     * @param int $TmpStartPos
+     * @param int $tmpStartPos
      *            Search temporary starting position
-     * @param int $TmpEndPos
+     * @param int $tmpEndPos
      *            Search temporary ending position
-     * @param int $StartPos
+     * @param int $startPos
      *            Search starting position
-     * @param int $Counter
+     * @param int $counter
      *            Brackets counter
-     * @param int $MacroStartPos
+     * @param int $macroStartPos
      *            Position of the macro
      */
     protected static function handleMacroEnd(
-        int $TmpStartPos,
-        int $TmpEndPos,
-        int &$StartPos,
-        int &$Counter,
-        int $MacroStartPos)
+        int $tmpStartPos,
+        int $tmpEndPos,
+        int &$startPos,
+        int &$counter,
+        int $macroStartPos)
     {
-        if ($TmpStartPos !== false && $TmpEndPos === false) {
-            $Counter ++;
-            $StartPos = $TmpStartPos;
+        if ($tmpStartPos !== false && $tmpEndPos === false) {
+            $counter ++;
+            $startPos = $tmpStartPos;
         }
 
-        if ($TmpStartPos === false && $TmpEndPos !== false) {
-            $Counter --;
-            $StartPos = $TmpEndPos;
+        if ($tmpStartPos === false && $tmpEndPos !== false) {
+            $counter --;
+            $startPos = $tmpEndPos;
         }
 
-        if ($TmpStartPos === false && $TmpEndPos === false) {
-            /* nothing was found, so $StartPos will be set with the length of $StringData */
-            $StartPos = $MacroStartPos;
+        if ($tmpStartPos === false && $tmpEndPos === false) {
+            /* nothing was found, so $startPos will be set with the length of $stringData */
+            $startPos = $macroStartPos;
         }
     }
 
     /**
      * Getting macro bounds
      *
-     * @param string $StringData
+     * @param string $stringData
      *            Parsing string
-     * @param int $TmpStartPos
+     * @param int $tmpStartPos
      *            Search temporary starting position
-     * @param int $TmpEndPos
+     * @param int $tmpEndPos
      *            Search temporary ending position
-     * @param int $StartPos
+     * @param int $startPos
      *            Search starting position
-     * @param int $Counter
+     * @param int $counter
      *            Brackets counter
-     * @param int $MacroStartPos
+     * @param int $macroStartPos
      *            Position of the macro
      */
     protected static function handleMacroStartEnd(
-        &$StringData,
-        &$TmpStartPos,
-        &$TmpEndPos,
-        &$StartPos,
-        &$Counter,
-        $MacroStartPos)
+        &$stringData,
+        &$tmpStartPos,
+        &$tmpEndPos,
+        &$startPos,
+        &$counter,
+        $macroStartPos)
     {
-        $TmpStartPos = strpos($StringData, '{', $StartPos + 1);
-        $TmpEndPos = strpos($StringData, '}', $StartPos + 1);
+        $tmpStartPos = strpos($stringData, '{', $startPos + 1);
+        $tmpEndPos = strpos($stringData, '}', $startPos + 1);
 
-        self::handleMacroStart($TmpStartPos, $TmpEndPos, $StartPos, $Counter);
+        self::handleMacroStart($tmpStartPos, $tmpEndPos, $startPos, $counter);
 
-        self::handleMacroEnd($TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos);
+        self::handleMacroEnd($tmpStartPos, $tmpEndPos, $startPos, $counter, $macroStartPos);
     }
 
     /**
      * Getting macro start
      *
-     * @param string $StringData
+     * @param string $stringData
      *            Parsing string
-     * @param int $TmpStartPos
+     * @param int $tmpStartPos
      *            Search temporary starting position
-     * @param int $TmpEndPos
+     * @param int $tmpEndPos
      *            Search temporary ending position
-     * @param int $StartPos
+     * @param int $startPos
      *            Search starting position
-     * @param int $Counter
+     * @param int $counter
      *            Brackets counter
-     * @param int $MacroStartPos
+     * @param int $macroStartPos
      *            Position of the macro
-     * @param int $ParamStartPos
+     * @param int $paramStartPos
      *            Position of macro's parameters
      * @return string Macro parameters or false otherwise
      */
     public static function findMacro(
-        &$StringData,
-        &$TmpStartPos,
-        &$TmpEndPos,
-        &$StartPos,
-        &$Counter,
-        $MacroStartPos,
-        $ParamStartPos)
+        &$stringData,
+        &$tmpStartPos,
+        &$tmpEndPos,
+        &$startPos,
+        &$counter,
+        $macroStartPos,
+        $paramStartPos)
     {
         do {
-            self::handleMacroStartEnd($StringData, $TmpStartPos, $TmpEndPos, $StartPos, $Counter, $MacroStartPos);
+            self::handleMacroStartEnd($stringData, $tmpStartPos, $tmpEndPos, $startPos, $counter, $macroStartPos);
 
-            if ($Counter == 0) {
-                return substr($StringData, $ParamStartPos, $TmpEndPos - $ParamStartPos);
+            if ($counter == 0) {
+                return substr($stringData, $paramStartPos, $tmpEndPos - $paramStartPos);
             }
-        } while ($TmpStartPos);
+        } while ($tmpStartPos);
 
         return false;
     }
@@ -279,34 +277,34 @@ class TemplateEngine
     /**
      * Method fetches macro parameters
      *
-     * @param string $String
+     * @param string $string
      *            string to be parsed
-     * @param string $Name
+     * @param string $name
      *            macro name
-     * @param int $StartPos
+     * @param int $startPos
      *            starting position of the search
      * @return mixed Macro parameters or false if the macro was not found
      */
-    public static function getMacrParameters($String, $Name, $StartPos = - 1)
+    public static function getMacrParameters($string, $name, $startPos = - 1)
     {
-        while (($TmpStartPos = strpos($String, '{' . $Name . ':', $StartPos + 1)) !== false) {
-            $Counter = 1;
-            $StartPos = $TmpEndPos = $TmpStartPos;
+        while (($tmpStartPos = strpos($string, '{' . $name . ':', $startPos + 1)) !== false) {
+            $counter = 1;
+            $startPos = $tmpEndPos = $tmpStartPos;
 
-            $MacroStartPos = $StartPos;
-            $ParamStartPos = $MacroStartPos + strlen('{' . $Name . ':');
+            $macroStartPos = $startPos;
+            $paramStartPos = $macroStartPos + strlen('{' . $name . ':');
 
-            $Result = self::findMacro(
-                $String,
-                $TmpStartPos,
-                $TmpEndPos,
-                $StartPos,
-                $Counter,
-                $MacroStartPos,
-                $ParamStartPos);
+            $result = self::findMacro(
+                $string,
+                $tmpStartPos,
+                $tmpEndPos,
+                $startPos,
+                $counter,
+                $macroStartPos,
+                $paramStartPos);
 
-            if ($Result !== false) {
-                return $Result;
+            if ($result !== false) {
+                return $result;
             }
         }
 
@@ -316,241 +314,241 @@ class TemplateEngine
     /**
      * Method applyes data for foreach block content
      *
-     * @param string $Str
+     * @param string $str
      *            string to process
-     * @param string $Parameters
+     * @param string $parameters
      *            block parameters
-     * @param mixed $Data
+     * @param mixed $data
      *            replacement data
      * @param
      *            string Processed string
      */
-    protected static function applyForeachData($Str, $Parameters, $Data)
+    protected static function applyForeachData($str, $parameters, $data)
     {
-        $SubTemplate = self::getBlockData($Str, "foreach:$Parameters", '~foreach');
+        $subTemplate = self::getBlockData($str, "foreach:$parameters", '~foreach');
 
-        $BlockStart = "{foreach:$Parameters}";
+        $blockStart = "{foreach:$parameters}";
 
-        $RecordCounter = 1;
+        $recordCounter = 1;
 
-        foreach ($Data as $v) {
-            $SingleRecordTemplate = str_replace('{n}', $RecordCounter ++, $SubTemplate);
+        foreach ($data as $v) {
+            $singleRecordTemplate = str_replace('{n}', $recordCounter ++, $subTemplate);
 
-            $Str = str_replace($BlockStart, self::printRecord($SingleRecordTemplate, $v) . $BlockStart, $Str);
+            $str = str_replace($blockStart, self::printRecord($singleRecordTemplate, $v) . $blockStart, $str);
         }
 
-        return $Str;
+        return $str;
     }
 
     /**
      * Method applyes data for print block content
      *
-     * @param string $Str
+     * @param string $str
      *            string to process
-     * @param string $Parameters
+     * @param string $parameters
      *            block parameters
-     * @param mixed $Data
+     * @param mixed $data
      *            replacement data
      * @param
      *            string Processed string
      */
-    protected static function applyPrintData($Str, $Parameters, $Data)
+    protected static function applyPrintData($str, $parameters, $data)
     {
-        $SubTemplate = self::getBlockData($Str, "print:$Parameters", '~print');
+        $subTemplate = self::getBlockData($str, "print:$parameters", '~print');
 
-        $BlockStart = "{print:$Parameters}";
+        $blockStart = "{print:$parameters}";
 
-        $Str = str_replace($BlockStart, self::unwrapBlocks($SubTemplate, $Data) . $BlockStart, $Str);
+        $str = str_replace($blockStart, self::unwrapBlocks($subTemplate, $data) . $blockStart, $str);
 
-        return $Str;
+        return $str;
     }
 
     /**
      * Method replaces block with content
      *
-     * @param string $Str
+     * @param string $str
      *            string to process
-     * @param string $BlockStart
+     * @param string $blockStart
      *            starting marker of the block
-     * @param string $BlockEnd
+     * @param string $blockEnd
      *            ending marker of the block
-     * @param string $Content
+     * @param string $content
      *            content to replace block
      * @param
      *            string Processed string
      */
-    public static function replaceBlock($Str, $BlockStart, $BlockEnd, $Content)
+    public static function replaceBlock($str, $blockStart, $blockEnd, $content)
     {
-        list ($StartPos, $EndPos) = self::getBlockPositions($Str, $BlockStart, $BlockEnd);
+        list ($startPos, $endPos) = self::getBlockPositions($str, $blockStart, $blockEnd);
 
-        if ($StartPos !== false) {
-            $Str = substr_replace(
-                $Str,
-                $Content,
-                $StartPos,
-                $EndPos - $StartPos + strlen(chr(123) . $BlockEnd . chr(125)));
+        if ($startPos !== false) {
+            $str = substr_replace(
+                $str,
+                $content,
+                $startPos,
+                $endPos - $startPos + strlen(chr(123) . $blockEnd . chr(125)));
         }
 
-        return $Str;
+        return $str;
     }
 
     /**
      * Method processes 'print' macro
      *
-     * @param string $String
+     * @param string $string
      *            processing string
-     * @param mixed $Record
+     * @param mixed $record
      *            printing record
      * @return string Processed string
      */
-    public static function compilePrint($String, &$Record): string
+    public static function compilePrint($string, &$record): string
     {
-        $StartPos = - 1;
+        $startPos = - 1;
 
-        while ($Parameters = self::getMacrParameters($String, 'print', $StartPos)) {
-            if (\Mezon\Functional\Functional::fieldExists($Record, $Parameters)) {
-                $Data = \Mezon\Functional\Functional::getField($Record, $Parameters);
+        while ($parameters = self::getMacrParameters($string, 'print', $startPos)) {
+            if (\Mezon\Functional\Functional::fieldExists($record, $parameters)) {
+                $data = \Mezon\Functional\Functional::getField($record, $parameters);
 
-                $String = self::applyPrintData($String, $Parameters, $Data);
+                $string = self::applyPrintData($string, $parameters, $data);
 
-                $String = self::replaceBlock($String, "print:$Parameters", '~print', '');
+                $string = self::replaceBlock($string, "print:$parameters", '~print', '');
             } else {
-                $StartPos = strpos($String, "{print:$Parameters", $StartPos > 0 ? $StartPos : 0);
+                $startPos = strpos($string, "{print:$parameters", $startPos > 0 ? $startPos : 0);
             }
         }
 
-        return $String;
+        return $string;
     }
 
     /**
      * Method processes 'foreach' macro
      *
-     * @param string $String
+     * @param string $string
      *            processing string
-     * @param mixed $Record
+     * @param mixed $record
      *            printing record
      * @return string Processed string
      */
-    public static function compileForeach($String, &$Record): string
+    public static function compileForeach($string, &$record): string
     {
-        $StartPos = - 1;
+        $startPos = - 1;
 
-        while ($Parameters = self::getMacrParameters($String, 'foreach', $StartPos)) {
-            if (\Mezon\Functional\Functional::fieldExists($Record, $Parameters)) {
-                $Data = \Mezon\Functional\Functional::getField($Record, $Parameters);
+        while ($parameters = self::getMacrParameters($string, 'foreach', $startPos)) {
+            if (\Mezon\Functional\Functional::fieldExists($record, $parameters)) {
+                $data = \Mezon\Functional\Functional::getField($record, $parameters);
 
-                $String = self::applyForeachData($String, $Parameters, $Data);
+                $string = self::applyForeachData($string, $parameters, $data);
 
-                $String = self::replaceBlock($String, "foreach:$Parameters", '~foreach', '');
+                $string = self::replaceBlock($string, "foreach:$parameters", '~foreach', '');
             } else {
-                $StartPos = strpos($String, "{foreach:$Parameters", $StartPos > 0 ? $StartPos : 0);
+                $startPos = strpos($string, "{foreach:$parameters", $startPos > 0 ? $startPos : 0);
             }
         }
 
-        return $String;
+        return $string;
     }
 
     /**
      * Method processes values substitution
      *
-     * @param string $String
+     * @param string $string
      *            processing string
-     * @param mixed $Record
+     * @param mixed $record
      *            printing record
      * @return string Processed string
      */
-    public static function compileValues($String, $Record): string
+    public static function compileValues($string, $record): string
     {
-        foreach ($Record as $Field => $Value) {
-            if (is_array($Value) || is_object($Value)) {
-                $String = self::unwrapBlocks($String, $Value);
+        foreach ($record as $field => $value) {
+            if (is_array($value) || is_object($value)) {
+                $string = self::unwrapBlocks($string, $value);
             } else {
-                $String = str_replace('{' . $Field . '}', $Value, $String);
+                $string = str_replace('{' . $field . '}', $value, $string);
             }
         }
 
-        return $String;
+        return $string;
     }
 
     /**
      * Method returns true if the params are terminal, false otherwise
      *
-     * @param string $Parameters
+     * @param string $parameters
      *            Parameters to be analized
      * @return bool true if the params are terminal, false otherwise
      */
-    protected static function areTerminalParams(string $Parameters): bool
+    protected static function areTerminalParams(string $parameters): bool
     {
-        return strpos($Parameters, '}') === false && strpos($Parameters, '{') === false;
+        return strpos($parameters, '}') === false && strpos($parameters, '{') === false;
     }
 
     /**
      * Method processes 'switch' macro
      *
-     * @param string $String
+     * @param string $string
      *            processing string
      * @return string Processed string
      */
-    public static function compileSwitch($String): string
+    public static function compileSwitch($string): string
     {
-        $StartPos = - 1;
+        $startPos = - 1;
 
-        while (($Parameters = self::getMacrParameters($String, 'switch', $StartPos)) !== false) {
-            if (self::areTerminalParams($Parameters)) {
-                $SwitchBody = self::getBlockData($String, "switch:$Parameters", '~switch');
+        while (($parameters = self::getMacrParameters($string, 'switch', $startPos)) !== false) {
+            if (self::areTerminalParams($parameters)) {
+                $switchBody = self::getBlockData($string, "switch:$parameters", '~switch');
 
-                $CaseBody = self::getBlockData($SwitchBody, "case:$Parameters", '~case');
+                $caseBody = self::getBlockData($switchBody, "case:$parameters", '~case');
 
-                $String = self::replaceBlock($String, "switch:$Parameters", '~switch', $CaseBody);
+                $string = self::replaceBlock($string, "switch:$parameters", '~switch', $caseBody);
             } else {
-                $StartPos = strpos($String, '{switch:', $StartPos + 8);
+                $startPos = strpos($string, '{switch:', $startPos + 8);
             }
         }
 
-        return $String;
+        return $string;
     }
 
     /**
      * Method unwraps data
      *
-     * @param string $String
+     * @param string $string
      *            processing string
-     * @param mixed $Record
+     * @param mixed $record
      *            printing record
      * @param
      *            string Processed string
      */
-    public static function unwrapBlocks(string $String, $Record): string
+    public static function unwrapBlocks(string $string, $record): string
     {
-        $String = self::compilePrint($String, $Record);
+        $string = self::compilePrint($string, $record);
 
-        $String = self::compileForeach($String, $Record);
+        $string = self::compileForeach($string, $record);
 
-        $String = self::compileValues($String, $Record);
+        $string = self::compileValues($string, $record);
 
-        return $String;
+        return $string;
     }
 
     /**
-     * Method replaces all {var-name} placeholders in $String with fields from $Record
+     * Method replaces all {var-name} placeholders in $string with fields from $record
      *
-     * @param string $String
+     * @param string $string
      *            processing string
-     * @param mixed $Record
+     * @param mixed $record
      *            printing record
      * @param
      *            string Processed string
      */
-    public static function printRecord(string $String, $Record): string
+    public static function printRecord(string $string, $record): string
     {
-        if (is_array($Record) === false && is_object($Record) === false) {
+        if (is_array($record) === false && is_object($record) === false) {
             throw (new \Exception('Invalid record was passed'));
         }
 
-        $String = self::unwrapBlocks($String, $Record);
+        $string = self::unwrapBlocks($string, $record);
 
-        $String = self::compileSwitch($String);
+        $string = self::compileSwitch($string);
 
-        return $String;
+        return $string;
     }
 }

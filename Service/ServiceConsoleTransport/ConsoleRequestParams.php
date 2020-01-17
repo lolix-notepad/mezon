@@ -30,20 +30,20 @@ class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParamsInterfa
     /**
      * Method returns parameter.
      *
-     * @param string $Param
+     * @param string $param
      *            - parameter name.
-     * @param mixed $Default
+     * @param mixed $default
      *            - default value.
      * @return string Parameter value.
      */
-    public function getParam($Param, $Default = false)
+    public function getParam($param, $default = false)
     {
         global $argv;
 
-        if (isset($argv[$Param])) {
-            return $argv[$Param];
+        if (isset($argv[$param])) {
+            return $argv[$param];
         }
 
-        return $Default;
+        return $default;
     }
 }

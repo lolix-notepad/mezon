@@ -10,7 +10,7 @@ class RecordFieldUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getFieldMock(): object
     {
-        $Mock = $this->getMockBuilder(\Mezon\Gui\Field\RecordField::class)
+        $mock = $this->getMockBuilder(\Mezon\Gui\Field\RecordField::class)
             ->setConstructorArgs(
             [
                 [
@@ -43,7 +43,7 @@ class RecordFieldUnitTest extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        $Mock->method('getFields')->willReturn(
+        $mock->method('getFields')->willReturn(
             [
                 'id' => [
                     'type' => 'integer'
@@ -54,7 +54,7 @@ class RecordFieldUnitTest extends \PHPUnit\Framework\TestCase
                 ]
             ]);
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -63,12 +63,12 @@ class RecordFieldUnitTest extends \PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = $this->getFieldMock();
+        $field = $this->getFieldMock();
 
         // test body
-        $Content = $Field->html();
+        $content = $field->html();
 
         // assertions
-        $this->assertStringContainsString('name="prefix-remote"', $Content, 'Name of the remote record was not found');
+        $this->assertStringContainsString('name="prefix-remote"', $content, 'Name of the remote record was not found');
     }
 }

@@ -20,15 +20,15 @@ class Filter
     /**
      * Method returns simple operator
      *
-     * @param array $Item
+     * @param array $item
      *            Expression item with operator
      * @return string Operator.
      */
-    protected static function getOperator(array $Item): string
+    protected static function getOperator(array $item): string
     {
-        $Item['op'] = strtolower($Item['op']);
+        $item['op'] = strtolower($item['op']);
 
-        $Operators = array(
+        $operators = array(
             '<',
             '>',
             '<=',
@@ -41,123 +41,123 @@ class Filter
             'in'
         );
 
-        if (in_array($Item['op'], $Operators)) {
-            return $Item['op'];
+        if (in_array($item['op'], $operators)) {
+            return $item['op'];
         }
 
-        throw (new \Exception('Invalid operator ' . $Item['op']));
+        throw (new \Exception('Invalid operator ' . $item['op']));
     }
 
     /**
      * Method returns argument
      *
-     * @param string $Arg
+     * @param string $arg
      *            Argument name orr value
-     * @param mixed $Op
+     * @param mixed $op
      *            Operator
      * @return string Argument
      */
-    protected static function getArg($Arg, $Op = false): string
+    protected static function getArg($arg, $op = false): string
     {
-        if (is_array($Arg) && $Op === 'in') {
-            $Result = '( ' . implode(' , ', $Arg) . ' )';
-        } elseif (is_array($Arg)) {
-            $Result = '( ' . self::getStatement($Arg) . ' )';
-        } elseif (strpos($Arg, '$') === 0) {
-            $Result = substr($Arg, 1);
+        if (is_array($arg) && $op === 'in') {
+            $result = '( ' . implode(' , ', $arg) . ' )';
+        } elseif (is_array($arg)) {
+            $result = '( ' . self::getStatement($arg) . ' )';
+        } elseif (strpos($arg, '$') === 0) {
+            $result = substr($arg, 1);
         } else {
-            if (is_numeric($Arg)) {
-                $Result = $Arg;
+            if (is_numeric($arg)) {
+                $result = $arg;
             } else {
-                $Result = "'" . $Arg . "'";
+                $result = "'" . $arg . "'";
             }
         }
-        return $Result;
+        return $result;
     }
 
     /**
      * Method compiles statement
      *
-     * @param array $Item
+     * @param array $item
      *            Expression
      * @return string Compiled expression
      */
-    protected static function getStatement(array $Item): string
+    protected static function getStatement(array $item): string
     {
-        $Statement = self::getArg($Item['arg1']);
+        $statement = self::getArg($item['arg1']);
 
-        $Statement .= ' ' . self::getOperator($Item) . ' ';
+        $statement .= ' ' . self::getOperator($item) . ' ';
 
-        $Statement .= self::getArg($Item['arg2'], self::getOperator($Item));
+        $statement .= self::getArg($item['arg2'], self::getOperator($item));
 
-        return $Statement;
+        return $statement;
     }
 
     /**
      * Complex where compilation
      *
-     * @param array $Arr
+     * @param array $arr
      *            List of structured expressions
-     * @param array $Where
+     * @param array $where
      *            List of compiled conditions
      * @return array New list of compiled conditons
      */
-    protected static function compileWhere(array $Arr, array $Where): array
+    protected static function compileWhere(array $arr, array $where): array
     {
-        foreach ($Arr as $Item) {
-            $Where[] = self::getStatement($Item);
+        foreach ($arr as $item) {
+            $where[] = self::getStatement($item);
         }
 
-        return $Where;
+        return $where;
     }
 
     /**
      * Method adds where condition
      *
-     * @param array $Arr
+     * @param array $arr
      *            Array of fields to be fetched
-     * @param array $Where
+     * @param array $where
      *            Conditions
      * @return array Conditions
      */
-    public static function addFilterConditionFromArr(array $Arr, array $Where): array
+    public static function addFilterConditionFromArr(array $arr, array $where): array
     {
-        $FirstElement = array_slice($Arr, - 1);
-        $FirstElement = array_pop($FirstElement);
+        $firstElement = array_slice($arr, - 1);
+        $firstElement = array_pop($firstElement);
 
-        if (count($Arr) && is_array($FirstElement)) {
-            return self::compileWhere($Arr, $Where);
+        if (count($arr) && is_array($firstElement)) {
+            return self::compileWhere($arr, $where);
         }
 
         // simple filter construction
-        foreach ($Arr as $Field => $Value) {
-            if (is_numeric($Value)) {
-                $Where[] = htmlspecialchars($Field) . ' = ' . $Value;
-            } elseif ($Value == 'null') {
-                $Where[] = htmlspecialchars($Field) . ' IS NULL';
-            } elseif ($Value == 'not null') {
-                $Where[] = htmlspecialchars($Field) . ' IS NOT NULL';
+        foreach ($arr as $field => $value) {
+            if (is_numeric($value)) {
+                $where[] = htmlspecialchars($field) . ' = ' . $value;
+            } elseif ($value == 'null') {
+                $where[] = htmlspecialchars($field) . ' IS NULL';
+            } elseif ($value == 'not null') {
+                $where[] = htmlspecialchars($field) . ' IS NOT NULL';
             } else {
-                $Where[] = htmlspecialchars($Field) . ' LIKE "' . htmlspecialchars($Value) . '"';
+                $where[] = htmlspecialchars($field) . ' LIKE "' . htmlspecialchars($value) . '"';
             }
         }
 
-        return $Where;
+        return $where;
     }
 
     /**
      * Method adds where condition
      *
-     * @param array $Where
+     * @param array $where
      *            Conditions
      * @return array Conditions
      */
-    public static function addFilterCondition($Where)
+    public static function addFilterCondition($where)
     {
         if (! isset($_GET['filter'])) {
-            return $Where;
+            return $where;
         }
 
-        return self::addFilterConditionFromArr($_GET['filter'], $Where);
+        return self::addFilterConditionFromArr($_GET['filter'], $where);
     }
 }

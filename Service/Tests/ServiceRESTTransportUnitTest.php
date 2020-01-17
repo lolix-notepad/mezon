@@ -34,7 +34,7 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     protected function getTransportMock()
     {
-        $Mock = $this->getMockBuilder(\Mezon\Service\ServiceRestTransport\ServiceRestTransport::class)
+        $mock = $this->getMockBuilder(\Mezon\Service\ServiceRestTransport\ServiceRestTransport::class)
             ->setMethods([
             'header',
             'createSession',
@@ -43,13 +43,13 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        $Mock->expects($this->once())
+        $mock->expects($this->once())
             ->method('header');
-        $Mock->method('errorResponse')->willThrowException(
+        $mock->method('errorResponse')->willThrowException(
             new \Mezon\Service\ServiceRestTransport\RestException('Msg', 0, 1, 1));
-        $Mock->method('parentErrorResponse')->willThrowException(new \Exception('Msg', 0));
+        $mock->method('parentErrorResponse')->willThrowException(new \Exception('Msg', 0));
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -59,14 +59,12 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     protected function getServiceLogicMock()
     {
-        $Mock = $this->getMockBuilder(TestingServiceLogicForRestTransport::class)
+        return $this->getMockBuilder(TestingServiceLogicForRestTransport::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'connect'
         ])
             ->getMock();
-
-        return $Mock;
     }
 
     /**
@@ -74,9 +72,9 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructor()
     {
-        $Transport = new \Mezon\Service\ServiceRestTransport\ServiceRestTransport();
+        $transport = new \Mezon\Service\ServiceRestTransport\ServiceRestTransport();
 
-        $this->assertNotEquals(null, $Transport->SecurityProvider, 'Security provide was not setup');
+        $this->assertNotEquals(null, $transport->securityProvider);
     }
 
     /**
@@ -84,8 +82,8 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitDefault()
     {
-        $Transport = new \Mezon\Service\ServiceRestTransport\ServiceRestTransport();
-        $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $Transport->SecurityProvider);
+        $transport = new \Mezon\Service\ServiceRestTransport\ServiceRestTransport();
+        $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $transport->securityProvider);
     }
 
     /**
@@ -93,8 +91,9 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitString()
     {
-        $Transport = new \Mezon\Service\ServiceRestTransport\ServiceRestTransport(FakeSecurityProviderForRestTransport::class);
-        $this->assertInstanceOf(FakeSecurityProviderForRestTransport::class, $Transport->SecurityProvider);
+        $transport = new \Mezon\Service\ServiceRestTransport\ServiceRestTransport(
+            FakeSecurityProviderForRestTransport::class);
+        $this->assertInstanceOf(FakeSecurityProviderForRestTransport::class, $transport->securityProvider);
     }
 
     /**
@@ -102,8 +101,9 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitObject()
     {
-        $Transport = new \Mezon\Service\ServiceRestTransport\ServiceRestTransport(new FakeSecurityProviderForRestTransport());
-        $this->assertInstanceOf(FakeSecurityProviderForRestTransport::class, $Transport->SecurityProvider);
+        $transport = new \Mezon\Service\ServiceRestTransport\ServiceRestTransport(
+            new FakeSecurityProviderForRestTransport());
+        $this->assertInstanceOf(FakeSecurityProviderForRestTransport::class, $transport->securityProvider);
     }
 
     /**
@@ -111,14 +111,14 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testSingleHeaderCall()
     {
-        $Mock = $this->getTransportMock();
+        $mock = $this->getTransportMock();
 
-        $ServiceLogic = $this->getServiceLogicMock();
+        $serviceLogic = $this->getServiceLogicMock();
 
-        $ServiceLogic->expects($this->once())
+        $serviceLogic->expects($this->once())
             ->method('connect');
 
-        $Mock->callLogic($ServiceLogic, 'connect');
+        $mock->callLogic($serviceLogic, 'connect');
     }
 
     /**
@@ -126,36 +126,36 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testSingleHeaderCallPublic()
     {
-        $Mock = $this->getTransportMock();
+        $mock = $this->getTransportMock();
 
-        $ServiceLogic = $this->getServiceLogicMock();
+        $serviceLogic = $this->getServiceLogicMock();
 
-        $ServiceLogic->expects($this->once())
+        $serviceLogic->expects($this->once())
             ->method('connect');
 
-        $Mock->callPublicLogic($ServiceLogic, 'connect');
+        $mock->callPublicLogic($serviceLogic, 'connect');
     }
 
     /**
      * Setup method call
      *
-     * @param string $MethodName
+     * @param string $methodName
      *            Method name
      * @return object Mock object
      */
-    protected function setupMethod(string $MethodName): object
+    protected function setupMethod(string $methodName): object
     {
-        $Mock = $this->getTransportMock();
+        $mock = $this->getTransportMock();
 
-        $Mock->ServiceLogic = $this->getServiceLogicMock();
+        $mock->serviceLogic = $this->getServiceLogicMock();
 
-        $Mock->expects($this->never())
+        $mock->expects($this->never())
             ->method('createSession');
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $Mock->addRoute('public-method', $MethodName, 'GET', 'public_call');
+        $mock->addRoute('public-method', $methodName, 'GET', 'public_call');
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -164,31 +164,31 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
     public function testPublicCall()
     {
         // setup
-        $Mock = $this->setupMethod('publicMethod');
+        $mock = $this->setupMethod('publicMethod');
 
         // test body and assertions
-        $Mock->getRouter()->callRoute('/public-method/');
+        $mock->getRouter()->callRoute('/public-method/');
     }
 
     /**
      * Setup method call
      *
-     * @param string $MethodName
+     * @param string $methodName
      *            Method name
      * @return object Mock object
      */
-    protected function setupPrivateMethod(string $MethodName): object
+    protected function setupPrivateMethod(string $methodName): object
     {
-        $Mock = $this->getTransportMock();
+        $mock = $this->getTransportMock();
 
-        $Mock->ServiceLogic = $this->getServiceLogicMock();
+        $mock->serviceLogic = $this->getServiceLogicMock();
 
-        $Mock->expects($this->once())
+        $mock->expects($this->once())
             ->method('createSession');
 
-        $Mock->addRoute('private-method', $MethodName, 'GET', 'private_call');
+        $mock->addRoute('private-method', $methodName, 'GET', 'private_call');
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -197,10 +197,10 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
     public function testPrivateCall()
     {
         // setup
-        $Mock = $this->setupPrivateMethod('privateMethod');
+        $mock = $this->setupPrivateMethod('privateMethod');
 
         // test body and assertions
-        $Mock->getRouter()->callRoute('/private-method/');
+        $mock->getRouter()->callRoute('/private-method/');
     }
 
     /**
@@ -209,12 +209,12 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
     public function testPublicCallException()
     {
         // setup
-        $Mock = $this->setupMethod('methodException');
+        $mock = $this->setupMethod('methodException');
 
         $this->expectException(Exception::class);
 
         // test body and assertions
-        $Mock->getRouter()->callRoute('/public-method/');
+        $mock->getRouter()->callRoute('/public-method/');
     }
 
     /**
@@ -223,11 +223,11 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
     public function testPublicCallRestException()
     {
         // setup
-        $Mock = $this->setupMethod('methodRestException');
+        $mock = $this->setupMethod('methodRestException');
 
         $this->expectException(Exception::class);
         // test body and assertions
-        $Mock->getRouter()->callRoute('/public-method/');
+        $mock->getRouter()->callRoute('/public-method/');
     }
 
     /**
@@ -236,12 +236,12 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
     public function testPrivateCallException()
     {
         // setup
-        $Mock = $this->setupPrivateMethod('methodException');
+        $mock = $this->setupPrivateMethod('methodException');
 
         $this->expectException(Exception::class);
 
         // test body and assertions
-        $Mock->getRouter()->callRoute('/private-method/');
+        $mock->getRouter()->callRoute('/private-method/');
     }
 
     /**
@@ -250,11 +250,11 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
     public function testPrivateCallRestException()
     {
         // setup
-        $Mock = $this->setupPrivateMethod('methodRestException');
+        $mock = $this->setupPrivateMethod('methodRestException');
 
         $this->expectException(Exception::class);
 
         // test body and assertions
-        $Mock->getRouter()->callRoute('/private-method/');
+        $mock->getRouter()->callRoute('/private-method/');
     }
 }

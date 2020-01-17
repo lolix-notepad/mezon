@@ -15,7 +15,7 @@ class FakeService implements \Mezon\Service\ServiceBaseLogicInterface
 class ConcreteFetcher implements \Mezon\Service\ServiceRequestParamsInterface
 {
 
-    public function getParam($Param, $Default = false)
+    public function getParam($param, $default = false)
     {
         return 1;
     }
@@ -38,10 +38,10 @@ class ConcreteServiceTransport extends \Mezon\Service\ServiceTransport
 class FakeServiceLogic extends \Mezon\Service\ServiceLogic
 {
 
-    public function __construct(\Mezon\Router\Router &$Router)
+    public function __construct(\Mezon\Router\Router &$router)
     {
         parent::__construct(
-            new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($Router),
+            new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($router),
             new \Mezon\Service\ServiceMockSecurityProvider());
     }
 
@@ -63,9 +63,9 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructor(): void
     {
-        $ServiceTransport = new ConcreteServiceTransport();
+        $serviceTransport = new ConcreteServiceTransport();
 
-        $this->assertInstanceOf(\Mezon\Router\Router::class, $ServiceTransport->getRouter(), 'Router was not created');
+        $this->assertInstanceOf(\Mezon\Router\Router::class, $serviceTransport->getRouter(), 'Router was not created');
     }
 
     /**
@@ -73,13 +73,13 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetServiceLogic(): void
     {
-        $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
-        $ServiceTransport->addRoute('test', 'test', 'GET');
+        $serviceTransport = new ConcreteServiceTransport();
+        $serviceTransport->serviceLogic = new FakeServiceLogic($serviceTransport->getRouter());
+        $serviceTransport->addRoute('test', 'test', 'GET');
 
-        $Result = $ServiceTransport->getRouter()->callRoute('test');
+        $result = $serviceTransport->getRouter()->callRoute('test');
 
-        $this->assertEquals('test', $Result, 'Invalid route execution result');
+        $this->assertEquals('test', $result, 'Invalid route execution result');
     }
 
     /**
@@ -87,13 +87,13 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetServiceLogicPublic(): void
     {
-        $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
-        $ServiceTransport->addRoute('test', 'test', 'GET', 'public_call');
+        $serviceTransport = new ConcreteServiceTransport();
+        $serviceTransport->serviceLogic = new FakeServiceLogic($serviceTransport->getRouter());
+        $serviceTransport->addRoute('test', 'test', 'GET', 'public_call');
 
-        $Result = $ServiceTransport->getRouter()->callRoute('test');
+        $result = $serviceTransport->getRouter()->callRoute('test');
 
-        $this->assertEquals('test', $Result, 'Invalid public route execution result');
+        $this->assertEquals('test', $result, 'Invalid public route execution result');
     }
 
     /**
@@ -101,20 +101,20 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetServiceLogicFromArray(): void
     {
-        $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = [
-            new FakeServiceLogic($ServiceTransport->getRouter())
+        $serviceTransport = new ConcreteServiceTransport();
+        $serviceTransport->serviceLogic = [
+            new FakeServiceLogic($serviceTransport->getRouter())
         ];
-        $ServiceTransport->addRoute('test', 'test', 'GET');
+        $serviceTransport->addRoute('test', 'test', 'GET');
 
         $_GET['r']='test';
         $_REQUEST['HTTP_METHOD']='GET';
         ob_start();
-        $ServiceTransport->run();
-        $Output = ob_get_contents();
+        $serviceTransport->run();
+        $output = ob_get_contents();
         ob_end_clean();
 
-        $this->assertEquals('test', $Output, 'Invalid route execution result for multyple logics');
+        $this->assertEquals('test', $output, 'Invalid route execution result for multyple logics');
     }
 
     /**
@@ -122,11 +122,11 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetServiceLogicWithUnexistingMethod(): void
     {
-        $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
+        $serviceTransport = new ConcreteServiceTransport();
+        $serviceTransport->serviceLogic = new FakeServiceLogic($serviceTransport->getRouter());
 
         $this->expectException(Exception::class);
-        $ServiceTransport->addRoute('unexisting', 'unexisting', 'GET');
+        $serviceTransport->addRoute('unexisting', 'unexisting', 'GET');
     }
 
     /**
@@ -135,14 +135,14 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     public function testFormatCallStack(): void
     {
         // setup
-        $ServiceTransport = new ConcreteServiceTransport();
-        $Exception = new Exception('Error message', - 1);
+        $serviceTransport = new ConcreteServiceTransport();
+        $exception = new Exception('Error message', - 1);
 
         // test body
-        $Format = $ServiceTransport->errorResponse($Exception);
+        $format = $serviceTransport->errorResponse($exception);
 
         // assertions
-        $this->assertEquals(5, count($Format), 'Invalid formatter');
+        $this->assertEquals(5, count($format), 'Invalid formatter');
     }
 
     /**
@@ -178,17 +178,17 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     public function testLadRoute(): void
     {
         // setup
-        $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
+        $serviceTransport = new ConcreteServiceTransport();
+        $serviceTransport->serviceLogic = new FakeServiceLogic($serviceTransport->getRouter());
 
         // test body
-        $ServiceTransport->loadRoute([
+        $serviceTransport->loadRoute([
             'route' => '/route/',
             'callback' => 'test'
         ]);
 
         // assertions
-        $this->assertTrue($ServiceTransport->routeExists('/route/'), 'Route does not exists');
+        $this->assertTrue($serviceTransport->routeExists('/route/'), 'Route does not exists');
     }
 
     /**
@@ -196,15 +196,15 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider dataProviderForTestInvalidLoadRoute
      */
-    public function testInvalidLoadRoute(array $Route): void
+    public function testInvalidLoadRoute(array $route): void
     {
         // setup
-        $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = null;
+        $serviceTransport = new ConcreteServiceTransport();
+        $serviceTransport->serviceLogic = null;
 
         // test body
         $this->expectException(Exception::class);
-        $ServiceTransport->loadRoute($Route);
+        $serviceTransport->loadRoute($route);
     }
 
     /**
@@ -213,11 +213,11 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     public function testLoadRoutes(): void
     {
         // setup
-        $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
+        $serviceTransport = new ConcreteServiceTransport();
+        $serviceTransport->serviceLogic = new FakeServiceLogic($serviceTransport->getRouter());
 
         // test body
-        $ServiceTransport->loadRoutes([
+        $serviceTransport->loadRoutes([
             [
                 'route' => '/route/',
                 'callback' => 'test'
@@ -225,7 +225,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // assertions
-        $this->assertTrue($ServiceTransport->routeExists('/route/'), 'Route does not exists');
+        $this->assertTrue($serviceTransport->routeExists('/route/'), 'Route does not exists');
     }
 
     /**
@@ -234,13 +234,13 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
     public function testFetchActions(): void
     {
         // setup
-        $ServiceTransport = new ConcreteServiceTransport();
-        $ServiceTransport->ServiceLogic = new FakeServiceLogic($ServiceTransport->getRouter());
+        $serviceTransport = new ConcreteServiceTransport();
+        $serviceTransport->serviceLogic = new FakeServiceLogic($serviceTransport->getRouter());
 
         // test body
-        $ServiceTransport->fetchActions(new FakeService());
+        $serviceTransport->fetchActions(new FakeService());
 
         // assertions
-        $this->assertTrue($ServiceTransport->routeExists('/hello-world/'), 'Route does not exists');
+        $this->assertTrue($serviceTransport->routeExists('/hello-world/'), 'Route does not exists');
     }
 }

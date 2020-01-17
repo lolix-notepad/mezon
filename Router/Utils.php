@@ -20,78 +20,78 @@ class Utils
     /**
      * Converting method name to route
      *
-     * @param string $MethodName
+     * @param string $methodName
      *            method name
      * @return string route
      */
-    public static function convertMethodNameToRoute(string $MethodName): string
+    public static function convertMethodNameToRoute(string $methodName): string
     {
-        $MethodName = str_replace('action', '', $MethodName);
+        $methodName = str_replace('action', '', $methodName);
 
-        if (ctype_upper($MethodName[0])) {
-            $MethodName[0] = strtolower($MethodName[0]);
+        if (ctype_upper($methodName[0])) {
+            $methodName[0] = strtolower($methodName[0]);
         }
 
-        for ($i = 1; $i < strlen($MethodName); $i ++) {
-            if (ctype_upper($MethodName[$i])) {
-                $MethodName = substr_replace($MethodName, '-' . strtolower($MethodName[$i]), $i, 1);
+        for ($i = 1; $i < strlen($methodName); $i ++) {
+            if (ctype_upper($methodName[$i])) {
+                $methodName = substr_replace($methodName, '-' . strtolower($methodName[$i]), $i, 1);
             }
         }
 
-        return $MethodName;
+        return $methodName;
     }
 
     /**
      * Method prepares route for the next processing
      *
-     * @param mixed $Route
+     * @param mixed $route
      *            Route
      * @return string Trimmed route
      */
-    public static function prepareRoute($Route): string
+    public static function prepareRoute($route): string
     {
-        if (is_array($Route) && $Route[0] === '') {
-            $Route = $_SERVER['REQUEST_URI'];
+        if (is_array($route) && $route[0] === '') {
+            $route = $_SERVER['REQUEST_URI'];
         }
 
-        if ($Route == '/') {
-            $Route = '/index/';
+        if ($route == '/') {
+            $route = '/index/';
         }
 
-        if (is_array($Route)) {
-            $Route = implode('/', $Route);
+        if (is_array($route)) {
+            $route = implode('/', $route);
         }
 
-        return '/' . trim($Route, '/') . '/';
+        return '/' . trim($route, '/') . '/';
     }
 
     /**
      * Method compiles callable description
      *
-     * @param mixed $Processor
+     * @param mixed $processor
      *            Object to be descripted
      * @return string Description
      */
-    public static function getCallableDescription($Processor): string
+    public static function getCallableDescription($processor): string
     {
-        if (is_string($Processor)) {
-            return $Processor;
-        } elseif (is_object($Processor[0])) {
-            return get_class($Processor[0]) . '::' . $Processor[1];
+        if (is_string($processor)) {
+            return $processor;
+        } elseif (is_object($processor[0])) {
+            return get_class($processor[0]) . '::' . $processor[1];
         } else {
-            return $Processor[0] . '::' . $Processor[1];
+            return $processor[0] . '::' . $processor[1];
         }
     }
     
     /**
-     * Method detects if the $String is a parameter or a static component of the route
+     * Method detects if the $string is a parameter or a static component of the route
      *
-     * @param string $String
+     * @param string $string
      *            String to be validated
      * @return bool Does we have parameter
      */
-    public static function isParameter($String): bool
+    public static function isParameter($string): bool
     {
-        return $String[0] == '[' && $String[strlen($String) - 1] == ']';
+        return $string[0] == '[' && $string[strlen($string) - 1] == ']';
     }
 }

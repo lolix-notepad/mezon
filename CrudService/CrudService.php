@@ -22,56 +22,56 @@ class CrudService extends \Mezon\Service\Service
     /**
      * Constructor
      *
-     * @param array $Entity
+     * @param array $entity
      *            Entity description
-     * @param mixed $ServiceTransport
+     * @param mixed $serviceTransport
      *            Service's transport, defaulted to \Mezon\Service\ServiceRestTransport::class
-     * @param mixed $SecurityProvider
+     * @param mixed $securityProvider
      *            Service's security provider, defaulted to \Mezon\Service\ServiceMockSecurityProvider::class
-     * @param mixed $ServiceLogic
+     * @param mixed $serviceLogic
      *            Service's logic, defaulted to \Mezon\CrudService\CrudServiceLogic::class
-     * @param mixed $ServiceModel
+     * @param mixed $serviceModel
      *            Service's model, defaulted to \Mezon\CrudService\CrudServiceModel::class
      */
     public function __construct(
-        array $Entity,
-        $ServiceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
-        $SecurityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
-        $ServiceLogic = \Mezon\CrudService\CrudServiceLogic::class,
-        $ServiceModel = \Mezon\CrudService\CrudServiceModel::class)
+        array $entity,
+        $serviceTransport = \Mezon\Service\ServiceRestTransport\ServiceRestTransport::class,
+        $securityProvider = \Mezon\Service\ServiceMockSecurityProvider::class,
+        $serviceLogic = \Mezon\CrudService\CrudServiceLogic::class,
+        $serviceModel = \Mezon\CrudService\CrudServiceModel::class)
     {
         try {
             parent::__construct(
-                $ServiceTransport,
-                $SecurityProvider,
-                $ServiceLogic,
-                $this->initModel($Entity, $ServiceModel));
+                $serviceTransport,
+                $securityProvider,
+                $serviceLogic,
+                $this->initModel($entity, $serviceModel));
 
             $this->initCrudRoutes();
         } catch (\Exception $e) {
-            $this->ServiceTransport->handleException($e);
+            $this->serviceTransport->handleException($e);
         }
     }
 
     /**
      * Method inits service's model
      *
-     * @param array $Entity
+     * @param array $entity
      *            Entity description
-     * @param string|\Mezon\CrudService\CrudServiceModel $ServiceModel
+     * @param string|\Mezon\CrudService\CrudServiceModel $serviceModel
      *            Service's model
      */
-    protected function initModel(array $Entity, $ServiceModel)
+    protected function initModel(array $entity, $serviceModel)
     {
-        $Fields = isset($Entity['fields']) ? $Entity['fields'] : $this->getFieldsFromConfig();
+        $fields = isset($entity['fields']) ? $entity['fields'] : $this->getFieldsFromConfig();
 
-        if (is_string($ServiceModel)) {
-            $this->Model = new $ServiceModel($Fields, $Entity['table-name'], $Entity['entity-name']);
+        if (is_string($serviceModel)) {
+            $this->model = new $serviceModel($fields, $entity['table-name'], $entity['entity-name']);
         } else {
-            $this->Model = $ServiceModel;
+            $this->model = $serviceModel;
         }
 
-        return $this->Model;
+        return $this->model;
     }
 
     /**
@@ -93,19 +93,19 @@ class CrudService extends \Mezon\Service\Service
      */
     protected function initCrudRoutes(): void
     {
-        $this->ServiceTransport->addRoute('/list/', 'listRecord', 'GET');
-        $this->ServiceTransport->addRoute('/all/', 'all', 'GET');
-        $this->ServiceTransport->addRoute('/exact/list/[il:ids]/', 'exactList', 'GET');
-        $this->ServiceTransport->addRoute('/exact/[i:id]/', 'exact', 'GET');
-        $this->ServiceTransport->addRoute('/fields/', 'fields', 'GET');
-        $this->ServiceTransport->addRoute('/delete/[i:id]/', 'deleteRecord', 'POST');
-        $this->ServiceTransport->addRoute('/delete/', 'deleteFiltered', 'POST');
-        $this->ServiceTransport->addRoute('/create/', 'createRecord', 'POST');
-        $this->ServiceTransport->addRoute('/update/[i:id]/', 'updateRecord', 'POST');
-        $this->ServiceTransport->addRoute('/new/from/[s:date]/', 'newRecordsSince', 'GET');
-        $this->ServiceTransport->addRoute('/records/count/', 'recordsCount', 'GET');
-        $this->ServiceTransport->addRoute('/last/[i:count]/', 'lastRecords', 'GET');
-        $this->ServiceTransport->addRoute('/records/count/[s:field]/', 'recordsCountByField', 'GET');
+        $this->serviceTransport->addRoute('/list/', 'listRecord', 'GET');
+        $this->serviceTransport->addRoute('/all/', 'all', 'GET');
+        $this->serviceTransport->addRoute('/exact/list/[il:ids]/', 'exactList', 'GET');
+        $this->serviceTransport->addRoute('/exact/[i:id]/', 'exact', 'GET');
+        $this->serviceTransport->addRoute('/fields/', 'fields', 'GET');
+        $this->serviceTransport->addRoute('/delete/[i:id]/', 'deleteRecord', 'POST');
+        $this->serviceTransport->addRoute('/delete/', 'deleteFiltered', 'POST');
+        $this->serviceTransport->addRoute('/create/', 'createRecord', 'POST');
+        $this->serviceTransport->addRoute('/update/[i:id]/', 'updateRecord', 'POST');
+        $this->serviceTransport->addRoute('/new/from/[s:date]/', 'newRecordsSince', 'GET');
+        $this->serviceTransport->addRoute('/records/count/', 'recordsCount', 'GET');
+        $this->serviceTransport->addRoute('/last/[i:count]/', 'lastRecords', 'GET');
+        $this->serviceTransport->addRoute('/records/count/[s:field]/', 'recordsCountByField', 'GET');
 
         // TODO add PUT and delete requests
         // TODO allow in CrudServiceClient trait DELETE and PUT as POST

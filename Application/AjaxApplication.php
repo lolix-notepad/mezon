@@ -40,9 +40,9 @@ class AjaxApplication extends \Mezon\Application\Application
     /**
      * Method finishes ajax requests processing and returns result
      */
-    protected function ajaxRequestResult($Result)
+    protected function ajaxRequestResult($result)
     {
-        print(json_encode($Result));
+        print(json_encode($result));
 
         exit(0);
     }
@@ -50,16 +50,16 @@ class AjaxApplication extends \Mezon\Application\Application
     /**
      * Method finishes ajax requests processing
      *
-     * @param string $Message
+     * @param string $message
      *            Error message
-     * @param int $Code
+     * @param int $code
      *            Error code
      */
-    protected function ajaxRequestError(string $Message, int $Code = - 1)
+    protected function ajaxRequestError(string $message, int $code = - 1)
     {
         print(json_encode([
-            "message" => $Message,
-            "code" => $Code
+            "message" => $message,
+            "code" => $code
         ]));
 
         exit(0);
@@ -73,15 +73,15 @@ class AjaxApplication extends \Mezon\Application\Application
      */
     public function handleException(\Exception $e): void
     {
-        $Error = new \stdClass();
-        $Error->message = $e->getMessage();
-        $Error->code = $e->getCode();
+        $error = new \stdClass();
+        $error->message = $e->getMessage();
+        $error->code = $e->getCode();
         if (isset($e->HTTPBody)) {
-            $Error->http_body = $e->HTTPBody;
+            $error->httpBody = $e->HTTPBody;
         }
-        $Error->call_stack = $this->formatCallStack($e);
-        $Error->host = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $error->call_stack = $this->formatCallStack($e);
+        $error->host = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-        print(json_encode($Error, JSON_PRETTY_PRINT));
+        print(json_encode($error, JSON_PRETTY_PRINT));
     }
 }

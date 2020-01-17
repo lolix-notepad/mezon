@@ -22,7 +22,7 @@ class DnsClient
     /**
      * DNS records
      */
-    public static $DNSRecords = [];
+    public static $dNSRecords = [];
 
     /**
      * Method returns list of available services
@@ -31,54 +31,54 @@ class DnsClient
      */
     public static function getServices(): string
     {
-        return implode(', ', array_keys(self::$DNSRecords));
+        return implode(', ', array_keys(self::$dNSRecords));
     }
 
     /**
      * Method returns true if the service was defined.
      *
-     * @param string $ServiceName
+     * @param string $serviceName
      *            Service name
      *            return bool Does service exists
      */
-    public static function serviceExists(string $ServiceName): bool
+    public static function serviceExists(string $serviceName): bool
     {
-        return isset(self::$DNSRecords[$ServiceName]);
+        return isset(self::$dNSRecords[$serviceName]);
     }
 
     /**
      * Method resolves host
      *
-     * @param string $ServiceName
+     * @param string $serviceName
      *            Service name
      * @return string Service URL
      */
-    public static function resolveHost(string $ServiceName): string
+    public static function resolveHost(string $serviceName): string
     {
-        if (! isset(self::$DNSRecords[$ServiceName])) {
+        if (! isset(self::$dNSRecords[$serviceName])) {
             throw (new \Exception(
-                'Service "' . $ServiceName . '" was not found among services: ' . self::getServices(),
+                'Service "' . $serviceName . '" was not found among services: ' . self::getServices(),
                 - 1));
         }
 
-        if (is_string(self::$DNSRecords[$ServiceName])) {
-            return self::$DNSRecords[$ServiceName];
+        if (is_string(self::$dNSRecords[$serviceName])) {
+            return self::$dNSRecords[$serviceName];
         } else {
-            throw (new \Exception('Invalid URL "' . serialize(self::$DNSRecords[$ServiceName]) . '"', - 1));
+            throw (new \Exception('Invalid URL "' . serialize(self::$dNSRecords[$serviceName]) . '"', - 1));
         }
     }
 
     /**
      * Method saves service URL
      *
-     * @param string $ServiceName
+     * @param string $serviceName
      *            Service name
-     * @param string $ServiceUrl
+     * @param string $serviceUrl
      *            Service URL
      */
-    public static function setService(string $ServiceName, string $ServiceUrl): void
+    public static function setService(string $serviceName, string $serviceUrl): void
     {
-        self::$DNSRecords[$ServiceName] = $ServiceUrl;
+        self::$dNSRecords[$serviceName] = $serviceUrl;
     }
 
     /**
@@ -86,6 +86,6 @@ class DnsClient
      */
     public static function clear(): void
     {
-        self::$DNSRecords = [];
+        self::$dNSRecords = [];
     }
 }

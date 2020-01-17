@@ -22,50 +22,50 @@ class TemplateResources
     /**
      * Custom CSS files to be included.
      */
-    private static $CSSFiles = false;
+    private static $cSSFiles = false;
 
     /**
      * Custom JS files to be included.
      */
-    private static $JSFiles = false;
+    private static $jSFiles = false;
 
     /**
      * Constructor.
      */
     function __construct()
     {
-        if (self::$CSSFiles === false) {
-            self::$CSSFiles = [];
+        if (self::$cSSFiles === false) {
+            self::$cSSFiles = [];
         }
-        if (self::$JSFiles === false) {
-            self::$JSFiles = [];
+        if (self::$jSFiles === false) {
+            self::$jSFiles = [];
         }
     }
 
     /**
      * Additing single CSS file
      *
-     * @param string $CSSFile
+     * @param string $cSSFile
      *            CSS file
      */
-    function addCssFile(string $CSSFile)
+    function addCssFile(string $cSSFile)
     {
         // additing only unique paths
-        if (array_search($CSSFile, self::$CSSFiles) === false) {
-            self::$CSSFiles[] = \Mezon\Conf\Conf::expandString($CSSFile);
+        if (array_search($cSSFile, self::$cSSFiles) === false) {
+            self::$cSSFiles[] = \Mezon\Conf\Conf::expandString($cSSFile);
         }
     }
 
     /**
      * Additing multyple CSS files
      *
-     * @param array $CSSFiles
+     * @param array $cSSFiles
      *            CSS files
      */
-    function addCssFiles(array $CSSFiles)
+    function addCssFiles(array $cSSFiles)
     {
-        foreach ($CSSFiles as $CSSFile) {
-            $this->addCssFile($CSSFile);
+        foreach ($cSSFiles as $cSSFile) {
+            $this->addCssFile($cSSFile);
         }
     }
 
@@ -74,33 +74,33 @@ class TemplateResources
      */
     function getCssFiles()
     {
-        return self::$CSSFiles;
+        return self::$cSSFiles;
     }
 
     /**
      * Additing single CSS file
      *
-     * @param string $JSFile
+     * @param string $jSFile
      *            JS file
      */
-    function addJsFile($JSFile)
+    function addJsFile($jSFile)
     {
         // additing only unique paths
-        if (array_search($JSFile, self::$JSFiles) === false) {
-            self::$JSFiles[] = \Mezon\Conf\Conf::expandString($JSFile);
+        if (array_search($jSFile, self::$jSFiles) === false) {
+            self::$jSFiles[] = \Mezon\Conf\Conf::expandString($jSFile);
         }
     }
 
     /**
      * Additing multyple CSS files
      *
-     * @param array $JSFiles
+     * @param array $jSFiles
      *            JS files
      */
-    function addJsFiles(array $JSFiles)
+    function addJsFiles(array $jSFiles)
     {
-        foreach ($JSFiles as $JSFile) {
-            $this->addJsFile($JSFile);
+        foreach ($jSFiles as $jSFile) {
+            $this->addJsFile($jSFile);
         }
     }
 
@@ -109,7 +109,7 @@ class TemplateResources
      */
     function getJsFiles()
     {
-        return self::$JSFiles;
+        return self::$jSFiles;
     }
 
     /**
@@ -117,8 +117,8 @@ class TemplateResources
      */
     function clear()
     {
-        self::$CSSFiles = [];
+        self::$cSSFiles = [];
 
-        self::$JSFiles = [];
+        self::$jSFiles = [];
     }
 }

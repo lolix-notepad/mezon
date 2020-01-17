@@ -22,62 +22,62 @@ class RestException extends \Exception
      *
      * @var int
      */
-    protected $HTTPCode = 0;
+    protected $httpCode = 0;
 
     /**
      * HTTP response body
      *
      * @var string
      */
-    protected $HTTPBody = '';
+    protected $httpBody = '';
 
     /**
      * HTTP response URL
      *
      * @var string
      */
-    protected $URL = '';
+    protected $url = '';
 
     /**
      * HTTP request options
      *
      * @var string
      */
-    protected $Options = false;
+    protected $options = false;
 
     /**
      * Constructor
      *
-     * @param string $Message
+     * @param string $message
      *            Error description
-     * @param int $Code
+     * @param int $code
      *            Code of the error
-     * @param int $HTTPCode
+     * @param int $hTTPCode
      *            Response HTTP code
-     * @param string $HTTPBody
+     * @param string $hTTPBody
      *            Body of the response
-     * @param string $URL
+     * @param string $uRL
      *            Request URL
-     * @param array $Options
+     * @param array $options
      *            Request options
      */
     public function __construct(
-        string $Message,
-        int $Code,
-        string $HTTPCode,
-        string $HTTPBody,
-        string $URL = '',
-        array $Options = [])
+        string $message,
+        int $code,
+        string $hTTPCode,
+        string $hTTPBody,
+        string $uRL = '',
+        array $options = [])
     {
-        parent::__construct($Message, $Code);
+        parent::__construct($message, $code);
 
-        $this->http_code = $HTTPCode;
+        $this->httpCode = $hTTPCode;
 
-        $this->http_body = $HTTPBody;
+        $this->httpBody = $hTTPBody;
 
-        $this->url = $URL;
+        $this->url = $uRL;
 
-        $this->options = $Options;
+        $this->options = $options;
     }
 
     /**
@@ -87,7 +87,7 @@ class RestException extends \Exception
      */
     public function getHttpCode(): int
     {
-        return $this->http_code;
+        return $this->httpCode;
     }
 
     /**
@@ -97,7 +97,7 @@ class RestException extends \Exception
      */
     public function getHttpBody(): string
     {
-        return $this->http_body;
+        return $this->httpBody;
     }
 
     /**

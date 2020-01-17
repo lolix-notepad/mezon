@@ -24,7 +24,7 @@ class Security
      *
      * @var \Mezon\Security\SecurityRules
      */
-    public static $SecurityRules = null;
+    public static $securityRules = null;
 
     /**
      * Method returns security rules
@@ -33,72 +33,72 @@ class Security
      */
     public static function getSecurityRules(): \Mezon\Security\SecurityRules
     {
-        if (self::$SecurityRules === null) {
-            self::$SecurityRules = new \Mezon\Security\SecurityRules();
+        if (self::$securityRules === null) {
+            self::$securityRules = new \Mezon\Security\SecurityRules();
         }
 
-        return self::$SecurityRules;
+        return self::$securityRules;
     }
 
     /**
      * Returning string value
      *
-     * @param string $Value
+     * @param string $value
      *            Value to be made secure
      * @return string Secure value
      * @codeCoverageIgnore
      */
-    public static function getStringValue(string $Value): string
+    public static function getStringValue(string $value): string
     {
-        return self::getSecurityRules()->getStringValue($Value);
+        return self::getSecurityRules()->getStringValue($value);
     }
 
     /**
      * Method returns file value
      *
-     * @param mixed $Value
+     * @param mixed $value
      *            Data about the uploaded file
-     * @param bool $StoreFiles
+     * @param bool $storeFiles
      *            Must be the file stored in the file system of the service or not
-     * @return string|array Path to the stored file or the array $Value itself
+     * @return string|array Path to the stored file or the array $value itself
      * @codeCoverageIgnore
      */
-    public static function getFileValue($Value, bool $StoreFiles)
+    public static function getFileValue($value, bool $storeFiles)
     {
-        return self::getSecurityRules()->getFileValue($Value, $StoreFiles);
+        return self::getSecurityRules()->getFileValue($value, $storeFiles);
     }
 
     /**
      * Method stores file on disk
      *
-     * @param string $FileContent
+     * @param string $fileContent
      *            Content of the saving file
-     * @param string $PathPrefix
+     * @param string $pathPrefix
      *            Prefix to file
-     * @param bool $Decoded
+     * @param bool $decoded
      *            If the file was not encodded in base64
      * @return string Path to file
      * @codeCoverageIgnore
      */
-    public static function storeFileContent(string $FileContent, string $PathPrefix, bool $Decoded = false): string
+    public static function storeFileContent(string $fileContent, string $pathPrefix, bool $decoded = false): string
     {
-        return self::getSecurityRules()->storeFileContent($FileContent, $PathPrefix, $Decoded);
+        return self::getSecurityRules()->storeFileContent($fileContent, $pathPrefix, $decoded);
     }
 
     /**
      * Method stores file on disk
      *
-     * @param string $FilePath
+     * @param string $filePath
      *            Path to the saving file
-     * @param string $PathPrefix
+     * @param string $pathPrefix
      *            Prefix to file
-     * @param bool $Decoded
+     * @param bool $decoded
      *            If the file was not encodded in base64
      * @return string Path to file or null if the image was not loaded
      * @codeCoverageIgnore
      */
-    public static function storeFile(string $FilePath, string $PathPrefix, bool $Decoded = false): ?string
+    public static function storeFile(string $filePath, string $pathPrefix, bool $decoded = false): ?string
     {
-        return self::getSecurityRules()->storeFile($FilePath, $PathPrefix, $Decoded);
+        return self::getSecurityRules()->storeFile($filePath, $pathPrefix, $decoded);
     }
 }

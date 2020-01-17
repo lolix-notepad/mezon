@@ -14,7 +14,7 @@ class SecurityRulesUnitTest extends \PHPUnit\Framework\TestCase
                 'size' => 0
             ]
         ];
-        $SecurityRules = $this->getMockBuilder(\Mezon\Security\SecurityRules::class)
+        $securityRules = $this->getMockBuilder(\Mezon\Security\SecurityRules::class)
             ->setMethods([
             '_prepareFs',
             'filePutContents',
@@ -24,10 +24,10 @@ class SecurityRulesUnitTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         // test body
-        $Result = $SecurityRules->getFileValue('test-file', false);
+        $result = $securityRules->getFileValue('test-file', false);
 
         // assertions
-        $this->assertEquals('', $Result);
+        $this->assertEquals('', $result);
     }
 
     /**
@@ -74,17 +74,17 @@ class SecurityRulesUnitTest extends \PHPUnit\Framework\TestCase
     /**
      * Testing edge cases of getFileValue
      *
-     * @param bool $StoreFile
+     * @param bool $storeFile
      *            do we need to store file
-     * @param array $Files
+     * @param array $files
      *            file ddescription
      * @dataProvider getFileValueProvider
      */
-    public function testGetFileValue(bool $StoreFile, array $Files): void
+    public function testGetFileValue(bool $storeFile, array $files): void
     {
         // setup
-        $_FILES = $Files;
-        $SecurityRules = $this->getMockBuilder(\Mezon\Security\SecurityRules::class)
+        $_FILES = $files;
+        $securityRules = $this->getMockBuilder(\Mezon\Security\SecurityRules::class)
             ->setMethods([
             '_prepareFs',
             'filePutContents',
@@ -93,30 +93,30 @@ class SecurityRulesUnitTest extends \PHPUnit\Framework\TestCase
             ->setConstructorArgs([])
             ->getMock();
 
-        if ($StoreFile) {
-            if (isset($Files['test-file']['tmp_name'])) {
-                $SecurityRules->expects($this->once())
+        if ($storeFile) {
+            if (isset($files['test-file']['tmp_name'])) {
+                $securityRules->expects($this->once())
                     ->method('moveUploadedFile');
             } else {
-                $SecurityRules->expects($this->once())
+                $securityRules->expects($this->once())
                     ->method('filePutContents');
             }
         }
 
         // test body
-        $Result = $SecurityRules->getFileValue('test-file', $StoreFile);
+        $result = $securityRules->getFileValue('test-file', $storeFile);
 
         // assertions
-        if ($StoreFile) {
-            $this->assertStringContainsString('/data/files/' . date('Y/m/d/'), $Result);
+        if ($storeFile) {
+            $this->assertStringContainsString('/data/files/' . date('Y/m/d/'), $result);
         } else {
-            $this->assertEquals(1, $Result['size']);
+            $this->assertEquals(1, $result['size']);
 
-            $this->assertEquals('1', $Result['name']);
-            if (isset($Files['test-file']['tmp_name'])) {
-                $this->assertEquals('1', $Result['tmp_name']);
+            $this->assertEquals('1', $result['name']);
+            if (isset($files['test-file']['tmp_name'])) {
+                $this->assertEquals('1', $result['tmp_name']);
             } else {
-                $this->assertEquals('1', $Result['file']);
+                $this->assertEquals('1', $result['file']);
             }
         }
     }
@@ -143,10 +143,10 @@ class SecurityRulesUnitTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider storeFileContentProvider
      */
-    public function testStoreFileContent(bool $Decoded): void
+    public function testStoreFileContent(bool $decoded): void
     {
         // setup
-        $SecurityRules = $this->getMockBuilder(\Mezon\Security\SecurityRules::class)
+        $securityRules = $this->getMockBuilder(\Mezon\Security\SecurityRules::class)
             ->setMethods([
             '_prepareFs',
             'filePutContents',
@@ -154,14 +154,14 @@ class SecurityRulesUnitTest extends \PHPUnit\Framework\TestCase
         ])
             ->setConstructorArgs([])
             ->getMock();
-        $SecurityRules->method('_prepareFs')->willReturn('prepared');
-        $SecurityRules->expects($this->once())
+        $securityRules->method('_prepareFs')->willReturn('prepared');
+        $securityRules->expects($this->once())
             ->method('filePutContents');
 
         // test body
-        $Result = $SecurityRules->storeFileContent('content', 'prefix', $Decoded);
+        $result = $securityRules->storeFileContent('content', 'prefix', $decoded);
 
         // assertions
-        $this->assertStringContainsString('/data/files/'.date('Y/m/d/'), $Result);
+        $this->assertStringContainsString('/data/files/'.date('Y/m/d/'), $result);
     }
 }

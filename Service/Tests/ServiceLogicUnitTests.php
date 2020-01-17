@@ -23,9 +23,9 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
     /**
      * Constructor
      */
-    public function __construct(string $ClassName = \Mezon\Service\ServiceLogic::class)
+    public function __construct(string $className = \Mezon\Service\ServiceLogic::class)
     {
-        parent::__construct($ClassName);
+        parent::__construct($className);
     }
 
     /**
@@ -33,7 +33,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
      */
     protected function getSecurityProviderMock()
     {
-        $Mock = $this->getMockBuilder(\Mezon\Service\ServiceMockSecurityProvider::class)
+        $mock = $this->getMockBuilder(\Mezon\Service\ServiceMockSecurityProvider::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'connect',
@@ -43,10 +43,10 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
         ])
             ->getMock();
 
-        $Mock->method('connect')->will($this->returnValue('valuevalue'));
-        $Mock->method('setToken')->will($this->returnValue('token'));
+        $mock->method('connect')->will($this->returnValue('valuevalue'));
+        $mock->method('setToken')->will($this->returnValue('token'));
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -54,17 +54,17 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
      */
     public function testConnect()
     {
-        $SecurityProviderMock = $this->getSecurityProviderMock();
+        $securityProviderMock = $this->getSecurityProviderMock();
 
-        $ServiceLogicClassName = $this->ClassName;
+        $serviceLogicClassName = $this->className;
 
-        $Logic = new $ServiceLogicClassName(
+        $logic = new $serviceLogicClassName(
             new \Mezon\Service\Tests\MockParamsFetcher(),
-            $SecurityProviderMock);
+            $securityProviderMock);
 
-        $Result = $Logic->connect();
+        $result = $logic->connect();
 
-        $this->assertEquals('valuevalue', $Result['session_id'], 'Connection failed');
+        $this->assertEquals('valuevalue', $result['session_id'], 'Connection failed');
     }
 
     /**
@@ -72,16 +72,16 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
      */
     public function testConnectWithEmptyParams()
     {
-        $SecurityProviderMock = $this->getSecurityProviderMock();
+        $securityProviderMock = $this->getSecurityProviderMock();
 
-        $ServiceLogicClassName = $this->ClassName;
+        $serviceLogicClassName = $this->className;
 
-        $Logic = new $ServiceLogicClassName(
+        $logic = new $serviceLogicClassName(
             new \Mezon\Service\Tests\MockParamsFetcher(false),
-            $SecurityProviderMock);
+            $securityProviderMock);
 
         $this->expectException(\Exception::class);
-        $Logic->connect();
+        $logic->connect();
     }
 
     /**
@@ -90,19 +90,19 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
     public function testSetToken()
     {
         // setup
-        $SecurityProviderMock = $this->getSecurityProviderMock();
+        $securityProviderMock = $this->getSecurityProviderMock();
 
-        $ServiceLogicClassName = $this->ClassName;
+        $serviceLogicClassName = $this->className;
 
-        $Logic = new $ServiceLogicClassName(
+        $logic = new $serviceLogicClassName(
             new \Mezon\Service\Tests\MockParamsFetcher(),
-            $SecurityProviderMock);
+            $securityProviderMock);
 
         // test body
-        $Result = $Logic->setToken();
+        $result = $logic->setToken();
 
         // assertions
-        $this->assertEquals('token', $Result['session_id'], 'Setting token failed');
+        $this->assertEquals('token', $result['session_id'], 'Setting token failed');
     }
 
     /**
@@ -111,19 +111,19 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
     public function testGetSelfId()
     {
         // setup
-        $SecurityProviderMock = $this->getSecurityProviderMock();
+        $securityProviderMock = $this->getSecurityProviderMock();
 
-        $ServiceLogicClassName = $this->ClassName;
+        $serviceLogicClassName = $this->className;
 
-        $Logic = new $ServiceLogicClassName(
+        $logic = new $serviceLogicClassName(
             new \Mezon\Service\Tests\MockParamsFetcher(),
-            $SecurityProviderMock);
+            $securityProviderMock);
 
         // test body
-        $Result = $Logic->getSelfId();
+        $result = $logic->getSelfId();
 
         // assertions
-        $this->assertEquals(1, $Result['id'], 'Getting self id failed');
+        $this->assertEquals(1, $result['id'], 'Getting self id failed');
     }
 
     /**
@@ -132,19 +132,19 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
     public function testGetSelfLogin()
     {
         // setup
-        $SecurityProviderMock = $this->getSecurityProviderMock();
+        $securityProviderMock = $this->getSecurityProviderMock();
 
-        $ServiceLogicClassName = $this->ClassName;
+        $serviceLogicClassName = $this->className;
 
-        $Logic = new $ServiceLogicClassName(
+        $logic = new $serviceLogicClassName(
             new \Mezon\Service\Tests\MockParamsFetcher(),
-            $SecurityProviderMock);
+            $securityProviderMock);
 
         // test body
-        $Result = $Logic->getSelfLogin();
+        $result = $logic->getSelfLogin();
 
         // assertions
-        $this->assertEquals('admin@localhost', $Result['login'], 'Getting self login failed');
+        $this->assertEquals('admin@localhost', $result['login'], 'Getting self login failed');
     }
 
     /**
@@ -153,19 +153,19 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
     public function testLoginAs()
     {
         // setup
-        $SecurityProviderMock = $this->getSecurityProviderMock();
+        $securityProviderMock = $this->getSecurityProviderMock();
 
-        $ServiceLogicClassName = $this->ClassName;
+        $serviceLogicClassName = $this->className;
 
-        $Logic = new $ServiceLogicClassName(
+        $logic = new $serviceLogicClassName(
             new \Mezon\Service\Tests\MockParamsFetcher(),
-            $SecurityProviderMock);
+            $securityProviderMock);
 
         // test body
-        $Result = $Logic->loginAs();
+        $result = $logic->loginAs();
 
         // assertions
-        $this->assertEquals('value', $Result['session_id'], 'Getting self login failed');
+        $this->assertEquals('value', $result['session_id'], 'Getting self login failed');
     }
 
     /**
@@ -174,17 +174,17 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
     public function testValidatePermit()
     {
         // setup
-        $SecurityProviderMock = $this->getSecurityProviderMock();
-        $SecurityProviderMock->method('validatePermit')->with($this->equalTo('value'), $this->equalTo('admin'));
+        $securityProviderMock = $this->getSecurityProviderMock();
+        $securityProviderMock->method('validatePermit')->with($this->equalTo('value'), $this->equalTo('admin'));
 
-        $ServiceLogicClassName = $this->ClassName;
+        $serviceLogicClassName = $this->className;
 
-        $Logic = new $ServiceLogicClassName(
+        $logic = new $serviceLogicClassName(
             new \Mezon\Service\Tests\MockParamsFetcher(),
-            $SecurityProviderMock);
+            $securityProviderMock);
 
         // test body and assertions
-        $Logic->validatePermit('admin');
+        $logic->validatePermit('admin');
         $this->addToAssertionCount(1);
     }
 }

@@ -39,21 +39,21 @@ class CommonApplication extends \Mezon\Application\Application
      *
      * @var \Mezon\HtmlTemplate\HtmlTemplate
      */
-    protected $Template = false;
+    protected $template = false;
 
     /**
      * Constructor
      *
-     * @param \Mezon\HtmlTemplate\HtmlTemplate $Template
+     * @param \Mezon\HtmlTemplate\HtmlTemplate $template
      *            Template
      */
-    public function __construct(\Mezon\HtmlTemplate\HtmlTemplate $Template)
+    public function __construct(\Mezon\HtmlTemplate\HtmlTemplate $template)
     {
         parent::__construct();
 
-        $this->Template = $Template;
+        $this->template = $template;
 
-        $this->Router->setNoProcessorFoundErrorHandler([
+        $this->router->setNoProcessorFoundErrorHandler([
             $this,
             'noRouteFoundErrorHandler'
         ]);
@@ -62,10 +62,10 @@ class CommonApplication extends \Mezon\Application\Application
     /**
      * Method handles 404 errors
      *
-     * @param string $Route
+     * @param string $route
      * @codeCoverageIgnore
      */
-    public function noRouteFoundErrorHandler(string $Route): void
+    public function noRouteFoundErrorHandler(string $route): void
     {
         $this->redirect_to('/404');
     }
@@ -88,14 +88,14 @@ class CommonApplication extends \Mezon\Application\Application
      */
     protected function formatCallStack($e): array
     {
-        $Stack = $e->getTrace();
+        $stack = $e->getTrace();
 
-        foreach ($Stack as $i => $Call) {
-            $Stack[$i] = (@$Call['file'] == '' ? 'lambda : ' : @$Call['file'] . ' (' . $Call['line'] . ') : ') .
-                (@$Call['class'] == '' ? '' : $Call['class'] . '->') . $Call['function'];
+        foreach ($stack as $i => $call) {
+            $stack[$i] = (@$call['file'] == '' ? 'lambda : ' : @$call['file'] . ' (' . $call['line'] . ') : ') .
+                (@$call['class'] == '' ? '' : $call['class'] . '->') . $call['function'];
         }
 
-        return $Stack;
+        return $stack;
     }
 
     /**
@@ -107,16 +107,16 @@ class CommonApplication extends \Mezon\Application\Application
      */
     protected function baseFormatter(\Exception $e): object
     {
-        $Error = new \stdClass();
-        $Error->message = $e->getMessage();
-        $Error->code = $e->getCode();
-        $Error->call_stack = $this->formatCallStack($e);
+        $error = new \stdClass();
+        $error->message = $e->getMessage();
+        $error->code = $e->getCode();
+        $error->call_stack = $this->formatCallStack($e);
         if (isset($_SERVER['HTTP_HOST']) && $_SERVER['REQUEST_URI']) {
-            $Error->host = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            $error->host = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         } else {
-            $Error->host = 'undefined';
+            $error->host = 'undefined';
         }
-        return $Error;
+        return $error;
     }
 
     /**
@@ -127,11 +127,11 @@ class CommonApplication extends \Mezon\Application\Application
      */
     public function handleRestException(\Mezon\Service\ServiceRestTransport\RestException $e): void
     {
-        $Error = $this->baseFormatter($e);
+        $error = $this->baseFormatter($e);
 
-        $Error->http_body = $e->http_body;
+        $error->httpBody = $e->getHttpBody();
 
-        print('<pre>' . json_encode($Error, JSON_PRETTY_PRINT));
+        print('<pre>' . json_encode($error, JSON_PRETTY_PRINT));
     }
 
     /**
@@ -142,9 +142,9 @@ class CommonApplication extends \Mezon\Application\Application
      */
     public function handleException(\Exception $e): void
     {
-        $Error = $this->baseFormatter($e);
+        $error = $this->baseFormatter($e);
 
-        print('<pre>' . json_encode($Error, JSON_PRETTY_PRINT));
+        print('<pre>' . json_encode($error, JSON_PRETTY_PRINT));
     }
 
     /**
@@ -153,22 +153,22 @@ class CommonApplication extends \Mezon\Application\Application
     public function run(): void
     {
         try {
-            $CallRouteResult = $this->callRoute();
-            if (is_array($CallRouteResult) === false) {
+            $callRouteResult = $this->callRoute();
+            if (is_array($callRouteResult) === false) {
                 throw (new \Exception('Route was not called properly'));
             }
 
-            $Result = array_merge($CallRouteResult, $this->crossRender());
+            $result = array_merge($callRouteResult, $this->crossRender());
 
-            if (is_array($Result)) {
-                foreach ($Result as $Key => $Value) {
-                    $Content = $Value instanceof \Mezon\Application\ViewInterface ? $Value->render() : $Value;
+            if (is_array($result)) {
+                foreach ($result as $key => $value) {
+                    $content = $value instanceof \Mezon\Application\ViewInterface ? $value->render() : $value;
 
-                    $this->Template->setPageVar($Key, $Content);
+                    $this->template->setPageVar($key, $content);
                 }
             }
 
-            print($this->Template->compile());
+            print($this->template->compile());
         } catch (\Mezon\Service\ServiceRestTransport\RestException $e) {
             $this->handleRestException($e);
         } catch (\Exception $e) {
@@ -183,17 +183,17 @@ class CommonApplication extends \Mezon\Application\Application
      */
     public function getRemplate(): \Mezon\HtmlTemplate\HtmlTemplate
     {
-        return $this->Template;
+        return $this->template;
     }
 
     /**
      * Setting template
      *
-     * @param \Mezon\HtmlTemplate\HtmlTemplate $Template
+     * @param \Mezon\HtmlTemplate\HtmlTemplate $template
      *            Template
      */
-    public function setTemplate(\Mezon\HtmlTemplate\HtmlTemplate $Template): void
+    public function setTemplate(\Mezon\HtmlTemplate\HtmlTemplate $template): void
     {
-        $this->Template = $Template;
+        $this->template = $template;
     }
 }

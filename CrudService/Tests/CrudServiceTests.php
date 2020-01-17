@@ -26,11 +26,11 @@ class CrudServiceTests extends \Mezon\Service\Tests\ServiceTests
     {
         $this->validConnect();
 
-        $URL = $this->ServerPath . '/list/?from=0&limit=20';
+        $uRL = $this->ServerPath . '/list/?from=0&limit=20';
 
-        $Result = $this->getHtmlRequest($URL);
+        $result = $this->getHtmlRequest($uRL);
 
-        $this->assertEquals(count($Result) > 0, true, 'No records were returned');
+        $this->assertEquals(count($result) > 0, true, 'No records were returned');
     }
 
     /**
@@ -40,11 +40,11 @@ class CrudServiceTests extends \Mezon\Service\Tests\ServiceTests
     {
         $this->validConnect();
 
-        $URL = $this->ServerPath . '/list/?from=0&limit=20&cross_domain=1';
+        $uRL = $this->ServerPath . '/list/?from=0&limit=20&cross_domain=1';
 
-        $Result = $this->getHtmlRequest($URL);
+        $result = $this->getHtmlRequest($uRL);
 
-        $this->assertEquals(count($Result) > 0, true, 'No records were listed');
+        $this->assertEquals(count($result) > 0, true, 'No records were listed');
     }
 
     /**
@@ -54,11 +54,11 @@ class CrudServiceTests extends \Mezon\Service\Tests\ServiceTests
     {
         $this->validConnect();
 
-        $URL = $this->ServerPath . '/list/?from=0&limit=20&cross_domain=0';
+        $uRL = $this->ServerPath . '/list/?from=0&limit=20&cross_domain=0';
 
-        $Result = $this->getHtmlRequest($URL);
+        $result = $this->getHtmlRequest($uRL);
 
-        $this->assertEquals(count($Result) > 0, true, 'No records were listed');
+        $this->assertEquals(count($result) > 0, true, 'No records were listed');
     }
 
     /**
@@ -68,11 +68,11 @@ class CrudServiceTests extends \Mezon\Service\Tests\ServiceTests
     {
         $this->validConnect();
 
-        $URL = $this->ServerPath . '/records/count/';
+        $uRL = $this->ServerPath . '/records/count/';
 
-        $Result = $this->getHtmlRequest($URL);
+        $result = $this->getHtmlRequest($uRL);
 
-        $this->assertEquals($Result > 0, true, 'Invalid records counting (>0)');
+        $this->assertEquals($result > 0, true, 'Invalid records counting (>0)');
     }
 
     /**
@@ -82,11 +82,11 @@ class CrudServiceTests extends \Mezon\Service\Tests\ServiceTests
     {
         $this->validConnect();
 
-        $URL = $this->ServerPath . '/list/page/';
+        $uRL = $this->ServerPath . '/list/page/';
 
-        $Result = $this->getHtmlRequest($URL);
+        $result = $this->getHtmlRequest($uRL);
 
-        $this->assertTrue(isset($Result->main), 'Page view was not generated');
+        $this->assertTrue(isset($result->main), 'Page view was not generated');
     }
 
     /**
@@ -96,11 +96,11 @@ class CrudServiceTests extends \Mezon\Service\Tests\ServiceTests
     {
         $this->validConnect();
 
-        $URL = $this->ServerPath . '/last/2/';
+        $uRL = $this->ServerPath . '/last/2/';
 
-        $Result = $this->getHtmlRequest($URL);
+        $result = $this->getHtmlRequest($uRL);
 
-        $this->assertEquals(count($Result) > 0, true, 'Invalid records counting (2)');
+        $this->assertEquals(count($result) > 0, true, 'Invalid records counting (2)');
     }
 
     /**
@@ -110,10 +110,10 @@ class CrudServiceTests extends \Mezon\Service\Tests\ServiceTests
     {
         $this->validConnect();
 
-        $URL = $this->ServerPath . '/last/0/';
+        $uRL = $this->ServerPath . '/last/0/';
 
-        $Result = $this->getHtmlRequest($URL);
+        $result = $this->getHtmlRequest($uRL);
 
-        $this->assertEquals(count($Result), 0, 'Invalid records counting (0)');
+        $this->assertEquals(count($result), 0, 'Invalid records counting (0)');
     }
 }

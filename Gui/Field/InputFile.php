@@ -24,15 +24,15 @@ class InputFile extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        $Content = '<input class="form-control"';
-        $Content .= $this->Required ? ' required="required"' : '';
-        $Content .= ' type="file" name="' . $this->NamePrefix . '-' . $this->Name .
-            ($this->Batch ? '[{_creation_form_items_counter}]' : '') . '"';
-        $Content .= $this->Disabled ? ' disabled ' : '';
-        $Content .= $this->Toggler === '' ? '' : 'toggler="' . $this->Toggler . '" ';
-        $Content .= $this->Toggler === '' ? '' : 'toggle-value="' . $this->ToggleValue . '"';
-        $Content .= '>';
+        $content = '<input class="form-control"';
+        $content .= $this->required ? ' required="required"' : '';
+        $content .= ' type="file" name="' . $this->namePrefix . '-' . $this->name .
+            ($this->batch ? '[{_creation_form_items_counter}]' : '') . '"';
+        $content .= $this->disabled ? ' disabled ' : '';
+        $content .= $this->toggler === '' ? '' : 'toggler="' . $this->toggler . '" ';
+        $content .= $this->toggler === '' ? '' : 'toggle-value="' . $this->toggleValue . '"';
+        $content .= '>';
 
-        return $Content;
+        return $content;
     }
 }

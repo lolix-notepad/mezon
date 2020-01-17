@@ -20,26 +20,26 @@ class Mezon
     /**
      * Connection to DB.
      */
-    protected static $Crud = false;
+    protected static $crud = false;
 
     /**
      * Method validates dsn fields
      *
-     * @param string $ConnectionName
+     * @param string $connectionName
      *            Connectio name
      */
-    protected static function validateDsn(string $ConnectionName)
+    protected static function validateDsn(string $connectionName)
     {
-        if (\Mezon\Conf\Conf::getConfigValue($ConnectionName . '/dsn') === false) {
-            throw (new \Exception($ConnectionName . '/dsn not set'));
+        if (\Mezon\Conf\Conf::getConfigValue($connectionName . '/dsn') === false) {
+            throw (new \Exception($connectionName . '/dsn not set'));
         }
 
-        if (\Mezon\Conf\Conf::getConfigValue($ConnectionName . '/user') === false) {
-            throw (new \Exception($ConnectionName . '/user not set'));
+        if (\Mezon\Conf\Conf::getConfigValue($connectionName . '/user') === false) {
+            throw (new \Exception($connectionName . '/user not set'));
         }
 
-        if (\Mezon\Conf\Conf::getConfigValue($ConnectionName . '/password') === false) {
-            throw (new \Exception($ConnectionName . '/password not set'));
+        if (\Mezon\Conf\Conf::getConfigValue($connectionName . '/password') === false) {
+            throw (new \Exception($connectionName . '/password not set'));
         }
     }
 
@@ -56,26 +56,26 @@ class Mezon
     /**
      * Method returns database connection
      *
-     * @param string $ConnectionName
+     * @param string $connectionName
      *            Connectio name
      */
-    public static function getDbConnection(string $ConnectionName = 'default-db-connection')
+    public static function getDbConnection(string $connectionName = 'default-db-connection')
     {
-        if (self::$Crud !== false) {
-            return self::$Crud;
+        if (self::$crud !== false) {
+            return self::$crud;
         }
 
-        self::validateDsn($ConnectionName);
+        self::validateDsn($connectionName);
 
-        self::$Crud = self::constructConnection();
+        self::$crud = self::constructConnection();
 
-        self::$Crud->connect(
+        self::$crud->connect(
             [
-                'dsn' => \Mezon\Conf\Conf::getConfigValue($ConnectionName . '/dsn'),
-                'user' => \Mezon\Conf\Conf::getConfigValue($ConnectionName . '/user'),
-                'password' => \Mezon\Conf\Conf::getConfigValue($ConnectionName . '/password')
+                'dsn' => \Mezon\Conf\Conf::getConfigValue($connectionName . '/dsn'),
+                'user' => \Mezon\Conf\Conf::getConfigValue($connectionName . '/user'),
+                'password' => \Mezon\Conf\Conf::getConfigValue($connectionName . '/password')
             ]);
 
-        return self::$Crud;
+        return self::$crud;
     }
 }

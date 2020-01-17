@@ -24,56 +24,56 @@ class CrudServiceCollection
      *
      * @var array
      */
-    protected $Collection = [];
+    protected $сollection = [];
 
     /**
      * Connection to the Crud service
      *
      * @var \Mezon\CrudService\CrudServiceClient
      */
-    protected $Connector;
+    protected $сonnector;
 
     /**
      * Constructor
      *
-     * @param string $Service
-     * @param string $Token
+     * @param string $service
+     * @param string $token
      */
-    public function __construct(string $Service = '', string $Token = '')
+    public function __construct(string $service = '', string $token = '')
     {
-        if ($Service !== '') {
-            $this->Connector = $this->constructClient($Service, $Token);
+        if ($service !== '') {
+            $this->сonnector = $this->constructClient($service, $token);
         }
     }
 
     /**
      * Method constructs connector
      *
-     * @param string $Service
+     * @param string $service
      *            Service title
-     * @param string $Token
+     * @param string $token
      *            Acccess token
      * @return \Mezon\CrudService\CrudServiceClient Connector to the service
      */
-    protected function constructClient(string $Service, string $Token): \Mezon\CrudService\CrudServiceClient
+    protected function constructClient(string $service, string $token): \Mezon\CrudService\CrudServiceClient
     {
-        // TODO pass \Mezon\CrudService\CrudServiceClient object instead of $Service
-        $Client = new \Mezon\CrudService\CrudServiceClient($Service);
+        // TODO pass \Mezon\CrudService\CrudServiceClient object instead of $service
+        $client = new \Mezon\CrudService\CrudServiceClient($service);
 
-        $Client->setToken($Token);
+        $client->setToken($token);
 
-        return $Client;
+        return $client;
     }
 
     /**
      * Method sets new connector
      *
-     * @param \Mezon\CrudService\CrudServiceClient $NewConnector
+     * @param \Mezon\CrudService\CrudServiceClient $newConnector
      *            New connector
      */
-    public function setConnector($NewConnector): void
+    public function setConnector($newConnector): void
     {
-        $this->Connector = $NewConnector;
+        $this->сonnector = $newConnector;
     }
 
     /**
@@ -83,34 +83,34 @@ class CrudServiceCollection
      */
     public function getConnector(): \Mezon\CrudService\CrudServiceClient
     {
-        return $this->Connector;
+        return $this->сonnector;
     }
 
     /**
-     * Method fetches scripts, wich were created since $DateTime
+     * Method fetches scripts, wich were created since $dateTime
      *
-     * @param string $DateTime
+     * @param string $dateTime
      */
-    public function newRecordsSince(string $DateTime): void
+    public function newRecordsSince(string $dateTime): void
     {
-        $this->Collection = $this->Connector->newRecordsSince($DateTime);
+        $this->сollection = $this->сonnector->newRecordsSince($dateTime);
     }
 
     /**
-     * Fetching top $Count records sorted by field
+     * Fetching top $count records sorted by field
      *
-     * @param int $Count
+     * @param int $count
      *            Count of records to be fetched
-     * @param string $Field
+     * @param string $field
      *            Sorting field
-     * @param string $Order
+     * @param string $order
      *            Sorting order
      */
-    public function topByField(int $Count, string $Field, string $Order = 'DESC'): void
+    public function topByField(int $count, string $field, string $order = 'DESC'): void
     {
-        $this->Collection = $this->Connector->getList(0, $Count, 0, false, [
-            'field' => $Field,
-            'order' => $Order
+        $this->сollection = $this->сonnector->getList(0, $count, 0, false, [
+            'field' => $field,
+            'order' => $order
         ]);
     }
 
@@ -121,6 +121,6 @@ class CrudServiceCollection
      */
     public function getCollection(): array
     {
-        return $this->Collection;
+        return $this->сollection;
     }
 }

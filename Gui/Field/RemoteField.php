@@ -22,25 +22,25 @@ class RemoteField extends \Mezon\Gui\Field
      *
      * @var string
      */
-    protected $SessionId = '';
+    protected $sessionId = '';
 
     /**
      * Remote source of records
      *
      * @var string
      */
-    protected $RemoteSource = '';
+    protected $remoteSource = '';
 
     /**
      * Method fetches session id from the description
      *
-     * @param array $FieldDescription
+     * @param array $fieldDescription
      *            Field description
      */
-    protected function initSessionId(array $FieldDescription)
+    protected function initSessionId(array $fieldDescription)
     {
-        if (isset($FieldDescription['session-id'])) {
-            $this->SessionId = $FieldDescription['session-id'];
+        if (isset($fieldDescription['session-id'])) {
+            $this->sessionId = $fieldDescription['session-id'];
         } else {
             throw (new \Exception('Session id is not defined', - 1));
         }
@@ -49,13 +49,13 @@ class RemoteField extends \Mezon\Gui\Field
     /**
      * Method fetches remote source from the description
      *
-     * @param array $FieldDescription
+     * @param array $fieldDescription
      *            Field description
      */
-    protected function initRemoteSource(array $FieldDescription)
+    protected function initRemoteSource(array $fieldDescription)
     {
-        if (isset($FieldDescription['remote-source'])) {
-            $this->RemoteSource = $FieldDescription['remote-source'];
+        if (isset($fieldDescription['remote-source'])) {
+            $this->remoteSource = $fieldDescription['remote-source'];
         } else {
             throw (new \Exception('Remote source of records is not defined', - 1));
         }
@@ -64,18 +64,18 @@ class RemoteField extends \Mezon\Gui\Field
     /**
      * Constructor
      *
-     * @param array $FieldDescription
+     * @param array $fieldDescription
      *            Field description
-     * @param string $Value
+     * @param string $value
      *            Field value
      */
-    public function __construct(array $FieldDescription, string $Value = '')
+    public function __construct(array $fieldDescription, string $value = '')
     {
-        parent::__construct($FieldDescription, $Value);
+        parent::__construct($fieldDescription, $value);
 
-        $this->initSessionId($FieldDescription);
+        $this->initSessionId($fieldDescription);
 
-        $this->initRemoteSource($FieldDescription);
+        $this->initRemoteSource($fieldDescription);
     }
 
     /**
@@ -86,9 +86,9 @@ class RemoteField extends \Mezon\Gui\Field
     protected function getClient(): \Mezon\CrudService\CrudServiceClient
     {
         // @codeCoverageIgnoreStart
-        $ExternalRecords = new \Mezon\CrudService\CrudServiceClient($this->RemoteSource);
-        $ExternalRecords->setToken($this->SessionId);
-        return $ExternalRecords;
+        $externalRecords = new \Mezon\CrudService\CrudServiceClient($this->remoteSource);
+        $externalRecords->setToken($this->sessionId);
+        return $externalRecords;
         // @codeCoverageIgnoreEnd
     }
 }

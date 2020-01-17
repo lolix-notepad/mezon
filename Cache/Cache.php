@@ -26,26 +26,26 @@ class Cache extends \Mezon\Singleton\Singleton
      *
      * @var string
      */
-    protected $Data = null;
+    protected $data = null;
 
     /**
      * Cache file path
      *
      * @var string
      */
-    protected $CachePath = './cache/';
+    protected $cachePath = './cache/';
 
     /**
      * Fetching cache data
      *
-     * @param string $FilePath
+     * @param string $filePath
      *            path to cache file
      * @return string cache file content
      * @codeCoverageIgnore
      */
-    protected function fileGetContents(string $FilePath): string
+    protected function fileGetContents(string $filePath): string
     {
-        return (@file_get_contents($FilePath));
+        return (@file_get_contents($filePath));
     }
 
     /**
@@ -53,13 +53,13 @@ class Cache extends \Mezon\Singleton\Singleton
      */
     protected function init()
     {
-        if ($this->Data === null) {
-            $this->Data = $this->fileGetContents($this->CachePath . date('YmdH') . '.cache');
+        if ($this->data === null) {
+            $this->data = $this->fileGetContents($this->cachePath . date('YmdH') . '.cache');
 
-            if ($this->Data === false) {
-                $this->Data = [];
+            if ($this->data === false) {
+                $this->data = [];
             } else {
-                $this->Data = $this->Data == '' ? [] : json_decode($this->Data, true);
+                $this->data = $this->data == '' ? [] : json_decode($this->data, true);
             }
         }
     }
@@ -67,70 +67,70 @@ class Cache extends \Mezon\Singleton\Singleton
     /**
      * Method adds data to cache
      *
-     * @param string $Key
+     * @param string $key
      *            Key
-     * @param mixed $Data
+     * @param mixed $data
      *            Data to be stored in cache
      */
-    public function set(string $Key, $Data)
+    public function set(string $key, $data)
     {
         $this->init();
 
         \Mezon\Functional\Functional::setField(
-            $this->Data,
-            $Key,
+            $this->data,
+            $key,
             [
-                // giving us an ability to break reference of the object wich was passed in $Data
-                'data' => json_decode(json_encode($Data))
+                // giving us an ability to break reference of the object wich was passed in $data
+                'data' => json_decode(json_encode($data))
             ]);
     }
 
     /**
      * Checking cache for data
      *
-     * @param string $Key
+     * @param string $key
      *            Data key
      * @return bool True if the data was found, false otherwise
      */
-    public function exists(string $Key): bool
+    public function exists(string $key): bool
     {
         $this->init();
 
-        return isset($this->Data[$Key]);
+        return isset($this->data[$key]);
     }
 
     /**
      * Method gets data from cache
      *
-     * @param string $Key
+     * @param string $key
      *            Key of the requested data
      * @return mixed Data from cache
      */
-    public function get(string $Key)
+    public function get(string $key)
     {
         $this->init();
 
-        if (\Mezon\Functional\Functional::fieldExists($this->Data, $Key, false) === false) {
-            throw (new \Exception("The key $Key does not exist"));
+        if (\Mezon\Functional\Functional::fieldExists($this->data, $key, false) === false) {
+            throw (new \Exception("The key $key does not exist"));
         }
 
-        $KeyValue = \Mezon\Functional\Functional::getField($this->Data, $Key, false);
+        $keyValue = \Mezon\Functional\Functional::getField($this->data, $key, false);
 
-        $Result = \Mezon\Functional\Functional::getField($KeyValue, 'data', false);
+        $result = \Mezon\Functional\Functional::getField($keyValue, 'data', false);
 
         // preventing external code from writing directly to cache
-        return json_decode(json_encode($Result));
+        return json_decode(json_encode($result));
     }
 
     /**
      * Method stores data on disk
      *
-     * @param string $Path
-     * @param string $Content
+     * @param string $path
+     * @param string $content
      */
-    protected function filePutContents(string $Path, string $Content): void
+    protected function filePutContents(string $path, string $content): void
     {
-        @file_put_contents($Path, $Content);
+        @file_put_contents($path, $content);
     }
 
     /**
@@ -138,10 +138,10 @@ class Cache extends \Mezon\Singleton\Singleton
      */
     public function flush()
     {
-        if ($this->Data !== null) {
-            $this->filePutContents($this->CachePath . date('YmdH') . '.cache', json_encode($this->Data));
+        if ($this->data !== null) {
+            $this->filePutContents($this->cachePath . date('YmdH') . '.cache', json_encode($this->data));
 
-            $this->Data = null;
+            $this->data = null;
         }
     }
 }

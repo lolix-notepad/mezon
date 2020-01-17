@@ -10,7 +10,7 @@ class CheckboxesFieldUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getFieldMock(): object
     {
-        $Mock = $this->getMockBuilder(\Mezon\Gui\Field\CheckboxesField::class)
+        $mock = $this->getMockBuilder(\Mezon\Gui\Field\CheckboxesField::class)
             ->setConstructorArgs(
             [
                 [
@@ -34,13 +34,13 @@ class CheckboxesFieldUnitTest extends \PHPUnit\Framework\TestCase
         ])
             ->getMock();
 
-        $Mock->method('getExternalRecords')->willReturn([
+        $mock->method('getExternalRecords')->willReturn([
             [
                 'id' => 1
             ]
         ]);
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -49,12 +49,12 @@ class CheckboxesFieldUnitTest extends \PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = $this->getFieldMock();
+        $field = $this->getFieldMock();
 
         // test body
-        $Content = $Field->html();
+        $content = $field->html();
 
         // assertions
-        $this->assertStringContainsString('type="checkbox"', $Content, 'Name of the remote record was not found');
+        $this->assertStringContainsString('type="checkbox"', $content, 'Name of the remote record was not found');
     }
 }

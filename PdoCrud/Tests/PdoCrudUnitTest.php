@@ -19,7 +19,7 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getUnsetupPdoMock(): object
     {
-        $Mock = $this->getMockBuilder(\Mezon\PdoCrud\PdoCrud::class)
+        $mock = $this->getMockBuilder(\Mezon\PdoCrud\PdoCrud::class)
             ->setMethods([
             'query',
             'processQueryError',
@@ -28,7 +28,7 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
             ->setConstructorArgs([])
             ->getMock();
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -38,15 +38,15 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getPdoMock(): object
     {
-        $Mock = $this->getUnsetupPdoMock();
+        $mock = $this->getUnsetupPdoMock();
 
-        $Mock->expects($this->once())
+        $mock->expects($this->once())
             ->method('query');
 
-        $Mock->expects($this->once())
+        $mock->expects($this->once())
             ->method('processQueryError');
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -54,9 +54,9 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testInsertMultyple(): void
     {
-        $Mock = $this->getPdoMock();
+        $mock = $this->getPdoMock();
 
-        $Mock->insertMultyple('records', [
+        $mock->insertMultyple('records', [
             [
                 'id' => 1
             ],
@@ -72,14 +72,14 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
     public function testInsert(): void
     {
         // setup
-        $Mock = $this->getPdoMock();
+        $mock = $this->getPdoMock();
 
-        $Mock->expects($this->once())
+        $mock->expects($this->once())
             ->method('lastInsertId')
             ->willReturn(1);
 
         // test body and assertions
-        $Mock->insert('records', [
+        $mock->insert('records', [
             'id' => 1
         ]);
     }
@@ -90,14 +90,14 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
     public function testRollback(): void
     {
         // setup
-        $Mock = $this->getPdoMock();
+        $mock = $this->getPdoMock();
 
-        $Mock->expects($this->once())
+        $mock->expects($this->once())
             ->method('query')
             ->willReturn(true);
 
         // test body and assertions
-        $Mock->rollback();
+        $mock->rollback();
     }
 
     /**
@@ -106,14 +106,14 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
     public function testCommit(): void
     {
         // setup
-        $Mock = $this->getUnsetupPdoMock();
+        $mock = $this->getUnsetupPdoMock();
 
-        $Mock->expects($this->exactly(2))
+        $mock->expects($this->exactly(2))
             ->method('query')
             ->willReturn(true);
 
         // test body and assertions
-        $Mock->commit();
+        $mock->commit();
     }
 
     /**
@@ -122,14 +122,14 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
     public function testStartTransaction(): void
     {
         // setup
-        $Mock = $this->getUnsetupPdoMock();
+        $mock = $this->getUnsetupPdoMock();
 
-        $Mock->expects($this->exactly(2))
+        $mock->expects($this->exactly(2))
             ->method('query')
             ->willReturn(true);
 
         // test body and assertions
-        $Mock->startTransaction();
+        $mock->startTransaction();
     }
 
     /**
@@ -138,10 +138,10 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
     public function testUnlock(): void
     {
         // setup
-        $Mock = $this->getPdoMock();
+        $mock = $this->getPdoMock();
 
         // test body and assertions
-        $Mock->unlock();
+        $mock->unlock();
     }
 
     /**
@@ -150,10 +150,10 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
     public function testLock(): void
     {
         // setup
-        $Mock = $this->getPdoMock();
+        $mock = $this->getPdoMock();
 
         // test body and assertions
-        $Mock->lock([
+        $mock->lock([
             'records'
         ], [
             'WRITE'
@@ -166,14 +166,14 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
     public function testDelete(): void
     {
         // setup
-        $Mock = $this->getUnsetupPdoMock();
+        $mock = $this->getUnsetupPdoMock();
 
-        $Mock->expects($this->exactly(1))
+        $mock->expects($this->exactly(1))
             ->method('query')
             ->willReturn(new ResultMock());
 
         // test body and assertions
-        $Mock->delete('records', 'id=1');
+        $mock->delete('records', 'id=1');
     }
 
     /**
@@ -182,12 +182,12 @@ class PdoCrudUnitTest extends \PHPUnit\Framework\TestCase
     public function testUpdate(): void
     {
         // setup
-        $Mock = $this->getUnsetupPdoMock();
-        $Mock->expects($this->exactly(1))
+        $mock = $this->getUnsetupPdoMock();
+        $mock->expects($this->exactly(1))
             ->method('query')
             ->willReturn(new ResultMock());
 
         // test body and assertions
-        $Mock->update('som-record', [], '1=1');
+        $mock->update('som-record', [], '1=1');
     }
 }

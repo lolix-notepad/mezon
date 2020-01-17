@@ -8,10 +8,10 @@ class ServiceMockSecurityProviderUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreateSession1()
     {
-        $Provider = new \Mezon\Service\ServiceMockSecurityProvider();
+        $provider = new \Mezon\Service\ServiceMockSecurityProvider();
 
-        $Token = $Provider->createSession();
+        $token = $provider->createSession();
 
-        $this->assertEquals(32, strlen($Token), 'Invalid token was returned');
+        $this->assertEquals(32, strlen($token), 'Invalid token was returned');
     }
 }

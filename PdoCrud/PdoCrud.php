@@ -20,19 +20,19 @@ class PdoCrud
     /**
      * PDO object
      */
-    protected $PDO = false;
+    protected $pdo = false;
 
     /**
      * Method connects to the database
      *
-     * @param array $ConnnectionData
+     * @param array $connnectionData
      *            Connection settings
      * @codeCoverageIgnore
      */
-    public function connect(array $ConnnectionData)
+    public function connect(array $connnectionData)
     {
         // no need to test this single string. assume that PDO developers did it
-        $this->PDO = new \PDO($ConnnectionData['dsn'], $ConnnectionData['user'], $ConnnectionData['password']);
+        $this->pdo = new \PDO($connnectionData['dsn'], $connnectionData['user'], $connnectionData['password']);
 
         $this->query('SET NAMES utf8');
     }
@@ -40,180 +40,180 @@ class PdoCrud
     /**
      * Method handles request errors
      *
-     * @param mixed $Result
+     * @param mixed $result
      *            Query result
-     * @param string $Query
+     * @param string $query
      *            SQL Query
      */
-    protected function processQueryError($Result, string $Query)
+    protected function processQueryError($result, string $query)
     {
-        if ($Result === false) {
-            $ErrorInfo = $this->PDO->errorInfo();
+        if ($result === false) {
+            $errorInfo = $this->pdo->errorInfo();
 
-            throw (new \Exception($ErrorInfo[2] . ' in statement ' . $Query));
+            throw (new \Exception($errorInfo[2] . ' in statement ' . $query));
         }
     }
 
     /**
      * Getting records
      *
-     * @param string $Fields
+     * @param string $fields
      *            List of fields
-     * @param string $TableNames
+     * @param string $tableNames
      *            List of tables
-     * @param string $Where
+     * @param string $where
      *            Condition
-     * @param int $From
+     * @param int $from
      *            First record in query
-     * @param int $Limit
+     * @param int $limit
      *            Count of records
      * @return array List of records
      */
     public function select(
-        string $Fields,
-        string $TableNames,
-        string $Where = '1 = 1',
-        int $From = 0,
-        int $Limit = 1000000): array
+        string $fields,
+        string $tableNames,
+        string $where = '1 = 1',
+        int $from = 0,
+        int $limit = 1000000): array
     {
-        $Query = "SELECT $Fields FROM $TableNames WHERE $Where LIMIT " . intval($From) . ' , ' . intval($Limit);
+        $query = "SELECT $fields FROM $tableNames WHERE $where LIMIT " . intval($from) . ' , ' . intval($limit);
 
-        $Result = $this->query($Query);
+        $result = $this->query($query);
 
-        $this->processQueryError($Result, $Query);
+        $this->processQueryError($result, $query);
 
-        return $Result->fetchAll(\PDO::FETCH_ASSOC);
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     /**
      * Method compiles set-query
      *
-     * @param array $Record
+     * @param array $record
      *            Inserting record
      * @return string Compiled query string
      */
-    protected function setQuery(array $Record): string
+    protected function setQuery(array $record): string
     {
-        $SetFieldsStatement = [];
+        $setFieldsStatement = [];
 
-        foreach ($Record as $Field => $Value) {
-            if (is_string($Value) && strtoupper($Value) === 'INC') {
-                $SetFieldsStatement[] = $Field . ' = ' . $Field . ' + 1';
-            } elseif (is_string($Value) && strtoupper($Value) !== 'NOW()') {
-                $SetFieldsStatement[] = $Field . ' = "' . $Value . '"';
-            } elseif ($Value === null) {
-                $SetFieldsStatement[] = $Field . ' = NULL';
+        foreach ($record as $field => $value) {
+            if (is_string($value) && strtoupper($value) === 'INC') {
+                $setFieldsStatement[] = $field . ' = ' . $field . ' + 1';
+            } elseif (is_string($value) && strtoupper($value) !== 'NOW()') {
+                $setFieldsStatement[] = $field . ' = "' . $value . '"';
+            } elseif ($value === null) {
+                $setFieldsStatement[] = $field . ' = NULL';
             } else {
-                $SetFieldsStatement[] = $Field . ' = ' . $Value;
+                $setFieldsStatement[] = $field . ' = ' . $value;
             }
         }
 
-        return implode(' , ', $SetFieldsStatement);
+        return implode(' , ', $setFieldsStatement);
     }
 
     /**
      * Method compiles set-multyple-query
      *
-     * @param array $Records
+     * @param array $records
      *            Inserting records
      * @return string Compiled query string
      */
-    protected function setMultypleQuery(array $Records)
+    protected function setMultypleQuery(array $records)
     {
-        $Query = '( ' . implode(' , ', array_keys($Records[0])) . ' ) VALUES ';
+        $query = '( ' . implode(' , ', array_keys($records[0])) . ' ) VALUES ';
 
-        $Values = [];
+        $values = [];
 
-        foreach ($Records as $Record) {
-            $Values[] = "( '" . implode("' , '", array_values($Record)) . "' )";
+        foreach ($records as $record) {
+            $values[] = "( '" . implode("' , '", array_values($record)) . "' )";
         }
 
-        return $Query . implode(' , ', $Values);
+        return $query . implode(' , ', $values);
     }
 
     /**
      * Updating records
      *
-     * @param string $TableName
+     * @param string $tableName
      *            Table name
-     * @param array $Record
+     * @param array $record
      *            Updating records
-     * @param string $Where
+     * @param string $where
      *            Condition
-     * @param int $Limit
+     * @param int $limit
      *            Liti for afffecting records
      * @return int Count of updated records
      */
-    public function update(string $TableName, array $Record, string $Where, int $Limit = 10000000)
+    public function update(string $tableName, array $record, string $where, int $limit = 10000000)
     {
-        $Query = 'UPDATE ' . $TableName . ' SET ' . $this->setQuery($Record) . ' WHERE ' . $Where . ' LIMIT ' . $Limit;
+        $query = 'UPDATE ' . $tableName . ' SET ' . $this->setQuery($record) . ' WHERE ' . $where . ' LIMIT ' . $limit;
 
-        $Result = $this->query($Query);
+        $result = $this->query($query);
 
-        $this->processQueryError($Result, $Query);
+        $this->processQueryError($result, $query);
 
-        return $Result->rowCount();
+        return $result->rowCount();
     }
 
     /**
      * Deleting records
      *
-     * @param string $TableName
+     * @param string $tableName
      *            Table name
-     * @param string $Where
+     * @param string $where
      *            Condition
-     * @param int $Limit
+     * @param int $limit
      *            Liti for afffecting records
      * @return int Count of deleted records
      */
-    public function delete($TableName, $Where, $Limit = 10000000)
+    public function delete($tableName, $where, $limit = 10000000)
     {
-        $Query = 'DELETE FROM ' . $TableName . ' WHERE ' . $Where . ' LIMIT ' . intval($Limit);
+        $query = 'DELETE FROM ' . $tableName . ' WHERE ' . $where . ' LIMIT ' . intval($limit);
 
-        $Result = $this->query($Query);
+        $result = $this->query($query);
 
-        $this->processQueryError($Result, $Query);
+        $this->processQueryError($result, $query);
 
-        return $Result->rowCount();
+        return $result->rowCount();
     }
 
     /**
      * Method compiles lock queries
      *
-     * @param array $Tables
+     * @param array $tables
      *            List of tables
-     * @param array $Modes
+     * @param array $modes
      *            List of lock modes
      * @return string Query
      */
-    protected function lockQuery(array $Tables, array $Modes): string
+    protected function lockQuery(array $tables, array $modes): string
     {
-        $Query = [];
+        $query = [];
 
-        foreach ($Tables as $i => $Table) {
-            $Query[] = $Table . ' ' . $Modes[$i];
+        foreach ($tables as $i => $table) {
+            $query[] = $table . ' ' . $modes[$i];
         }
 
-        $Query = 'LOCK TABLES ' . implode(' , ', $Query);
+        $query = 'LOCK TABLES ' . implode(' , ', $query);
 
-        return $Query;
+        return $query;
     }
 
     /**
      * Method locks tables
      *
-     * @param array $Tables
+     * @param array $tables
      *            List of tables
-     * @param array $Modes
+     * @param array $modes
      *            List of lock modes
      */
-    public function lock(array $Tables, array $Modes)
+    public function lock(array $tables, array $modes)
     {
-        $Query = $this->lockQuery($Tables, $Modes);
+        $query = $this->lockQuery($tables, $modes);
 
-        $Result = $this->query($Query);
+        $result = $this->query($query);
 
-        $this->processQueryError($Result, $Query);
+        $this->processQueryError($result, $query);
     }
 
     /**
@@ -221,9 +221,9 @@ class PdoCrud
      */
     public function unlock()
     {
-        $Result = $this->query('UNLOCK TABLES');
+        $result = $this->query('UNLOCK TABLES');
 
-        $this->processQueryError($Result, 'UNLOCK TABLES');
+        $this->processQueryError($result, 'UNLOCK TABLES');
     }
 
     /**
@@ -232,14 +232,14 @@ class PdoCrud
     public function startTransaction()
     {
         // setting autocommit off
-        $Result = $this->query('SET AUTOCOMMIT = 0');
+        $result = $this->query('SET AUTOCOMMIT = 0');
 
-        $this->processQueryError($Result, 'SET AUTOCOMMIT = 0');
+        $this->processQueryError($result, 'SET AUTOCOMMIT = 0');
 
         // starting transaction
-        $Result = $this->query('START TRANSACTION');
+        $result = $this->query('START TRANSACTION');
 
-        $this->processQueryError($Result, 'START TRANSACTION');
+        $this->processQueryError($result, 'START TRANSACTION');
     }
 
     /**
@@ -248,14 +248,14 @@ class PdoCrud
     public function commit()
     {
         // commit transaction
-        $Result = $this->query('COMMIT');
+        $result = $this->query('COMMIT');
 
-        $this->processQueryError($Result, 'COMMIT');
+        $this->processQueryError($result, 'COMMIT');
 
         // setting autocommit on
-        $Result = $this->query('SET AUTOCOMMIT = 1');
+        $result = $this->query('SET AUTOCOMMIT = 1');
 
-        $this->processQueryError($Result, 'SET AUTOCOMMIT = 1');
+        $this->processQueryError($result, 'SET AUTOCOMMIT = 1');
     }
 
     /**
@@ -264,22 +264,22 @@ class PdoCrud
     public function rollback()
     {
         // rollback transaction
-        $Result = $this->query('ROLLBACK');
+        $result = $this->query('ROLLBACK');
 
-        $this->processQueryError($Result, 'ROLLBACK');
+        $this->processQueryError($result, 'ROLLBACK');
     }
 
     /**
      * Method executes query
      *
-     * @param string $Query
+     * @param string $query
      *            Query
      * @return mixed Query execution result
      */
-    public function query(string $Query)
+    public function query(string $query)
     {
         // @codeCoverageIgnoreStart
-        return $this->PDO->query($Query);
+        return $this->pdo->query($query);
         // @codeCoverageIgnoreEnd
     }
 
@@ -291,26 +291,26 @@ class PdoCrud
     public function lastInsertId()
     {
         // @codeCoverageIgnoreStart
-        return $this->PDO->lastInsertId();
+        return $this->pdo->lastInsertId();
         // @codeCoverageIgnoreEnd
     }
 
     /**
      * Method inserts record
      *
-     * @param string $TableName
+     * @param string $tableName
      *            Table name
-     * @param array $Record
+     * @param array $record
      *            Inserting record
      * @return int New record's id
      */
-    public function insert(string $TableName, array $Record): int
+    public function insert(string $tableName, array $record): int
     {
-        $Query = 'INSERT ' . $TableName . ' SET ' . $this->setQuery($Record);
+        $query = 'INSERT ' . $tableName . ' SET ' . $this->setQuery($record);
 
-        $Result = $this->query($Query);
+        $result = $this->query($query);
 
-        $this->processQueryError($Result, $Query);
+        $this->processQueryError($result, $query);
 
         return $this->lastInsertId();
     }
@@ -318,19 +318,19 @@ class PdoCrud
     /**
      * Method inserts record
      *
-     * @param string $TableName
+     * @param string $tableName
      *            Table name
-     * @param array $Records
+     * @param array $records
      *            Inserting records
      * @return int New record's id
      */
-    public function insertMultyple(string $TableName, array $Records)
+    public function insertMultyple(string $tableName, array $records)
     {
-        $Query = 'INSERT INTO ' . $TableName . ' ' . $this->setMultypleQuery($Records) . ';';
+        $query = 'INSERT INTO ' . $tableName . ' ' . $this->setMultypleQuery($records) . ';';
 
-        $Result = $this->query($Query);
+        $result = $this->query($query);
 
-        $this->processQueryError($Result, $Query);
+        $this->processQueryError($result, $query);
 
         return 0;
     }
@@ -340,8 +340,8 @@ class PdoCrud
      */
     public function __destruct()
     {
-        $this->PDO = null;
+        $this->pdo = null;
 
-        unset($this->PDO);
+        unset($this->pdo);
     }
 }

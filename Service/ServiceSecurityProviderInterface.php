@@ -20,83 +20,83 @@ interface ServiceSecurityProviderInterface
     /**
      * Method creates session from existing token or fetched from HTTP headers
      *
-     * @param string $Token
+     * @param string $token
      *            Session token
      * @return string Session token
      */
-    public function createSession(string $Token = ''): string;
+    public function createSession(string $token = ''): string;
 
     /**
      * Method creates conection session
      *
-     * @param string $Login
+     * @param string $login
      *            Login
-     * @param string $Password
+     * @param string $password
      *            Password
      * @return string Session id of the created session
      */
-    public function connect(string $Login, string $Password): string;
+    public function connect(string $login, string $password): string;
 
     /**
      * Method sets session token
      *
-     * @param string $Token
+     * @param string $token
      *            Token
      * @return string Session token id
      */
-    public function setToken(string $Token): string;
+    public function setToken(string $token): string;
 
     /**
      * Method returns id of the session user
      *
-     * @param string $Token
+     * @param string $token
      *            Token
      * @return int id of the session user
      */
-    public function getSelfId(string $Token): int;
+    public function getSelfId(string $token): int;
 
     /**
      * Method returns login of the session user
      *
-     * @param string $Token
+     * @param string $token
      *            Token
      * @return string login of the session user
      */
-    public function getSelfLogin(string $Token): string;
+    public function getSelfLogin(string $token): string;
 
     /**
      * Method allows user to login under another user
      *
-     * @param string $Token
+     * @param string $token
      *            Token
-     * @param string $LoginOrId
+     * @param string $loginOrId
      *            In this field login or user id are passed
-     * @param string $Field
+     * @param string $field
      *            Contains 'login' or 'id'
      * @return string New session id
      */
-    public function loginAs(string $Token, string $LoginOrId, string $Field): string;
+    public function loginAs(string $token, string $loginOrId, string $field): string;
 
     /**
      * Method returns true or false if the session user has permit or not
      *
-     * @param string $Token
+     * @param string $token
      *            Token
-     * @param string $Permit
+     * @param string $permit
      *            Permit name
      * @return bool True if the user has permit
      */
-    public function hasPermit(string $Token, string $Permit): bool;
+    public function hasPermit(string $token, string $permit): bool;
 
     /**
      * Method throws exception if the user does not have permit
      *
-     * @param string $Token
+     * @param string $token
      *            Token
-     * @param string $Permit
+     * @param string $permit
      *            Permit name
      */
-    public function validatePermit(string $Token, string $Permit);
+    public function validatePermit(string $token, string $permit);
 
     /**
      * Method returns field name for login

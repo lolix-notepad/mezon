@@ -23,7 +23,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
      * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProviderInterface::hasPermit()
      */
-    public function hasPermit(string $Token, string $Permit): bool
+    public function hasPermit(string $token, string $permit): bool
     {}
 
     /**
@@ -31,7 +31,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
      * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProviderInterface::validatePermit()
      */
-    public function validatePermit(string $Token, string $Permit)
+    public function validatePermit(string $token, string $permit)
     {}
 
     /**
@@ -39,7 +39,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
      * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProviderInterface::getSelfLogin()
      */
-    public function getSelfLogin(string $Token): string
+    public function getSelfLogin(string $token): string
     {}
 
     /**
@@ -55,7 +55,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
      * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProviderInterface::setToken()
      */
-    public function setToken(string $Token): string
+    public function setToken(string $token): string
     {}
 
     /**
@@ -71,7 +71,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
      * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProviderInterface::getSelfId()
      */
-    public function getSelfId(string $Token): int
+    public function getSelfId(string $token): int
     {}
 
     /**
@@ -79,7 +79,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
      * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProviderInterface::loginAs()
      */
-    public function loginAs(string $Token, string $LoginOrId, string $Field): string
+    public function loginAs(string $token, string $loginOrId, string $field): string
     {}
 
     /**
@@ -87,7 +87,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
      * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProviderInterface::createSession()
      */
-    public function createSession(string $Token = ''): string
+    public function createSession(string $token = ''): string
     {}
 
     /**
@@ -95,7 +95,7 @@ class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProv
      * {@inheritdoc}
      * @see \Mezon\Service\ServiceSecurityProviderInterface::connect()
      */
-    public function connect(string $Login, string $Password): string
+    public function connect(string $login, string $password): string
     {}
 }
 
@@ -108,13 +108,13 @@ class FakeParametersFetcher implements \Mezon\Service\ServiceRequestParamsInterf
     /**
      * Method returns request parameter
      *
-     * @param string $Param
+     * @param string $param
      *            parameter name
-     * @param mixed $Default
+     * @param mixed $default
      *            default value
      * @return mixed Parameter value
      */
-    public function getParam($Param, $Default = false)
+    public function getParam($param, $default = false)
     {
         return false;
     }
@@ -141,15 +141,15 @@ class FakeServiceModel extends \Mezon\CrudService\CrudServiceModel
     /**
      * Method returns amount of records in table, grouped by the specified field
      *
-     * @param int|bool $DomainId
+     * @param int|bool $domainId
      *            Domain id
-     * @param string $FieldName
+     * @param string $fieldName
      *            Grouping field
-     * @param array $Where
+     * @param array $where
      *            Filtration conditions
      * @return array Records with stat
      */
-    public function recordsCountByField($DomainId, string $FieldName, array $Where): array
+    public function recordsCountByField($domainId, string $fieldName, array $where): array
     {
         return [
             [
@@ -164,17 +164,17 @@ class FakeServiceModel extends \Mezon\CrudService\CrudServiceModel
     }
 
     /**
-     * Method returns last $Count records
+     * Method returns last $count records
      *
-     * @param int|bool $DomainId
+     * @param int|bool $domainId
      *            Id of the domain
-     * @param int $Count
+     * @param int $count
      *            Amount of records to be returned
-     * @param array $Where
+     * @param array $where
      *            Filter conditions
-     * @return array List of the last $Count records
+     * @return array List of the last $count records
      */
-    public function lastRecords($DomainId, $Count, $Where)
+    public function lastRecords($domainId, $count, $where)
     {
         return [
             []
@@ -201,13 +201,13 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     /**
      * Method returns service model
      *
-     * @param array $Methods
+     * @param array $methods
      *            Methods to be mocked
      * @return object Service model
      */
-    protected function getServiceModelMock(array $Methods = [])
+    protected function getServiceModelMock(array $methods = [])
     {
-        $Model = $this->getMockBuilder(\Mezon\CrudService\CrudServiceModel::class)
+        return $this->getMockBuilder(\Mezon\CrudService\CrudServiceModel::class)
             ->setConstructorArgs(
             [
                 [
@@ -223,41 +223,37 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
                 ],
                 'record'
             ])
-            ->setMethods($Methods)
+            ->setMethods($methods)
             ->getMock();
-
-        return $Model;
     }
 
     /**
      * Returning json file content
      *
-     * @param string $FileName
+     * @param string $fileName
      *            File name
      * @return array json decoded countent of the file
      */
-    protected function jsonData(string $FileName): array
+    protected function jsonData(string $fileName): array
     {
-        return json_decode(file_get_contents(__DIR__ . '/conf/' . $FileName . '.json'), true);
+        return json_decode(file_get_contents(__DIR__ . '/conf/' . $fileName . '.json'), true);
     }
 
     /**
      * Method creates full functional CrudServiceLogic object
      *
-     * @param mixed $Model
+     * @param mixed $model
      *            List of models or single model
      * @return \Mezon\CrudService\CrudServiceLogic object
      */
-    protected function getServiceLogic($Model): \Mezon\CrudService\CrudServiceLogic
+    protected function getServiceLogic($model): \Mezon\CrudService\CrudServiceLogic
     {
-        $Transport = new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport();
+        $transport = new \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport();
 
-        $Logic = new \Mezon\CrudService\CrudServiceLogic(
-            $Transport->ParamsFetcher,
+        return new \Mezon\CrudService\CrudServiceLogic(
+            $transport->paramsFetcher,
             new \Mezon\Service\ServiceMockSecurityProvider(),
-            $Model);
-
-        return $Logic;
+            $model);
     }
 
     /**
@@ -265,29 +261,27 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
      */
     protected function setupLogicForListMethodsTesting()
     {
-        $Connection = $this->getMockBuilder(\Mezon\PdoCrud\PdoCrud::class)
+        $connection = $this->getMockBuilder(\Mezon\PdoCrud\PdoCrud::class)
             ->disableOriginalConstructor()
             ->setMethods([
             'select'
         ])
             ->getMock();
-        $Connection->method('select')->willReturn([
+        $connection->method('select')->willReturn([
             [
                 'field_name' => 'balance',
                 'field_value' => 100
             ]
         ]);
 
-        $ServiceModel = $this->getServiceModelMock([
+        $serviceModel = $this->getServiceModelMock([
             'getSimpleRecords',
             'getConnection'
         ]);
-        $ServiceModel->method('getSimpleRecords')->willReturn($this->jsonData('GetSimpleRecords'));
-        $ServiceModel->method('getConnection')->willReturn($Connection);
+        $serviceModel->method('getSimpleRecords')->willReturn($this->jsonData('GetSimpleRecords'));
+        $serviceModel->method('getConnection')->willReturn($connection);
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
-
-        return $ServiceLogic;
+        return $this->getServiceLogic($serviceModel);
     }
 
     /**
@@ -296,16 +290,16 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testRecordsCount1()
     {
         // setup
-        $ServiceModel = $this->getServiceModelMock();
-        $ServiceModel->method('recordsCount')->willReturn(1);
+        $serviceModel = $this->getServiceModelMock();
+        $serviceModel->method('recordsCount')->willReturn(1);
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
+        $serviceLogic = $this->getServiceLogic($serviceModel);
 
         // test body
-        $Count = $ServiceLogic->recordsCount();
+        $count = $serviceLogic->recordsCount();
 
         // assertions
-        $this->assertEquals(1, $Count, 'Records count was not fetched');
+        $this->assertEquals(1, $count, 'Records count was not fetched');
     }
 
     /**
@@ -314,16 +308,16 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testRecordsCount0()
     {
         // setup
-        $ServiceModel = $this->getServiceModelMock();
-        $ServiceModel->method('recordsCount')->willReturn(0);
+        $serviceModel = $this->getServiceModelMock();
+        $serviceModel->method('recordsCount')->willReturn(0);
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
+        $serviceLogic = $this->getServiceLogic($serviceModel);
 
         // test body
-        $Count = $ServiceLogic->recordsCount();
+        $count = $serviceLogic->recordsCount();
 
         // assertions
-        $this->assertEquals(0, $Count, 'Records count was not fetched');
+        $this->assertEquals(0, $count, 'Records count was not fetched');
     }
 
     /**
@@ -332,15 +326,15 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testLastRecords()
     {
         // setup
-        $ServiceModel = new FakeServiceModel();
+        $serviceModel = new FakeServiceModel();
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
+        $serviceLogic = $this->getServiceLogic($serviceModel);
 
         // test body
-        $Records = $ServiceLogic->lastRecords(1);
+        $records = $serviceLogic->lastRecords(1);
 
         // assertions
-        $this->assertEquals(1, count($Records), 'Invalid amount of records was returned');
+        $this->assertEquals(1, count($records), 'Invalid amount of records was returned');
     }
 
     /**
@@ -349,20 +343,20 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testRecordsCountByExistingField()
     {
         // setup
-        $ServiceModel = new FakeServiceModel();
+        $serviceModel = new FakeServiceModel();
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
+        $serviceLogic = $this->getServiceLogic($serviceModel);
 
         global $argv;
         $argv['field'] = 'id';
 
         // test body
-        $Counters = $ServiceLogic->recordsCountByField();
+        $counters = $serviceLogic->recordsCountByField();
 
         // assertions
-        $this->assertEquals(2, count($Counters), 'Records were not fetched. Params:  ' . serialize($argv));
-        $this->assertEquals(1, $Counters[0]['records_count'], 'Records were not counted');
-        $this->assertEquals(2, $Counters[1]['records_count'], 'Records were not counted');
+        $this->assertEquals(2, count($counters), 'Records were not fetched. Params:  ' . serialize($argv));
+        $this->assertEquals(1, $counters[0]['records_count'], 'Records were not counted');
+        $this->assertEquals(2, $counters[1]['records_count'], 'Records were not counted');
     }
 
     /**
@@ -371,9 +365,9 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testRecordsCountByNotExistingField()
     {
         // setup
-        $ServiceModel = new FakeServiceModel();
+        $serviceModel = new FakeServiceModel();
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
+        $serviceLogic = $this->getServiceLogic($serviceModel);
 
         global $argv;
         $argv['field'] = 'unexisting';
@@ -381,7 +375,7 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
         // test body and assertions
         $this->expectException(\Exception::class);
 
-        $ServiceLogic->recordsCountByField();
+        $serviceLogic->recordsCountByField();
     }
 
     /**
@@ -389,12 +383,12 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
      */
     public function testConstruct()
     {
-        $ServiceLogic = new \Mezon\CrudService\CrudServiceLogic(
+        $serviceLogic = new \Mezon\CrudService\CrudServiceLogic(
             new FakeParametersFetcher(),
             new FakeSecurityProviderForLogic());
 
-        $this->assertInstanceOf(FakeParametersFetcher::class, $ServiceLogic->getParamsFetcher());
-        $this->assertInstanceOf(FakeSecurityProviderForLogic::class, $ServiceLogic->getSecurityProvider());
+        $this->assertInstanceOf(FakeParametersFetcher::class, $serviceLogic->getParamsFetcher());
+        $this->assertInstanceOf(FakeSecurityProviderForLogic::class, $serviceLogic->getSecurityProvider());
     }
 
     /**
@@ -403,13 +397,13 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testListRecord()
     {
         // setup
-        $ServiceLogic = $this->setupLogicForListMethodsTesting();
+        $serviceLogic = $this->setupLogicForListMethodsTesting();
 
         // test body
-        $RecordsList = $ServiceLogic->listRecord();
+        $recordsList = $serviceLogic->listRecord();
 
         // assertions
-        $this->assertEquals(2, count($RecordsList), 'Invalid records list was fetched');
+        $this->assertEquals(2, count($recordsList), 'Invalid records list was fetched');
     }
 
     /**
@@ -418,19 +412,19 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testGetDomainIdCrossDomainDisabled()
     {
         // setup
-        $ServiceModel = $this->getServiceModelMock([
+        $serviceModel = $this->getServiceModelMock([
             'get_connection'
         ]);
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
+        $serviceLogic = $this->getServiceLogic($serviceModel);
 
         unset($_GET['cross_domain']);
 
         // test body
-        $Result = $ServiceLogic->getDomainId();
+        $result = $serviceLogic->getDomainId();
 
         // assertions
-        $this->assertEquals(1, $Result, 'Invalid getDomainId result. Must be 1');
+        $this->assertEquals(1, $result, 'Invalid getDomainId result. Must be 1');
     }
 
     /**
@@ -439,16 +433,16 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testGetDomainIdCrossDomainEnabled()
     {
         // setup
-        $ServiceModel = $this->getServiceModelMock();
+        $serviceModel = $this->getServiceModelMock();
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
+        $serviceLogic = $this->getServiceLogic($serviceModel);
 
         $_GET['cross_domain'] = 1;
 
         // test
-        $Result = $ServiceLogic->getDomainId();
+        $result = $serviceLogic->getDomainId();
 
-        $this->assertEquals(false, $Result, 'Invalid getDomainId result. Must be false');
+        $this->assertEquals(false, $result, 'Invalid getDomainId result. Must be false');
     }
 
     /**
@@ -457,14 +451,14 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testNewRecordsSinceInvalid()
     {
         // setup
-        $ServiceModel = $this->getServiceModelMock();
+        $serviceModel = $this->getServiceModelMock();
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
+        $serviceLogic = $this->getServiceLogic($serviceModel);
 
         // test body
         $this->expectException(\Exception::class);
 
-        $ServiceLogic->newRecordsSince();
+        $serviceLogic->newRecordsSince();
     }
 
     /**
@@ -473,20 +467,20 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testNewRecordsSince()
     {
         // setup
-        $ServiceModel = $this->getServiceModelMock([
+        $serviceModel = $this->getServiceModelMock([
             'newRecordsSince'
         ]);
-        $ServiceModel->method('newRecordsSince')->willReturn([
+        $serviceModel->method('newRecordsSince')->willReturn([
             []
         ]);
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
+        $serviceLogic = $this->getServiceLogic($serviceModel);
 
         // test body
-        $Result = $ServiceLogic->newRecordsSince();
+        $result = $serviceLogic->newRecordsSince();
 
         // assertions
-        $this->assertCount(1, $Result);
+        $this->assertCount(1, $result);
     }
 
     /**
@@ -495,28 +489,28 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testUpdateRecord()
     {
         // setup
-        $FieldName = 'record-title';
-        $ServiceModel = $this->getServiceModelMock([
+        $fieldName = 'record-title';
+        $serviceModel = $this->getServiceModelMock([
             'updateBasicFields',
             'setFieldForObject'
         ]);
-        $ServiceModel->method('updateBasicFields')->willReturn([
-            $FieldName => 'Record title'
+        $serviceModel->method('updateBasicFields')->willReturn([
+            $fieldName => 'Record title'
         ]);
 
-        $ServiceLogic = $this->getServiceLogic($ServiceModel);
+        $serviceLogic = $this->getServiceLogic($serviceModel);
 
         global $argv;
-        $argv[$FieldName] = 'Some title';
+        $argv[$fieldName] = 'Some title';
         $argv['custom_fields']['record-balance'] = 123;
 
         // test body
-        $Record = $ServiceLogic->updateRecord();
+        $record = $serviceLogic->updateRecord();
 
         // assertions
-        $this->assertEquals('Record title', $Record[$FieldName], 'Invalid update result' . serialize($argv));
-        $this->assertEquals(123, $Record['custom_fields']['record-balance'], 'Invalid update result' . serialize($argv));
-        $this->assertTrue(isset($Record['id']), 'Id was not returned' . serialize($argv));
+        $this->assertEquals('Record title', $record[$fieldName], 'Invalid update result' . serialize($argv));
+        $this->assertEquals(123, $record['custom_fields']['record-balance'], 'Invalid update result' . serialize($argv));
+        $this->assertTrue(isset($record['id']), 'Id was not returned' . serialize($argv));
     }
 
     /**
@@ -525,14 +519,14 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testDeleteFltered()
     {
         // setup
-        $ServiceModel = $this->getServiceModelMock();
-        $ServiceModel->expects($this->once())
+        $serviceModel = $this->getServiceModelMock();
+        $serviceModel->expects($this->once())
             ->method('deleteFiltered');
 
-        $Mock = $this->getServiceLogic($ServiceModel);
+        $mock = $this->getServiceLogic($serviceModel);
 
         // test body and assertions
-        $Mock->deleteFiltered();
+        $mock->deleteFiltered();
     }
 
     /**
@@ -541,14 +535,14 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testDeleteRecord()
     {
         // setup
-        $ServiceModel = $this->getServiceModelMock();
-        $ServiceModel->expects($this->once())
+        $serviceModel = $this->getServiceModelMock();
+        $serviceModel->expects($this->once())
             ->method('deleteFiltered');
 
-        $Mock = $this->getServiceLogic($ServiceModel);
+        $mock = $this->getServiceLogic($serviceModel);
 
         // test body and assertions
-        $Mock->deleteRecord();
+        $mock->deleteRecord();
     }
 
     /**
@@ -557,13 +551,13 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testAll()
     {
         // setup
-        $ServiceLogic = $this->setupLogicForListMethodsTesting();
+        $serviceLogic = $this->setupLogicForListMethodsTesting();
 
         // test body
-        $RecordsList = $ServiceLogic->all();
+        $recordsList = $serviceLogic->all();
 
         // assertions
-        $this->assertEquals(2, count($RecordsList), 'Invalid records list was fetched');
+        $this->assertEquals(2, count($recordsList), 'Invalid records list was fetched');
     }
 
     /**
@@ -572,13 +566,13 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     public function testCreateRecord()
     {
         // setup
-        $ServiceModel = $this->getServiceModelMock();
-        $ServiceModel->expects($this->once())
+        $serviceModel = $this->getServiceModelMock();
+        $serviceModel->expects($this->once())
             ->method('insertBasicFields');
 
-        $Mock = $this->getServiceLogic($ServiceModel);
+        $mock = $this->getServiceLogic($serviceModel);
 
         // test body and assertions
-        $Mock->createRecord();
+        $mock->createRecord();
     }
 }

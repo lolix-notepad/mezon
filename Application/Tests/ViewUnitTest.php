@@ -27,9 +27,9 @@ class ViewUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructor()
     {
-        $View = new TestingView('test');
+        $view = new TestingView('test');
 
-        $this->assertEquals('test', $View->getViewName(), 'Invalid constructor call');
+        $this->assertEquals('test', $view->getViewName(), 'Invalid constructor call');
     }
 
     /**
@@ -37,9 +37,9 @@ class ViewUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testRender()
     {
-        $View = new TestingView('test');
+        $view = new TestingView('test');
 
-        $this->assertEquals('rendered content', $View->render(), 'Invalid view renderring');
-        $this->assertEquals('rendered content 2', $View->render('test2'), 'Invalid view renderring');
+        $this->assertEquals('rendered content', $view->render(), 'Invalid view renderring');
+        $this->assertEquals('rendered content 2', $view->render('test2'), 'Invalid view renderring');
     }
 }

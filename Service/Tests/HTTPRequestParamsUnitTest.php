@@ -6,13 +6,13 @@
 
 define('SESSION_ID_FIELD_NAME', 'session_id');
 
-$TestHeaders = [];
+$testHeaders = [];
 
 function getallheaders()
 {
-    global $TestHeaders;
+    global $testHeaders;
 
-    return $TestHeaders;
+    return $testHeaders;
 }
 
 /**
@@ -27,9 +27,9 @@ class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getRequestParamsMock()
     {
-        $Router = new \Mezon\Router\Router();
+        $router = new \Mezon\Router\Router();
 
-        return new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($Router);
+        return new \Mezon\Service\ServiceHttpTransport\HttpRequestParams($router);
     }
 
     /**
@@ -37,11 +37,11 @@ class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetHttpRequestHeaders()
     {
-        $RequestParams = $this->getRequestParamsMock();
+        $requestParams = $this->getRequestParamsMock();
 
-        $Param = $RequestParams->getParam('unexisting-param', 'default-value');
+        $param = $requestParams->getParam('unexisting-param', 'default-value');
 
-        $this->assertEquals('default-value', $Param, 'Default value must be returned but it was not');
+        $this->assertEquals('default-value', $param, 'Default value must be returned but it was not');
     }
 
     /**
@@ -49,16 +49,16 @@ class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetSessionIdFromAuthorization()
     {
-        global $TestHeaders;
-        $TestHeaders = [
+        global $testHeaders;
+        $testHeaders = [
             'Authorization' => 'Basic author session id'
         ];
 
-        $RequestParams = $this->getRequestParamsMock();
+        $requestParams = $this->getRequestParamsMock();
 
-        $Param = $RequestParams->getParam(SESSION_ID_FIELD_NAME);
+        $param = $requestParams->getParam(SESSION_ID_FIELD_NAME);
 
-        $this->assertEquals('author session id', $Param, 'Session id must be fetched but it was not');
+        $this->assertEquals('author session id', $param, 'Session id must be fetched but it was not');
     }
 
     /**
@@ -66,16 +66,16 @@ class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetSessionIdFromCgiAuthorization()
     {
-        global $TestHeaders;
-        $TestHeaders = [
+        global $testHeaders;
+        $testHeaders = [
             'Cgi-Authorization' => 'Basic cgi author session id'
         ];
 
-        $RequestParams = $this->getRequestParamsMock();
+        $requestParams = $this->getRequestParamsMock();
 
-        $Param = $RequestParams->getParam(SESSION_ID_FIELD_NAME);
+        $param = $requestParams->getParam(SESSION_ID_FIELD_NAME);
 
-        $this->assertEquals('cgi author session id', $Param, 'Session id must be fetched but it was not');
+        $this->assertEquals('cgi author session id', $param, 'Session id must be fetched but it was not');
     }
 
     /**
@@ -83,13 +83,13 @@ class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetUnexistingSessionId()
     {
-        global $TestHeaders;
-        $TestHeaders = [];
+        global $testHeaders;
+        $testHeaders = [];
 
-        $RequestParams = $this->getRequestParamsMock();
+        $requestParams = $this->getRequestParamsMock();
 
         $this->expectException(Exception::class);
-        $RequestParams->getParam(SESSION_ID_FIELD_NAME);
+        $requestParams->getParam(SESSION_ID_FIELD_NAME);
     }
 
     /**
@@ -97,16 +97,16 @@ class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetParameterFromHeader()
     {
-        global $TestHeaders;
-        $TestHeaders = [
+        global $testHeaders;
+        $testHeaders = [
             'Custom-Header' => 'header value'
         ];
 
-        $RequestParams = $this->getRequestParamsMock();
+        $requestParams = $this->getRequestParamsMock();
 
-        $Param = $RequestParams->getParam('Custom-Header');
+        $param = $requestParams->getParam('Custom-Header');
 
-        $this->assertEquals('header value', $Param, 'Header value must be fetched but it was not');
+        $this->assertEquals('header value', $param, 'Header value must be fetched but it was not');
     }
 
     /**
@@ -116,11 +116,11 @@ class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
     {
         $_POST['post-parameter'] = 'post value';
 
-        $RequestParams = $this->getRequestParamsMock();
+        $requestParams = $this->getRequestParamsMock();
 
-        $Param = $RequestParams->getParam('post-parameter');
+        $param = $requestParams->getParam('post-parameter');
 
-        $this->assertEquals('post value', $Param, 'Value from $_POST must be fetched but it was not');
+        $this->assertEquals('post value', $param, 'Value from $_POST must be fetched but it was not');
     }
 
     /**
@@ -130,10 +130,10 @@ class HttpRequestParamsUnitTest extends \PHPUnit\Framework\TestCase
     {
         $_GET['get-parameter'] = 'get value';
 
-        $RequestParams = $this->getRequestParamsMock();
+        $requestParams = $this->getRequestParamsMock();
 
-        $Param = $RequestParams->getParam('get-parameter');
+        $param = $requestParams->getParam('get-parameter');
 
-        $this->assertEquals('get value', $Param, 'Value from $_GET must be fetched but it was not');
+        $this->assertEquals('get value', $param, 'Value from $_GET must be fetched but it was not');
     }
 }

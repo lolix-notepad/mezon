@@ -8,11 +8,11 @@ class CrudServiceCollectionUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructorValid()
     {
-        $Collection = new \Mezon\CrudService\CrudServiceCollection('http://auth', 'some token');
+        $collection = new \Mezon\CrudService\CrudServiceCollection('http://auth', 'some token');
 
         $this->assertInstanceOf(
             \Mezon\CrudService\CrudServiceClient::class,
-            $Collection->getConnector(),
+            $collection->getConnector(),
             'Connector was not setup');
     }
 
@@ -21,7 +21,7 @@ class CrudServiceCollectionUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getConnector()
     {
-        $Mock = $this->getMockBuilder('MyClass')
+        $mock = $this->getMockBuilder('MyClass')
             ->setMethods([
             'newRecordsSince',
             'getList'
@@ -29,7 +29,7 @@ class CrudServiceCollectionUnitTest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        return $Mock;
+        return $mock;
     }
 
     /**
@@ -38,20 +38,20 @@ class CrudServiceCollectionUnitTest extends \PHPUnit\Framework\TestCase
     public function testNewRecordsSince()
     {
         // setup
-        $Connector = $this->getConnector();
-        $Connector->method('newRecordsSince')->willReturn([
+        $connector = $this->getConnector();
+        $connector->method('newRecordsSince')->willReturn([
             [],
             []
         ]);
 
-        $Collection = new \Mezon\CrudService\CrudServiceCollection();
-        $Collection->setConnector($Connector);
+        $collection = new \Mezon\CrudService\CrudServiceCollection();
+        $collection->setConnector($connector);
 
         // test body
-        $Collection->newRecordsSince('2019-01-01');
+        $collection->newRecordsSince('2019-01-01');
 
         // assertions
-        $this->assertEquals(2, count($Collection->getCollection()), 'Invalid records count');
+        $this->assertEquals(2, count($collection->getCollection()), 'Invalid records count');
     }
 
     /**
@@ -60,19 +60,19 @@ class CrudServiceCollectionUnitTest extends \PHPUnit\Framework\TestCase
     public function testTopByField()
     {
         // setup
-        $Connector = $this->getConnector();
-        $Connector->method('getList')->willReturn([
+        $connector = $this->getConnector();
+        $connector->method('getList')->willReturn([
             [],
             []
         ]);
 
-        $Collection = new \Mezon\CrudService\CrudServiceCollection();
-        $Collection->setConnector($Connector);
+        $collection = new \Mezon\CrudService\CrudServiceCollection();
+        $collection->setConnector($connector);
 
         // test body
-        $Collection->topByField(2, 'id', 'DESC');
+        $collection->topByField(2, 'id', 'DESC');
 
         // assertions
-        $this->assertEquals(2, count($Collection->getCollection()), 'Invalid records count');
+        $this->assertEquals(2, count($collection->getCollection()), 'Invalid records count');
     }
 }

@@ -23,37 +23,35 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
     /**
      * Client class name
      */
-    protected $ClientClassName = '';
+    protected $clientClassName = '';
 
     /**
      * Existing user's login
      *
      * @var string
      */
-    protected $ExistingLogin = '';
+    protected $existingLogin = '';
 
     /**
      * Constructor
      *
-     * @param string $ExistingLogin
+     * @param string $existingLogin
      */
-    public function __construct(string $ExistingLogin)
+    public function __construct(string $existingLogin)
     {
         parent::__construct();
 
-        $this->ExistingLogin = $ExistingLogin;
+        $this->existingLogin = $existingLogin;
     }
 
     /**
      * Method creates client object
      *
-     * @param string $Password
+     * @param string $password
      */
-    protected function constructClient(string $Password = 'root')
+    protected function constructClient(string $password = 'root')
     {
-        $Client = new $this->ClientClassName($this->ExistingLogin, $Password);
-
-        return $Client;
+        return new $this->clientClassName($this->existingLogin, $password);
     }
 
     /**
@@ -61,10 +59,10 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
      */
     public function testValidConnect()
     {
-        $Client = $this->construct_client();
+        $client = $this->construct_client();
 
-        $this->assertNotEquals($Client->getSessionId(), false, 'Connection failed');
-        $this->assertEquals($Client->Login, $this->ExistingLogin, 'Login was not saved');
+        $this->assertNotEquals($client->getSessionId(), false, 'Connection failed');
+        $this->assertEquals($client->Login, $this->existingLogin, 'Login was not saved');
     }
 
     /**
@@ -81,12 +79,12 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
      */
     public function testSetValidToken()
     {
-        $Client = $this->construct_client();
+        $client = $this->construct_client();
 
-        $NewClient = new $this->ClientClassName();
-        $NewClient->setToken($Client->getSessionId());
+        $newClient = new $this->clientClassName();
+        $newClient->setToken($client->getSessionId());
 
-        $this->assertNotEquals($NewClient->getSessionId(), false, 'Token was not set(1)');
+        $this->assertNotEquals($newClient->getSessionId(), false, 'Token was not set(1)');
     }
 
     /**
@@ -94,13 +92,13 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
      */
     public function testSetValidTokenAndLogin()
     {
-        $Client = $this->construct_client();
+        $client = $this->construct_client();
 
-        $NewClient = new $this->ClientClassName();
-        $NewClient->setToken($Client->getSessionId(), 'alexey@dodonov.none');
+        $newClient = new $this->clientClassName();
+        $newClient->setToken($client->getSessionId(), 'alexey@dodonov.none');
 
-        $this->assertNotEquals($NewClient->getSessionId(), false, 'Token was not set(2)');
-        $this->assertNotEquals($NewClient->getStoredLogin(), false, 'Login was not saved');
+        $this->assertNotEquals($newClient->getSessionId(), false, 'Token was not set(2)');
+        $this->assertNotEquals($newClient->getStoredLogin(), false, 'Login was not saved');
     }
 
     /**
@@ -108,10 +106,10 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
      */
     public function testSetInValidToken()
     {
-        $Client = new $this->ClientClassName();
+        $client = new $this->clientClassName();
 
         $this->expectException(\Exception::class);
-        $Client->setToken('unexistingtoken');
+        $client->setToken('unexistingtoken');
     }
 
     /**
@@ -119,10 +117,10 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
      */
     public function testLoginAs()
     {
-        $Client = $this->construct_client();
+        $client = $this->construct_client();
 
         try {
-            $Client->loginAs($this->ExistingLogin);
+            $client->loginAs($this->existingLogin);
         } catch (\Exception $e) {
             $this->assertEquals(0, 1, 'Login was was not called properly');
         }
@@ -133,10 +131,10 @@ class ServiceClientTests extends \PHPUnit\Framework\TestCase
      */
     public function testFailedLoginAs()
     {
-        $Client = $this->construct_client();
+        $client = $this->construct_client();
 
         $this->expectException(\Exception::class);
-        $Client->loginAs('alexey@dodonov.none');
+        $client->loginAs('alexey@dodonov.none');
     }
 
     /**

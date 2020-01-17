@@ -18,10 +18,10 @@ class FieldUnitTest extends \PHPUnit\Framework\TestCase
     public function testNameSetter()
     {
         // test body
-        $Field = new \Mezon\Gui\Field(json_decode(file_get_contents(__DIR__ . '/conf/name-setter.json'), true), '');
+        $field = new \Mezon\Gui\Field(json_decode(file_get_contents(__DIR__ . '/conf/name-setter.json'), true), '');
 
         // assertions
-        $this->assertStringContainsString('prefixfield-name000', $Field->html(), 'Invalid field "name" value');
+        $this->assertStringContainsString('prefixfield-name000', $field->html(), 'Invalid field "name" value');
     }
 
     /**
@@ -30,9 +30,9 @@ class FieldUnitTest extends \PHPUnit\Framework\TestCase
     public function testRequiredSetter()
     {
         // test body
-        $Field = new \Mezon\Gui\Field(json_decode(file_get_contents(__DIR__ . '/conf/required-setter.json'), true), '');
+        $field = new \Mezon\Gui\Field(json_decode(file_get_contents(__DIR__ . '/conf/required-setter.json'), true), '');
 
         // assertions
-        $this->assertStringContainsString('prefixfield-name1111select2', $Field->html(), 'Invalid field "name" value');
+        $this->assertStringContainsString('prefixfield-name1111select2', $field->html(), 'Invalid field "name" value');
     }
 }

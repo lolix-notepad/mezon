@@ -8,13 +8,13 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
     /**
      * Method returns testing data
      *
-     * @param string $Name
+     * @param string $name
      *            File name
      * @return array Testing data
      */
-    protected function getJson(string $Name): array
+    protected function getJson(string $name): array
     {
-        return json_decode(file_get_contents(__DIR__ . '/conf/' . $Name . '.json'), true);
+        return json_decode(file_get_contents(__DIR__ . '/conf/' . $name . '.json'), true);
     }
 
     /**
@@ -30,11 +30,11 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
     /**
      * Setting on and off the form title flag.
      *
-     * @param bool $Flag
+     * @param bool $flag
      */
-    protected function formHeader(bool $Flag)
+    protected function formHeader(bool $flag)
     {
-        if (! $Flag) {
+        if (! $flag) {
             $_GET['no-header'] = 1;
         } else {
             unset($_GET['no-header']);
@@ -46,9 +46,9 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
      *
      * @return object Mock of the object
      */
-    protected function getFormBuilder(bool $HasLayout = true): object
+    protected function getFormBuilder(bool $hasLayout = true): object
     {
-        $FormBuilder = $this->getMockBuilder(\Mezon\Gui\FormBuilder::class)
+        $formBuilder = $this->getMockBuilder(\Mezon\Gui\FormBuilder::class)
             ->setMethods([
             'get_external_records'
         ])
@@ -57,18 +57,18 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
                 $this->getFieldsAlgorithms(),
                 SESSION_ID,
                 'test-record',
-                $HasLayout ? $this->getJson('layout') : []
+                $hasLayout ? $this->getJson('layout') : []
             ])
             ->getMock();
 
-        $FormBuilder->method('get_external_records')->willReturn([
+        $formBuilder->method('get_external_records')->willReturn([
             [
                 'id' => 1,
                 'title' => "Some title"
             ]
         ]);
 
-        return $FormBuilder;
+        return $formBuilder;
     }
 
     /**
@@ -77,21 +77,21 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
     public function testCreationForm(): void
     {
         // setup
-        $FormBuilder = $this->getFormBuilder();
+        $formBuilder = $this->getFormBuilder();
 
         $this->formHeader(true);
 
         // test body
-        $Content = $FormBuilder->creationForm();
+        $content = $formBuilder->creationForm();
 
         // assertions
-        $this->assertStringContainsString('<div class="page-title">', $Content, 'No form title was found');
-        $this->assertStringContainsString('<form', $Content, 'No form tag was found');
-        $this->assertStringContainsString('<textarea', $Content, 'No textarea tag was found');
-        $this->assertStringContainsString('<input', $Content, 'No input tag was found');
-        $this->assertStringContainsString('<select', $Content, 'No select tag was found');
-        $this->assertStringContainsString('<option', $Content, 'No option tag was found');
-        $this->assertStringContainsString('type="file"', $Content, 'No file field was found');
+        $this->assertStringContainsString('<div class="page-title">', $content, 'No form title was found');
+        $this->assertStringContainsString('<form', $content, 'No form tag was found');
+        $this->assertStringContainsString('<textarea', $content, 'No textarea tag was found');
+        $this->assertStringContainsString('<input', $content, 'No input tag was found');
+        $this->assertStringContainsString('<select', $content, 'No select tag was found');
+        $this->assertStringContainsString('<option', $content, 'No option tag was found');
+        $this->assertStringContainsString('type="file"', $content, 'No file field was found');
     }
 
     /**
@@ -100,23 +100,23 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
     public function testUpdatingForm(): void
     {
         // setup
-        $FormBuilder = $this->getFormBuilder();
+        $formBuilder = $this->getFormBuilder();
 
         $this->formHeader(true);
 
         // test body
-        $Content = $FormBuilder->updatingForm('session-id', [
+        $content = $formBuilder->updatingForm('session-id', [
             'id' => '23'
         ]);
 
         // assertions
-        $this->assertStringContainsString('<div class="page-title">', $Content, 'No form title was found');
-        $this->assertStringContainsString('<form', $Content, 'No form tag was found');
-        $this->assertStringContainsString('<textarea', $Content, 'No textarea tag was found');
-        $this->assertStringContainsString('<input', $Content, 'No input tag was found');
-        $this->assertStringContainsString('<select', $Content, 'No select tag was found');
-        $this->assertStringContainsString('<option', $Content, 'No option tag was found');
-        $this->assertStringContainsString('type="file"', $Content, 'No file field was found');
+        $this->assertStringContainsString('<div class="page-title">', $content, 'No form title was found');
+        $this->assertStringContainsString('<form', $content, 'No form tag was found');
+        $this->assertStringContainsString('<textarea', $content, 'No textarea tag was found');
+        $this->assertStringContainsString('<input', $content, 'No input tag was found');
+        $this->assertStringContainsString('<select', $content, 'No select tag was found');
+        $this->assertStringContainsString('<option', $content, 'No option tag was found');
+        $this->assertStringContainsString('type="file"', $content, 'No file field was found');
     }
 
     /**
@@ -126,14 +126,14 @@ class FormBuilderUnitTest extends \PHPUnit\Framework\TestCase
     {
         // setup
         $_GET['form-width'] = 7;
-        $FormBuilder = $this->getFormBuilder(false);
+        $formBuilder = $this->getFormBuilder(false);
 
         $this->formHeader(false);
 
         // test body
-        $Content = $FormBuilder->creationForm();
+        $content = $formBuilder->creationForm();
 
         // assertions
-        $this->assertStringNotContainsStringIgnoringCase('<div class="page-title"', $Content, 'Form title was found');
+        $this->assertStringNotContainsStringIgnoringCase('<div class="page-title"', $content, 'Form title was found');
     }
 }

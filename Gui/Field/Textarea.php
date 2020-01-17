@@ -24,16 +24,16 @@ class Textarea extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        $Content = '<textarea class="resizable_textarea form-control"';
-        $Content .= $this->Required ? ' required="required"' : '';
-        $Content .= ' type="text" name="' . $this->NamePrefix . '-' . $this->Name .
-            ($this->Batch ? '[{_creation_form_items_counter}]' : '') . '"';
-        $Content .= $this->Disabled ? ' disabled ' : '';
-        $Content .= $this->Toggler === '' ? '' : 'toggler="' . $this->Toggler . '" ';
-        $Content .= $this->Toggler === '' ? '' : 'toggle-value="' . $this->ToggleValue . '"';
-        $Content .= '>' . $this->Value;
-        $Content .= '</textarea>';
+        $content = '<textarea class="resizable_textarea form-control"';
+        $content .= $this->required ? ' required="required"' : '';
+        $content .= ' type="text" name="' . $this->namePrefix . '-' . $this->name .
+            ($this->batch ? '[{_creation_form_items_counter}]' : '') . '"';
+        $content .= $this->disabled ? ' disabled ' : '';
+        $content .= $this->toggler === '' ? '' : 'toggler="' . $this->toggler . '" ';
+        $content .= $this->toggler === '' ? '' : 'toggle-value="' . $this->toggleValue . '"';
+        $content .= '>' . $this->value;
+        $content .= '</textarea>';
 
-        return $Content;
+        return $content;
     }
 }

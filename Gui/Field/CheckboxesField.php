@@ -32,16 +32,16 @@ class CheckboxesField extends \Mezon\Gui\Field\RemoteField
     /**
      * Method returns record's title
      *
-     * @param array $Record
+     * @param array $record
      *            Data source
      * @return string Compiled title
      */
-    protected function getExternalTitle(array $Record): string
+    protected function getExternalTitle(array $record): string
     {
-        if (\Mezon\Functional\Functional::getField($Record, 'title') !== null) {
-            return \Mezon\Functional\Functional::getField($Record, 'title');
+        if (\Mezon\Functional\Functional::getField($record, 'title') !== null) {
+            return \Mezon\Functional\Functional::getField($record, 'title');
         } else {
-            return 'id : ' . \Mezon\Functional\Functional::getField($Record, 'id');
+            return 'id : ' . \Mezon\Functional\Functional::getField($record, 'id');
         }
     }
 
@@ -52,19 +52,19 @@ class CheckboxesField extends \Mezon\Gui\Field\RemoteField
      */
     public function html(): string
     {
-        $Content = '';
+        $content = '';
 
-        $Records = $this->getExternalRecords();
+        $records = $this->getExternalRecords();
 
-        foreach ($Records as $Item) {
-            $id = \Mezon\Functional\Functional::getField($Item, 'id');
+        foreach ($records as $item) {
+            $id = \Mezon\Functional\Functional::getField($item, 'id');
 
-            $Content .= '<label>
-                <input type="checkbox" class="js-switch" name="' . $this->NamePrefix . '-' . $this->Name . '[]" value="' .
-                $id . '" /> ' . $this->getExternalTitle($Item) . '
+            $content .= '<label>
+                <input type="checkbox" class="js-switch" name="' . $this->namePrefix . '-' . $this->name . '[]" value="' .
+                $id . '" /> ' . $this->getExternalTitle($item) . '
             </label><br>';
         }
 
-        return $Content;
+        return $content;
     }
 }

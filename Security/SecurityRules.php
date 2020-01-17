@@ -22,153 +22,153 @@ class SecurityRules
     /**
      * Method prepares file system for saving file
      *
-     * @param string $FilePrefix
+     * @param string $filePrefix
      *            Prefix to file path
      * @return string File path
      * @codeCoverageIgnore
      */
-    protected function prepareFs(string $FilePrefix): string
+    protected function prepareFs(string $filePrefix): string
     {
-        @mkdir($FilePrefix . '/data/');
+        @mkdir($filePrefix . '/data/');
 
-        $Path = '/data/files/';
+        $path = '/data/files/';
 
-        @mkdir($FilePrefix . $Path);
+        @mkdir($filePrefix . $path);
 
-        @mkdir($FilePrefix . $Path . date('Y') . '/');
+        @mkdir($filePrefix . $path . date('Y') . '/');
 
-        @mkdir($FilePrefix . $Path . date('Y') . '/' . date('m') . '/');
+        @mkdir($filePrefix . $path . date('Y') . '/' . date('m') . '/');
 
-        $Dir = $Path . date('Y') . '/' . date('m') . '/' . date('d') . '/';
+        $dir = $path . date('Y') . '/' . date('m') . '/' . date('d') . '/';
 
-        @mkdir($FilePrefix . $Dir);
+        @mkdir($filePrefix . $dir);
 
-        return $Dir;
+        return $dir;
     }
 
     /**
      * Method stores file on disk
      *
-     * @param string $File
+     * @param string $file
      *            file path
-     * @param string $Content
+     * @param string $content
      *            file content
      * @codeCoverageIgnore
      */
-    protected function filePutContents(string $File, string $Content): void
+    protected function filePutContents(string $file, string $content): void
     {
-        file_put_contents($File, $Content);
+        file_put_contents($file, $content);
     }
 
     /**
      * Method stores file on disk
      *
-     * @param string $FileContent
+     * @param string $fileContent
      *            Content of the saving file
-     * @param string $PathPrefix
+     * @param string $pathPrefix
      *            Prefix to file
-     * @param bool $Decoded
+     * @param bool $decoded
      *            If the file was not encodded in base64
      * @return string Path to file
      */
-    public function storeFileContent(string $FileContent, string $PathPrefix, bool $Decoded = false): string
+    public function storeFileContent(string $fileContent, string $pathPrefix, bool $decoded = false): string
     {
-        $Dir = $this->prepareFs($PathPrefix);
+        $dir = $this->prepareFs($pathPrefix);
 
-        $FileName = md5(microtime(true));
+        $fileName = md5(microtime(true));
 
-        if ($Decoded) {
-            $this->filePutContents($PathPrefix . $Dir . $FileName, $FileContent);
+        if ($decoded) {
+            $this->filePutContents($pathPrefix . $dir . $fileName, $fileContent);
         } else {
-            $this->filePutContents($PathPrefix . $Dir . $FileName, base64_decode($FileContent));
+            $this->filePutContents($pathPrefix . $dir . $fileName, base64_decode($fileContent));
         }
 
-        return $Dir . $FileName;
+        return $dir . $fileName;
     }
 
     /**
      * Method stores file on disk
      *
-     * @param string $FilePath
+     * @param string $filePath
      *            Path to the saving file
-     * @param string $PathPrefix
+     * @param string $pathPrefix
      *            Prefix to file
-     * @param bool $Decoded
+     * @param bool $decoded
      *            If the file was not encodded in base64
      * @return string Path to file or null if the image was not loaded
      */
-    public function storeFile(string $FilePath, string $PathPrefix, bool $Decoded = false): ?string
+    public function storeFile(string $filePath, string $pathPrefix, bool $decoded = false): ?string
     {
-        $FileContent = @file_get_contents($FilePath);
+        $fileContent = @file_get_contents($filePath);
 
-        if ($FileContent === false) {
+        if ($fileContent === false) {
             return null;
         }
 
-        return $this->storeFileContent($FileContent, $PathPrefix, $Decoded);
+        return $this->storeFileContent($fileContent, $pathPrefix, $decoded);
     }
 
     /**
      * Method stores uploaded file
      *
-     * @param string $From
+     * @param string $from
      *            path to the uploaded file
-     * @param string $To
+     * @param string $to
      *            destination file path
      * @codeCoverageIgnore
      */
-    protected function moveUploadedFile(string $From, string $To): void
+    protected function moveUploadedFile(string $from, string $to): void
     {
-        move_uploaded_file($From, $To);
+        move_uploaded_file($from, $to);
     }
 
     /**
      * Method returns file value
      *
-     * @param mixed $Value
+     * @param mixed $value
      *            Data about the uploaded file
-     * @param bool $StoreFiles
+     * @param bool $storeFiles
      *            Must be the file stored in the file system of the service or not
-     * @return string|array Path to the stored file or the array $Value itself
+     * @return string|array Path to the stored file or the array $value itself
      */
-    public function getFileValue($Value, bool $StoreFiles)
+    public function getFileValue($value, bool $storeFiles)
     {
-        if (is_string($Value)) {
-            $Value = $_FILES[$Value];
+        if (is_string($value)) {
+            $value = $_FILES[$value];
         }
 
-        if (isset($Value['size']) && $Value['size'] === 0) {
+        if (isset($value['size']) && $value['size'] === 0) {
             return '';
         }
 
-        if ($StoreFiles) {
-            $Dir = '.' . $this->prepareFs('.');
+        if ($storeFiles) {
+            $dir = '.' . $this->prepareFs('.');
 
-            $UploadFile = $Dir . md5($Value['name'] . microtime(true)) . '.' .
-                pathinfo($Value['name'], PATHINFO_EXTENSION);
+            $uploadFile = $dir . md5($value['name'] . microtime(true)) . '.' .
+                pathinfo($value['name'], PATHINFO_EXTENSION);
 
-            if (isset($Value['file'])) {
-                $this->filePutContents($UploadFile, base64_decode($Value['file']));
+            if (isset($value['file'])) {
+                $this->filePutContents($uploadFile, base64_decode($value['file']));
             } else {
-                $this->moveUploadedFile($Value['tmp_name'], $UploadFile);
+                $this->moveUploadedFile($value['tmp_name'], $uploadFile);
             }
 
-            return $UploadFile;
+            return $uploadFile;
         } else {
-            return $Value;
+            return $value;
         }
     }
 
     /**
      * Returning string value
      *
-     * @param string $Value
+     * @param string $value
      *            Value to be made secure
      * @return string Secure value
      * @codeCoverageIgnore
      */
-    public function getStringValue(string $Value): string
+    public function getStringValue(string $value): string
     {
-        return htmlspecialchars($Value);
+        return htmlspecialchars($value);
     }
 }

@@ -22,21 +22,21 @@ class CustomField extends \Mezon\Gui\Field
      *
      * @var array
      */
-    protected $Fields = [];
+    protected $fields = [];
 
     /**
      * Constructor
      *
-     * @param array $FieldDescription
+     * @param array $fieldDescription
      *            Field description
-     * @param string $Value
+     * @param string $value
      *            Field value
      */
-    public function __construct(array $FieldDescription, string $Value = '')
+    public function __construct(array $fieldDescription, string $value = '')
     {
-        parent::__construct($FieldDescription, $Value);
+        parent::__construct($fieldDescription, $value);
 
-        $this->Fields = $FieldDescription['fields'];
+        $this->fields = $fieldDescription['fields'];
     }
 
     /**
@@ -47,13 +47,13 @@ class CustomField extends \Mezon\Gui\Field
     protected function getFieldTemplate(): string
     {
         // @codeCoverageIgnoreStart
-        $Content = file_get_contents('./res/templates/field-' . $this->Name . '.tpl');
+        $content = file_get_contents('./res/templates/field-' . $this->name . '.tpl');
 
-        if ($Content === false) {
-            throw (new \Exception('Template field-' . $this->Name . '.tpl was not found'));
+        if ($content === false) {
+            throw (new \Exception('Template field-' . $this->name . '.tpl was not found'));
         }
 
-        return $Content;
+        return $content;
         // @codeCoverageIgnoreEnd
     }
 
@@ -64,20 +64,18 @@ class CustomField extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        $Content = \Mezon\TemplateEngine\TemplateEngine::printRecord(
+        return \Mezon\TemplateEngine\TemplateEngine::printRecord(
             $this->get_field_template(),
             [
-                'name' => $this->Name,
-                'name-prefix' => $this->NamePrefix,
-                'disabled' => $this->Disabled ? 1 : 0,
-                'batch' => $this->Batch ? 1 : 0,
-                'custom' => $this->Custom,
-                'required' => $this->Required ? 1 : 0,
-                'toggler' => $this->Toggler,
-                'toggle-value' => $this->ToggleValue
+                'name' => $this->name,
+                'name-prefix' => $this->namePrefix,
+                'disabled' => $this->disabled ? 1 : 0,
+                'batch' => $this->batch ? 1 : 0,
+                'custom' => $this->custom,
+                'required' => $this->required ? 1 : 0,
+                'toggler' => $this->toggler,
+                'toggle-value' => $this->toggleValue
             ]);
-
-        return $Content;
     }
 
     /**
@@ -87,6 +85,6 @@ class CustomField extends \Mezon\Gui\Field
      */
     public function getFields(): array
     {
-        return $this->Fields;
+        return $this->fields;
     }
 }

@@ -22,18 +22,18 @@ class TextField implements \Mezon\Gui\Control
      *
      * @var string
      */
-    protected $Text = '';
+    protected $text = '';
 
     /**
      * Constructor
      *
-     * @param array $FieldDescription
+     * @param array $fieldDescription
      *            Field description
      */
-    public function __construct(array $FieldDescription)
+    public function __construct(array $fieldDescription)
     {
-        if (isset($FieldDescription['text'])) {
-            $this->Text = $FieldDescription['text'];
+        if (isset($fieldDescription['text'])) {
+            $this->text = $fieldDescription['text'];
         }
     }
 
@@ -44,7 +44,7 @@ class TextField implements \Mezon\Gui\Control
      */
     public function html(): string
     {
-        return $this->Text;
+        return $this->text;
     }
 
     /**

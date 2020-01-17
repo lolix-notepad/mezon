@@ -1,4 +1,5 @@
 <?php
+namespace Mezon\Service\Tests;
 
 /**
  * Class ServiceTests
@@ -22,47 +23,47 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
     /**
      * Session id.
      */
-    protected $SessionId = false;
+    protected $sessionId = false;
 
     /**
      * Server path.
      */
-    protected $ServerPath = false;
+    protected $serverPath = false;
 
     /**
      * Headers.
      *
      * @var string
      */
-    protected $Headers = false;
+    protected $headers = false;
 
     /**
      * Constructor.
      *
-     * @param string $Service
+     * @param string $service
      *            - Service name.
      */
-    public function __construct(string $Service)
+    public function __construct(string $service)
     {
         parent::__construct();
 
-        $this->ServerPath = \Mezon\DnsClient\DnsClient::resolveHost($Service);
+        $this->serverPath = \Mezon\DnsClient\DnsClient::resolveHost($service);
     }
 
     /**
      * Method asserts for errors and warnings in the html code.
      *
-     * @param string $Content
+     * @param string $content
      *            - Asserting content.
-     * @param string $Message
+     * @param string $message
      *            - Message to be displayed in case of error.
      */
-    protected function assertErrors($Content, $Message)
+    protected function assertErrors($content, $message)
     {
-        if (strpos($Content, 'Warning') !== false || strpos($Content, 'Error') !== false ||
-            strpos($Content, 'Fatal error') !== false || strpos($Content, 'Access denied') !== false ||
-            strpos($Content, "doesn't exist in statement") !== false) {
-            throw (new \Exception($Message . "\r\n" . $Content));
+        if (strpos($content, 'Warning') !== false || strpos($content, 'Error') !== false ||
+            strpos($content, 'Fatal error') !== false || strpos($content, 'Access denied') !== false ||
+            strpos($content, "doesn't exist in statement") !== false) {
+            throw (new \Exception($message . "\r\n" . $content));
         }
 
         $this->addToAssertionCount(1);
@@ -71,54 +72,54 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
     /**
      * Method asserts JSON.
      *
-     * @param mixed $JSONResult
+     * @param mixed $jSONResult
      *            - Result of the call;
-     * @param string $Result
+     * @param string $result
      *            - Raw result of the call.
      */
-    protected function assertJson($JSONResult, string $Result)
+    protected function assertJson($jSONResult, string $result)
     {
-        if ($JSONResult === null && $Result !== '') {
-            throw (new \Exception("JSON result is invalid because of:\r\n$Result"));
+        if ($jSONResult === null && $result !== '') {
+            throw (new \Exception("JSON result is invalid because of:\r\n$result"));
         }
 
-        if (isset($JSONResult->message)) {
-            throw (new \Exception($JSONResult->message, $JSONResult->code));
+        if (isset($jSONResult->message)) {
+            throw (new \Exception($jSONResult->message, $jSONResult->code));
         }
     }
 
     /**
      * Method sends post request.
      *
-     * @param array $Data
+     * @param array $data
      *            - Request data;
-     * @param string $URL
+     * @param string $uRL
      *            - Requesting endpoint.
      * @return mixed Request result.
      */
-    protected function postHttpRequest(array $Data, string $URL)
+    protected function postHttpRequest(array $data, string $uRL)
     {
-        $Options = [
+        $options = [
             'http' => [
                 'header' => "Content-type: application/x-www-form-urlencoded\r\n" .
                 "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0\r\n" .
-                ($this->SessionId !== false ? "Cgi-Authorization: Basic " . $this->SessionId . "\r\n" : '') .
-                ($this->Headers !== false ? implode("\r\n", $this->Headers) . "\r\n" : ''),
+                ($this->sessionId !== false ? "Cgi-Authorization: Basic " . $this->sessionId . "\r\n" : '') .
+                ($this->headers !== false ? implode("\r\n", $this->headers) . "\r\n" : ''),
                 'method' => 'POST',
-                'content' => http_build_query($Data)
+                'content' => http_build_query($data)
             ]
         ];
 
-        $Context = stream_context_create($Options);
-        $Result = file_get_contents($URL, false, $Context);
+        $context = stream_context_create($options);
+        $result = file_get_contents($uRL, false, $context);
 
-        $this->assertErrors($Result, 'Request have returned warnings/errors');
+        $this->assertErrors($result, 'Request have returned warnings/errors');
 
-        $JSONResult = json_decode($Result);
+        $jSONResult = json_decode($result);
 
-        $this->assertJson($JSONResult, $Result);
+        $this->assertJson($jSONResult, $result);
 
-        return $JSONResult;
+        return $jSONResult;
     }
 
     /**
@@ -126,40 +127,38 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
      */
     protected function prepareGetOptions()
     {
-        $Options = [
+        return [
             'http' => [
                 'header' => "Content-type: application/x-www-form-urlencoded\r\n" .
                 "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0\r\n" .
-                ($this->SessionId !== false ? "Cgi-Authorization: Basic " . $this->SessionId . "\r\n" : '') .
-                ($this->Headers !== false ? implode("\r\n", $this->Headers) . "\r\n" : ''),
+                ($this->sessionId !== false ? "Cgi-Authorization: Basic " . $this->sessionId . "\r\n" : '') .
+                ($this->headers !== false ? implode("\r\n", $this->headers) . "\r\n" : ''),
                 'method' => 'GET'
             ]
         ];
-
-        return $Options;
     }
 
     /**
      * Method sends GET request
      *
-     * @param string $URL
+     * @param string $uRL
      *            Requesting URL
      * @return mixed Result off the request
      */
-    protected function getHtmlRequest(string $URL)
+    protected function getHtmlRequest(string $uRL)
     {
-        $Options = $this->prepareGetOptions();
+        $options = $this->prepareGetOptions();
 
-        $Context = stream_context_create($Options);
-        $Result = file_get_contents($URL, false, $Context);
+        $context = stream_context_create($options);
+        $result = file_get_contents($uRL, false, $context);
 
-        $this->assertErrors($Result, 'Request have returned warnings/errors');
+        $this->assertErrors($result, 'Request have returned warnings/errors');
 
-        $JSONResult = json_decode($Result);
+        $jSONResult = json_decode($result);
 
-        $this->assertJson($JSONResult, $Result);
+        $this->assertJson($jSONResult, $result);
 
-        return $JSONResult;
+        return $jSONResult;
     }
 
     /**
@@ -182,17 +181,17 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
      */
     protected function validConnect()
     {
-        $Data = $this->getUserData();
+        $data = $this->getUserData();
 
-        $URL = $this->ServerPath . '/connect/';
+        $uRL = $this->serverPath . '/connect/';
 
-        $Result = $this->postHttpRequest($Data, $URL);
+        $result = $this->postHttpRequest($data, $uRL);
 
-        if (isset($Result->session_id) !== false) {
-            $this->SessionId = $Result->session_id;
+        if (isset($result->session_id) !== false) {
+            $this->sessionId = $result->session_id;
         }
 
-        return $Result;
+        return $result;
     }
 
     /**
@@ -201,15 +200,15 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
     public function testValidConnect()
     {
         // authorization
-        $Result = $this->validConnect();
+        $result = $this->validConnect();
 
-        $this->assertNotEquals($Result, null, 'Connection failed');
+        $this->assertNotEquals($result, null, 'Connection failed');
 
-        if (isset($Result->session_id) === false) {
+        if (isset($result->session_id) === false) {
             $this->assertEquals(true, false, 'Field "session_id" was not set');
         }
 
-        $this->SessionId = $Result->session_id;
+        $this->sessionId = $result->session_id;
     }
 
     /**
@@ -218,13 +217,13 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
     public function testInvalidConnect()
     {
         // authorization
-        $Data = $this->getUserData();
-        $Data['password'] = '1234';
+        $data = $this->getUserData();
+        $data['password'] = '1234';
 
-        $URL = $this->ServerPath . '/connect/';
+        $uRL = $this->serverPath . '/connect/';
 
         $this->expectException(\Exception::class);
-        $this->postHttpRequest($Data, $URL);
+        $this->postHttpRequest($data, $uRL);
     }
 
     /**
@@ -234,15 +233,15 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
     {
         $this->testValidConnect();
 
-        $Data = [
-            'token' => $this->SessionId
+        $data = [
+            'token' => $this->sessionId
         ];
 
-        $URL = $this->ServerPath . '/token/' . $this->SessionId . '/';
+        $uRL = $this->serverPath . '/token/' . $this->sessionId . '/';
 
-        $Result = $this->postHttpRequest($Data, $URL);
+        $result = $this->postHttpRequest($data, $uRL);
 
-        $this->assertEquals(isset($Result->session_id), true, 'Connection failed');
+        $this->assertEquals(isset($result->session_id), true, 'Connection failed');
     }
 
     /**
@@ -253,13 +252,13 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
         try {
             $this->testValidConnect();
 
-            $Data = [
+            $data = [
                 'token' => ''
             ];
 
-            $URL = $this->ServerPath . '/token/unexisting/';
+            $uRL = $this->serverPath . '/token/unexisting/';
 
-            $this->postHttpRequest($Data, $URL);
+            $this->postHttpRequest($data, $uRL);
         } catch (\Exception $e) {
             // set token method either throws exception or not
             // both is correct behaviour
@@ -277,22 +276,22 @@ class ServiceTests extends \PHPUnit\Framework\TestCase
         $this->testValidConnect();
 
         // test body
-        $Data = [
+        $data = [
             'login' => 'alexey@dodonov.none'
         ];
 
-        $URL = $this->ServerPath . '/login-as/';
+        $uRL = $this->serverPath . '/login-as/';
 
-        $this->postHttpRequest($Data, $URL);
+        $this->postHttpRequest($data, $uRL);
 
         // assertions
-        $URL = $this->ServerPath . '/self/login/';
+        $uRL = $this->serverPath . '/self/login/';
 
-        $Result = $this->get_html_request($URL);
+        $result = $this->get_html_request($uRL);
 
         $this->assertEquals(
             'alexey@dodonov.none',
-            \Mezon\Functional\Functional::getField($Result, 'login'),
+            \Mezon\Functional\Functional::getField($result, 'login'),
             'Session user must be alexey@dodonov.none');
     }
 }

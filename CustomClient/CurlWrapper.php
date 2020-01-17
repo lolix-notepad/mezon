@@ -20,46 +20,46 @@ class CurlWrapper
     /**
      * Method send HTTP request
      *
-     * @param string $URL
+     * @param string $uRL
      *            URL
-     * @param array $Headers
+     * @param array $headers
      *            Headers
-     * @param string $Method
+     * @param string $method
      *            Request HTTP Method
-     * @param array $Data
+     * @param array $data
      *            Request data
      * @return array Response body and HTTP code
      */
-    public static function sendRequest(string $URL, array $Headers, string $Method, array $Data = []): array
+    public static function sendRequest(string $uRL, array $headers, string $method, array $data = []): array
     {
-        $Ch = curl_init();
+        $ch = curl_init();
 
-        $CurlConfig = [
-            CURLOPT_URL => $URL,
-            CURLOPT_HTTPHEADER => $Headers,
-            CURLOPT_POST => ($Method == 'POST'),
+        $curlConfig = [
+            CURLOPT_URL => $uRL,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POST => ($method == 'POST'),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_SSL_VERIFYPEER => true
         ];
 
-        if ($Method == 'POST') {
-            $FormData = [];
-            foreach ($Data as $Key => $Value) {
-                $FormData[] = $Key . '=' . urldecode($Value);
+        if ($method == 'POST') {
+            $formData = [];
+            foreach ($data as $key => $value) {
+                $formData[] = $key . '=' . urldecode($value);
             }
-            $CurlConfig[CURLOPT_POSTFIELDS] = implode('&', $FormData);
+            $curlConfig[CURLOPT_POSTFIELDS] = implode('&', $formData);
         }
 
-        curl_setopt_array($Ch, $CurlConfig);
+        curl_setopt_array($ch, $curlConfig);
 
-        $Body = curl_exec($Ch);
-        $Code = curl_getinfo($Ch, CURLINFO_HTTP_CODE);
+        $body = curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        curl_close($Ch);
+        curl_close($ch);
 
         return [
-            $Body,
-            $Code
+            $body,
+            $code
         ];
     }
 }

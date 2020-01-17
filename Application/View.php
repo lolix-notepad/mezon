@@ -22,44 +22,44 @@ class View implements \Mezon\Application\ViewInterface
      *
      * @var string
      */
-    protected $ViewName = '';
+    protected $viewName = '';
 
     /**
      * Constructor
      *
-     * @param string $ViewName
+     * @param string $viewName
      *            View name to be rendered
      */
-    public function __construct(string $ViewName = '')
+    public function __construct(string $viewName = '')
     {
-        $this->ViewName = $ViewName;
+        $this->viewName = $viewName;
     }
 
     /**
      * Method renders content from view
      *
-     * @param string $ViewName
+     * @param string $viewName
      *            View name to be rendered
      * @return string Generated content
      */
-    public function render(string $ViewName = ''): string
+    public function render(string $viewName = ''): string
     {
-        if ($ViewName === '') {
-            $ViewName = $this->ViewName;
+        if ($viewName === '') {
+            $viewName = $this->viewName;
         }
 
-        if ($ViewName === '') {
-            $ViewName = 'default';
+        if ($viewName === '') {
+            $viewName = 'default';
         }
 
-        if (method_exists($this, 'view' . $ViewName)) {
+        if (method_exists($this, 'view' . $viewName)) {
             return call_user_func([
                 $this,
-                'view' . $ViewName
+                'view' . $viewName
             ]);
         }
 
-        throw (new \Exception('View ' . $ViewName . ' was not found'));
+        throw (new \Exception('View ' . $viewName . ' was not found'));
     }
 
     /**
@@ -69,6 +69,6 @@ class View implements \Mezon\Application\ViewInterface
      */
     public function getViewName(): string
     {
-        return $this->ViewName;
+        return $this->viewName;
     }
 }

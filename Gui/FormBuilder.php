@@ -20,139 +20,135 @@ class FormBuilder
     /**
      * Fields algorithms
      */
-    protected $FieldsAlgorithms = false;
+    protected $fieldsAlgorithms = false;
 
     /**
      * Session id
      */
-    protected $SessionId = false;
+    protected $sessionId = false;
 
     /**
      * Entity name
      */
-    protected $EntityName = false;
+    protected $entityName = false;
 
     /**
      * Layout
      */
-    protected $Layout = false;
+    protected $layout = false;
 
     /**
      * Multiple forms
      */
-    protected $Batch = false;
+    protected $batch = false;
 
     /**
      * Constructor
      *
-     * @param \Mezon\Gui\FieldsAlgorithms $FieldsAlgorithms
+     * @param \Mezon\Gui\FieldsAlgorithms $fieldsAlgorithms
      *            Fields algorithms
-     * @param string $SessionId
+     * @param string $sessionId
      *            Session id
-     * @param string $EntityName
+     * @param string $entityName
      *            Entity name
-     * @param array $Layout
+     * @param array $layout
      *            Fields layout
-     * @param bool $Batch
+     * @param bool $batch
      *            Batch operations available
      */
     public function __construct(
-        \Mezon\Gui\FieldsAlgorithms $FieldsAlgorithms,
-        string $SessionId,
-        string $EntityName,
-        array $Layout,
-        bool $Batch = false)
+        \Mezon\Gui\FieldsAlgorithms $fieldsAlgorithms,
+        string $sessionId,
+        string $entityName,
+        array $layout,
+        bool $batch = false)
     {
-        $this->FieldsAlgorithms = $FieldsAlgorithms;
+        $this->fieldsAlgorithms = $fieldsAlgorithms;
 
-        $this->SessionId = $SessionId;
+        $this->sessionId = $sessionId;
 
-        $this->EntityName = $EntityName;
+        $this->entityName = $entityName;
 
-        $this->Layout = $Layout;
+        $this->layout = $layout;
 
-        $this->Batch = $Batch;
+        $this->batch = $batch;
     }
 
     /**
      * Method compiles form without layout
      *
-     * @param array $Record
-     *            Data source
      * @return string Compiled control
      */
-    protected function compileForFieldsWithNoLayout(array $Record = []): string
+    protected function compileForFieldsWithNoLayout(): string
     {
-        $Content = '';
+        $content = '';
 
-        foreach ($this->FieldsAlgorithms->getFieldsNames() as $Name) {
-            $Field = $this->FieldsAlgorithms->getObject($Name);
-            if ($Name == 'id' || $Name == 'domain_id' || $Name == 'creation_date' || $Name == 'modification_date' ||
-                $Field->isVisible() === false) {
+        foreach ($this->fieldsAlgorithms->getFieldsNames() as $name) {
+            $field = $this->fieldsAlgorithms->getObject($name);
+            if ($name == 'id' || $name == 'domain_id' || $name == 'creation_date' || $name == 'modification_date' ||
+                $field->isVisible() === false) {
                 continue;
             }
 
-            $Content .= '<div class="form-group ' . $this->EntityName . '">' . '<label class="control-label" >' .
-                $Field->getTitle() . ($Field->isRequired($Name) ? ' <span class="required">*</span>' : '') . '</label>' .
-                $Field->html() . '</div>';
+            $content .= '<div class="form-group ' . $this->entityName . '">' . '<label class="control-label" >' .
+                $field->getTitle() . ($field->isRequired($name) ? ' <span class="required">*</span>' : '') . '</label>' .
+                $field->html() . '</div>';
         }
 
-        return $Content;
+        return $content;
     }
 
     /**
      * Method compiles atoic field
      *
-     * @param array $Field
+     * @param array $field
      *            Field description
-     * @param string $Name
+     * @param string $name
      *            HTML field name
      * @return string Compiled field
      */
-    protected function compileField($Field, $Name)
+    protected function compileField($field, $name)
     {
-        $Control = $this->FieldsAlgorithms->getCompiledField($Name);
+        $control = $this->fieldsAlgorithms->getCompiledField($name);
 
-        $FieldObject = $this->FieldsAlgorithms->getObject($Name);
+        $fieldObject = $this->fieldsAlgorithms->getObject($name);
 
-        if ($FieldObject->fillAllRow()) {
-            return $Control->html();
+        if ($fieldObject->fillAllRow()) {
+            return $control->html();
         }
 
-        if ($FieldObject->isVisible() === false) {
+        if ($fieldObject->isVisible() === false) {
             return '';
         }
 
-        $Content = '<div class="form-group ' . $this->EntityName . ' col-md-' . $Field['width'] . '">';
+        $content = '<div class="form-group ' . $this->entityName . ' col-md-' . $field['width'] . '">';
 
-        if ($FieldObject->hasLabel()) {
-            $Content .= '<label class="control-label" style="text-align: left;">' . $FieldObject->getTitle() .
-                ($FieldObject->isRequired($Name) ? ' <span class="required">*</span>' : '') . '</label>';
+        if ($fieldObject->hasLabel()) {
+            $content .= '<label class="control-label" style="text-align: left;">' . $fieldObject->getTitle() .
+                ($fieldObject->isRequired($name) ? ' <span class="required">*</span>' : '') . '</label>';
         }
 
-        $Content .= $Control . '</div>';
-
-        return $Content;
+        return $content . $control . '</div>';
     }
 
     /**
      * Method compiles form with layout
      *
-     * @param array $Record
+     * @param array $record
      *            Record
      * @return string Compiled fields
      */
-    protected function compileForFieldsWithLayout(array $Record = []): string
+    protected function compileForFieldsWithLayout(array $record = []): string
     {
-        $Content = '';
+        $content = '';
 
-        foreach ($this->Layout['rows'] as $Row) {
-            foreach ($Row as $Name => $Field) {
-                $Content .= $this->compileField($Field, $Name, $Record);
+        foreach ($this->layout['rows'] as $row) {
+            foreach ($row as $name => $field) {
+                $content .= $this->compileField($field, $name, $record);
             }
         }
 
-        return $Content;
+        return $content;
     }
 
     /**
@@ -164,26 +160,26 @@ class FormBuilder
     {
         if (isset($_GET['form-width'])) {
             return intval($_GET['form-width']);
-        } elseif ($this->Layout === false || count($this->Layout) === 0) {
+        } elseif ($this->layout === false || count($this->layout) === 0) {
             return 6;
         } else {
-            return $this->Layout['width'];
+            return $this->layout['width'];
         }
     }
 
     /**
      * Method compiles form fields
      *
-     * @param array $Record
+     * @param array $record
      *            Record
      * @return string Compiled fields
      */
-    public function compileFormFields($Record = [])
+    public function compileFormFields($record = [])
     {
-        if (count($this->Layout) === 0) {
-            return $this->compileForFieldsWithNoLayout($Record);
+        if (count($this->layout) === 0) {
+            return $this->compileForFieldsWithNoLayout($record);
         } else {
-            return $this->compileForFieldsWithLayout($Record);
+            return $this->compileForFieldsWithLayout($record);
         }
     }
 
@@ -195,48 +191,44 @@ class FormBuilder
     public function creationForm(): string
     {
         if (isset($_GET['no-header'])) {
-            $Content = file_get_contents(__DIR__ . '/res/templates/creation_form_no_header.tpl');
+            $content = file_get_contents(__DIR__ . '/res/templates/creation_form_no_header.tpl');
         } else {
-            $Content = file_get_contents(__DIR__ . '/res/templates/creation_form_header.tpl');
+            $content = file_get_contents(__DIR__ . '/res/templates/creation_form_header.tpl');
         }
 
-        $Content .= file_get_contents(__DIR__ . '/res/templates/creation_form.tpl');
+        $content .= file_get_contents(__DIR__ . '/res/templates/creation_form.tpl');
 
-        $BackLink = isset($_GET['back-link']) ? $_GET['back-link'] : '../list/';
+        $backLink = isset($_GET['back-link']) ? $_GET['back-link'] : '../list/';
 
-        $Content = str_replace('{fields}', $this->compileFormFields(), $Content);
+        $content = str_replace('{fields}', $this->compileFormFields(), $content);
 
-        $Content = str_replace('{width}', $this->getFormWidth(), $Content);
+        $content = str_replace('{width}', $this->getFormWidth(), $content);
 
-        $Content = str_replace('{back-link}', $BackLink, $Content);
-
-        return $Content;
+        return str_replace('{back-link}', $backLink, $content);
     }
 
     /**
      * Method compiles updating form
      *
-     * @param string $SessionId
+     * @param string $sessionId
      *            Session id
-     * @param array $Record
+     * @param array $record
      *            Record to be updated
      * @return string Compiled updating form
      */
-    public function updatingForm(string $SessionId, array $Record): string
+    public function updatingForm(string $sessionId, array $record): string
     {
         if (isset($_GET['no-header'])) {
-            $Content = file_get_contents(__DIR__ . '/res/templates/updating_form_no_header.tpl');
+            $content = file_get_contents(__DIR__ . '/res/templates/updating_form_no_header.tpl');
         } else {
-            $Content = file_get_contents(__DIR__ . '/res/templates/updating_form_header.tpl');
+            $content = file_get_contents(__DIR__ . '/res/templates/updating_form_header.tpl');
         }
 
-        $Content .= file_get_contents(__DIR__ . '/res/templates/updating_form.tpl');
+        $content .= file_get_contents(__DIR__ . '/res/templates/updating_form.tpl');
 
-        $this->SessionId = $SessionId;
-        $this->FieldsAlgorithms->setSessionId($SessionId);
+        $this->sessionId = $sessionId;
+        $this->fieldsAlgorithms->setSessionId($sessionId);
 
-        $Content = str_replace('{fields}', $this->compileFormFields($Record), $Content);
-
-        return $Content;
+        return str_replace('{fields}', $this->compileFormFields($record), $content);
     }
 }

@@ -9,14 +9,14 @@ class FormHeaderUnitTest extends \PHPUnit\Framework\TestCase
     public function testConstructor()
     {
         // setup
-        $Field = new \Mezon\Gui\Field\FormHeader([
+        $field = new \Mezon\Gui\Field\FormHeader([
             'text' => 'name'
         ]);
 
         // test body
-        $Content = $Field->html();
+        $content = $field->html();
 
         // assertions
-        $this->assertStringContainsString('<h3>name</h3>', $Content, 'Header was not built');
+        $this->assertStringContainsString('<h3>name</h3>', $content, 'Header was not built');
     }
 }
