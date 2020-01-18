@@ -32,6 +32,13 @@ class Field
     protected $required;
 
     /**
+     * CSS class
+     * 
+     * @var string
+     */
+    protected $class = 'form-control';
+
+    /**
      * Field name's prefix
      *
      * @var string
@@ -120,6 +127,19 @@ class Field
             $this->name = $fieldDescription['name'];
         } else {
             throw (new \Exception('Name of the field is not defined', - 1));
+        }
+    }
+
+    /**
+     * Method fetches field CSS class from the description
+     *
+     * @param array $fieldDescription
+     *            Field description
+     */
+    protected function initClass(array $fieldDescription)
+    {
+        if (isset($fieldDescription['class']) !== false) {
+            $this->class = $fieldDescription['class'];
         }
     }
 
@@ -263,6 +283,8 @@ class Field
     public function __construct(array $fieldDescription, string $value = '')
     {
         $this->initName($fieldDescription);
+
+        $this->initClass($fieldDescription);
 
         $this->initRequired($fieldDescription);
 

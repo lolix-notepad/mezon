@@ -26,9 +26,8 @@ class LabelField extends \Mezon\Gui\Field\TextField
     {
         $content = '<div class="form-group col-md-12">';
         $content .= '<label class="control-label">' . $this->text . '</label>';
-        $content .= '</div>';
 
-        return $content;
+        return $content . '</div>';
     }
 
     /**

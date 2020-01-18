@@ -15,12 +15,54 @@ class FilterUnitTest extends \PHPUnit\Framework\TestCase
                     'arg1' => '$id',
                     'op' => '>',
                     'arg2' => '1',
+                ],
+                [
+                    'arg1' => '$id',
+                    'op' => 'in',
+                    'arg2' => [
+                        1,
+                        2
+                    ]
+                ],
+                [
+                    'arg1' => [
+                        'arg1' => '$id',
+                        'op' => 'in',
+                        'arg2' => [
+                            3,
+                            4
+                        ]
+                    ],
+                    'op' => '=',
+                    'arg2' => 'true'
                 ]
             ],
             []);
 
         // asssertions
-        $this->assertContains('id > 1', $result, 'Compilation error');
+        $this->assertContains('id > 1', $result);
+        $this->assertContains('id in ( 1 , 2 )', $result);
+        $this->assertContains('( id in ( 3 , 4 ) ) = \'true\'', $result);
+    }
+
+    /**
+     * Testing addFilterConditionFromArr method
+     */
+    function testAddFilterConditionFromArrException()
+    {
+        // assertions
+        $this->expectException(\Exception::class);
+
+        // setup and test body
+        \Mezon\Gui\FieldsAlgorithms\Filter::addFilterConditionFromArr(
+            [
+                [
+                    'arg1' => '$id',
+                    'op' => '<>',
+                    'arg2' => '1',
+                ]
+            ],
+            []);
     }
 
     /**

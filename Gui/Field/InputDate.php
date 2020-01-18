@@ -24,7 +24,7 @@ class InputDate extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        return '<input class="form-control date-input""' . ($this->required ? ' required="required"' : '') .
+        return '<input class="'.$this->class.' date-input""' . ($this->required ? ' required="required"' : '') .
             ' type="text" name="' . $this->namePrefix . '-' . $this->name .
             ($this->batch ? '[{_creation_form_items_counter}]' : '') . '"' . ($this->disabled ? ' disabled ' : '') .
             ($this->toggler === '' ? '' : 'toggler="' . $this->toggler . '" ') .

@@ -88,9 +88,7 @@ class Filter
 
         $statement .= ' ' . self::getOperator($item) . ' ';
 
-        $statement .= self::getArg($item['arg2'], self::getOperator($item));
-
-        return $statement;
+        return $statement . self::getArg($item['arg2'], self::getOperator($item));
     }
 
     /**

@@ -74,7 +74,8 @@ class CustomField extends \Mezon\Gui\Field
                 'custom' => $this->custom,
                 'required' => $this->required ? 1 : 0,
                 'toggler' => $this->toggler,
-                'toggle-value' => $this->toggleValue
+                'toggle-value' => $this->toggleValue,
+                'class' => $this->class
             ]);
     }
 

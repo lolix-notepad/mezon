@@ -25,7 +25,8 @@ class CheckboxesFieldUnitTest extends \PHPUnit\Framework\TestCase
                     'bind-field' => 'id',
                     'session-id' => 'sid',
                     'remote-source' => 'http://ya.ru',
-                    'type' => 'int'
+                    'type' => 'int',
+                    'class' => 'cls'
                 ],
                 ''
             ])
@@ -55,6 +56,7 @@ class CheckboxesFieldUnitTest extends \PHPUnit\Framework\TestCase
         $content = $field->html();
 
         // assertions
-        $this->assertStringContainsString('type="checkbox"', $content, 'Name of the remote record was not found');
+        $this->assertStringContainsString('type="checkbox"', $content);
+        $this->assertStringContainsString('class="cls"', $content);
     }
 }

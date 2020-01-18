@@ -18,7 +18,8 @@ class InputTextUnitTest extends \PHPUnit\Framework\TestCase
                 'batch' => 1,
                 'toggler' => 'toggler-name',
                 'toggle-value' => 3,
-                'type' => 'string'
+                'type' => 'string',
+                'class' => 'cls'
             ],
             '');
 
@@ -26,15 +27,13 @@ class InputTextUnitTest extends \PHPUnit\Framework\TestCase
         $content = $field->html();
 
         // assertions
-        $this->assertStringContainsString('<input ', $content, 'Open tag was not found');
-        $this->assertStringContainsString('type="text"', $content, '"Name" attribute was not found');
-        $this->assertStringContainsString(
-            'name="prefix-name[{_creation_form_items_counter}]"',
-            $content,
-            '"Name" attribute was not found');
-            $this->assertStringContainsString('required="required"', $content, '"Required" attribute was not found');
-            $this->assertStringContainsString('disabled', $content, '"Disabled" attribute was not found');
-            $this->assertStringContainsString('toggler="toggler-name"', $content, '"toggler" attribute was not found');
-            $this->assertStringContainsString('toggle-value="3"', $content, '"Toggle-value" attribute was not found');
+        $this->assertStringContainsString('<input ', $content);
+        $this->assertStringContainsString('type="text"', $content);
+        $this->assertStringContainsString('name="prefix-name[{_creation_form_items_counter}]"', $content);
+        $this->assertStringContainsString('required="required"', $content);
+        $this->assertStringContainsString('disabled', $content);
+        $this->assertStringContainsString('toggler="toggler-name"', $content);
+        $this->assertStringContainsString('toggle-value="3"', $content);
+        $this->assertStringContainsString('class="cls"', $content);
     }
 }

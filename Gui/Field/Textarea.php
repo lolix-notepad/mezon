@@ -24,7 +24,7 @@ class Textarea extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        $content = '<textarea class="resizable_textarea form-control"';
+        $content = '<textarea class="resizable_textarea '.$this->class.'"';
         $content .= $this->required ? ' required="required"' : '';
         $content .= ' type="text" name="' . $this->namePrefix . '-' . $this->name .
             ($this->batch ? '[{_creation_form_items_counter}]' : '') . '"';

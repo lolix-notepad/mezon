@@ -24,7 +24,7 @@ class InputFile extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        $content = '<input class="form-control"';
+        $content = '<input class="'.$this->class.'"';
         $content .= $this->required ? ' required="required"' : '';
         $content .= ' type="file" name="' . $this->namePrefix . '-' . $this->name .
             ($this->batch ? '[{_creation_form_items_counter}]' : '') . '"';

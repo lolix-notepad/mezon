@@ -53,7 +53,7 @@ class Select extends \Mezon\Gui\Field
      */
     public function html(): string
     {
-        $content = '<select class="form-control"';
+        $content = '<select class="'.$this->class.'"';
         $content .= $this->required ? ' required="required"' : '';
         $content .= ' type="text" name="' . $this->namePrefix . '-' . $this->name .
             ($this->batch ? '[{_creation_form_items_counter}]' : '') . '"';
