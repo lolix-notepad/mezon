@@ -26,14 +26,13 @@ class Textarea extends \Mezon\Gui\Field
     {
         $content = '<textarea class="resizable_textarea '.$this->class.'"';
         $content .= $this->required ? ' required="required"' : '';
-        $content .= ' type="text" name="' . $this->namePrefix . '-' . $this->name .
+        $content .= ' type="text" name="' . $this->getNamePrefix() . $this->name .
             ($this->batch ? '[{_creation_form_items_counter}]' : '') . '"';
         $content .= $this->disabled ? ' disabled ' : '';
         $content .= $this->toggler === '' ? '' : 'toggler="' . $this->toggler . '" ';
         $content .= $this->toggler === '' ? '' : 'toggle-value="' . $this->toggleValue . '"';
         $content .= '>' . $this->value;
-        $content .= '</textarea>';
 
-        return $content;
+        return $content . '</textarea>';
     }
 }

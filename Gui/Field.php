@@ -33,7 +33,7 @@ class Field
 
     /**
      * CSS class
-     * 
+     *
      * @var string
      */
     protected $class = 'form-control';
@@ -43,7 +43,7 @@ class Field
      *
      * @var string
      */
-    protected $namePrefix;
+    protected $namePrefix = '';
 
     /**
      * Is field custom
@@ -273,6 +273,19 @@ class Field
     }
 
     /**
+     * Method fetches name prefix
+     *
+     * @param array $fieldDescription
+     *            Field description
+     */
+    protected function initNamePrefix(array $fieldDescription)
+    {
+        if (isset($fieldDescription['name-prefix']) === true) {
+            $this->namePrefix = $fieldDescription['name-prefix'];
+        }
+    }
+
+    /**
      * Constructor
      *
      * @param array $fieldDescription
@@ -288,7 +301,7 @@ class Field
 
         $this->initRequired($fieldDescription);
 
-        $this->namePrefix = $fieldDescription['name-prefix'];
+        $this->initNamePrefix($fieldDescription);
 
         $this->initCustom($fieldDescription);
 
@@ -380,5 +393,15 @@ class Field
     public function getType(): string
     {
         return $this->type;
+    }
+
+    /**
+     * Method returns name preffix for field
+     *
+     * @return string name preffix if defined, empty string otherwise
+     */
+    public function getNamePrefix(): string
+    {
+        return $this->namePrefix === '' ? '' : $this->namePrefix . '-';
     }
 }

@@ -26,13 +26,12 @@ class InputText extends \Mezon\Gui\Field
     {
         $content = '<input class="'.$this->class.'"';
         $content .= $this->required ? ' required="required"' : '';
-        $content .= ' type="text" name="' . $this->namePrefix . '-' . $this->name .
+        $content .= ' type="text" name="' . $this->getNamePrefix() . $this->name .
             ($this->batch ? '[{_creation_form_items_counter}]' : '') . '"';
         $content .= $this->disabled ? ' disabled ' : '';
         $content .= $this->toggler === '' ? '' : 'toggler="' . $this->toggler . '" ';
         $content .= $this->toggler === '' ? '' : 'toggle-value="' . $this->toggleValue . '"';
-        $content .= '>';
 
-        return $content;
+        return $content . '>';
     }
 }
