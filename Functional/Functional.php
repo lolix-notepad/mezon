@@ -12,7 +12,7 @@ namespace Mezon\Functional;
  */
 
 /**
- * Functional algorithms.
+ * Functional algorithms
  */
 class Functional
 {
@@ -374,7 +374,7 @@ class Functional
         array &$objects,
         string $objectField,
         array $records,
-        string $recordField)
+        string $recordField): void
     {
         foreach ($objects as &$object) {
             foreach ($records as $record) {
@@ -397,7 +397,7 @@ class Functional
      * @param string $srcField
      *            Field name
      */
-    public static function expandRecordsWith(array &$dest, string $destField, array $src, string $srcField)
+    public static function expandRecordsWith(array &$dest, string $destField, array $src, string $srcField): void
     {
         foreach ($dest as &$destRecord) {
             foreach ($src as $srcRecord) {
@@ -427,7 +427,7 @@ class Functional
      * @param string $field
      *            Field name
      */
-    public static function sortRecords(array &$objects, string $field, int $direction = Functional::SORT_DIRECTION_ASC)
+    public static function sortRecords(array &$objects, string $field, int $direction = Functional::SORT_DIRECTION_ASC): void
     {
         usort(
             $objects,
