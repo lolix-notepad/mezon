@@ -21,7 +21,7 @@ class CrudServiceCollectionUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getConnector()
     {
-        $mock = $this->getMockBuilder('MyClass')
+        $mock = $this->getMockBuilder(\Mezon\CrudService\CrudServiceClient::class)
             ->setMethods([
             'newRecordsSince',
             'getList'
@@ -37,7 +37,7 @@ class CrudServiceCollectionUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testNewRecordsSince()
     {
-        // setup
+        // setupp
         $connector = $this->getConnector();
         $connector->method('newRecordsSince')->willReturn([
             [],
@@ -59,7 +59,7 @@ class CrudServiceCollectionUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testTopByField()
     {
-        // setup
+        // setupp
         $connector = $this->getConnector();
         $connector->method('getList')->willReturn([
             [],

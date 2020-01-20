@@ -29,9 +29,23 @@ class CrudServiceCollection
     /**
      * Connection to the Crud service
      *
-     * @var \Mezon\CrudService\CrudServiceClient
+     * @var \Mezon\CrudService\CrudServiceClientInterface
      */
-    protected $сonnector;
+    protected $сonnector = null;
+
+    /**
+     * Service name or URL
+     *
+     * @var string
+     */
+    protected $service = '';
+
+    /**
+     * Access token
+     *
+     * @var string
+     */
+    protected $token = '';
 
     /**
      * Constructor
@@ -42,25 +56,21 @@ class CrudServiceCollection
     public function __construct(string $service = '', string $token = '')
     {
         if ($service !== '') {
-            $this->сonnector = $this->constructClient($service, $token);
+            $this->service = $service;
+            $this->token = $token;
         }
     }
 
     /**
      * Method constructs connector
      *
-     * @param string $service
-     *            Service title
-     * @param string $token
-     *            Acccess token
      * @return \Mezon\CrudService\CrudServiceClient Connector to the service
      */
-    protected function constructClient(string $service, string $token): \Mezon\CrudService\CrudServiceClient
+    protected function constructClient(): \Mezon\CrudService\CrudServiceClient
     {
-        // TODO pass \Mezon\CrudService\CrudServiceClient object instead of $service
-        $client = new \Mezon\CrudService\CrudServiceClient($service);
+        $client = new \Mezon\CrudService\CrudServiceClient($this->service);
 
-        $client->setToken($token);
+        $client->setToken($this->token);
 
         return $client;
     }
@@ -68,10 +78,10 @@ class CrudServiceCollection
     /**
      * Method sets new connector
      *
-     * @param \Mezon\CrudService\CrudServiceClient $newConnector
+     * @param \Mezon\CrudService\CrudServiceClientInterface $newConnector
      *            New connector
      */
-    public function setConnector($newConnector): void
+    public function setConnector(\Mezon\CrudService\CrudServiceClientInterface $newConnector): void
     {
         $this->сonnector = $newConnector;
     }
@@ -79,10 +89,14 @@ class CrudServiceCollection
     /**
      * Method returns connector to service
      *
-     * @return \Mezon\CrudService\CrudServiceClient
+     * @return \Mezon\CrudService\CrudServiceClientInterface
      */
-    public function getConnector(): \Mezon\CrudService\CrudServiceClient
+    public function getConnector(): \Mezon\CrudService\CrudServiceClientInterface
     {
+        if ($this->сonnector == null) {
+            $this->сonnector = $this->constructClient();
+        }
+
         return $this->сonnector;
     }
 
@@ -93,7 +107,7 @@ class CrudServiceCollection
      */
     public function newRecordsSince(string $dateTime): void
     {
-        $this->сollection = $this->сonnector->newRecordsSince($dateTime);
+        $this->сollection = $this->getConnector()->newRecordsSince($dateTime);
     }
 
     /**
@@ -108,7 +122,7 @@ class CrudServiceCollection
      */
     public function topByField(int $count, string $field, string $order = 'DESC'): void
     {
-        $this->сollection = $this->сonnector->getList(0, $count, 0, false, [
+        $this->сollection = $this->getConnector()->getList(0, $count, 0, false, [
             'field' => $field,
             'order' => $order
         ]);
