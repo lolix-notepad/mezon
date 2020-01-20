@@ -214,6 +214,7 @@ class Functional
      * @param bool $recursive
      *            Recursive mode
      * @return array List of filtered records
+     * @deprecated Use \Functional\Transform::filter The method was marked as deprecated 2020/01/20
      */
     public static function filter(
         array &$objects,
@@ -222,21 +223,16 @@ class Functional
         $value = false,
         bool $recursive = true): array
     {
-        $return = [];
+        $return = $objects;
 
-        foreach ($objects as $object) {
-            // TODO make availabale any operations. not only the specified ones
-            if (is_array($object) && $recursive === true) {
-                $return = array_merge($return, self::filter($object, $field, $operation, $value));
-            } elseif ($operation == '==' && self::getField($object, $field) == $value) {
-                $return[] = $object;
-            } elseif ($operation == '>' && self::getField($object, $field) > $value) {
-                $return[] = $object;
-            } elseif ($operation == '<' && self::getField($object, $field) < $value) {
-                $return[] = $object;
-            } elseif ($operation == '!=' && self::getField($object, $field) != $value) {
-                $return[] = $object;
-            }
+        if ($operation == '==') {
+            \Mezon\Functional\Transform::filter($return, \Mezon\Functional\Compare::equal($field, $value));
+        } elseif ($operation == '>') {
+            \Mezon\Functional\Transform::filter($return, \Mezon\Functional\Compare::greater($field, $value));
+        } elseif ($operation == '<') {
+            \Mezon\Functional\Transform::filter($return, \Mezon\Functional\Compare::less($field, $value));
+        } else {
+            \Mezon\Functional\Transform::filter($return, \Mezon\Functional\Compare::notEqual($field, $value));
         }
 
         return $return;

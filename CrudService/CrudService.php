@@ -98,16 +98,15 @@ class CrudService extends \Mezon\Service\Service
         $this->serviceTransport->addRoute('/exact/list/[il:ids]/', 'exactList', 'GET');
         $this->serviceTransport->addRoute('/exact/[i:id]/', 'exact', 'GET');
         $this->serviceTransport->addRoute('/fields/', 'fields', 'GET');
-        $this->serviceTransport->addRoute('/delete/[i:id]/', 'deleteRecord', 'POST');
-        $this->serviceTransport->addRoute('/delete/', 'deleteFiltered', 'POST');
-        $this->serviceTransport->addRoute('/create/', 'createRecord', 'POST');
+        $this->serviceTransport->addRoute('/delete/[i:id]/', 'deleteRecord', ['POST','DELETE']);
+        $this->serviceTransport->addRoute('/delete/', 'deleteFiltered', ['POST','DELETE']);
+        $this->serviceTransport->addRoute('/create/', 'createRecord', ['POST','PUT']);
         $this->serviceTransport->addRoute('/update/[i:id]/', 'updateRecord', 'POST');
         $this->serviceTransport->addRoute('/new/from/[s:date]/', 'newRecordsSince', 'GET');
         $this->serviceTransport->addRoute('/records/count/', 'recordsCount', 'GET');
         $this->serviceTransport->addRoute('/last/[i:count]/', 'lastRecords', 'GET');
         $this->serviceTransport->addRoute('/records/count/[s:field]/', 'recordsCountByField', 'GET');
 
-        // TODO add PUT and delete requests
-        // TODO allow in CrudServiceClient trait DELETE and PUT as POST
+        // TODO allow in CrudServiceClient trait DELETE and PUT as POST. Or ServiceClient? Yeah ServiceClient is much better candidate )
     }
 }

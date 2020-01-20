@@ -226,11 +226,12 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * This method is testing filtration function
+     * Data provider for the test testFilter
+     *
+     * @return array test data
      */
-    public function testFilterSimple(): void
+    public function filterDataProvider(): array
     {
-        // setup
         $obj1 = new stdClass();
         $obj1->foo = 1;
 
@@ -246,35 +247,46 @@ class FunctionalUnitTest extends \PHPUnit\Framework\TestCase
             $obj3
         ];
 
-        // test body and assertions
-        $this->assertEquals(count(\Mezon\Functional\Functional::filter($data, 'foo', '==', 1)), 2, 'Invalid filtration');
+        return [
+            [
+                $data,
+                '==',
+                1,
+                2
+            ],
+            [
+                $data,
+                '>',
+                1,
+                1
+            ],
+            [
+                $data,
+                '<',
+                2,
+                2
+            ],
+            [
+                $data,
+                '!=',
+                1,
+                1
+            ],
+        ];
     }
 
     /**
-     * This method is testing filtration function in a recursive mode
+     * This method is testing filtration function
+     *
+     * @dataProvider filterDataProvider
      */
-    public function testFilterRecursive(): void
+    public function testFilter(array $data, string $operation, int $value, int $result): void
     {
-        // setup
-        $obj1 = new stdClass();
-        $obj1->foo = 1;
-
-        $obj2 = new stdClass();
-        $obj2->foo = 2;
-
-        $obj3 = new stdClass();
-        $obj3->foo = 1;
-
-        $data = [
-            $obj1,
-            [
-                $obj2,
-                $obj3
-            ]
-        ];
-
-        // test body and assertions
-        $this->assertEquals(count(\Mezon\Functional\Functional::filter($data, 'foo', '==', 1)), 2, 'Invalid filtration');
+        // setup, test body and assertions
+        $this->assertEquals(
+            $result,
+            count(\Mezon\Functional\Functional::filter($data, 'foo', $operation, $value)),
+            'Invalid filtration');
     }
 
     /**

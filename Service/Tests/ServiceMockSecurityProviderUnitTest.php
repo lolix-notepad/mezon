@@ -12,6 +12,30 @@ class ServiceMockSecurityProviderUnitTest extends \PHPUnit\Framework\TestCase
 
         $token = $provider->createSession();
 
-        $this->assertEquals(32, strlen($token), 'Invalid token was returned');
+        $this->assertEquals(32, strlen($token));
+    }
+
+    /**
+     * Testing session creation with already created token
+     */
+    public function testCreateSession2()
+    {
+        $provider = new \Mezon\Service\ServiceMockSecurityProvider();
+
+        $token = $provider->createSession('token');
+
+        $this->assertEquals('token', $token);
+    }
+
+    /**
+     * Testing setting token
+     */
+    public function testSetToken()
+    {
+        $provider = new \Mezon\Service\ServiceMockSecurityProvider();
+
+        $token = $provider->setToken('token');
+
+        $this->assertEquals('token', $token);
     }
 }

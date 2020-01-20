@@ -56,4 +56,25 @@ class Transform
             ];
         };
     }
+
+    /**
+     * Method filters
+     *
+     * @param array $records
+     *            records to be converted
+     * @param callable $filter
+     *            filtration fuction
+     */
+    public static function filter(array &$records, callable $filter): void
+    {
+        $result = [];
+
+        foreach ($records as $key => $record) {
+            if ($filter($record)) {
+                $result[$key] = $record;
+            }
+        }
+
+        $records = $result;
+    }
 }

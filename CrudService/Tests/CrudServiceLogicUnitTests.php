@@ -12,94 +12,6 @@ namespace Mezon\CrudService\Tests;
  */
 
 /**
- * Fake securoity provider
- */
-class FakeSecurityProviderForLogic implements \Mezon\Service\ServiceSecurityProviderInterface
-{
-
-    // TODO replace it with \Mezon\Service\ServiceMockSecurityProvider
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProviderInterface::hasPermit()
-     */
-    public function hasPermit(string $token, string $permit): bool
-    {}
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProviderInterface::validatePermit()
-     */
-    public function validatePermit(string $token, string $permit)
-    {}
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProviderInterface::getSelfLogin()
-     */
-    public function getSelfLogin(string $token): string
-    {}
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProviderInterface::getLoginFieldName()
-     */
-    public function getLoginFieldName(): string
-    {}
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProviderInterface::setToken()
-     */
-    public function setToken(string $token): string
-    {}
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProviderInterface::getSessionIdFieldName()
-     */
-    public function getSessionIdFieldName(): string
-    {}
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProviderInterface::getSelfId()
-     */
-    public function getSelfId(string $token): int
-    {}
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProviderInterface::loginAs()
-     */
-    public function loginAs(string $token, string $loginOrId, string $field): string
-    {}
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProviderInterface::createSession()
-     */
-    public function createSession(string $token = ''): string
-    {}
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Mezon\Service\ServiceSecurityProviderInterface::connect()
-     */
-    public function connect(string $login, string $password): string
-    {}
-}
-
-/**
  * Fake patrameters fetched
  */
 class FakeParametersFetcher implements \Mezon\Service\ServiceRequestParamsInterface
@@ -385,10 +297,10 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     {
         $serviceLogic = new \Mezon\CrudService\CrudServiceLogic(
             new FakeParametersFetcher(),
-            new FakeSecurityProviderForLogic());
+            new \Mezon\Service\ServiceMockSecurityProvider());
 
         $this->assertInstanceOf(FakeParametersFetcher::class, $serviceLogic->getParamsFetcher());
-        $this->assertInstanceOf(FakeSecurityProviderForLogic::class, $serviceLogic->getSecurityProvider());
+        $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $serviceLogic->getSecurityProvider());
     }
 
     /**
