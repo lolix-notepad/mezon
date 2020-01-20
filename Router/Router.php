@@ -114,11 +114,11 @@ class Router
      * and $parameters is associative array (parameter name => parameter value) with URL parameters
      *
      * @param string $route
-     *            Route.
+     *            Route
      * @param mixed $callback
      *            Collback wich will be processing route call.
      * @param string $requestMethod
-     *            Request type.
+     *            Request type
      */
     public function addRoute(string $route, $callback, $requestMethod = 'GET'): void
     {
