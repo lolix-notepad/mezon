@@ -107,12 +107,12 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
      *            Route
      * @param string $method
      *            Logic method to be called
-     * @param string $request
+     * @param string|array $requestMethod
      *            HTTP request method
      * @param string $callType
      *            Type of the call
      */
-    public function addRoute(string $route, string $method, string $request, string $callType = 'callLogic'): void
+    public function addRoute(string $route, string $method, $requestMethod, string $callType = 'callLogic'): void
     {
         $localServiceLogic = $this->getNecessaryLogic($method);
 
@@ -122,14 +122,14 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
                 function () use ($localServiceLogic, $method) {
                     return $this->callPublicLogic($localServiceLogic, $method, []);
                 },
-                $request);
+                $requestMethod);
         } else {
             $this->router->addRoute(
                 $route,
                 function () use ($localServiceLogic, $method) {
                     return $this->callLogic($localServiceLogic, $method, []);
                 },
-                $request);
+                $requestMethod);
         }
     }
 
