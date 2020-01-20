@@ -12,27 +12,6 @@ namespace Mezon\CrudService\Tests;
  */
 
 /**
- * Fake patrameters fetched
- */
-class FakeParametersFetcher implements \Mezon\Service\ServiceRequestParamsInterface
-{
-
-    /**
-     * Method returns request parameter
-     *
-     * @param string $param
-     *            parameter name
-     * @param mixed $default
-     *            default value
-     * @return mixed Parameter value
-     */
-    public function getParam($param, $default = false)
-    {
-        return false;
-    }
-}
-
-/**
  * Fake service model
  */
 class FakeServiceModel extends \Mezon\CrudService\CrudServiceModel
@@ -295,11 +274,12 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
      */
     public function testConstruct()
     {
+        $serviceTransport = new \Mezon\Service\ServiceHttpTransport();
         $serviceLogic = new \Mezon\CrudService\CrudServiceLogic(
-            new FakeParametersFetcher(),
+            $serviceTransport->getParamsFetcher(),
             new \Mezon\Service\ServiceMockSecurityProvider());
 
-        $this->assertInstanceOf(FakeParametersFetcher::class, $serviceLogic->getParamsFetcher());
+        $this->assertInstanceOf(\Mezon\Service\ServiceRequestParamsInterface::class, $serviceLogic->getParamsFetcher());
         $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $serviceLogic->getSecurityProvider());
     }
 

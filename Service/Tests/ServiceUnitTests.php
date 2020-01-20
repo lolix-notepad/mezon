@@ -13,24 +13,6 @@ namespace Mezon\Service\Tests;
 define('AS_STRING', 1);
 define('AS_OBJECT', 2);
 
-class FakeRequestParams implements \Mezon\Service\ServiceRequestParamsInterface
-{
-
-    /**
-     * Method returns request parameter
-     *
-     * @param string $param
-     *            parameter name
-     * @param mixed $default
-     *            default value
-     * @return mixed Parameter value
-     */
-    public function getParam($param, $default = false)
-    {
-        return false;
-    }
-}
-
 /**
  * Common service unit tests
  *
@@ -136,8 +118,9 @@ class ServiceUnitTests extends \PHPUnit\Framework\TestCase
             return \Mezon\Service\ServiceLogic::class;
         }
         if ($mode == AS_OBJECT) {
+            $serviceTransport = new \Mezon\Service\ServiceHttpTransport();
             return new \Mezon\Service\ServiceLogic(
-                new FakeRequestParams(),
+                $serviceTransport->getParamsFetcher(),
                 new \stdClass(),
                 new \Mezon\Service\ServiceModel());
         }

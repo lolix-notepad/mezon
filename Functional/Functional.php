@@ -453,16 +453,11 @@ class Functional
      * @param string $field
      *            Field name
      * @return bool Does the field $field exists or not
+     * @deprecated Should use \Functional\Fetcher::fieldExistsPlain Deprecated in 2020/01/20
      */
     public static function fieldExistsPlain(&$record, string $field): bool
     {
-        if (is_object($record) && isset($record->$field)) {
-            return true;
-        } elseif (is_array($record) && isset($record[$field])) {
-            return true;
-        } else {
-            return false;
-        }
+        return \Mezon\Functional\Fetcher::fieldExistsPlain($record, $field);
     }
 
     /**
@@ -475,21 +470,10 @@ class Functional
      * @param bool $recursive
      *            Do we need recursive descending
      * @return bool Does the field $field exists or not
+     * @deprecated Should use \Functional\Fetcher::fieldExists Deprecated in 2020/01/20
      */
     public static function fieldExists(&$record, string $field, bool $recursive = true): bool
     {
-        if ($recursive) {
-            foreach ($record as $v) {
-                if (is_array($v) || is_object($v)) {
-                    $result = self::fieldExists($v, $field);
-
-                    if ($result === true) {
-                        return $result;
-                    }
-                }
-            }
-        }
-
-        return self::fieldExistsPlain($record, $field);
+        return \Mezon\Functional\Fetcher::fieldExists($record, $field, $recursive);
     }
 }

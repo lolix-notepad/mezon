@@ -85,13 +85,13 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
     }
 
     /**
-     * Method runs router.
+     * Method runs router
+     * 
+     * @codeCoverageIgnore
      */
     public function run(): void
     {
-        // @codeCoverageIgnoreStart
         print(json_encode($this->router->callRoute($_GET['r'])));
-        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -136,13 +136,12 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
      *
      * @param $e \Exception
      *            object
+     * @codeCoverageIgnore
      */
     public function handleException($e): void
     {
-        // @codeCoverageIgnoreStart
         header('Content-type:application/json');
 
         print(json_encode($this->errorResponse($e)));
-        // @codeCoverageIgnoreEnd
     }
 }

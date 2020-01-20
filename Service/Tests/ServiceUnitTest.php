@@ -22,6 +22,9 @@ class ServiceUnitTest extends \Mezon\Service\Tests\ServiceUnitTests
         $service->run();
 
         // route from routes.json
+        $_GET['r'] = 'test2';
+        $service->run();
+
         $this->expectException(Exception::class);
         $_GET['r'] = 'test3';
         $service->run();

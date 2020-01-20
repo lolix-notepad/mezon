@@ -51,18 +51,7 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
      *
      * @var string
      */
-    protected $serviceClassName = \Mezon\CrudService\CrudService::class;
-
-    /**
-     * Constructor
-     *
-     * @param string $serviceClassName
-     *            - Class name to be tested
-     */
-    public function __construct($name = null, array $data = array(), $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-    }
+    protected $className = \Mezon\CrudService\CrudService::class;
 
     /**
      * Method returns service settings
@@ -103,7 +92,7 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
         $mock->expects($this->once())
             ->method($method);
 
-        $service = new $this->serviceClassName(
+        $service = new $this->className(
             $this->getServiceSettings(),
             \Mezon\Service\ServiceConsoleTransport\ServiceConsoleTransport::class,
             \Mezon\Service\ServiceMockSecurityProvider::class,

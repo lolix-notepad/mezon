@@ -180,6 +180,7 @@ class CommonApplication extends \Mezon\Application\Application
      * Getting template
      *
      * @return \Mezon\HtmlTemplate\HtmlTemplate Application's template
+     * @codeCoverageIgnore
      */
     public function getRemplate(): \Mezon\HtmlTemplate\HtmlTemplate
     {
@@ -191,6 +192,7 @@ class CommonApplication extends \Mezon\Application\Application
      *
      * @param \Mezon\HtmlTemplate\HtmlTemplate $template
      *            Template
+     * @codeCoverageIgnore
      */
     public function setTemplate(\Mezon\HtmlTemplate\HtmlTemplate $template): void
     {
