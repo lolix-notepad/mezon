@@ -126,7 +126,7 @@ class CustomClient
      *
      * @return array Header
      */
-    protected function getPostHeaders(): array
+    protected function getFormHeaders(): array
     {
         $fullHeaders = $this->getCommonHeaders();
 
@@ -136,19 +136,20 @@ class CustomClient
     }
 
     /**
-     * Method sends POST request to REST server
+     * Method sends request on server
      *
+     * @param string $method
+     *            HTTP method (POST|PUT|DELETE)
      * @param string $endpoint
      *            Calling endpoint
      * @param array $data
      *            Request data
-     * @return mixed Result of the request
      */
-    public function postRequest(string $endpoint, array $data = [])
+    protected function sendFormRequest(string $method, string $endpoint, array $data = [])
     {
         $fullURL = $this->url . '/' . ltrim($endpoint, '/');
 
-        list ($body, $code) = $this->sendRequest($fullURL, $this->getPostHeaders(), 'POST', $data);
+        list ($body, $code) = $this->sendRequest($fullURL, $this->getFormHeaders(), $method, $data);
 
         $this->dispatchResult($fullURL, $code);
 
@@ -156,13 +157,55 @@ class CustomClient
     }
 
     /**
-     * Method sends GET request to REST server.
+     * Method sends POST request to server
+     *
+     * @param string $endpoint
+     *            Calling endpoint
+     * @param array $data
+     *            Request data
+     * @return mixed Result of the request
+     */
+    public function sendPostRequest(string $endpoint, array $data = [])
+    {
+        return $this->sendFormRequest('POST', $endpoint, $data);
+    }
+
+    /**
+     * Method sends PUT request to server
+     *
+     * @param string $endpoint
+     *            Calling endpoint
+     * @param array $data
+     *            Request data
+     * @return mixed Result of the request
+     */
+    public function sendPutRequest(string $endpoint, array $data = [])
+    {
+        return $this->sendFormRequest('PUT', $endpoint, $data);
+    }
+
+    /**
+     * Method sends DELETE request to server
+     *
+     * @param string $endpoint
+     *            Calling endpoint
+     * @param array $data
+     *            Request data
+     * @return mixed Result of the request
+     */
+    public function sendDeleteRequest(string $endpoint, array $data = [])
+    {
+        return $this->sendFormRequest('DELETE', $endpoint, $data);
+    }
+
+    /**
+     * Method sends GET request to server.
      *
      * @param string $endpoint
      *            Calling endpoint.
      * @return mixed Result of the remote call.
      */
-    public function getRequest(string $endpoint)
+    public function sendGetRequest(string $endpoint)
     {
         $fullURL = $this->url . '/' . ltrim($endpoint, '/');
 

@@ -49,7 +49,6 @@ class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
      */
     protected function getMock(): object
     {
-        // TODO replace setMethods with something else what is recommended
         return $this->getMockBuilder(\Mezon\CustomClient\CustomClient::class)
             ->setMethods([
             'sendRequest'
@@ -59,9 +58,36 @@ class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing getRequest method
+     * Data provider for sending requests tests
+     *
+     * @return array test data
      */
-    public function testGetRequest(): void
+    public function sendRequestDataProvider(): array
+    {
+        return [
+            [
+                'sendGetRequest'
+            ],
+            [
+                'sendPostRequest'
+            ],
+            [
+                'sendPutRequest'
+            ],
+            [
+                'sendDeleteRequest'
+            ]
+        ];
+    }
+
+    /**
+     * Testing sendGetRequest method
+     *
+     * @param string $methodName
+     *            Method name to be tested
+     * @dataProvider sendRequestDataProvider
+     */
+    public function testSendRequest(string $methodName): void
     {
         // setup
         $client = $this->getMock();
@@ -71,28 +97,65 @@ class CustomClientUnitTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // test body
-        $result = $client->getRequest('/end-point/');
+        $result = $client->$methodName('/end-point/');
 
         // assertions
         $this->assertEquals('result', $result);
     }
 
     /**
-     * Testing postRequest method
+     * Data provider for the test testResultDispatching
+     *
+     * @return array testing data
      */
-    public function testPostRequest(): void
+    public function resultDispatchingDataProvider(): array
+    {
+        $codes = [
+            400,
+            403,
+            404
+        ];
+        $methods = [
+            'sendGetRequest',
+            'sendPostRequest',
+            'sendPutRequest',
+            'sendDeleteRequest'
+        ];
+        $return = [];
+
+        foreach ($codes as $code) {
+            foreach ($methods as $method) {
+                $return[] = [
+                    $code,
+                    $method
+                ];
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Testing result dispatcher
+     *
+     * @param int $httpCode
+     *            code of the response
+     * @param string $methodName name of the testing methodd
+     * @dataProvider resultDispatchingDataProvider
+     */
+    public function testResultDispatching(int $httpCode, string $methodName): void
     {
         // setup
         $client = $this->getMock();
         $client->method('sendRequest')->willReturn([
             'result',
-            1
+            $httpCode
         ]);
 
-        // test body
-        $result = $client->postRequest('/end-point/');
-
         // assertions
-        $this->assertEquals('result', $result);
+        $this->expectException(\Exception::class);
+
+        // test body
+        $client->$methodName('/end-point/');
     }
 }

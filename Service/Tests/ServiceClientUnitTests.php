@@ -23,20 +23,7 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     /**
      * Client class name
      */
-    protected $clientClassName = '';
-
-    /**
-     * Constructor
-     *
-     * @param string $clientClassName
-     *            Service client class name
-     */
-    public function __construct(string $clientClassName = \Mezon\Service\ServiceClient::class)
-    {
-        parent::__construct();
-
-        $this->clientClassName = $clientClassName;
-    }
+    protected $clientClassName = \Mezon\Service\ServiceClient::class;
 
     /**
      * Common setup for all tests
@@ -54,10 +41,13 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
      *            mocking methods
      * @return object Mock
      */
-    protected function getServiceClientRawMock(array $methods = [
-        'postRequest',
-        'getRequest'
-    ]): object
+    protected function getServiceClientRawMock(
+        array $methods = [
+            'sendPostRequest',
+            'sendGetRequest',
+            'sendPutRequest',
+            'sendDeleteRequest'
+        ]): object
     {
         return $this->getMockBuilder($this->clientClassName)
             ->setMethods($methods)
@@ -133,27 +123,42 @@ class ServiceClientUnitTests extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Testing postRequest
+     * Data provider for the test testSendRequest
+     *
+     * @return array test data
      */
-    public function testPostRequest(): void
+    public function sendRequestDataProvider(): array
     {
-        $mock = $this->getServiceClientMock('test-post-request');
-
-        $result = $mock->postRequest('http://ya.ru', []);
-
-        $this->assertEquals(1, $result->result, 'Invalid result was returned');
+        return [
+            [
+                'sendGetRequest'
+            ],
+            [
+                'sendPostRequest'
+            ],
+            [
+                'sendPutRequest'
+            ],
+            [
+                'sendDeleteRequest'
+            ]
+        ];
     }
 
     /**
-     * Testing getRequest
+     * Testing send[Post|Get|Put|Delete]Request
+     *
+     * @param string $methodName
+     *            testing method name
+     * @dataProvider sendRequestDataProvider
      */
-    public function testGetRequest(): void
+    public function testSendRequest(string $methodName): void
     {
-        $mock = $this->getServiceClientMock('test-get-request');
+        $mock = $this->getServiceClientMock('test-request');
 
-        $result = $mock->getRequest('http://ya.ru');
+        $result = $mock->$methodName('http://ya.ru', []);
 
-        $this->assertEquals(1, $result->result, 'Invalid result was returned');
+        $this->assertEquals(1, $result->result);
     }
 
     /**

@@ -69,7 +69,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
     }
 
     /**
-     * Method sends POST request to REST server
+     * Method sends POST request to server
      *
      * @param string $endpoint
      *            Calling endpoint
@@ -77,26 +77,57 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
      *            Request data
      * @return mixed Result of the request
      */
-    public function postRequest(string $endpoint, array $data = [])
+    public function sendPostRequest(string $endpoint, array $data = [])
     {
-        $result = parent::postRequest($endpoint, $data);
+        $result = parent::sendPostRequest($endpoint, $data);
 
         return json_decode($result);
     }
 
     /**
-     * Method sends GET request to REST server
+     * Method sends GET request to server
      *
      * @param string $endpoint
      *            Calling endpoint
      * @return mixed Result of the remote call
      */
-    public function getRequest(string $endpoint)
+    public function sendGetRequest(string $endpoint)
     {
-        $result = parent::getRequest($endpoint);
+        $result = parent::sendGetRequest($endpoint);
 
         return json_decode($result);
-        // TODO add putRequest and deleteRequest methods
+    }
+
+    /**
+     * Method sends PUT request to server
+     *
+     * @param string $endpoint
+     *            Calling endpoint
+     * @param array $data
+     *            Request data
+     * @return mixed Result of the request
+     */
+    public function sendPutRequest(string $endpoint, array $data = [])
+    {
+        $result = parent::sendPutRequest($endpoint, $data);
+
+        return json_decode($result);
+    }
+
+    /**
+     * Method sends DELETE request to server
+     *
+     * @param string $endpoint
+     *            Calling endpoint
+     * @param array $data
+     *            Request data
+     * @return mixed Result of the remote call
+     */
+    public function sendDeleteRequest(string $endpoint, array $data = [])
+    {
+        $result = parent::sendDeleteRequest($endpoint, $data);
+
+        return json_decode($result);
     }
 
     /**
@@ -128,7 +159,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
             'password' => $password
         ];
 
-        $result = $this->postRequest('/connect/', $data);
+        $result = $this->sendPostRequest('/connect/', $data);
 
         $this->validateSessionId($result);
 
@@ -171,7 +202,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
      */
     public function getSelfId(): string
     {
-        $result = $this->getRequest('/self/id/');
+        $result = $this->sendGetRequest('/self/id/');
 
         return isset($result->id) ? $result->id : $result;
     }
@@ -183,7 +214,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
      */
     public function getSelfLogin(): string
     {
-        $result = $this->getRequest('/self/login/');
+        $result = $this->sendGetRequest('/self/login/');
 
         return isset($result->login) ? $result->login : $result;
     }
@@ -200,7 +231,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
     public function loginAs(string $user, string $field = 'id')
     {
         if ($field != 'id' && $this->login !== $user) {
-            $result = $this->postRequest('/login-as/', [
+            $result = $this->sendPostRequest('/login-as/', [
                 $field => $user
             ]);
 
