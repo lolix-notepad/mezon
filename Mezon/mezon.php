@@ -11,6 +11,8 @@ namespace Mezon\Mezon;
  * @copyright Copyright (c) 2019, aeon.org
  */
 
+// TODO replace it with PdoCrudTrait with lazy getter
+
 /**
  * Mezon's main class.
  */

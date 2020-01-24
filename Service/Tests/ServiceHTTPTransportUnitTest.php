@@ -39,7 +39,7 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
      */
     protected function getTransportMock()
     {
-        $mock = $this->getMockBuilder(\Mezon\Service\ServiceHttpTransport::class)
+        $mock = $this->getMockBuilder(\Mezon\Service\ServiceHttpTransport\ServiceHttpTransport::class)
             ->setMethods([
             'header',
             'createSession'
@@ -57,7 +57,7 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructor()
     {
-        new \Mezon\Service\ServiceHttpTransport();
+        new \Mezon\Service\ServiceHttpTransport\ServiceHttpTransport();
 
         $this->addToAssertionCount(1);
     }
@@ -67,7 +67,7 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitDefault()
     {
-        $transport = new \Mezon\Service\ServiceHttpTransport();
+        $transport = new \Mezon\Service\ServiceHttpTransport\ServiceHttpTransport();
         $this->assertInstanceOf(\Mezon\Service\ServiceMockSecurityProvider::class, $transport->securityProvider);
     }
 
@@ -76,7 +76,8 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitString()
     {
-        $transport = new \Mezon\Service\ServiceHttpTransport(FakeSecurityProviderForHttpTransport::class);
+        $transport = new \Mezon\Service\ServiceHttpTransport\ServiceHttpTransport(
+            FakeSecurityProviderForHttpTransport::class);
         $this->assertInstanceOf(FakeSecurityProviderForHttpTransport::class, $transport->securityProvider);
     }
 
@@ -85,7 +86,8 @@ class ServiceHttpTransportTest extends \PHPUnit\Framework\TestCase
      */
     public function testSecurityProviderInitObject()
     {
-        $transport = new \Mezon\Service\ServiceHttpTransport(new FakeSecurityProviderForHttpTransport());
+        $transport = new \Mezon\Service\ServiceHttpTransport\ServiceHttpTransport(
+            new FakeSecurityProviderForHttpTransport());
         $this->assertInstanceOf(FakeSecurityProviderForHttpTransport::class, $transport->securityProvider);
     }
 

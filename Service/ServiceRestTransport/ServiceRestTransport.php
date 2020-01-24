@@ -16,7 +16,7 @@ namespace Mezon\Service\ServiceRestTransport;
  *
  * @author Dodonov A.A.
  */
-class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
+class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport\ServiceHttpTransport
 {
 
     /**
@@ -33,10 +33,7 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
      *            logic's parameters.
      * @return mixed Result of the called method.
      */
-    public function callLogic(
-        \Mezon\Service\ServiceBaseLogicInterface $serviceLogic,
-        string $method,
-        array $params = [])
+    public function callLogic(\Mezon\Service\ServiceBaseLogicInterface $serviceLogic, string $method, array $params = [])
     {
         $this->header('Content-type', 'application/json');
 
@@ -68,7 +65,10 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
      *            logic's parameters.
      * @return mixed Result of the called method.
      */
-    public function callPublicLogic(\Mezon\Service\ServiceBaseLogicInterface $serviceLogic, string $method, array $params = [])
+    public function callPublicLogic(
+        \Mezon\Service\ServiceBaseLogicInterface $serviceLogic,
+        string $method,
+        array $params = [])
     {
         $this->header('Content-type', 'application/json');
 
@@ -86,7 +86,7 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
 
     /**
      * Method runs router
-     * 
+     *
      * @codeCoverageIgnore
      */
     public function run(): void

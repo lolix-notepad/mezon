@@ -300,7 +300,7 @@ class FieldsAlgorithms
             'file' => \Mezon\Gui\Field\InputFile::class,
             'date' => \Mezon\Gui\Field\InputDate::class,
             'custom' => \Mezon\Gui\Field\CustomField::class,
-            'header' => \Mezon\Gui\Field\FormHeader::class,
+            'header' => \Mezon\Gui\FormBuilder\FormHeader::class,
             'label' => \Mezon\Gui\Field\LabelField::class
         ];
 

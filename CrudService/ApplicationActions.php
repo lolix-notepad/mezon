@@ -112,9 +112,9 @@ class ApplicationActions
      * List builder creation function
      *
      * @param array $options
-     * @return \Mezon\Gui\ListBuilder
+     * @return \Mezon\Gui\ListBuilder\ListBuilder
      */
-    protected function createListBuilder(array $options): \Mezon\Gui\ListBuilder
+    protected function createListBuilder(array $options): \Mezon\Gui\ListBuilder\ListBuilder
     {
         // create adapter
         $crudServiceClientAdapter = new \Mezon\Gui\ListBuilder\CrudServiceClientAdapter();
@@ -125,7 +125,7 @@ class ApplicationActions
         }
 
         // create list builder
-        return new \Mezon\Gui\ListBuilder(explode(',', $options['default-fields']), $crudServiceClientAdapter);
+        return new \Mezon\Gui\ListBuilder\ListBuilder(explode(',', $options['default-fields']), $crudServiceClientAdapter);
     }
 
     /**

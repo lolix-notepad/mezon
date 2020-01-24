@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\Service;
+namespace Mezon\Service\ServiceHttpTransport;
 
 /**
  * Class ServiceHttpTransport
@@ -101,7 +101,10 @@ class ServiceHttpTransport extends \Mezon\Service\ServiceTransport
      *            logic's parameters
      * @return mixed Result of the called method
      */
-    public function callPublicLogic(\Mezon\Service\ServiceBaseLogicInterface $serviceLogic, string $method, array $params = [])
+    public function callPublicLogic(
+        \Mezon\Service\ServiceBaseLogicInterface $serviceLogic,
+        string $method,
+        array $params = [])
     {
         $this->header('Content-type', 'text/html; charset=utf-8');
 

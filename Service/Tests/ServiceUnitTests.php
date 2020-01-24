@@ -118,7 +118,7 @@ class ServiceUnitTests extends \PHPUnit\Framework\TestCase
             return \Mezon\Service\ServiceLogic::class;
         }
         if ($mode == AS_OBJECT) {
-            $serviceTransport = new \Mezon\Service\ServiceHttpTransport();
+            $serviceTransport = new \Mezon\Service\ServiceHttpTransport\ServiceHttpTransport();
             return new \Mezon\Service\ServiceLogic(
                 $serviceTransport->getParamsFetcher(),
                 new \stdClass(),

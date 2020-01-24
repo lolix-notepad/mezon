@@ -274,7 +274,7 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
      */
     public function testConstruct()
     {
-        $serviceTransport = new \Mezon\Service\ServiceHttpTransport();
+        $serviceTransport = new \Mezon\Service\ServiceHttpTransport\ServiceHttpTransport();
         $serviceLogic = new \Mezon\CrudService\CrudServiceLogic(
             $serviceTransport->getParamsFetcher(),
             new \Mezon\Service\ServiceMockSecurityProvider());
