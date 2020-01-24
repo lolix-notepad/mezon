@@ -1,6 +1,14 @@
 <?php
 namespace Mezon\Router;
 
+// TODO refresh Router documentation
+// TODO travis
+// TODO codecov
+// TODO compare speed with klein
+// TODO compare speed with Symphony router
+// TODO [create|edit:action]
+// TODO /date/[i:year]-[i:month]-[i:day]
+
 /**
  * Class Router
  *

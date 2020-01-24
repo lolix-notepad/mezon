@@ -4,20 +4,37 @@ class FakeAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdapter
 {
 
     /**
+     * Records to be returned
+     *
+     * @var array
+     */
+    protected $records = [];
+
+    /**
+     * Constructor
+     *
+     * @param array $records
+     */
+    public function __construct(array $records = [
+        [
+            'id' => 1,
+        ],
+        [
+            'id' => 2,
+        ]
+    ])
+    {
+        $this->records = $records;
+    }
+
+    /**
      * Method returns all vailable records
      *
      * @return array all vailable records
      */
     public function all(): array
     {
-        return [
-            [
-                'id' => 1,
-            ],
-            [
-                'id' => 2,
-            ]
-        ];
+        return $this->records;
     }
 
     /**
@@ -60,65 +77,165 @@ class ListBuilderUnitTest extends \PHPUnit\Framework\TestCase
     protected function getFields(): array
     {
         return [
-            'id'
+            'id',
+            'domain_id',
+            'title'
         ];
     }
 
     /**
-     * Method creates service logic
+     * Method runs string assertions
      *
-     * @return \Mezon\CrudService\CrudServiceLogic Crud service logic object
+     * @param array $asserts
+     *            asserts
+     * @param string $content
+     *            content to assert
      */
-    protected function getServiceLogic()
+    protected function runAssertions(array $asserts, string $content): void
     {
-        return new \Mezon\CrudService\CrudServiceLogic(
-            new \Mezon\Service\ServiceConsoleTransport\ConsoleRequestParams(),
-            new stdClass());
+        foreach ($asserts as $assert) {
+            $this->assertStringContainsString($assert, $content);
+        }
     }
 
     /**
      * Testing constructor
      */
-    public function testConstructorValid()
+    public function testConstructorValid(): void
     {
         // setup and test body
-        $listBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
+        $listBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter());
 
         // assertions
         $this->assertIsArray($listBuilder->getFields(), 'Invalid fields list type');
     }
 
     /**
-     * Testing listing form
+     * Data provider for the testListingForm
+     *
+     * @return array test data
      */
-    public function testListingForm()
+    public function listingFormDataProvider(): array
+    {
+        return [
+            [
+                0,
+                [
+                    [
+                        'id' => 1,
+                    ],
+                    [
+                        'id' => 2,
+                    ]
+                ],
+                [
+                    '>id<',
+                    '>1<',
+                    '>2<'
+                ]
+            ],
+            [
+                1,
+                [
+                    [
+                        'id' => 1,
+                    ],
+                    [
+                        'id' => 2,
+                    ]
+                ],
+                [
+                    '>id<',
+                    '>1<',
+                    '>2<'
+                ]
+            ],
+            [
+                0,
+                [],
+                [
+                    'class="no-items-title"'
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Testing listing form
+     *
+     * @param int $createButton
+     *            do we need to show create button
+     * @param array $records
+     *            list of records to be displayed
+     * @param array $asserts
+     *            asserts
+     * @dataProvider listingFormDataProvider
+     */
+    public function testListingForm(int $createButton, array $records, array $asserts): void
     {
         // setup
-        $listBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
+        $_GET['create_button'] = $createButton;
+        $listBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($records));
 
         // test body
         $content = $listBuilder->listingForm();
 
         // assertions
-        $this->assertStringContainsString('>id<', $content, 'Invalid header content');
-        $this->assertStringContainsString('>1<', $content, 'Invalid cell content');
-        $this->assertStringContainsString('>2<', $content, 'Invalid cell content');
+        $this->runAssertions($asserts, $content);
+    }
+
+    /**
+     * Data provider for the testSimpleListingForm
+     *
+     * @return array test data
+     */
+    public function simpleListingFormDataProvider(): array
+    {
+        return [
+            [
+                [],
+                [
+                    'class="no-items-title"'
+                ]
+            ],
+            [
+                [
+                    [
+                        'id' => 1,
+                    ],
+                    [
+                        'id' => 2,
+                    ]
+                ],
+                [
+                    '>id<',
+                    '>1<',
+                    '>2<'
+                ]
+            ]
+        ];
     }
 
     /**
      * Testing listing form
+     *
+     * @param array $records
+     *            records to display
+     * @param array $asserts
+     *            asserts
+     * @dataProvider simpleListingFormDataProvider
      */
-    public function testSimpleListingForm()
+    public function testSimpleListingForm(array $records, array $asserts): void
     {
         // setup
-        $listBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($this->getServiceLogic()));
+        $_GET['update_button'] = 1;
+        $_GET['create_button'] = 1;
+        $listBuilder = new \Mezon\Gui\ListBuilder($this->getFields(), new FakeAdapter($records));
 
         // test body
         $content = $listBuilder->simpleListingForm();
 
         // assertions
-        $this->assertStringContainsString('>id<', $content, 'Invalid header content');
-        $this->assertStringContainsString('>1<', $content, 'Invalid cell content');
-        $this->assertStringContainsString('>2<', $content, 'Invalid cell content');
+        $this->runAssertions($asserts, $content);
     }
 }

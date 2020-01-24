@@ -52,11 +52,11 @@ class RestException extends \Exception
      *            Error description
      * @param int $code
      *            Code of the error
-     * @param int $hTTPCode
+     * @param int $httpCode
      *            Response HTTP code
-     * @param string $hTTPBody
+     * @param string $httpBody
      *            Body of the response
-     * @param string $uRL
+     * @param string $url
      *            Request URL
      * @param array $options
      *            Request options
@@ -64,18 +64,18 @@ class RestException extends \Exception
     public function __construct(
         string $message,
         int $code,
-        string $hTTPCode,
-        string $hTTPBody,
-        string $uRL = '',
+        string $httpCode,
+        string $httpBody,
+        string $url = '',
         array $options = [])
     {
         parent::__construct($message, $code);
 
-        $this->httpCode = $hTTPCode;
+        $this->httpCode = $httpCode;
 
-        $this->httpBody = $hTTPBody;
+        $this->httpBody = $httpBody;
 
-        $this->url = $uRL;
+        $this->url = $url;
 
         $this->options = $options;
     }

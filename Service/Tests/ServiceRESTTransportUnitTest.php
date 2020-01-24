@@ -257,4 +257,42 @@ class ServiceRestTransportTest extends \PHPUnit\Framework\TestCase
         // test body and assertions
         $mock->getRouter()->callRoute('/private-method/');
     }
+
+    /**
+     * Testing errorResponse method
+     */
+    public function testErrorResponseException(): void
+    {
+        // setup
+        $e = new Exception('msg', 1);
+        $Transport = new \Mezon\Service\ServiceRestTransport\ServiceRestTransport();
+
+        // test body
+        $result = $Transport->errorResponse($e);
+
+        // assertions
+        $this->assertEquals('msg', $result['message']);
+        $this->assertEquals(1, $result['code']);
+        $this->assertEquals('service', $result['service']);
+    }
+
+    /**
+     * Testing errorResponse method
+     */
+    public function testErrorResponseRestException(): void
+    {
+        // setup
+        $e = new \Mezon\Service\ServiceRestTransport\RestException('msg', 1,200, 'body');
+        $Transport = new \Mezon\Service\ServiceRestTransport\ServiceRestTransport();
+
+        // test body
+        $result = $Transport->errorResponse($e);
+
+        // assertions
+        $this->assertEquals('msg', $result['message']);
+        $this->assertEquals(1, $result['code']);
+        $this->assertEquals('service', $result['service']);
+        $this->assertEquals(200, $result['http_code']);
+        $this->assertEquals('body', $result['http_body']);
+    }
 }

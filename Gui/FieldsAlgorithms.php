@@ -331,13 +331,7 @@ class FieldsAlgorithms
         if (isset($field['control']) && $field['control'] == 'textarea') {
             $control = new \Mezon\Gui\Field\Textarea($field);
         } elseif ($field['type'] == 'rows') {
-            // TODO move it to the constructor of \Mezon\Gui\FormBuilder\RowsField
-            $controlHTML = '';
-            foreach ($field['type']['rows'] as $rowFieldName) {
-                $control = $this->getObject($rowFieldName);
-                $controlHTML .= $control->html();
-            }
-            $control = new \Mezon\Gui\FormBuilder\RowsField($field, $controlHTML);
+            $control = new \Mezon\Gui\FormBuilder\RowsField($field['type']['rows'], $this->entityName);
         } else {
             $control = $this->constructControl($field);
         }

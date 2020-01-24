@@ -25,17 +25,11 @@ class Functional
      * @param string $field
      *            Field name
      * @return mixed Field value
-     * @deprecated
+     * @deprecated Use \Mezon\Functional\Fetcher::getFieldPlain instead. Deprecated since 2020-01-21
      */
     public static function getFieldPlain($record, string $field)
     {
-        if (is_array($record) && isset($record[$field])) {
-            return $record[$field];
-        } elseif (is_object($record) && isset($record->$field)) {
-            return $record->$field;
-        } else {
-            return null;
-        }
+        return \Mezon\Functional\Fetcher::getFieldPlain($record, $field);
     }
 
     /**
@@ -48,23 +42,11 @@ class Functional
      * @param bool $recursive
      *            Shold we search the field $field along the whole object
      * @return mixed Field value
-     * @deprecated
+     * @deprecated Use \Mezon\Functional\Fetcher::getField instead. Deprecated since 2020-01-21
      */
     public static function getField($record, string $field, bool $recursive = true)
     {
-        if ($recursive) {
-            foreach ($record as $v) {
-                if (is_array($v) || is_object($v)) {
-                    $result = self::getField($v, $field);
-
-                    if ($result !== null) {
-                        return $result;
-                    }
-                }
-            }
-        }
-
-        return self::getFieldPlain($record, $field);
+        return \Mezon\Functional\Fetcher::getField($record, $field, $recursive);
     }
 
     /**
@@ -128,16 +110,11 @@ class Functional
      *            Field name
      * @param bool $recursive
      *            Shold we search the field $field along the whole object
+     * @deprecated Use \Mezon\Functional\Fetcher::getFields instead. Deprecated since 2020-01-21
      */
     public static function getFields($data, string $field, $recursive = true)
     {
-        $return = array();
-
-        foreach ($data as $record) {
-            $return[] = self::getField($record, $field, $recursive);
-        }
-
-        return $return;
+        return \Mezon\Functional\Fetcher::getFields($data, $field, $recursive);
     }
 
     /**
@@ -192,12 +169,11 @@ class Functional
      *            Array of objects to be processed
      * @param callback $transformer
      *            Transform function
+     * @deprecated Use \Mezon\Functional\Transform::convertElements instead. Deprecated since 2020-01-21
      */
     public static function transform(&$objects, $transformer)
     {
-        foreach ($objects as $i => $object) {
-            $objects[$i] = call_user_func($transformer, $object);
-        }
+        \Mezon\Functional\Transform::convertElements($objects, $transformer);
     }
 
     /**

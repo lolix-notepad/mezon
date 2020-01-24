@@ -27,13 +27,22 @@ class RowsField extends \Mezon\Gui\Field
     /**
      * Constructor
      *
-     * @param array $fieldDescription
-     *            Field description
-     * @param string $rowedField
-     *            Compiled field to be rowed
+     * @param array $rows
+     *            controls for row
+     * @param string $entityName
+     *            name of the entity
      */
-    public function __construct(array $fieldDescription, string $rowedField)
+    public function __construct(array $rows, string $entityName)
     {
+        $rowedField = '';
+
+        $FieldsAlgorithms = new \Mezon\Gui\FieldsAlgorithms($rows, $entityName);
+
+        foreach (array_keys($rows) as $fieldName) {
+            $control = $FieldsAlgorithms->getObject($fieldName);
+            $rowedField .= $control->html();
+        }
+
         $this->rowedField = $rowedField;
     }
 

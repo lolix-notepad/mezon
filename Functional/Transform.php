@@ -39,6 +39,21 @@ class Transform
     }
 
     /**
+     * Method converts one array to another
+     *
+     * @param array $records
+     *            records to be converted
+     * @param callable $converter
+     *            converter
+     */
+    public static function convertElements(array &$records, callable $converter): void
+    {
+        foreach ($records as $i => $record) {
+            $records[$i] = $converter($record);
+        }
+    }
+
+    /**
      * Method creates algorithm wich converts array of records to key-value pairs
      *
      * @param string $keyFieldName

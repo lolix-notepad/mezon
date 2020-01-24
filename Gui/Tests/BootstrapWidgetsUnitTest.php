@@ -9,7 +9,7 @@ class BootstrapWidgetsUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetTemplate()
     {
         // setup
-        $bootstrapWidgets = new \Mezon\WidgetsRegistry\BootstrapWidgets();
+        $bootstrapWidgets = new \Mezon\Gui\WidgetsRegistry\BootstrapWidgets();
 
         // test body
         $widget = $bootstrapWidgets->getWidget('table-cell-start');

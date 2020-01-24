@@ -113,7 +113,7 @@ class ServiceRestTransport extends \Mezon\Service\ServiceHttpTransport
 
         if ($e instanceof \Mezon\Service\ServiceRestTransport\RestException) {
             $return['http_code'] = $e->getHttpCode();
-            $return['httpBody'] = $e->getHttpBody();
+            $return['http_body'] = $e->getHttpBody();
         }
 
         return $return;

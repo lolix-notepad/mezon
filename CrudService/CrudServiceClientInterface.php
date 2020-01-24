@@ -78,13 +78,6 @@ interface CrudServiceClientInterface
     public function update(int $id, array $data, int $crossDomain = 0);
 
     /**
-     * Method returns creation form's fields in JSON format
-     *
-     * @codeCoverageIgnore
-     */
-    public function fields();
-
-    /**
      * Method returns all records created since $date
      *
      * @param \datetime $date

@@ -34,6 +34,14 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
     private $login = false;
 
     /**
+     * Rewrite mode.
+     * If true, then URLs like this /part1/part2/param1/ will be used. If false, then parameter ?r=part1/part2/param1 will be passed
+     *
+     * @var string
+     */
+    protected $rewriteMode = true;
+
+    /**
      * Session id
      *
      * @var string
@@ -159,7 +167,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
             'password' => $password
         ];
 
-        $result = $this->sendPostRequest('/connect/', $data);
+        $result = $this->sendPostRequest($this->getRequestUrl('connect'), $data);
 
         $this->validateSessionId($result);
 
@@ -202,7 +210,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
      */
     public function getSelfId(): string
     {
-        $result = $this->sendGetRequest('/self/id/');
+        $result = $this->sendGetRequest($this->getRequestUrl('selfId'));
 
         return isset($result->id) ? $result->id : $result;
     }
@@ -214,7 +222,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
      */
     public function getSelfLogin(): string
     {
-        $result = $this->sendGetRequest('/self/login/');
+        $result = $this->sendGetRequest($this->getRequestUrl('selfLogin'));
 
         return isset($result->login) ? $result->login : $result;
     }
@@ -231,7 +239,7 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
     public function loginAs(string $user, string $field = 'id')
     {
         if ($field != 'id' && $this->login !== $user) {
-            $result = $this->sendPostRequest('/login-as/', [
+            $result = $this->sendPostRequest($this->getRequestUrl('loginAs'), [
                 $field => $user
             ]);
 
@@ -281,5 +289,39 @@ class ServiceClient extends \Mezon\CustomClient\CustomClient
     public function getService(): string
     {
         return $this->service;
+    }
+
+    /**
+     * Setting rewrite mode for URLs
+     *
+     * @param bool $rewriteMode
+     *            rewrite mode
+     */
+    public function setReqriteMode(bool $rewriteMode): void
+    {
+        $this->rewriteMode = $rewriteMode;
+    }
+
+    /**
+     * Method returns concrete url byit's locator
+     *
+     * @param string $urlLocator
+     *            url locator
+     * @return string concrete URL
+     */
+    protected function getRequestUrl(string $urlLocator): string
+    {
+        $urlMap = [
+            'loginAs' => $this->rewriteMode ? '/login-as/' : '?r=login-as',
+            'selfLogin' => $this->rewriteMode ? '/self/login/' : '?r='.urlecode('self/login'),
+            'selfId' => $this->rewriteMode ? '/self/id/' : '?r='.urlecode('self/id'),
+            'connect' => $this->rewriteMode ? '/connect/' : '?r=connect'
+        ];
+
+        if (isset($urlMap[$urlLocator]) === false) {
+            throw (new \Exception('Locator ' . $urlLocator . ' was not found'));
+        }
+
+        return $urlMap[$urlLocator];
     }
 }

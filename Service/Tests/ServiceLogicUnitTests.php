@@ -21,12 +21,11 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
 {
 
     /**
-     * Constructor
+     * Testing class name.
+     *
+     * @var string
      */
-    public function __construct(string $className = \Mezon\Service\ServiceLogic::class)
-    {
-        parent::__construct($className);
-    }
+    protected $className = \Mezon\Service\ServiceLogic::class;
 
     /**
      * Method returns mock of the security provider
@@ -58,9 +57,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
 
         $serviceLogicClassName = $this->className;
 
-        $logic = new $serviceLogicClassName(
-            new \Mezon\Service\Tests\MockParamsFetcher(),
-            $securityProviderMock);
+        $logic = new $serviceLogicClassName(new \Mezon\Service\Tests\MockParamsFetcher(), $securityProviderMock);
 
         $result = $logic->connect();
 
@@ -76,9 +73,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
 
         $serviceLogicClassName = $this->className;
 
-        $logic = new $serviceLogicClassName(
-            new \Mezon\Service\Tests\MockParamsFetcher(false),
-            $securityProviderMock);
+        $logic = new $serviceLogicClassName(new \Mezon\Service\Tests\MockParamsFetcher(false), $securityProviderMock);
 
         $this->expectException(\Exception::class);
         $logic->connect();
@@ -94,9 +89,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
 
         $serviceLogicClassName = $this->className;
 
-        $logic = new $serviceLogicClassName(
-            new \Mezon\Service\Tests\MockParamsFetcher(),
-            $securityProviderMock);
+        $logic = new $serviceLogicClassName(new \Mezon\Service\Tests\MockParamsFetcher(), $securityProviderMock);
 
         // test body
         $result = $logic->setToken();
@@ -115,9 +108,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
 
         $serviceLogicClassName = $this->className;
 
-        $logic = new $serviceLogicClassName(
-            new \Mezon\Service\Tests\MockParamsFetcher(),
-            $securityProviderMock);
+        $logic = new $serviceLogicClassName(new \Mezon\Service\Tests\MockParamsFetcher(), $securityProviderMock);
 
         // test body
         $result = $logic->getSelfId();
@@ -136,9 +127,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
 
         $serviceLogicClassName = $this->className;
 
-        $logic = new $serviceLogicClassName(
-            new \Mezon\Service\Tests\MockParamsFetcher(),
-            $securityProviderMock);
+        $logic = new $serviceLogicClassName(new \Mezon\Service\Tests\MockParamsFetcher(), $securityProviderMock);
 
         // test body
         $result = $logic->getSelfLogin();
@@ -157,9 +146,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
 
         $serviceLogicClassName = $this->className;
 
-        $logic = new $serviceLogicClassName(
-            new \Mezon\Service\Tests\MockParamsFetcher(),
-            $securityProviderMock);
+        $logic = new $serviceLogicClassName(new \Mezon\Service\Tests\MockParamsFetcher(), $securityProviderMock);
 
         // test body
         $result = $logic->loginAs();
@@ -179,9 +166,7 @@ class ServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceBaseLogicUnitTes
 
         $serviceLogicClassName = $this->className;
 
-        $logic = new $serviceLogicClassName(
-            new \Mezon\Service\Tests\MockParamsFetcher(),
-            $securityProviderMock);
+        $logic = new $serviceLogicClassName(new \Mezon\Service\Tests\MockParamsFetcher(), $securityProviderMock);
 
         // test body and assertions
         $logic->validatePermit('admin');

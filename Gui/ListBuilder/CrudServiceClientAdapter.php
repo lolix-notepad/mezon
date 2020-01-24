@@ -69,7 +69,7 @@ class CrudServiceClientAdapter implements \Mezon\Gui\ListBuilder\ListBuilderAdap
      *
      * @return \Mezon\CrudService\CrudServiceClient Client
      */
-    protected function getClient(): \Mezon\CrudService\CrudServiceClient
+    public function getClient(): \Mezon\CrudService\CrudServiceClient
     {
         if ($this->crudServiceClient === null) {
             $this->crudServiceClient = new \Mezon\CrudService\CrudServiceClient(

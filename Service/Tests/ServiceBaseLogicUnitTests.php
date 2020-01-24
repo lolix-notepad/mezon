@@ -75,17 +75,7 @@ class ServiceBaseLogicUnitTests extends \PHPUnit\Framework\TestCase
      *
      * @var string
      */
-    protected $className;
-
-    /**
-     * Constructor
-     */
-    public function __construct(string $className = \Mezon\Service\ServiceBaseLogic::class)
-    {
-        parent::__construct();
-
-        $this->className = $className;
-    }
+    protected $className = \Mezon\Service\ServiceBaseLogic::class;
 
     /**
      * Method tests creation of the logis's parts

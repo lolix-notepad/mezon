@@ -8,15 +8,17 @@ class RowsFieldUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructor()
     {
-        // setup
+        // setupp
         $field = new \Mezon\Gui\FormBuilder\RowsField([
-            'text' => 'name',
+            'title' => [
+                'type' => 'string'
+            ],
         ], 'author');
 
-        // test body
+        // test bodyy
         $content = $field->html();
 
-        // assertions
+        // assertionss
         $this->assertStringContainsString('add_element_by_template', $content, 'Necessary JavaScripts were not found');
     }
 }

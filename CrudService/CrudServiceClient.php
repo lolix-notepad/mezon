@@ -79,9 +79,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
      */
     public function getRecordsBy($filter, $crossDomain = 0)
     {
-        $filter = $this->getCompiledFilter($filter);
-
-        return $this->getRequest('/list/?cross_domain=' . $crossDomain . $filter);
+        return $this->getList(0, 10000000, $crossDomain, $filter);
     }
 
     /**
@@ -96,7 +94,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
      */
     public function getById($id, $crossDomain = 0)
     {
-        return $this->getRequest("/exact/$id/?cross_domain=$crossDomain");
+        return $this->getRequest($this->getRequestUrl('exact', $id) . "cross_domain=$crossDomain");
     }
 
     /**
@@ -114,7 +112,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
             return [];
         }
 
-        return $this->getRequest('/exact/list/' . implode(',', $ids) . "/?cross_domain=$crossDomain");
+        return $this->getRequest($this->getRequestUrl('exactList', implode(',', $ids)) . "cross_domain=$crossDomain");
     }
 
     /**
@@ -128,7 +126,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
     {
         $data = $this->pretransformData($data);
 
-        return $this->postRequest('/create/', $data);
+        return $this->postRequest($this->getRequestUrl('create'), $data);
     }
 
     /**
@@ -145,24 +143,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
      */
     public function update(int $id, array $data, int $crossDomain = 0)
     {
-        return $this->postRequest('/update/' . $id . '/?cross_domain=' . $crossDomain, $data);
-    }
-
-    /**
-     * Method returns creation form's fields in JSON format
-     *
-     * @codeCoverageIgnore
-     */
-    public function fields()
-    {
-        $result = $this->getRequest('/fields/');
-
-        $result = json_encode($result);
-
-        $result->fields = json_encode($result->fields);
-        $result->layout = json_encode($result->layout);
-
-        return $result;
+        return $this->postRequest($this->getRequestUrl('update', $id) . 'cross_domain=' . $crossDomain, $data);
     }
 
     /**
@@ -175,7 +156,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
      */
     public function newRecordsSince($date)
     {
-        return $this->getRequest('/new/from/' . $date . '/');
+        return $this->getRequest($this->getRequestUrl('newFrom', $date));
     }
 
     /**
@@ -186,7 +167,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
      */
     public function recordsCount()
     {
-        return $this->getRequest('/records/count/');
+        return $this->getRequest($this->getRequestUrl('recordsCount'));
     }
 
     /**
@@ -203,7 +184,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
     {
         $filter = $this->getCompiledFilter($filter, false);
 
-        return $this->getRequest('/last/' . $count . '/?' . $filter);
+        return $this->getRequest($this->getRequestUrl('lastRecords', $count) . $filter);
     }
 
     /**
@@ -218,7 +199,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
      */
     public function delete(int $id, int $crossDomain = 0): string
     {
-        return $this->getRequest('/delete/' . $id . '/?cross_domain=' . $crossDomain);
+        return $this->getRequest($this->getRequestUrl('delete', $id) . 'cross_domain=' . $crossDomain);
     }
 
     /**
@@ -234,7 +215,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
     {
         $filter = $this->getCompiledFilter($filter);
 
-        return $this->getRequest('/records/count/' . $field . '/?' . $filter);
+        return $this->getRequest($this->getRequestUrl('recordsCountByField', $field) . $filter);
     }
 
     /**
@@ -250,7 +231,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
     {
         $filter = $this->getCompiledFilter($filter);
 
-        $this->postRequest('/delete/?cross_domain=' . $crossDomain . $filter, []);
+        $this->postRequest($this->getRequestUrl('deleteFiltered') . 'cross_domain=' . $crossDomain . $filter, []);
     }
 
     /**
@@ -260,7 +241,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
      *            Service to be connected to
      * @param string $token
      *            Connection token
-     * @return CrudServiceClient Instance of the CrudServiceClient class
+     * @return \Mezon\CrudService\CrudServiceClient Instance of the CrudServiceClient class
      */
     public static function instance(string $service, string $token): \Mezon\CrudService\CrudServiceClient
     {
@@ -293,7 +274,8 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
         $order = $this->getCompiledOrder($order);
 
         return $this->getRequest(
-            '/list/?from=' . $from . '&limit=' . $limit . '&cross_domain=' . $crossDomain . $filter . $order);
+            $this->getRequestUrl('list') . 'from=' . $from . '&limit=' . $limit . '&cross_domain=' . $crossDomain .
+            $filter . $order);
     }
 
     /**
@@ -374,6 +356,41 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
      */
     public function getFields(): array
     {
-        return $this->getRequest('/fields/');
+        return $this->getRequest($this->getRequestUrl('fields'));
+    }
+
+    /**
+     * Method returns concrete url byit's locator
+     *
+     * @param string $urlLocator
+     *            url locator
+     * @param mixed $param
+     *            extra param
+     * @return string concrete URL
+     */
+    protected function getRequestUrl(string $urlLocator, $param = ''): string
+    {
+        $urlMap = [
+            'fields' => $this->rewriteMode ? '/fields/' : '?r=fields',
+            'list' => $this->rewriteMode ? '/list/?' : '?r=list&',
+            'deleteFiltered' => $this->rewriteMode ? '/delete/?' : '?r=delete&',
+            'recordsCountByField' => $this->rewriteMode ? '/records/count/' . $param . '/?' : '?r=' .
+            urlencode('records/count') . '&',
+            'delete' => $this->rewriteMode ? '/delete/' . $param . '/?' : '?r=' . urlencode('delete/' . $param) . '&',
+            'lastRecords' => $this->rewriteMode ? '/last/' . $param . '/?' : '?r=' . urlencode('last/' . $param) . '&',
+            'recordsCount' => $this->rewriteMode ? '/records/count/' : '?r=' . urlencode('records/count'),
+            'newFrom' => $this->rewriteMode ? '/new/from/' . $param . '/' : '?r=' . urlencode('new/from/' . $param),
+            'update' => $this->rewriteMode ? '/update/' . $param . '/?' : '?r=' . urlencode('update/' . $param) . '&',
+            'create' => $this->rewriteMode ? '/create/' : '?r=create',
+            'exactList' => $this->rewriteMode ? '/exact/list/' . $param . '/?' : '?r=' .
+            urlencode('exact/list/' . $param) . '&',
+            'exact' => $this->rewriteMode ? '/exact/' . $param . '/?' : '?r=' . urlencode('exact/' . $param) . '&'
+        ];
+
+        if (isset($urlMap[$urlLocator]) === true) {
+            return $urlMap[$urlLocator];
+        }
+
+        return parent::getRequestUrl($urlLocator);
     }
 }

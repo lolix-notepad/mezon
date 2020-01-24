@@ -1,5 +1,5 @@
 <?php
-namespace Mezon\WidgetsRegistry;
+namespace Mezon\Gui\WidgetsRegistry;
 
 /**
  * Class BootstrapWidgets
@@ -14,7 +14,7 @@ namespace Mezon\WidgetsRegistry;
 /**
  * Bootstrap widgets
  */
-class BootstrapWidgets implements \Mezon\WidgetsRegistry\WidgetsRegistryBase
+class BootstrapWidgets implements \Mezon\Gui\WidgetsRegistry\WidgetsRegistryBase
 {
 
     /**
