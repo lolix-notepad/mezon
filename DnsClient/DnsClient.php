@@ -2,19 +2,19 @@
 namespace Mezon\DnsClient;
 
 /**
- * Class DNS
+ * Class DnsClient
  *
  * @package Mezon
- * @subpackage DNS
+ * @subpackage DnsClient
  * @author Dodonov A.A.
  * @version v.1.0 (2019/08/15)
  * @copyright Copyright (c) 2019, aeon.org
  */
 
 /**
- * DNS class for fetching data about services location
+ * DnsClient class for fetching data about services location
  *
- * For example the call DNS::resolveHost('example') will return URL of the example service
+ * For example the call DnsClient::resolveHost('example') will return URL of the example service
  */
 class DnsClient
 {

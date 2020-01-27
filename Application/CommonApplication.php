@@ -67,7 +67,7 @@ class CommonApplication extends \Mezon\Application\Application
      */
     public function noRouteFoundErrorHandler(string $route): void
     {
-        $this->redirect_to('/404');
+        $this->redirectTo('/404');
     }
 
     /**
