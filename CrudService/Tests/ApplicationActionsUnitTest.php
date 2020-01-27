@@ -5,12 +5,12 @@
  *
  * @author Dodonov A.A.
  */
-class TestExtendingApplication extends \Mezon\CommonApplication\CommonApplication
+class TestExtendingApplication extends \Mezon\Application\CommonApplication
 {
 
     public function __construct()
     {
-        parent::__construct(new \Mezon\HtmlTemplate\HtmlTemplate(__DIR__));
+        parent::__construct(new \Mezon\Application\HtmlTemplate(__DIR__));
     }
 
     public function redirectTo($uRL): void

@@ -1,6 +1,6 @@
 <?php
-namespace Mezon\CommonApplication;
-
+namespace Mezon\Application;
+//TODO move README.md from CommonApplication to Application
 /**
  * Class CommonApplication
  *
@@ -37,17 +37,17 @@ class CommonApplication extends \Mezon\Application\Application
     /**
      * Application's template
      *
-     * @var \Mezon\HtmlTemplate\HtmlTemplate
+     * @var \Mezon\Application\HtmlTemplate
      */
     protected $template = false;
 
     /**
      * Constructor
      *
-     * @param \Mezon\HtmlTemplate\HtmlTemplate $template
+     * @param \Mezon\Application\HtmlTemplate $template
      *            Template
      */
-    public function __construct(\Mezon\HtmlTemplate\HtmlTemplate $template)
+    public function __construct(\Mezon\Application\HtmlTemplate $template)
     {
         parent::__construct();
 
@@ -179,10 +179,10 @@ class CommonApplication extends \Mezon\Application\Application
     /**
      * Getting template
      *
-     * @return \Mezon\HtmlTemplate\HtmlTemplate Application's template
+     * @return \Mezon\Application\HtmlTemplate Application's template
      * @codeCoverageIgnore
      */
-    public function getRemplate(): \Mezon\HtmlTemplate\HtmlTemplate
+    public function getRemplate(): \Mezon\Application\HtmlTemplate
     {
         return $this->template;
     }
@@ -190,11 +190,11 @@ class CommonApplication extends \Mezon\Application\Application
     /**
      * Setting template
      *
-     * @param \Mezon\HtmlTemplate\HtmlTemplate $template
+     * @param \Mezon\Application\HtmlTemplate $template
      *            Template
      * @codeCoverageIgnore
      */
-    public function setTemplate(\Mezon\HtmlTemplate\HtmlTemplate $template): void
+    public function setTemplate(\Mezon\Application\HtmlTemplate $template): void
     {
         $this->template = $template;
     }

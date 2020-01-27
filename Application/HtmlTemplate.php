@@ -1,6 +1,6 @@
 <?php
-namespace Mezon\HtmlTemplate;
-
+namespace Mezon\Application;
+//TODO move README.md from HtmlTemplate to Application
 /**
  * Class HtmlTemplate
  *
@@ -60,7 +60,7 @@ class HtmlTemplate
 
         $this->resetLayout($template);
 
-        $this->resources = new \Mezon\HtmlTemplate\TemplateResources();
+        $this->resources = new \Mezon\Application\TemplateResources();
 
         $this->blocks = [];
 

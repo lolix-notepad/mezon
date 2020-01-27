@@ -9,7 +9,7 @@ class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
     public function testConstructor1()
     {
         // setup and test body
-        $template = new \Mezon\HtmlTemplate\HtmlTemplate(__DIR__ . '/test-data/', 'index', [
+        $template = new \Mezon\Application\HtmlTemplate(__DIR__ . '/test-data/', 'index', [
             'main'
         ]);
 
@@ -26,7 +26,7 @@ class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
     public function testConstructor2()
     {
         // setup and test body
-        $template = new \Mezon\HtmlTemplate\HtmlTemplate(__DIR__ . '/test-data/res/', 'index2', [
+        $template = new \Mezon\Application\HtmlTemplate(__DIR__ . '/test-data/res/', 'index2', [
             'main'
         ]);
 
@@ -45,7 +45,7 @@ class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception::class);
 
         // setup and test body
-        new \Mezon\HtmlTemplate\HtmlTemplate(__DIR__, 'index2', [
+        new \Mezon\Application\HtmlTemplate(__DIR__, 'index2', [
             'main'
         ]);
     }
@@ -56,7 +56,7 @@ class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
     public function testCompile()
     {
         // setup
-        $template = new \Mezon\HtmlTemplate\HtmlTemplate(__DIR__ . '/test-data/res/', 'index2', [
+        $template = new \Mezon\Application\HtmlTemplate(__DIR__ . '/test-data/res/', 'index2', [
             'main'
         ]);
         $_SERVER['HTTP_HOST'] = 'host';
@@ -74,7 +74,7 @@ class HtmlTemplateUnitTest extends \PHPUnit\Framework\TestCase
     public function testGetUnexistingBlock()
     {
         // setup and test body
-        $template = new \Mezon\HtmlTemplate\HtmlTemplate(__DIR__ . '/test-data/', 'index', [
+        $template = new \Mezon\Application\HtmlTemplate(__DIR__ . '/test-data/', 'index', [
             'main'
         ]);
 

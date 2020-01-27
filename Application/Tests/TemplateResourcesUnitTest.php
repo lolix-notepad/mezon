@@ -8,7 +8,7 @@ class TemplateResourcesUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdditingSingleCSSFile()
     {
-        $templateResources = new \Mezon\HtmlTemplate\TemplateResources();
+        $templateResources = new \Mezon\Application\TemplateResources();
 
         $this->assertEquals(0, count($templateResources->getCssFiles()), 'CSS files array must be empty');
 
@@ -24,7 +24,7 @@ class TemplateResourcesUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdditingMultypleCSSFiles()
     {
-        $templateResources = new \Mezon\HtmlTemplate\TemplateResources();
+        $templateResources = new \Mezon\Application\TemplateResources();
 
         $this->assertEquals(0, count($templateResources->getCssFiles()), 'CSS files array must be empty');
 
@@ -43,7 +43,7 @@ class TemplateResourcesUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testDoublesCSSExcluding()
     {
-        $templateResources = new \Mezon\HtmlTemplate\TemplateResources();
+        $templateResources = new \Mezon\Application\TemplateResources();
 
         $this->assertEquals(0, count($templateResources->getCssFiles()), 'CSS files array must be empty');
 
@@ -66,7 +66,7 @@ class TemplateResourcesUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdditingSingleJSFile()
     {
-        $templateResources = new \Mezon\HtmlTemplate\TemplateResources();
+        $templateResources = new \Mezon\Application\TemplateResources();
 
         $this->assertEquals(0, count($templateResources->getJsFiles()), 'JS files array must be empty');
 
@@ -82,7 +82,7 @@ class TemplateResourcesUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdditingMultypleJSFiles()
     {
-        $templateResources = new \Mezon\HtmlTemplate\TemplateResources();
+        $templateResources = new \Mezon\Application\TemplateResources();
 
         $this->assertEquals(0, count($templateResources->getJsFiles()), 'JS files array must be empty');
 
@@ -101,7 +101,7 @@ class TemplateResourcesUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testDoublesJSExcluding()
     {
-        $templateResources = new \Mezon\HtmlTemplate\TemplateResources();
+        $templateResources = new \Mezon\Application\TemplateResources();
 
         $this->assertEquals(0, count($templateResources->getJsFiles()), 'JS files array must be empty');
 

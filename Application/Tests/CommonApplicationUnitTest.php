@@ -24,7 +24,7 @@ class TestView extends \Mezon\Application\View
 /**
  * Application for testing purposes.
  */
-class TestCommonApplication extends \Mezon\CommonApplication\CommonApplication
+class TestCommonApplication extends \Mezon\Application\CommonApplication
 {
 
     /**
@@ -32,7 +32,7 @@ class TestCommonApplication extends \Mezon\CommonApplication\CommonApplication
      */
     function __construct()
     {
-        parent::__construct(new \Mezon\HtmlTemplate\HtmlTemplate(__DIR__, 'index'));
+        parent::__construct(new \Mezon\Application\HtmlTemplate(__DIR__, 'index'));
     }
 
     function actionArrayResult()

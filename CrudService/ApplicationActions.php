@@ -1,6 +1,6 @@
 <?php
 namespace Mezon\CrudService;
-
+//TODO move it to separate package
 /**
  * Class ApplicationActions
  *
@@ -74,11 +74,11 @@ class ApplicationActions
      *
      * @param array $result
      *            View generation result
-     * @param \Mezon\CommonApplication\CommonApplication $appObject
+     * @param \Mezon\Application\CommonApplication $appObject
      *            Application object
      * @return array Compiled view
      */
-    protected function addPageParts(array $result, \Mezon\CommonApplication\CommonApplication &$appObject): array
+    protected function addPageParts(array $result, \Mezon\Application\CommonApplication &$appObject): array
     {
         if (method_exists($appObject, 'crossRender')) {
             $result = array_merge($result, $appObject->crossRender());
@@ -90,7 +90,7 @@ class ApplicationActions
     /**
      * Method adds end-point for list displaying to the application object
      *
-     * @param \Mezon\CommonApplication\CommonApplication $appObject
+     * @param \Mezon\Application\CommonApplication $appObject
      *            CommonApplication object
      * @param string $route
      *            Route
@@ -99,7 +99,7 @@ class ApplicationActions
      * @param string|array $method
      *            HTTP method name GET or POST
      */
-    protected function loadRoute(\Mezon\CommonApplication\CommonApplication &$appObject, string $route, string $callback, $method): void
+    protected function loadRoute(\Mezon\Application\CommonApplication &$appObject, string $route, string $callback, $method): void
     {
         $appObject->loadRoute([
             'route' => $route,
@@ -131,12 +131,12 @@ class ApplicationActions
     /**
      * Method adds end-point for list displaying to the application object
      *
-     * @param \Mezon\CommonApplication\CommonApplication $appObject
+     * @param \Mezon\Application\CommonApplication $appObject
      *            CommonApplication object
      * @param array $options
      *            Options
      */
-    public function attachListPage(\Mezon\CommonApplication\CommonApplication &$appObject, array $options): void
+    public function attachListPage(\Mezon\Application\CommonApplication &$appObject, array $options): void
     {
         $methodName = $this->safeEntityName . 'ListingPage';
 
@@ -166,12 +166,12 @@ class ApplicationActions
     /**
      * Method adds end-point for list displaying to the application object
      *
-     * @param \Mezon\CommonApplication\CommonApplication $appObject
+     * @param \Mezon\Application\CommonApplication $appObject
      *            CommonApplication object
      * @param array $options
      *            Options
      */
-    public function attachSimpleListPage(\Mezon\CommonApplication\CommonApplication $appObject, array $options): void
+    public function attachSimpleListPage(\Mezon\Application\CommonApplication $appObject, array $options): void
     {
         $methodName = $this->safeEntityName . 'SimpleListingPage';
 
@@ -197,12 +197,12 @@ class ApplicationActions
     /**
      * Method adds end-point for deleting record to the application object
      *
-     * @param \Mezon\CommonApplication\CommonApplication $appObject
+     * @param \Mezon\Application\CommonApplication $appObject
      *            CommonApplication object
      * @param array $options
      *            Options
      */
-    public function attachDeleteRecord(\Mezon\CommonApplication\CommonApplication &$appObject, array $options): void
+    public function attachDeleteRecord(\Mezon\Application\CommonApplication &$appObject, array $options): void
     {
         $this->DeleteButton = true;
 
@@ -266,12 +266,12 @@ class ApplicationActions
     /**
      * Method gets create record controller for the remote service
      *
-     * @param \Mezon\CommonApplication\CommonApplication $appObject
+     * @param \Mezon\Application\CommonApplication $appObject
      *            CommonApplication object
      * @param array $options
      *            Options
      */
-    protected function addCreateRecordMethod(\Mezon\CommonApplication\CommonApplication &$appObject, array $options): void
+    protected function addCreateRecordMethod(\Mezon\Application\CommonApplication &$appObject, array $options): void
     {
         $methodName = $this->safeEntityName . 'CreateRecord';
 
@@ -293,12 +293,12 @@ class ApplicationActions
     /**
      * Method adds end-point for creating record to the application object
      *
-     * @param \Mezon\CommonApplication\CommonApplication $appObject
+     * @param \Mezon\Application\CommonApplication $appObject
      *            CommonApplication object
      * @param array $options
      *            Options
      */
-    public function attachCreateRecord(\Mezon\CommonApplication\CommonApplication &$appObject, array $options): void
+    public function attachCreateRecord(\Mezon\Application\CommonApplication &$appObject, array $options): void
     {
         $this->CreateButton = true;
 
@@ -318,12 +318,12 @@ class ApplicationActions
     /**
      * Method gets update record controller for the remote service.
      *
-     * @param \Mezon\CommonApplication\CommonApplication $appObject
+     * @param \Mezon\Application\CommonApplication $appObject
      *            CommonApplication object
      * @param array $options
      *            Options
      */
-    protected function addUpdateRecordMethod(\Mezon\CommonApplication\CommonApplication &$appObject, array $options): void
+    protected function addUpdateRecordMethod(\Mezon\Application\CommonApplication &$appObject, array $options): void
     {
         $methodName = $this->safeEntityName . 'UpdateRecord';
 
@@ -345,12 +345,12 @@ class ApplicationActions
     /**
      * Method adds end-point for updating record to the application object
      *
-     * @param \Mezon\CommonApplication\CommonApplication $appObject
+     * @param \Mezon\Application\CommonApplication $appObject
      *            CommonApplication object
      * @param array $options
      *            Options
      */
-    public function attachUpdateRecord(\Mezon\CommonApplication\CommonApplication &$appObject, array $options): void
+    public function attachUpdateRecord(\Mezon\Application\CommonApplication &$appObject, array $options): void
     {
         $this->UpdateButton = true;
 
