@@ -16,4 +16,4 @@ composer require mezon/mezon
 ```
 ## Packages
 
-[Rounter](https://github.com/alexdodonov/mezon-router)
+[Router](https://github.com/alexdodonov/mezon-router)
