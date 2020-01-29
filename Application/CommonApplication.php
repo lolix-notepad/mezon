@@ -1,6 +1,6 @@
 <?php
 namespace Mezon\Application;
-//TODO move README.md from CommonApplication to Application
+
 /**
  * Class CommonApplication
  *

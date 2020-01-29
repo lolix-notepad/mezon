@@ -68,14 +68,12 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
      */
     public function getRecords($domainId, $order, $from, $limit): array
     {
-        $records = $this->model->getSimpleRecords(
+        return $this->model->getSimpleRecords(
             $domainId,
             $from,
             $limit,
             \Mezon\Gui\FieldsAlgorithms\Filter::addFilterCondition([]),
             $order);
-
-        return $records;
     }
 
     /**
@@ -271,9 +269,10 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
 
         $record = $this->model->insertBasicFields($record, $domainId);
 
-        foreach ($this->model->getFields() as $name => $field) {
+        foreach ($this->model->getFields() as $name) {
             $fieldName = $this->model->getEntityName() . '-' . $name;
-            if ($field['type'] == 'external' && $this->paramsFetcher->getParam($fieldName, false) !== false) {
+            if ($this->model->getFieldType($name) == 'external' &&
+                $this->paramsFetcher->getParam($fieldName, false) !== false) {
                 $ids = $this->paramsFetcher->getParam($fieldName);
                 $record = $this->model->insertExternalFields(
                     $record,

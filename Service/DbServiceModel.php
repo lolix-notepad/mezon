@@ -150,9 +150,7 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
      */
     public function getFields(): array
     {
-        // @codeCoverageIgnoreStart
-        return $this->fieldsAlgorithms->get();
-        // @codeCoverageIgnoreEnd
+        return $this->fieldsAlgorithms->getFieldsNames();
     }
 
     /**
@@ -165,5 +163,17 @@ class DbServiceModel extends \Mezon\Service\ServiceModel
         // @codeCoverageIgnoreStart
         return $this->entityName;
         // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * Method returns field type
+     *
+     * @param string $fieldName
+     *            field name
+     * @return string field type
+     */
+    public function getFieldType(string $fieldName): string
+    {
+        return $this->fieldsAlgorithms->getObject($fieldName)->getType();
     }
 }

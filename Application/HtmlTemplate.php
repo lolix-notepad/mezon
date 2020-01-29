@@ -1,6 +1,6 @@
 <?php
 namespace Mezon\Application;
-//TODO move README.md from HtmlTemplate to Application
+
 /**
  * Class HtmlTemplate
  *
