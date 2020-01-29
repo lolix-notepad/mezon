@@ -6,7 +6,7 @@ php:
   - '7.4'
 
 before_script:
-  - composer dump-autoload -o
+  - composer require "mezon/router:>=1.0.3"
 
 script:
   - phpunit --coverage-clover=coverage.xml --configuration=phpunit.xml
