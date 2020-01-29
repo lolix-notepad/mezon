@@ -322,13 +322,7 @@ abstract class ServiceTransport implements \Mezon\Service\ServiceTransportInterf
 
         foreach ($methods as $method) {
             if (strpos($method, 'action_') === 0) {
-                $route = str_replace([
-                    'action_',
-                    '_'
-                ], [
-                    '',
-                    '-'
-                ], $method);
+                $route = \Mezon\Router\Utils::convertMethodNameToRoute($method);
 
                 $this->router->addRoute(
                     $route,
