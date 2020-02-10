@@ -18,9 +18,10 @@ class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParamsInterfa
 {
 
     /**
-     * Method returns session id from HTTP header.
+     * Method returns session id from HTTP header
      *
-     * @return string Session id.
+     * @return string Session id
+     * @codeCoverageIgnore
      */
     protected function getSessionId()
     {
@@ -28,13 +29,13 @@ class ConsoleRequestParams implements \Mezon\Service\ServiceRequestParamsInterfa
     }
 
     /**
-     * Method returns parameter.
+     * Method returns parameter
      *
      * @param string $param
-     *            - parameter name.
+     *            - parameter name
      * @param mixed $default
-     *            - default value.
-     * @return string Parameter value.
+     *            - default value
+     * @return string Parameter value
      */
     public function getParam($param, $default = false)
     {

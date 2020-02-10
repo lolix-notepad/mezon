@@ -26,9 +26,8 @@ class FormHeader extends \Mezon\Gui\Field\TextField
     {
         $content = '<div class="form-group col-md-12">';
         $content .= strlen($this->text) ? '<h3>' . $this->text . '</h3>' : '';
-        $content .= '</div>';
 
-        return $content;
+        return $content . '</div>';
     }
 
     /**

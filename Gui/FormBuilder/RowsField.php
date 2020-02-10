@@ -67,9 +67,8 @@ class RowsField extends \Mezon\Gui\Field
             '\' );">+</button>';
         $content .= '<button class="btn btn-danger col-md-2" onclick="remove_element_by_template( this );">-</button>';
         $content .= '</div></div>';
-        $content .= '</template>';
 
-        return $content;
+        return $content . '</template>';
     }
 
     /**

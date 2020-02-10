@@ -304,7 +304,7 @@ class CrudServiceClient extends \Mezon\Service\ServiceClient implements \Mezon\C
      */
     protected function isFile($value): bool
     {
-        if ((is_array($value) || is_object($value)) === false) {
+        if (is_array($value) === false && is_object($value) === false) {
             // it is not a file, it is a scalar
             return false;
         }

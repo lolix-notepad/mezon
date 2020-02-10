@@ -230,12 +230,14 @@ class CrudServiceClientUnitTests extends \Mezon\Service\Tests\ServiceClientUnitT
         // test body
         $result = $client->create(
             [
+                'field' => 1,
                 'avatar' => [
                     'name' => 'n',
                     'size' => 's',
                     'type' => 't',
                     'tmp_name' => __FILE__
-                ]
+                ],
+                'invalid-file' => []
             ]);
 
         // assertions

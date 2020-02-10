@@ -8,15 +8,29 @@ class TextFieldUnitTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructor()
     {
-        // setup
+        // setupp
         $field = new \Mezon\Gui\Field\TextField([
             'text' => 'name'
         ]);
 
-        // test body
+        // test bodyy
         $content = $field->html();
 
-        // assertions
+        // assertionss
         $this->assertEquals('name', $content, 'Text was not fetched');
+    }
+
+    /**
+     * Testing fillAllRow method
+     */
+    public function testFillAllRow(): void
+    {
+        // setupp
+        $field = new \Mezon\Gui\Field\TextField([
+            'text' => 'name'
+        ]);
+
+        // test body and assertionss
+        $this->assertTrue($field->fillAllRow());
     }
 }

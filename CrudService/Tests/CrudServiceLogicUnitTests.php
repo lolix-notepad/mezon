@@ -362,7 +362,7 @@ class CrudServiceLogicUnitTests extends \Mezon\Service\Tests\ServiceLogicUnitTes
     {
         // setup
         $fieldName = 'record-title';
-        $serviceModel = $this->getServiceModelMock();
+        $serviceModel = $this->getServiceModelMock(['updateBasicFields','setFieldForObject']);
         $serviceModel->method('updateBasicFields')->willReturn([
             $fieldName => 'Record title'
         ]);

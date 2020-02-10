@@ -200,6 +200,7 @@ class CrudServiceUnitTests extends \PHPUnit\Framework\TestCase
      * Data provider for the test testRoutes
      *
      * @return array
+     * @codeCoverageIgnore
      */
     public static function routesDataProvider(): array
     {

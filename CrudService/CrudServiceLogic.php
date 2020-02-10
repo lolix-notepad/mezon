@@ -77,14 +77,24 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     }
 
     /**
-     * Method returns domain id.
+     * Method returns true if the modelhas 'domain_id' field
      *
-     * @return int Domain id.
+     * @return bool true if the modelhas 'domain_id' field, false otherwise
+     */
+    protected function hasDomainId(): bool
+    {
+        return $this->model->hasField('domain_id');
+    }
+
+    /**
+     * Method returns domain id
+     *
+     * @return int Domain id
      */
     public function getDomainId()
     {
         // records are not separated between domains
-        if ($this->model->hasField('domain_id') === false) {
+        if ($this->hasDomainId() === false) {
             return false;
         }
 
@@ -106,7 +116,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     /**
      * Method returns records
      *
-     * @return array of records after all transformations.
+     * @return array of records after all transformations
      */
     public function listRecord(): array
     {
@@ -199,7 +209,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
         $domainId = $this->getDomainId();
         $record = $this->model->fetchFields();
 
-        if ($this->model->hasField('domain_id')) {
+        if ($this->hasDomainId()) {
             $record['domain_id'] = $this->getSelfIdValue();
         }
 
@@ -261,7 +271,7 @@ class CrudServiceLogic extends \Mezon\Service\ServiceLogic
     {
         $record = $this->model->fetchFields();
 
-        if ($this->model->hasField('domain_id')) {
+        if ($this->hasDomainId()) {
             $domainId = $this->getSelfIdValue();
         } else {
             $domainId = false;
