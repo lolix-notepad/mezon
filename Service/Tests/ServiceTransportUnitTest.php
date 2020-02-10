@@ -6,7 +6,7 @@
 class FakeService implements \Mezon\Service\ServiceBaseLogicInterface
 {
 
-    public function action_hello_world()
+    public function actionHelloWorld()
     {
         return 1;
     }
@@ -107,8 +107,8 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
         ];
         $serviceTransport->addRoute('test', 'test', 'GET');
 
-        $_GET['r']='test';
-        $_REQUEST['HTTP_METHOD']='GET';
+        $_GET['r'] = 'test';
+        $_REQUEST['HTTP_METHOD'] = 'GET';
         ob_start();
         $serviceTransport->run();
         $output = ob_get_contents();
@@ -188,7 +188,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // assertions
-        $this->assertTrue($serviceTransport->routeExists('/route/'), 'Route does not exists');
+        $this->assertTrue($serviceTransport->routeExists('/route/'));
     }
 
     /**
@@ -225,7 +225,7 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // assertions
-        $this->assertTrue($serviceTransport->routeExists('/route/'), 'Route does not exists');
+        $this->assertTrue($serviceTransport->routeExists('/route/'));
     }
 
     /**
@@ -241,6 +241,6 @@ class ServiceTransportUnitTest extends \PHPUnit\Framework\TestCase
         $serviceTransport->fetchActions(new FakeService());
 
         // assertions
-        $this->assertTrue($serviceTransport->routeExists('/hello-world/'), 'Route does not exists');
+        $this->assertTrue($serviceTransport->routeExists('/hello-world/'));
     }
 }
