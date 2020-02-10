@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "72e1a6cfe00d76e07ca137d385337633",
+    "content-hash": "717562a65aa30ce9feefd25702334cf3",
     "packages": [
         {
             "name": "mezon/router",
