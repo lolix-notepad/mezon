@@ -1,1 +1,0 @@
-<th class="column-title{id-class}"{id-style}>{title}</th>

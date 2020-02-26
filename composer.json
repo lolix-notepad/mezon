@@ -1,5 +1,5 @@
 {
-	"name": "mezon/mezon",
+	"name": "mezon/all",
 	"description": "Simple, small and fast php framework for creating microservies",
 	"license": "MIT",
 	"authors": [
@@ -12,7 +12,27 @@
 	],
 	"require": {
 		"php": ">=7.2.0",
-		"mezon/router" : ">=1.0.3"
+		"mezon/router" : "1.0.6",
+		"mezon/template-engine": "^1.0.3",
+		"mezon/functional": "^1.0.1",
+		"mezon/singleton": "^1.0.0",
+		"mezon/utils": "^1.0.0",
+		"mezon/cache": "^1.0.0",
+		"mezon/conf": "^1.0.0",
+		"mezon/pdocrud": "^1.0.0",
+		"mezon/custom-client": "^1.0.0",
+		"mezon/security": "^1.0.0",
+		"mezon/application": "^1.0.0",
+		"mezon/dns-client": "^1.0.0",
+		"mezon/gui": "^1.0.0",
+		"mezon/crud-service": "^1.1",
+		"mezon/gentella": "^1.0.0",
+		"mezon/social-network": "^1.0.0",
+		"mezon/service-client": "^1.0.0",
+		"mezon/crud-service-client": "^1.0.0",
+		"mezon/crud-service-collection": "^1.0.0",
+		"mezon/crud-service-client-adapter": "^1.0.0",
+		"mezon/application-actions": "^1.0.0"
 	},
 	"support": {
 		"email": "alexey@dodonov.pro",

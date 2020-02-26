@@ -12,8 +12,14 @@ Free PHP framework for creating
 Just type
 
 ```
-composer require mezon/mezon
+composer require mezon/all
 ```
+
+And you will install all framework's packages. But if you need exact package - then see instructions for each one. All main packages are listed below.
+
 ## Packages
 
-[Router](https://github.com/alexdodonov/mezon-router)
+- [Application](https://github.com/alexdodonov/mezon-application#base-application-class--)
+- [Router](https://github.com/alexdodonov/mezon-router#routing--)
+- [Service](https://github.com/alexdodonov/mezon-service#set-of-classes-for-creating-microservices--)
+- [CRUD Service](https://github.com/alexdodonov/mezon-crud-service#set-of-classes-for-creating-crud-services--)
