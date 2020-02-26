@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2b8003ec95fb49614a73f41340a8bb6",
+    "content-hash": "70fe3a8cc3e48f63ee9bb55f624f68e4",
     "packages": [
         {
             "name": "mezon/application",

@@ -25,7 +25,7 @@
 		"mezon/application": "^1.0.0",
 		"mezon/dns-client": "^1.0.0",
 		"mezon/gui": "^1.0.0",
-		"mezon/crud-service": ">=1.1.0",
+		"mezon/crud-service": "^1.1",
 		"mezon/gentella": "^1.0.0",
 		"mezon/social-network": "^1.0.0",
 		"mezon/service-client": "^1.0.0",
