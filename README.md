@@ -23,3 +23,4 @@ And you will install all framework's packages. But if you need exact package - t
 - [Router](https://github.com/alexdodonov/mezon-router#routing--)
 - [Service](https://github.com/alexdodonov/mezon-service#set-of-classes-for-creating-microservices--)
 - [CRUD Service](https://github.com/alexdodonov/mezon-crud-service#set-of-classes-for-creating-crud-services--)
+- [Social Media integrations](https://github.com/alexdodonov/mezon-social-network#set-of-classes-for-working-with-social-media)
