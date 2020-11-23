@@ -24,3 +24,13 @@ And you will install all framework's packages. But if you need exact package - t
 - [Service](https://github.com/alexdodonov/mezon-service#set-of-classes-for-creating-microservices--)
 - [CRUD Service](https://github.com/alexdodonov/mezon-crud-service#set-of-classes-for-creating-crud-services--)
 - [Social Media integrations](https://github.com/alexdodonov/mezon-social-network#set-of-classes-for-working-with-social-media)
+
+# Learn more
+
+More information can be found here:
+
+[Twitter](https://twitter.com/mezonphp)
+
+[dev.to](https://dev.to/alexdodonov)
+
+[Slack](https://join.slack.com/t/mezon-framework/signup?x=x-p1148081653955-1171709616688-1154057706548)
