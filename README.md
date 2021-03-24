@@ -24,6 +24,7 @@ And you will install all framework's packages. But if you need exact package - t
 - [Service](https://github.com/alexdodonov/mezon-service#set-of-classes-for-creating-microservices--)
 - [CRUD Service](https://github.com/alexdodonov/mezon-crud-service#set-of-classes-for-creating-crud-services--)
 - [Social Media integrations](https://github.com/alexdodonov/mezon-social-network#set-of-classes-for-working-with-social-media)
+- [Cache](https://github.com/alexdodonov/mezon-cache)
 
 # Learn more
 

@@ -35,7 +35,8 @@
 		"mezon/service": ">=1.1.0",
 		"mezon/application": ">=3.0.0",
 		"mezon/common-application": ">=1.0.0",
-		"mezon/service-transport": ">=1.1.0"
+		"mezon/service-transport": ">=1.1.0",
+		"mezon/variadic-model": ">=1.1.0"
 		
 	},
 	"support": {
@@ -43,9 +44,7 @@
 		"issues": "https://github.com/alexdodonov/mezon/issues",
 		"source": "https://github.com/alexdodonov/mezon"
 	},
-	"minimum-stability": "dev",
 	"homepage": "https://github.com/alexdodonov/mezon",
-	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {
 			"Mezon\\": ""

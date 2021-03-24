@@ -20,6 +20,10 @@
 				<directory suffix="Test.php">./</directory>
 				<directory>./vendor/composer</directory>
 				<directory suffix="Mock.php">./</directory>
+				<file>./vendor/mezon/application/Mezon/Application/Tests/TestApplication.php</file>
+				<file>./vendor/mezon/service-transport/Mezon/Service/Tests/ConcreteFetcher.php</file>
+				<file>./vendor/mezon/request-params/Mezon/Transport/Tests/MockParamsFetcher.php</file>
+				<file>./vendor/mezon/application-actions/Mezon/Application/Tests/TestExtendingApplication.php</file>
 			</exclude>
 		</whitelist>
 	</filter>
