@@ -12,7 +12,6 @@
 			<directory suffix="UnitTest.php">./</directory>
 		</testsuite>
 	</testsuites>
-
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="false">
 			<directory>./vendor/mezon</directory>
