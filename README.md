@@ -17,6 +17,11 @@ composer require mezon/all
 
 And you will install all framework's packages. But if you need exact package - then see instructions for each one. All main packages are listed below.
 
+
+## FAQ
+
+Use [this service](https://stackoverflow.com/questions/tagged/mezon) for asking questions
+
 ## Packages
 
 - [Application](https://github.com/alexdodonov/mezon-application#base-application-class--)
