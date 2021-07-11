@@ -12,7 +12,7 @@ Free PHP framework for creating
 Just type
 
 ```
-composer require mezon/all
+composer require mezon/mezon
 ```
 
 And you will install all framework's packages. But if you need exact package - then see instructions for each one. All main packages are listed below.
