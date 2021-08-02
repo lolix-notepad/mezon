@@ -1,9 +1,10 @@
-# mezon php framework [![Build Status](https://travis-ci.com/alexdodonov/mezon.svg?branch=master)](https://travis-ci.com/alexdodonov/mezon) [![codecov](https://codecov.io/gh/alexdodonov/mezon/branch/master/graph/badge.svg)](https://codecov.io/gh/alexdodonov/mezon)
+# Mezon PHP Framework 
+[![Open Collective](https://img.shields.io/badge/Open%20Collective-sponsor-7eadf1?logo=open%20collective&logoColor=7eadf1&labelColor=555555)](https://opencollective.com/mezon-router) [![Build Status](https://travis-ci.com/alexdodonov/mezon.svg?branch=master)](https://travis-ci.com/alexdodonov/mezon) [![codecov](https://codecov.io/gh/alexdodonov/mezon/branch/master/graph/badge.svg)](https://codecov.io/gh/alexdodonov/mezon)
 
 ## Description
 
 Free PHP framework for creating
-- small web applications
+- web applications
 - microservices
 - prototypes
 
