@@ -42,7 +42,8 @@
 		"mezon/application": ">=3.0.0",
 		"mezon/common-application": ">=1.0.0",
 		"mezon/service-transport": ">=1.1.0",
-		"mezon/variadic-model": ">=1.0.0"
+		"mezon/variadic-model": ">=1.0.0",
+		"mezon/cli": ">=1.0.0"
 		
 	},
 	"support": {
