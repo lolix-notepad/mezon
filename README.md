@@ -1,9 +1,10 @@
-# mezon php framework [![Build Status](https://travis-ci.com/alexdodonov/mezon.svg?branch=master)](https://travis-ci.com/alexdodonov/mezon) [![codecov](https://codecov.io/gh/alexdodonov/mezon/branch/master/graph/badge.svg)](https://codecov.io/gh/alexdodonov/mezon)
+# Mezon PHP Framework 
+[![Open Collective](https://img.shields.io/badge/Open%20Collective-sponsor-7eadf1?logo=open%20collective&logoColor=7eadf1&labelColor=555555)](https://opencollective.com/mezon-router) [![Build Status](https://travis-ci.com/alexdodonov/mezon.svg?branch=master)](https://travis-ci.com/alexdodonov/mezon) [![codecov](https://codecov.io/gh/alexdodonov/mezon/branch/master/graph/badge.svg)](https://codecov.io/gh/alexdodonov/mezon)
 
 ## Description
 
 Free PHP framework for creating
-- small web applications
+- web applications
 - microservices
 - prototypes
 
@@ -12,10 +13,15 @@ Free PHP framework for creating
 Just type
 
 ```
-composer require mezon/all
+composer require mezon/mezon
 ```
 
 And you will install all framework's packages. But if you need exact package - then see instructions for each one. All main packages are listed below.
+
+
+## FAQ
+
+Use [this service](https://stackoverflow.com/questions/tagged/mezon) for asking questions
 
 ## Packages
 
