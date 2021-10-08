@@ -58,8 +58,8 @@
 		}
 	},
 	"scripts": {
-		"test": "php ./vendor/phpunit/phpunit/phpunit --order-by=random",
-		"debug": "php ./vendor/phpunit/phpunit/phpunit --testsuit all --order-by=random --random-order-seed 1633452342",
+		"test": "php ./vendor/phpunit/phpunit/phpunit --testsuit all --order-by=random",
+		"debug": "php ./vendor/phpunit/phpunit/phpunit --testsuit all --order-by=random --random-order-seed 1633642031",
 		"psalm": "php ./vendor/vimeo/psalm/psalm"
 	}
 }
