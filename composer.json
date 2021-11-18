@@ -19,8 +19,11 @@
 	"require": {
 		"php": ">=7.2.0",
 		"mezon/ajax-application": ">=1.0.0",
+		"mezon/application": ">=3.0.0",
 		"mezon/application-actions": ">=1.0.4",
 		"mezon/cache": ">=1.0.0",
+		"mezon/cli": ">=1.0.0",
+		"mezon/common-application": ">=1.0.0",
 		"mezon/conf": ">=1.2.0",
 		"mezon/crud-service": ">=1.2.0",
 		"mezon/crud-service-client": ">=1.0.0",
@@ -32,23 +35,17 @@
 		"mezon/gentella": ">=1.1.0",
 		"mezon/gui": ">=1.3.1",
 		"mezon/pdocrud": ">=1.5.0",
+		"mezon/presenter": ">=1.3.0",
 		"mezon/router": ">=1.2.0",
 		"mezon/security": ">=1.1.0",
+		"mezon/service": ">=1.2.0",
+		"mezon/service-client": ">=1.0.0",
+		"mezon/service-transport": ">=1.1.0",
 		"mezon/singleton": ">=1.0.0",
+		"mezon/social-network": ">=1.0.0",
 		"mezon/template-engine": ">=1.0.0",
 		"mezon/utils": ">=1.0.0",
-		
-
-		"mezon/social-network": ">=1.0.0",
-		"mezon/service-client": ">=1.0.0",
-
-		"mezon/service": ">=1.2.0",
-		"mezon/application": ">=3.0.0",
-		"mezon/common-application": ">=1.0.0",
-		"mezon/service-transport": ">=1.1.0",
-		"mezon/variadic-model": ">=1.0.0",
-		"mezon/cli": ">=1.0.0",
-		"mezon/presenter": ">=1.3.0"
+		"mezon/variadic-model": ">=1.0.0"
 	},
 	"support": {
 		"email": "alexey@dodonov.pro",
