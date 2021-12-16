@@ -35,5 +35,6 @@
 			target="./tmp/coverage-phpunit.html"></log>
 		<log type="coverage-text" target="php://stdout"
 			showOnlySummary="true"></log>
+		<log type="coverage-xml" target="./tmp/coverage-phpunit.xml" />
 	</logging>
 </phpunit>
